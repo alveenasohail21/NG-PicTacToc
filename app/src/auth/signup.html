@@ -1,0 +1,83 @@
+<div class="top-content">
+
+    <div class="inner-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 form-box">
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3>Sign up now</h3>
+                            <p>Fill in the form below to get instant access:</p>
+                        </div>
+                        <div class="form-top-right">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <form role="form" action="/user/signup" method="post" class="registration-form">
+                            <div class="form-group">
+                                <label class="sr-only" for="form-first-name">First name</label>
+                                <input type="text" name="first_name" placeholder="First name" ng-model="vm.user.first_name" class="form-first-name form-control" id="form-first-name">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="form-last-name">Last name</label>
+                                <input type="text" name="last_name" placeholder="Last name" ng-model="vm.user.last_name" class="form-last-name form-control" id="form-last-name">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="form-email">Email</label>
+                                <input type="email" name="email" placeholder="Email" ng-model="vm.user.email" class="form-email form-control" id="form-email">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="form-password">Password</label>
+                                <input type="password" name="password" placeholder="Password" ng-model="vm.user.password" class="form-password form-control" id="form-password">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="form-retyped_password">Re-Type Password</label>
+                                <input type="password" name="retyped_password" placeholder="Re-Type Password" ng-model="vm.user.retyped_password" class="form-retyped_password form-control" id="form-retyped_password">
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Forgot your password
+                                </label>
+                            </div>
+                            <button type="submit" class="btn" ng-click="vm.signup(vm.user)">Sign me up!</button>
+                            <a class="btn btn-link-2" ui-sref="Login">Or Sign in</a>
+                            <a class="btn btn-link-2" href="/socialLoginFacebook">Facebook</a>
+
+
+                            <!--<div class="form-group">-->
+                            <!--<label for="exampleInputEmail1">First Name</label>-->
+                            <!--<input type="name" class="form-control" id="name" placeholder="name" ng-model="vm.user.name" name="first_name">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <!--<label for="exampleInputEmail1">Last Name</label>-->
+                            <!--<input type="name" class="form-control" id="name" placeholder="name" ng-model="vm.user.name" name="last_name">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <!--<label for="exampleInputEmail1">Email address</label>-->
+                            <!--<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" ng-model="vm.user.email"  name="email">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <!--<label for="exampleInputPassword1">Password</label>-->
+                            <!--<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" ng-model="vm.user.password" name="password">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <!--<label for="exampleInputPassword1">Re-type Password</label>-->
+                            <!--<input type="password" class="form-control" id="exampleInputPassword2" placeholder="Re-type Password" ng-model="vm.user.password2">-->
+                            <!--</div>-->
+                            <!--<div class="checkbox">-->
+                            <!--<label>-->
+                            <!--<input type="checkbox"> Forgot your password-->
+                            <!--</label>-->
+                            <!--</div>-->
+                            <!--<button type="submit" class="btn btn-default" ng-click="vm.signup(vm.user)">Submit</button>-->
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
