@@ -24,13 +24,14 @@
       //
     }
 
-    function login(){
+    function login(user){
       //
-      authFactory.login();
+      authFactory.login(user);
     }
 
-    function signup(){
+    function signup(user){
       //
+      authFactory.signup(user);
     }
 
 	}

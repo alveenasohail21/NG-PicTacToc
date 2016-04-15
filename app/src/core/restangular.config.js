@@ -15,6 +15,7 @@
   function configuration(RestangularProvider, API_URL){
 
     RestangularProvider.setBaseUrl(API_URL);
+    RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json'});
 
   }
 

@@ -16,7 +16,7 @@
     var alert = {
       title: "Success!",
       message: "You are landed at the right spot.",
-      show: true,
+      show: false,
       class: "alert-success"
     };
 
@@ -30,22 +30,28 @@
 
 
     /* Define Fuctions */
-    function success(title, message, type) {
+    function success(title, message) {
       //
-      $rootScope.alert.class = type;
+      $rootScope.alert.class = 'alert-success';
       $rootScope.alert.title = title;
       $rootScope.alert.message = message;
+      $rootScope.alert.show = true;
       removeAlert(3000);
     }
 
-    function error() {
+    function error(title, message) {
       //
+      $rootScope.alert.class = 'alert-danger';
+      $rootScope.alert.title = title;
+      $rootScope.alert.message = message;
+      $rootScope.alert.show = true;
       removeAlert(3000);
     }
 
     function removeAlert(time){
       $timeout(function(){
         $rootScope.alert.show = false;
+        $rootScope.alert.class = '';
       }, time)
     }
 
