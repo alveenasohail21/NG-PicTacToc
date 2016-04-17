@@ -10,7 +10,7 @@
     .module('app.auth')
     .factory('authFactory', authFactory);
 
-  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state){
+  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state,Restangular){
 
     /*  */
 
@@ -33,9 +33,10 @@
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             $auth.removeToken();
             $localStorage.token = resp.data.token;
+            Restangular.setDefaultHeaders({'token': $localStorage.token});
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
-            $state.go('Dashboard');
+        //    $state.go('Dashboard');
           }
           else{
             alertFactory.error(null,resp.data.message);
@@ -59,9 +60,10 @@
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             $auth.removeToken();
             $localStorage.token = resp.data.token;
+            Restangular.setDefaultHeaders({'token': $localStorage.token});
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
-            $state.go('Dashboard');
+           // $state.go('Dashboard');
           }
           else{
             alertFactory.error(null,resp.data.message);
@@ -78,7 +80,7 @@
     function socialAuthenticate(provider){
       console.log("auth factory social authenticate provider: ", provider);
       var defer = $q.defer();
-      $auth.authenticate(provider)
+      $auth.authenticate(provider, ($auth.isAuthenticated()?{'token':$auth.getToken().slice(1, $auth.getToken().length-1)}:{}))
         .then(function(resp){
           console.log(resp);
           if(resp.data.success){
@@ -87,7 +89,7 @@
             $localStorage.token = resp.data.token;
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
-            $state.go('Dashboard');
+            //$state.go('Dashboard');
           }
           else{
             alertFactory.error(null,resp.data.message);

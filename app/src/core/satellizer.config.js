@@ -20,7 +20,7 @@
 
     $authProvider.facebook({
       url: API_URL + '/auth/facebook/',
-      clientId: '985520998209467',
+      clientId: '1226159537401789',
       authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
       redirectUri: window.location.origin + '/',
       requiredUrlParams: ['display', 'scope'],
@@ -33,7 +33,7 @@
 
     $authProvider.google({
       url: API_URL + '/auth/google/',
-      clientId: '227446808862-908ggmoncfcuquuulgn8smte0mrd48nd.apps.googleusercontent.com',
+      clientId: '251468221872-1i73ucukf8975jo58rp3fo5m2kqa77f7.apps.googleusercontent.com',
       authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
       redirectUri: window.location.origin + '/',
       requiredUrlParams: ['scope'],

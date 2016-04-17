@@ -13,11 +13,11 @@
 		.controller('dashboardCtrl', dashboardCtrl);
 
   /* @ngInject */
-	function dashboardCtrl(){
+	function dashboardCtrl(authFactory){
 		var vm = this;
 
 		vm.testFunction = testFunction;
-
+    vm.socialAuthenticate = socialAuthenticate;
     /////////////////////
 
     /**
@@ -31,6 +31,10 @@
     function testFunction(num){
 			console.info('This is a test function');
 		}
+    function socialAuthenticate(provider){
+      //
+      authFactory.socialAuthenticate(provider);
+    }
 	}
 
 }());
