@@ -10,7 +10,7 @@
 
      /* @ngInject */
     function configuration($localStorageProvider) {
-        $localStorageProvider.setKeyPrefix('ptt');
+        $localStorageProvider.setKeyPrefix('ptt_');
     }
 
 }());

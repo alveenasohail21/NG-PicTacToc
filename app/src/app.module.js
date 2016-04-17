@@ -15,7 +15,8 @@
     * Application modules
   **/
     'app.auth',
-    'app.layouts'
+    'app.layouts',
+    'app.dashboard'
   ]);
 
 }());

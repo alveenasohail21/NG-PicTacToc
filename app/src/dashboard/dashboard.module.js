@@ -1,6 +1,6 @@
 /**
  * @ngdoc overview
- * @name app.layouts
+ * @name app.dashboard
  * @description < description placeholder >
  */
 
@@ -9,7 +9,7 @@
   'use strict';
 
   angular
-    .module('app.layouts', [])
+    .module('app.dashboard', [])
     .config(configuration);
 
   /* @ngInject */
@@ -17,15 +17,12 @@
 
     //add your state mappings here
     $stateProvider
-      .state('Landing', {
-          url:'/',
-          views:{
-            "@":{
-              templateUrl:'src/layouts/landing.html'
-            }
-          }
-        }
-      );
+      .state('Dashboard', {
+        url:'/dashboard',
+        templateUrl:'src/dashboard/dashboard.html',
+        controller: 'dashboardCtrl as vm'
+      }
+    );
   }
 
 }());

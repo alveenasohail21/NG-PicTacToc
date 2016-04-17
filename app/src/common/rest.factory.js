@@ -13,16 +13,21 @@
     .factory('restFactory', restFactory);
 
   /* @ngInject */
-  function restFactory(Restangular){
+  function restFactory(Restangular, $localStorage){
 
     /* Rest Objects */
     var User = Restangular.all('user');
+    var Auth = Restangular.all('auth');
 
     /* Return Functions */
     return {
-      login: login,
-      signup:signup,
+      auth: {
+        login: login,
+        signup: signup,
+        getAuthenticatedUser: getAuthenticatedUser
+      },
       user: {
+
         create: createUser,
         read: readUser,
         update: updateUser,
@@ -31,6 +36,11 @@
     };
 
     /* Define Fuctions */
+
+    function getAuthenticatedUser(){
+      return Auth.one('user').get({token: $localStorage.token});
+    }
+
     function login() {
       //
     }

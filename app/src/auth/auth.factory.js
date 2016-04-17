@@ -10,12 +10,14 @@
     .module('app.auth')
     .factory('authFactory', authFactory);
 
-  function authFactory($q, restFactory, alertFactory, $auth){
+  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state){
 
     /* Return Functions */
     return {
       login: login,
-      signup:signup
+      signup:signup,
+      social: social,
+      logout: logout
     };
 
     /* Define Fuctions */
@@ -26,15 +28,19 @@
         .then(function(resp){
           console.log(resp);
           if(resp.data.success){
-            alertFactory.success('Success!',resp.data.message);
+            // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
+            $auth.removeToken();
+            $localStorage.token = resp.data.token;
+            userFactory.createUserInLocal(resp.data.data);
+            alertFactory.success(null,resp.data.message);
           }
           else{
-            alertFactory.error('Error!',resp.data.message);
+            alertFactory.error(null,resp.data.message);
           }
           defer.resolve(resp);
         }, function(err){
           console.log(err);
-          alertFactory.error('Error!',err.data.message);
+          alertFactory.error(null,err.data.message);
           defer.reject(err);
         });
       return defer.promise;
@@ -47,18 +53,32 @@
         .then(function(resp){
           console.log(resp);
           if(resp.data.success){
-            alertFactory.success('Success!',resp.data.message);
+            // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
+            $auth.removeToken();
+            $localStorage.token = resp.data.token;
+            userFactory.createUserInLocal(resp.data.data);
+            alertFactory.success(null,resp.data.message);
           }
           else{
-            alertFactory.error('Error!',resp.data.message);
+            alertFactory.error(null,resp.data.message);
           }
           defer.resolve(resp);
         }, function(err){
           console.log(err);
-          alertFactory.error('Error!',err.data.message);
+          alertFactory.error(null,err.data.message);
           defer.reject(err);
         });
       return defer.promise;
+    }
+
+    function social(provider){
+
+    }
+
+    function logout(){
+      $auth.removeToken();
+      userFactory.removeUserFromLocal();
+      $state.go('Login');
     }
 
   }

@@ -32,7 +32,7 @@
     });
 
     $authProvider.google({
-      url: API_URL + '/api/auth/google/',
+      url: API_URL + '/auth/google/',
       clientId: '227446808862-908ggmoncfcuquuulgn8smte0mrd48nd.apps.googleusercontent.com',
       authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
       redirectUri: window.location.origin,

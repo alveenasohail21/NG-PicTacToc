@@ -10,15 +10,15 @@
     .module('app.common')
     .factory('userFactory', userFactory);
 
-  function userFactory($rootScope, $localStorage, $q){
+  function userFactory($rootScope, $localStorage, $q, restFactory){
 
     /* Return Functions */
     return {
-      create: create,
-      read: read,
-      update: update,
-      remove: remove,
-      saveUserToLocal: saveUserToLocal,
+      createUserOnServer: createUserOnServer,
+      getUserFromServer: getUserFromServer,
+      updateUserInServer: updateUserInServer,
+      removeUserFromServer: removeUserFromServer,
+      createUserInLocal: createUserInLocal,
       getUserFromLocal: getUserFromLocal,
       updateUserInLocal: updateUserInLocal,
       removeUserFromLocal: removeUserFromLocal
@@ -26,30 +26,44 @@
 
 
     /* Define Fuctions */
-    function create() {
+
+    function createUserOnServer() {
       //
     }
 
-    function read() {
+    function getUserFromServer() {
+      //
+      var deffered = $q.defer();
+      restFactory.auth.getAuthenticatedUser()
+        .then(function (resp){
+          if(resp.success){
+            deffered.resolve(resp);
+          }
+          else{
+            deffered.reject(resp);
+          }
+        }, function(err){
+          deffered.reject(err);
+        });
+      return deffered.promise;
+    }
+
+    function updateUserInServer() {
       //
     }
 
-    function update() {
+    function removeUserFromServer() {
       //
     }
 
-    function remove() {
-      //
-    }
-
-    function saveUserToLocal(user) {
+    function createUserInLocal(user) {
       //
       $rootScope.user = user;
     }
 
     function getUserFromLocal() {
       //
-      return $rootScope.user;
+      return $rootScope.user || null;
     }
 
     function updateUserInLocal (user){
