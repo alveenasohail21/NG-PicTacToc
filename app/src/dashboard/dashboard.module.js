@@ -40,7 +40,68 @@
             }
           }
         }
-      );
+      )
+      .state('Dashboard.Prints',{
+          url:'/prints',
+          title: "Prints - Pictaktoe",
+          contentClass: "prints",
+          header: true,
+          footer: true,
+          views: {
+            "content@Dashboard": {
+              templateUrl:'src/dashboard/prints.html',
+              controller: 'dashboardCtrl as vm'
+            }
+          }
+        }
+      )
+      .state('Dashboard.Albums',{
+          url:'/albums',
+          title: "Albums - Pictaktoe",
+          contentClass: "albums",
+          header: true,
+          footer: true,
+          views: {
+            "content@Dashboard": {
+              templateUrl:'src/dashboard/albums.html',
+              controller: 'dashboardCtrl as vm'
+            }
+          }
+        }
+      )
+      .state('Dashboard.PhotoGifts',{
+          url:'/photogifts',
+          title: "Photo Gifts - Pictaktoe",
+          contentClass: "photogifts",
+          header: true,
+          footer: true,
+          views: {
+            "content@Dashboard": {
+              templateUrl:'src/dashboard/photogifts.html',
+              controller: 'dashboardCtrl as vm'
+            }
+          }
+        }
+      )
+      .state('Dashboard.PhotoBooks',{
+          url:'/photobooks',
+          title: "Photo Books - Pictaktoe",
+          contentClass: "photobooks",
+          header: true,
+          footer: true,
+          views: {
+            "content@Dashboard": {
+              templateUrl:'src/dashboard/photobooks.html',
+              controller: 'dashboardCtrl as vm'
+            }
+          }
+        }
+      )
+
+
+
+
+    ;
   }
 
 }());

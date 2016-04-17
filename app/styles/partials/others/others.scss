@@ -81,7 +81,7 @@ img { max-width: 100%; }
 /***** Top content *****/
 
 .inner-bg {
-  padding: 120px 0 170px 0;
+  padding: 100px 0 100px 0;
 }
 
 .top-content .text {
@@ -138,6 +138,11 @@ img { max-width: 100%; }
   background: #eee;
   -moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
   text-align: left;
+  height: auto;
+  overflow: hidden;
+  .btn{
+    margin-top: 5px;
+  }
 }
 
 .form-bottom form textarea {

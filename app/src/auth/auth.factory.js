@@ -33,7 +33,6 @@
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             $auth.removeToken();
             $localStorage.token = resp.data.token;
-            $auth.setToken($localStorage.token);
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
             $state.go('Dashboard');
@@ -60,7 +59,6 @@
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             $auth.removeToken();
             $localStorage.token = resp.data.token;
-            $auth.setToken($localStorage.token);
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
             $state.go('Dashboard');
@@ -87,7 +85,6 @@
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             $auth.removeToken();
             $localStorage.token = resp.data.token;
-            $auth.setToken($localStorage.token);
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
             $state.go('Dashboard');

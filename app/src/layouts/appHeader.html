@@ -15,12 +15,10 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">PRINTS <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">ALBUMS</a></li>
-                <li><a href="#">PHOTO BOOKS</a></li>
-                <li><a href="#">PHOTO GIFTS</a></li>
-                <li><a href="#">BLOG</a></li>
-                <li><a href="#">ABOUT US</a></li>
+                <li><a ui-sref="Dashboard.Prints">PRINTS<span class="sr-only">(current)</span></a></li>
+                <li><a ui-sref="Dashboard.Albums">ALBUMS</a></li>
+                <li><a ui-sref="Dashboard.PhotoBooks">PHOTO BOOKS</a></li>
+                <li><a ui-sref="Dashboard.PhotoGifts">PHOTO GIFTS</a></li>
              </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -30,10 +28,10 @@
                         <li><a href="#">My Saved Items</a></li>
                         <li><a href="#">My Orders</a></li>
                         <li role="separator" class="divider"></li>
-                        <li></li>
+                        <li><a ng-click="vm.logout()">Log out</a>
+                        </li>
                     </ul>
                 </li>
-                <button class="btn btn-default btn-lg" ng-click="vm.logout()">Log out</button>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
