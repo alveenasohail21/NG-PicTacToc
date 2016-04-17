@@ -12,6 +12,8 @@
 
   function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state){
 
+    /*  */
+
     /* Return Functions */
     return {
       login: login,
@@ -103,6 +105,7 @@
     }
 
     function logout(){
+      console.log('logout clicked');
       $auth.removeToken();
       userFactory.removeUserFromLocal();
       $state.go('Login');

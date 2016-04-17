@@ -28,7 +28,8 @@
               templateUrl:'src/layouts/main.html'
             },
             "header@Dashboard": {
-              templateUrl:'src/layouts/appHeader.html'
+              templateUrl:'src/layouts/appHeader.html',
+              controller: 'appHeaderCtrl as vm'
             },
             "content@Dashboard": {
               templateUrl:'src/dashboard/dashboard.html',
