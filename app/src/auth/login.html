@@ -36,6 +36,9 @@
                                 <input type="password" name="password" placeholder="Password" ng-model="vm.user.password" class="form-password form-control" id="form-password">
                             </div>
                             <button type="submit" ng-click="vm.login(vm.user)" class="btn" >Sign in!</button>
+                            <button ng-click="vm.socialAuthenticate('facebook')" class="btn" >Facebook</button>
+                            <button ng-click="vm.socialAuthenticate('google')" class="btn" >Google</button>
+                            <button ng-click="vm.socialAuthenticate('instagram')" class="btn" >Instagram</button>
                         </form>
                     </div>
                 </div>

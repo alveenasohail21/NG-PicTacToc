@@ -19,6 +19,7 @@
     vm.init = init;
     vm.login = login;
     vm.signup = signup;
+    vm.socialAuthenticate = socialAuthenticate;
 
     function init(){
       //
@@ -32,6 +33,11 @@
     function signup(user){
       //
       authFactory.signup(user);
+    }
+
+    function socialAuthenticate(provider){
+      //
+      authFactory.socialAuthenticate(provider);
     }
 
 	}

@@ -35,7 +35,7 @@
       url: API_URL + '/auth/google/',
       clientId: '227446808862-908ggmoncfcuquuulgn8smte0mrd48nd.apps.googleusercontent.com',
       authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
-      redirectUri: window.location.origin,
+      redirectUri: window.location.origin + '/',
       requiredUrlParams: ['scope'],
       optionalUrlParams: ['display'],
       scope: ['profile', 'email'],
@@ -44,6 +44,18 @@
       display: 'popup',
       type: '2.0',
       popupOptions: {width: 452, height: 633}
+    });
+
+    // Instagram
+    $authProvider.instagram({
+      name: 'instagram',
+      url: '/auth/instagram',
+      authorizationEndpoint: 'https://api.instagram.com/oauth/authorize',
+      redirectUri: window.location.origin + '/',
+      requiredUrlParams: ['scope'],
+      scope: ['basic'],
+      scopeDelimiter: '+',
+      type: '2.0'
     });
 
   }

@@ -17,12 +17,29 @@
 
     //add your state mappings here
     $stateProvider
-      .state('Dashboard', {
-        url:'/dashboard',
-        templateUrl:'src/dashboard/dashboard.html',
-        controller: 'dashboardCtrl as vm'
-      }
-    );
+      .state('Dashboard',{
+          url:'/dashboard',
+          title: "Dashboard - Pictaktoe",
+          contentClass: "dashboard",
+          header: true,
+          footer: true,
+          views: {
+            "@": {
+              templateUrl:'src/layouts/main.html'
+            },
+            "header@Dashboard": {
+              templateUrl:'src/layouts/appHeader.html'
+            },
+            "content@Dashboard": {
+              templateUrl:'src/dashboard/dashboard.html',
+              controller: 'dashboardCtrl as vm'
+            },
+            "footer@Dashboard": {
+              templateUrl:'src/layouts/footer.html'
+            }
+          }
+        }
+      );
   }
 
 }());

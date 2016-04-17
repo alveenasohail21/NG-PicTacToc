@@ -42,7 +42,10 @@
                             </div>
                             <button type="submit" class="btn" ng-click="vm.signup(vm.user)">Sign me up!</button>
                             <a class="btn btn-link-2" ui-sref="Login">Or Sign in</a>
-                            <a class="btn btn-link-2">Facebook</a>
+                            <button ng-click="vm.socialAuthenticate('facebook')" class="btn" >Facebook</button>
+                            <button ng-click="vm.socialAuthenticate('google')" class="btn" >Google</button>
+                            <button ng-click="vm.socialAuthenticate('instagram')" class="btn" >Instagram</button>
+
 
 
                             <!--<div class="form-group">-->
