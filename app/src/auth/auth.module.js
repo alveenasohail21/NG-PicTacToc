@@ -66,6 +66,54 @@
         }
       )
 
+      .state('ForgotPassword', {
+          url:'/forgotpassword',
+          title: "Forgot Password - Pictaktoe",
+          contentClass: "forgot-password",
+          header: true,
+          footer: true,
+          views: {
+            "@": {
+              templateUrl:'src/layouts/main.html'
+            },
+            "header@Signup": {
+              templateUrl:'src/layouts/header.html'
+            },
+            "content@Signup": {
+              templateUrl:'src/auth/forgotPassword.html',
+              controller: 'authCtrl as vm'
+            },
+            "footer@Signup": {
+              templateUrl:'src/layouts/footer.html'
+            }
+          }
+        }
+      )
+
+      .state('ResetPassword', {
+          url:'/resetPassword',
+          title: "Reset Password - Pictaktoe",
+          contentClass: "reset-password",
+          header: true,
+          footer: true,
+          views: {
+            "@": {
+              templateUrl:'src/layouts/main.html'
+            },
+            "header@Signup": {
+              templateUrl:'src/layouts/header.html'
+            },
+            "content@Signup": {
+              templateUrl:'src/auth/resetPassword.html',
+              controller: 'authCtrl as vm'
+            },
+            "footer@Signup": {
+              templateUrl:'src/layouts/footer.html'
+            }
+          }
+        }
+      )
+
   }
 
 }());

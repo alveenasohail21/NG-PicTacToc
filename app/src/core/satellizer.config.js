@@ -49,7 +49,8 @@
     // Instagram
     $authProvider.instagram({
       name: 'instagram',
-      url: '/auth/instagram',
+      url: API_URL + '/auth/instagram',
+      clientId: '	3a4fa0286c9549a58a4bf3c415799d6f',
       authorizationEndpoint: 'https://api.instagram.com/oauth/authorize',
       redirectUri: window.location.origin + '/',
       requiredUrlParams: ['scope'],

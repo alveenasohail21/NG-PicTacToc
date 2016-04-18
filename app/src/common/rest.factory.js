@@ -24,10 +24,10 @@
       auth: {
         login: login,
         signup: signup,
-        getAuthenticatedUser: getAuthenticatedUser
+        getAuthenticatedUser: getAuthenticatedUser,
+        forgotEmailSend: forgotEmailSend
       },
       user: {
-
         create: createUser,
         read: readUser,
         update: updateUser,
@@ -37,16 +37,20 @@
 
     /* Define Fuctions */
 
-    function getAuthenticatedUser(){
-      return Auth.one('user').get({token: $localStorage.token});
-    }
-
     function login() {
       //
     }
 
     function signup() {
       //
+    }
+
+    function getAuthenticatedUser(){
+      return Auth.one('user').get({token: $localStorage.token});
+    }
+
+    function forgotEmailSend(email){
+      return Auth.one('password').one('forget').post(null, {email: email});
     }
 
     function createUser(){

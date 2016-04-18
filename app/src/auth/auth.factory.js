@@ -10,7 +10,7 @@
     .module('app.auth')
     .factory('authFactory', authFactory);
 
-  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state,Restangular){
+  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state, $timeout, Restangular, restFactory){
 
     /*  */
 
@@ -19,7 +19,8 @@
       login: login,
       signup:signup,
       socialAuthenticate: socialAuthenticate,
-      logout: logout
+      logout: logout,
+      forgotEmailSend: forgotEmailSend
     };
 
     /* Define Fuctions */
@@ -36,7 +37,9 @@
             Restangular.setDefaultHeaders({'token': $localStorage.token});
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
-        //    $state.go('Dashboard');
+            $timeout(function(){
+              $state.go('Dashboard');
+            },1500);
           }
           else{
             alertFactory.error(null,resp.data.message);
@@ -63,7 +66,9 @@
             Restangular.setDefaultHeaders({'token': $localStorage.token});
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
-           // $state.go('Dashboard');
+            $timeout(function(){
+              $state.go('Dashboard');
+            },1500);
           }
           else{
             alertFactory.error(null,resp.data.message);
@@ -89,7 +94,9 @@
             $localStorage.token = resp.data.token;
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
-            //$state.go('Dashboard');
+            $timeout(function(){
+              $state.go('Dashboard');
+            },1500);
           }
           else{
             alertFactory.error(null,resp.data.message);
@@ -108,6 +115,28 @@
       $auth.removeToken();
       userFactory.removeUserFromLocal();
       $state.go('Login');
+    }
+
+    function forgotEmailSend(email){
+      console.log('auth factory forgotEmailSend ',email);
+      var deffered = $q.defer();
+      if(email){
+        restFactory.auth.forgotEmailSend(email)
+          .then(function (resp){
+            if(resp.success){
+              alertFactory.success(null,resp.message);
+              deffered.resolve(resp);
+            }
+            else{
+              alertFactory.error(null,resp.message);
+              deffered.reject(resp);
+            }
+          }, function(err){
+            alertFactory.error(null,err.data.message);
+            deffered.reject(err);
+          })
+      }
+      return deffered.promise;
     }
 
   }

@@ -46,21 +46,21 @@
       // Check if User is Auth
       if($auth.isAuthenticated()){
         console.log("going to "+toState.name+" Auth done");
-        Restangular.setDefaultHeaders({'token': $auth.getToken()});
+        //Restangular.setDefaultHeaders({'token': $auth.getToken()});
         //Check if the data exists of user on rootScope
         if(!userFactory.getUserFromLocal()){
           var user = $auth.getPayload();
           userFactory.createUserInLocal(user);
           console.log("going to "+toState.name+" user data found");
           //* Check if the user is going to a public state , route it to Dashboard because its Authenticated and have user data on rootScope
-          if(publicStates.indexOf(toState.name)>=0){
-            console.log("going to "+toState.name+" going to public state after auth and user data found");
-            event.preventDefault();
-            $state.go('Dashboard');
-          }
-          //else{
-          //  $state.go(toState.name, toParams);
-          //}
+        }
+        if(publicStates.indexOf(toState.name)>=0){
+          console.log("going to "+toState.name+" going to public state after auth and user data found");
+          event.preventDefault();
+          $state.go('Dashboard');
+        }
+        else{
+          //$state.go(toState.name, toParams);
         }
       }
       // if the user is not authenticated and is going to a public state , let him go!
@@ -69,7 +69,7 @@
         // The user is not authenticated and is going to a public state
         return;
       }
-      // The user is not authenticated and is not going to a private state , so take him to landing
+      // The user is not authenticated and is going to a private state , so take him to landing
       else{
         console.log("going to "+toState.name+" not authenticated and going to a private state, invalid");
         event.preventDefault();

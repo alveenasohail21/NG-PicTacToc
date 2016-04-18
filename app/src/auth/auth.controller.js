@@ -13,13 +13,18 @@
 		.controller('authCtrl', authCtrl);
 
   /* @ngInject */
-	function authCtrl(authFactory){
+	function authCtrl(authFactory, $scope){
 		var vm = this;
+
+    vm.forget = {
+      email: null
+    };
 
     vm.init = init;
     vm.login = login;
     vm.signup = signup;
     vm.socialAuthenticate = socialAuthenticate;
+    vm.forgotEmailSend = forgotEmailSend;
 
     function init(){
       //
@@ -38,6 +43,24 @@
     function socialAuthenticate(provider){
       //
       authFactory.socialAuthenticate(provider);
+    }
+
+    function forgotEmailSend(email){
+      //$('#pwdModal').on('hidden.bs.modal', function(e){
+      //  $scope.forgotForm.$setPristine();
+      //  $scope.forgotForm.$setUntouched();
+      //  // in my case I had to call $apply to refresh the page, you may also need this.
+      //  $scope.$apply();
+      //})
+      if(email){
+        authFactory.forgotEmailSend(email)
+          .then(function(resp){
+            if(resp.success){
+              vm.forget.email = '';
+              $('#pwdModal').modal('hide');
+            }
+          })
+      }
     }
 
 	}
