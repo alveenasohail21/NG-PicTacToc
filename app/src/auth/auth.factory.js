@@ -89,14 +89,17 @@
         .then(function(resp){
           console.log(resp);
           if(resp.data.success){
-            // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
-            $auth.removeToken();
-            $localStorage.token = resp.data.token;
-            userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
-            $timeout(function(){
-              $state.go('Dashboard');
-            },1500);
+            // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
+            //$auth.removeToken();
+            //$localStorage.$reset();
+            localStorage.setItem('ptt_token','"'+resp.data.token+'"');
+            if(!userFactory.getUserFromLocal()){
+              userFactory.createUserInLocal(resp.data.data);
+              $timeout(function(){
+                $state.go('Dashboard');
+              },1500);
+            }
           }
           else{
             alertFactory.error(null,resp.data.message);

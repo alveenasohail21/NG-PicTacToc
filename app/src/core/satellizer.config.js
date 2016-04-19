@@ -6,7 +6,7 @@
     .config(configuration);
 
   /* @ngInject */
-  function configuration($authProvider, $localStorageProvider, API_URL) {
+  function configuration($authProvider, API_URL) {
 
 
     $authProvider.httpInterceptor = false;
@@ -24,7 +24,7 @@
       authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
       redirectUri: window.location.origin + '/',
       requiredUrlParams: ['display', 'scope'],
-      scope: ['email'],
+      scope: ['email','user_photos'],
       scopeDelimiter: ',',
       display: 'popup',
       type: '2.0',
@@ -50,7 +50,7 @@
     $authProvider.instagram({
       name: 'instagram',
       url: API_URL + '/auth/instagram',
-      clientId: '	3a4fa0286c9549a58a4bf3c415799d6f',
+      clientId: '3a4fa0286c9549a58a4bf3c415799d6f',
       authorizationEndpoint: 'https://api.instagram.com/oauth/authorize',
       redirectUri: window.location.origin + '/',
       requiredUrlParams: ['scope'],
