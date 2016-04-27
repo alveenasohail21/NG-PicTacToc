@@ -13,11 +13,12 @@
 		.controller('dashboardCtrl', dashboardCtrl);
 
   /* @ngInject */
-	function dashboardCtrl(authFactory){
+	function dashboardCtrl(authFactory, restFactory){
 		var vm = this;
 
 		vm.testFunction = testFunction;
     vm.socialAuthenticate = socialAuthenticate;
+    vm.getSocialPhotos = getSocialPhotos;
     /////////////////////
 
     /**
@@ -31,9 +32,31 @@
     function testFunction(num){
 			console.info('This is a test function');
 		}
+
     function socialAuthenticate(provider){
       //
       authFactory.socialAuthenticate(provider);
+    }
+
+    function getSocialPhotos(provider){
+
+
+      //FB.api("/{user-id}/photos",
+      //  function (response) {
+      //    if (response && !response.error) {
+      //      /* handle the result */
+      //    }
+      //  }
+      //);
+      //
+
+////////////////////////////////////////////
+      restFactory.photos.getSocialPhotos(provider)
+        .then(function(resp){
+          console.log(resp);
+        }, function(err){
+          console.log(err);
+        })
     }
 	}
 

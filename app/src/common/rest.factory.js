@@ -18,6 +18,7 @@
     /* Rest Objects */
     var User = Restangular.all('user');
     var Auth = Restangular.all('auth');
+    var Photos = Restangular.all('photos');
 
     /* Return Functions */
     return {
@@ -32,6 +33,9 @@
         read: readUser,
         update: updateUser,
         remove: removeUser
+      },
+      photos: {
+        getSocialPhotos: getSocialPhotos
       }
     };
 
@@ -69,6 +73,9 @@
       //
     }
 
+    function getSocialPhotos(data){
+      return Photos.one('getSocialPhotos').post(null, {provider: 'facebook'}, {}, {token: $localStorage.token})
+    }
 
   }
 

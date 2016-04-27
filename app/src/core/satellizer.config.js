@@ -24,7 +24,7 @@
       authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
       redirectUri: window.location.origin + '/',
       requiredUrlParams: ['display', 'scope'],
-      scope: ['email','user_photos'],
+      scope: ['email','user_photos','publish_actions'],
       scopeDelimiter: ',',
       display: 'popup',
       type: '2.0',

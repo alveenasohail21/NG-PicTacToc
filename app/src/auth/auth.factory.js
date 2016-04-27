@@ -12,6 +12,7 @@
 
   function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state, $timeout, Restangular, restFactory){
 
+
     /*  */
 
     /* Return Functions */
@@ -107,6 +108,7 @@
           defer.resolve(resp);
         }, function(err){
           console.log(err);
+
           alertFactory.error(null,err.data.message);
           defer.reject(err);
         });
