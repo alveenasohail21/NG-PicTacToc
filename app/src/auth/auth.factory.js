@@ -30,7 +30,7 @@
       var defer = $q.defer();
       $auth.login(user)
         .then(function(resp){
-          console.log(resp);
+          console.log("test"+resp);
           if(resp.data.success){
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             $auth.removeToken();
@@ -96,6 +96,8 @@
             //$localStorage.$reset();
             localStorage.setItem('ptt_token','"'+resp.data.token+'"');
             if(!userFactory.getUserFromLocal()){
+
+              console.log(resp.data.data);
               userFactory.createUserInLocal(resp.data.data);
               $timeout(function(){
                 $state.go('Dashboard');

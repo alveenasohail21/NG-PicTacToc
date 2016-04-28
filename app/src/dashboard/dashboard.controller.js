@@ -8,15 +8,15 @@
 
   'use strict';
 
-	angular
-		.module('app.dashboard')
-		.controller('dashboardCtrl', dashboardCtrl);
+  angular
+    .module('app.dashboard')
+    .controller('dashboardCtrl', dashboardCtrl);
 
   /* @ngInject */
-	function dashboardCtrl(authFactory, restFactory){
-		var vm = this;
+  function dashboardCtrl(authFactory, restFactory, $rootScope){
+    var vm = this;
 
-		vm.testFunction = testFunction;
+    vm.testFunction = testFunction;
     vm.socialAuthenticate = socialAuthenticate;
     vm.getSocialPhotos = getSocialPhotos;
     /////////////////////
@@ -30,8 +30,8 @@
      * My Description rules
      */
     function testFunction(num){
-			console.info('This is a test function');
-		}
+      console.info('This is a test function');
+    }
 
     function socialAuthenticate(provider){
       //
@@ -39,25 +39,32 @@
     }
 
     function getSocialPhotos(provider){
+      var url= "/812279648803406/photos?type=uploaded";
+      console.log(url);
+      FB.api(url, function (response) {
+          console.log(response);
+          if (response && !response.error) {
+            console.log(response);
+          }
+        }
+      );
+      FB.api(url, function (response) {
+          console.log(response);
+          if (response && !response.error) {
+            console.log(response);
+          }
+        }
+      );
 
-
-      //FB.api("/{user-id}/photos",
-      //  function (response) {
-      //    if (response && !response.error) {
-      //      /* handle the result */
-      //    }
-      //  }
-      //);
+      //console.log($rootScope.user);
       //
-
-////////////////////////////////////////////
-      restFactory.photos.getSocialPhotos(provider)
-        .then(function(resp){
-          console.log(resp);
-        }, function(err){
-          console.log(err);
-        })
+      //restFactory.photos.getSocialPhotos(provider)
+      //  .then(function(resp){
+      //    console.log(resp);
+      //  }, function(err){
+      //    console.log(err);
+      //  })
     }
-	}
+  }
 
 }());
