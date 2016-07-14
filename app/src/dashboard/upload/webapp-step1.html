@@ -82,7 +82,7 @@ Content : Start
                 <span ng-if="vm.uploadCategory!='device' && vm.fbLogin" class="">
                     <img src="images/profile_icon.png" alt="">
                     <div class="description">
-                        <div class="title">Connected as Ali</div>
+                        <div class="title">Connected as {{$root.user.socialName}}</div>
                         <div class="details"><a href="">click here</a> to disconnect</div>
                     </div>
                 </span>
@@ -106,7 +106,7 @@ Content : Start
                 </span>
             </div>
 
-            <!-- Only for device -->
+            <!-- Only for device photos -->
             <div class="uploaded-images animate-if " ng-if="vm.showAlbumImages && vm.uploadCategory=='device'">
                 <!--<div class="img">-->
                 <!--<img src="images/source9.png" alt="">-->
@@ -206,7 +206,7 @@ Content : Start
 
             </div>
 
-            <!-- Only for facebook -->
+            <!-- Only for facebook photos -->
             <div class="uploaded-images animate-if" ng-if="vm.showAlbumImages && vm.uploadCategory=='facebook'">
                 <!-- Files To Upload -->
                 <!--<div class="img">-->
@@ -235,6 +235,8 @@ Content : Start
                 </div>
 
             </div>
+
+            <!-- only for facebool albums -->
 
             <div class="fb-albums animate-if" ng-if="vm.uploadCategory=='facebook' && vm.fbLogin && !vm.showAlbumImages">
                 <div class="row">

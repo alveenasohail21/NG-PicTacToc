@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('pttFBFactory', pttFBFactory);
 
-  function pttFBFactory($q, restFactory){
+  function pttFBFactory($q, restFactory, $rootScope){
 
     var authResponse = null;
     var requestTimeInSecond;
@@ -100,6 +100,7 @@
           .then(function(resp){
             console.log(resp);
             if(resp.success){
+              $rootScope.user.socialName = resp.data.social_name;
               authResponse = resp.data;
             }
             if(albums.data.length>0 && !cursor){
