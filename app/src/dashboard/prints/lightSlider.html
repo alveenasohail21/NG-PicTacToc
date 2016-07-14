@@ -1,0 +1,137 @@
+<div class="ptt-lightSlider">
+
+    <!-- ui-sref="WebAppStep2b" -->
+    <button class="thumbs-collapse-btn" ng-click="vm.toggleExpandView()">
+        <!--<object data="svgs/gray-expand.svg" type=""></object>-->
+        <!--<img src="svgs/gray-expand.svg" alt="">-->
+        <img src="images/gray-expand.png" alt="">
+        <span>View All Photos</span>
+    </button>
+
+    <div class="custom-svg-icon left-arrow cursor-pointer">
+        <!--<object class="gray-left-arrow" data="svgs/gray-left-arrow.svg" type=""></object>-->
+        <!--<img class="gray-left-arrow" src="svgs/gray-left-arrow.svg" alt="">-->
+        <img class="gray-left-arrow" src="images/gray-left-arrow-slider.png" alt="">
+    </div>
+
+    <ul id="step2-lightSlider">
+        <li>
+            <img src="images/source1.png" alt="">
+        </li>
+        <li>
+            <img src="images/source2.png" alt="">
+        </li>
+        <li>
+            <img src="images/source3.png" alt="">
+        </li>
+        <li>
+            <img src="images/source4.png" alt="">
+        </li>
+        <li>
+            <img src="images/source6.png" alt="">
+        </li>
+        <li>
+            <img src="images/source5.png" alt="">
+        </li>
+        <li>
+            <img src="images/source7.png" alt="">
+        </li>
+        <li>
+            <img src="images/source8.png" alt="">
+        </li>
+        <li>
+            <img src="images/source9.png" alt="">
+        </li>
+        <li>
+            <img src="images/source5.png" alt="">
+        </li>
+        <li>
+            <img src="images/source1.png" alt="">
+        </li>
+        <li>
+            <img src="images/source4.png" alt="">
+        </li>
+        <li>
+            <img src="images/source3.png" alt="">
+        </li>
+        <li>
+            <img src="images/source9.png" alt="">
+        </li>
+    </ul>
+
+    <div class="custom-svg-icon right-arrow cursor-pointer">
+        <!--<object class="gray-right-arrow" data="svgs/gray-right-arrow.svg" type=""></object>-->
+        <!--<img class="gray-right-arrow" src="svgs/gray-right-arrow.svg" alt="">-->
+        <img class="gray-right-arrow" src="images/gray-right-arrow-slider.png" alt="">
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function() {
+        var step2Slider = $("#step2-lightSlider").lightSlider({
+            item: 12,
+            loop: false,
+            slideMove: 1,
+            easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+            speed: 600,
+            pager: false,
+            controls: false,
+            responsive: [
+                {
+                    breakpoint: 1980,
+                    settings: {
+                        item: 12
+                    }
+                },
+                {
+                    breakpoint: 1740,
+                    settings: {
+                        item: 9
+                    }
+                },
+                {
+                    breakpoint: 1400,
+                    settings: {
+                        item: 8
+                    }
+                },
+                {
+                    breakpoint: 1280,
+                    settings: {
+                        item: 6
+                    }
+                },
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        item: 5
+                    }
+                },
+                {
+                    breakpoint: 800,
+                    settings: {
+                        item: 4
+                    }
+                },
+//                {
+//                    breakpoint: 768,
+//                    settings: {
+//                        item: 3
+//                    }
+//                }
+            ]
+        });
+
+        $('.custom-svg-icon.left-arrow').click(function(){
+            console.log("left arrow");
+            step2Slider.goToPrevSlide();
+        })
+
+        $('.custom-svg-icon.right-arrow').click(function(){
+            console.log("right arrow");
+            step2Slider.goToNextSlide();
+        })
+
+    });
+</script>

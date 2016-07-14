@@ -1,0 +1,137 @@
+body.app {
+
+  /*
+  Film Strip
+  */
+  .carousel-inner {
+    height: 100%;
+  }
+  .carousel-inner-item .item {
+    left: 50%;
+    margin-left: -249px;
+    height: 100%;
+    padding: 2.7% 0;
+    width: 34%;
+  }
+  .carousel-inner-item .item img {
+    position: absolute;
+    clip: rect(0px, 426px, 426px, 0)
+  }
+  #carousel-thumbs {
+    //text-align: center;
+    width: 100%;
+    //top: -1px;
+    position: absolute;
+    z-index: 3;
+    height: 21.3%;
+    bottom: 0;
+    /*-- photoshop style filmstrip : start --*/
+    box-shadow: 0px 0px 10px 0px rgba(239, 243, 246, 0.4);
+    /*-- photoshop style filmstrip : end --*/
+    .carousel-control.left {
+      img {
+        width: 20px;
+        position: absolute;
+        top: 59px;
+        left: 20px;
+      }
+    }
+    .carousel-control.right {
+      img {
+        width: 20px;
+        position: absolute;
+        top: 59px;
+        right: 20px;
+      }
+    }
+    .thumbs-carousel-inner {
+      height: 100%;
+    }
+  }
+  #carousel-thumbs .items {
+    padding: 0 50px;
+    background: $filmstrip-bkg-color;
+    //border-top: 3px solid $border-color;
+    text-align: center;
+    height: 100%;
+  }
+  #carousel-thumbs .item {
+    //opacity: 0.5;
+    width: 128px;
+    height: 128px;
+    display: inline-block;
+    margin: 13px 3px 10px;
+  }
+  #carousel-thumbs .item img {
+    //opacity: 0.5;
+    width: 100%;
+    height: 100%;
+  }
+  #carousel-thumbs .item.active {
+    padding: 2px;
+    border: 2px solid $thumbnail-border-color;
+  }
+  #carousel-thumbs .item:not(.active) img {
+    cursor: pointer;
+  }
+  #carousel-thumbs .carousel-control {
+    background-image: none;
+    width: 50px;
+  }
+  .carousel-inner-item .slider {
+    opacity: 0.7;
+    position: absolute;
+    left: 50%;
+    top: 115px;
+    margin-left: 194px;
+    height: 272px;
+    .slider-track {
+      width: 6px;
+    }
+    .slider-selection {
+      top: 0%;
+      height: 15%;
+      width: 6px;
+      background: $slider-up-bkg-color;
+    }
+    .slider-track-high {
+      bottom: 0px;
+      width: 6px;
+      height: 85%;
+      background: $slider-down-bkg-color;
+    }
+    .slider-handle {
+      top: 15%;
+      width: 10px;
+      height: 10px;
+      border: 5px solid $slider-handler-bkg-color;
+      padding: 5px;
+      margin-left: -7px;
+      background-color: $slider-handler-color;
+      background-image: none;
+    }
+    .tooltip {
+      display: none;
+    }
+  }
+  .carousel-inner-item .slider:hover {
+    opacity: 1;
+  }
+  .carousel-thumbs-collapse-btn {
+    //position: absolute;
+    //top: -20px;
+    top: -32px;
+    position: absolute;
+    background-color: white;
+    z-index: 2;
+    border: 3px solid $border-color;
+    padding: 6px 10px;
+    border-bottom: none;
+    left: 50%;
+    //font-weight: bold;
+    margin-left: -66px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+}

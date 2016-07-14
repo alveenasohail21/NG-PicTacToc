@@ -1,20 +1,2724 @@
-/* line 2, ../partials/others/others.scss */
-body {
+/*
+App Style
+*/
+/*
+Globals
+*/
+/*
+Theme Colors
+*/
+/*
+Font Families
+*/
+@font-face {
+  font-family: Font_Myriad_Pro_Regular;
+  src: url(/fonts/Myriad_Pro/MYRIADPRO-REGULAR.OTF);
+}
+/* line 42, ../partials/base/_global.scss */
+.font-myriad-regular {
+  font-family: Font_Myriad_Pro_Regular;
+}
+
+@font-face {
+  font-family: Font_Myriad_Pro_Bold;
+  src: url(/fonts/Myriad_Pro/MYRIADPRO-BOLD.OTF);
+}
+/* line 49, ../partials/base/_global.scss */
+.font-myriad-bold {
+  font-family: Font_Myriad_Pro_Bold;
+}
+
+@font-face {
+  font-family: Font_Open_Sans_Semibold;
+  src: url(/fonts/Open_Sans/OpenSans-Semibold.ttf);
+}
+/* line 56, ../partials/base/_global.scss */
+.font-opensans-semibold {
+  font-family: Font_Open_Sans_Semibold;
+}
+
+@font-face {
+  font-family: Font_Open_Sans_Regular;
+  src: url(/fonts/Open_Sans/OpenSans-Regular.ttf);
+}
+/* line 63, ../partials/base/_global.scss */
+.font-opensans-regular {
+  font-family: Font_Open_Sans_Regular;
+}
+
+@font-face {
+  font-family: Font_Open_Sans_Bold;
+  src: url(/fonts/Open_Sans/OpenSans-Bold.ttf);
+}
+/* line 70, ../partials/base/_global.scss */
+.font-opensans-bold {
+  font-family: Font_Open_Sans_Bold;
+}
+
+/* line 74, ../partials/base/_global.scss */
+html {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 100%;
+  background-color: lightblue;
+  overflow: hidden;
+}
+
+/* line 82, ../partials/base/_global.scss */
+body.app {
+  position: relative;
+  overflow: hidden;
+  color: #59626a;
+  height: 100% !important;
+  min-height: 100% !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  height: 778px;
+  min-height: 778px;
+  width: 1440px;
+  min-width: 1440px;
+}
+
+/* line 98, ../partials/base/_global.scss */
+body.app {
+  /*
+  Buttons
+  */
+  /*
+  Tooltip
+  */
+  /*
+  Cursor
+  */
+  /*
+  Anchors
+  */
+  /*
+  Visibility
+  */
+  /*
+  Opacity
+  */
+  /*
+  Animate
+  */
+}
+/* line 102, ../partials/base/_global.scss */
+body.app button:hover, body.app button:focus, body.app button:active {
+  outline: none !important;
+}
+/* line 105, ../partials/base/_global.scss */
+body.app .ptt-btn-blue {
+  color: white;
+  font-weight: bold;
+  background-color: #65e0e4;
+}
+/* line 110, ../partials/base/_global.scss */
+body.app .ptt-btn-blue:hover, body.app .ptt-btn-blue:focus, body.app .ptt-btn-blue:active {
+  color: rgba(255, 255, 255, 0.8);
+}
+/* line 113, ../partials/base/_global.scss */
+body.app .ptt-btn-white {
+  color: #65e0e4;
+  font-weight: bold;
+  background-color: white;
+}
+/* line 118, ../partials/base/_global.scss */
+body.app .ptt-btn-white:hover, body.app .ptt-btn-white:focus, body.app .ptt-btn-white:active {
+  color: #969ba0;
+}
+/* line 121, ../partials/base/_global.scss */
+body.app .ptt-uppercase {
+  text-transform: uppercase;
+}
+/* line 124, ../partials/base/_global.scss */
+body.app .ppt-lowercase {
+  text-transform: lowercase;
+}
+/* line 127, ../partials/base/_global.scss */
+body.app .ptt-caps {
+  text-transform: capitalize;
+}
+/* line 134, ../partials/base/_global.scss */
+body.app .tooltip-inner {
+  background-color: #9a9fa4;
+  color: white;
+}
+/* line 138, ../partials/base/_global.scss */
+body.app .tooltip-arrow {
+  border-left-color: #9a9fa4 !important;
+}
+/* line 145, ../partials/base/_global.scss */
+body.app .cursor-pointer {
+  cursor: pointer;
+}
+/* line 152, ../partials/base/_global.scss */
+body.app a {
+  text-decoration: none;
+  color: #65e0e4;
+}
+/* line 156, ../partials/base/_global.scss */
+body.app a:hover, body.app a:focus, body.app a:active {
+  text-decoration: none;
+  color: #969ba0;
+}
+/* line 164, ../partials/base/_global.scss */
+body.app .visibility-visible {
+  visibility: visible !important;
+}
+/* line 167, ../partials/base/_global.scss */
+body.app .visibility-hidden {
+  visibility: hidden !important;
+}
+/* line 174, ../partials/base/_global.scss */
+body.app .opacity-1 {
+  opacity: 1 !important;
+}
+/* line 177, ../partials/base/_global.scss */
+body.app .opacity-0 {
+  opacity: 0 !important;
+}
+/* line 185, ../partials/base/_global.scss */
+body.app .animate-if.ng-enter, body.app .animate-if.ng-leave {
+  transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
+}
+/* line 189, ../partials/base/_global.scss */
+body.app .animate-if.ng-enter,
+body.app .animate-if.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+/* line 194, ../partials/base/_global.scss */
+body.app .animate-if.ng-leave,
+body.app .animate-if.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+/* line 199, ../partials/base/_global.scss */
+body.app .dropdown .dropdown-menu {
+  -webkit-transition: all 0.8s;
+  -moz-transition: all 0.8s;
+  -ms-transition: all 0.8s;
+  -o-transition: all 0.8s;
+  transition: all 0.8s;
+  max-height: 0;
+  display: block;
+  overflow: hidden;
+  opacity: 0;
+}
+/* line 212, ../partials/base/_global.scss */
+body.app .dropdown.open .dropdown-menu {
+  max-height: 300px;
+  opacity: 1;
+}
+/* line 217, ../partials/base/_global.scss */
+body.app .dropup .dropdown-menu {
+  -webkit-transition: all 0.8s;
+  -moz-transition: all 0.8s;
+  -ms-transition: all 0.8s;
+  -o-transition: all 0.8s;
+  transition: all 0.8s;
+  max-height: 0;
+  display: block;
+  overflow: hidden;
+  opacity: 0;
+}
+/* line 230, ../partials/base/_global.scss */
+body.app .dropup.open .dropdown-menu {
+  max-height: 300px;
+  opacity: 1;
+}
+/* line 264, ../partials/base/_global.scss */
+body.app .view-animate.ng-enter, body.app .view-animate.ng-leave {
+  transition: opacity 1s;
+}
+/* line 267, ../partials/base/_global.scss */
+body.app .view-animate.ng-enter {
+  opacity: 1;
+}
+/* line 270, ../partials/base/_global.scss */
+body.app .view-animate.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+/* line 273, ../partials/base/_global.scss */
+body.app .view-animate.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+/*
+Scrollbar
+*/
+/* line 283, ../partials/base/_global.scss */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* line 287, ../partials/base/_global.scss */
+*::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 10px 10px 10px rgba(255, 255, 255, 0.8);
+}
+
+/* line 291, ../partials/base/_global.scss */
+*::-webkit-scrollbar-thumb {
+  background-color: #f0f2f2;
+  border-radius: 10px;
+}
+
+/*
+Key Frmaes
+*/
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, -1px, 0);
+  }
+  20%, 80% {
+    transform: translate3d(2px, 2px, 0);
+  }
+  30%, 50%, 70% {
+    transform: translate3d(-4px, -4px, 0);
+  }
+  40%, 60% {
+    transform: translate3d(4px, 4px, 0);
+  }
+}
+/* line 1, ../partials/_header.scss */
+body.app {
+  /*
+  Header
+  */
+}
+/* line 6, ../partials/_header.scss */
+body.app .navbar {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  min-height: 80px;
+  max-height: 80px;
+  border-radius: 0;
+  background-color: #ffffff;
+  border: none;
+  text-align: center;
+  /*-- photoshop style navbar : start --*/
+  box-shadow: 0px 1px 10px 2px rgba(239, 243, 246, 0.9);
+  z-index: 2;
+  /*-- photoshop style navbar : end --*/
+}
+/* line 22, ../partials/_header.scss */
+body.app .navbar .container-fluid {
+  height: 100%;
+  padding: 0;
+}
+/* line 27, ../partials/_header.scss */
+body.app .navbar .ptt-btn-blue {
+  padding: 10px 21px;
+}
+/* line 31, ../partials/_header.scss */
+body.app .navbar .steps {
+  width: calc(100% - 59.3%);
+  height: 100%;
+  position: absolute;
+  left: 29.65%;
+  display: flex;
+  padding: 18px 0;
+}
+/* line 38, ../partials/_header.scss */
+body.app .navbar .steps .step {
+  width: 33.33%;
+  height: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  text-align: left;
+  cursor: pointer;
+}
+/* line 47, ../partials/_header.scss */
+body.app .navbar .steps .step .custom-svg-icon {
+  height: 100%;
+  width: 44px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e7ecf0;
+  border-radius: 50%;
+  background-color: #f4f7f9;
+  padding: 7px;
+}
+/* line 56, ../partials/_header.scss */
+body.app .navbar .steps .step .custom-svg-icon object, body.app .navbar .steps .step .custom-svg-icon img {
+  height: 100%;
+  width: 100%;
+}
+/* line 62, ../partials/_header.scss */
+body.app .navbar .steps .step .custom-svg-icon.gray-pencil object, body.app .navbar .steps .step .custom-svg-icon.gray-pencil img {
+  transform: rotate(-45deg);
+}
+/* line 66, ../partials/_header.scss */
+body.app .navbar .steps .step .custom-svg-icon.blue-pencil {
+  padding: 4px 0 4px 11px;
+}
+/* line 68, ../partials/_header.scss */
+body.app .navbar .steps .step .custom-svg-icon.blue-pencil object, body.app .navbar .steps .step .custom-svg-icon.blue-pencil img {
+  width: 20px;
+  transform: rotate(-45deg);
+  padding: 2px;
+}
+/* line 79, ../partials/_header.scss */
+body.app .navbar .steps .step .custom-svg-icon.gray-tick {
+  padding: 8px;
+}
+/* line 81, ../partials/_header.scss */
+body.app .navbar .steps .step .custom-svg-icon.gray-tick object, body.app .navbar .steps .step .custom-svg-icon.gray-tick img {
+  padding: 3px;
+  transform: rotate(12deg);
+}
+/* line 86, ../partials/_header.scss */
+body.app .navbar .steps .step .custom-svg-icon.blue-tick {
+  padding: 8px;
+}
+/* line 88, ../partials/_header.scss */
+body.app .navbar .steps .step .custom-svg-icon.blue-tick object, body.app .navbar .steps .step .custom-svg-icon.blue-tick img {
+  padding: 3px;
+  transform: rotate(12deg);
+}
+/* line 93, ../partials/_header.scss */
+body.app .navbar .steps .step .description {
+  padding-left: 8px;
+}
+/* line 95, ../partials/_header.scss */
+body.app .navbar .steps .step .description div {
+  font-family: Font_Myriad_Pro_Bold;
+}
+/* line 98, ../partials/_header.scss */
+body.app .navbar .steps .step .description span {
+  font-family: Font_Myriad_Pro_Regular;
+  font-size: 18px;
+}
+/* line 103, ../partials/_header.scss */
+body.app .navbar .steps .step hr {
+  position: absolute;
+  bottom: 0;
+  margin: 0 0 -18px;
+  background-color: #65e0e4;
+  height: 2px;
+}
+/* line 112, ../partials/_header.scss */
+body.app .navbar .steps .step.active .description div {
+  color: #65e0e4;
+}
+/* line 115, ../partials/_header.scss */
+body.app .navbar .steps .step.active .custom-svg-icon {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #65e0e4;
+  border-radius: 50%;
+  background-color: white;
+}
+/* line 123, ../partials/_header.scss */
+body.app .navbar .steps .step-1 {
+  padding-left: 23px;
+}
+/* line 125, ../partials/_header.scss */
+body.app .navbar .steps .step-1 hr {
+  left: 30px;
+  width: 135px;
+}
+/* line 130, ../partials/_header.scss */
+body.app .navbar .steps .step-2 {
+  padding-left: 5px;
+}
+/* line 132, ../partials/_header.scss */
+body.app .navbar .steps .step-2 hr {
+  left: 13px;
+  width: 160px;
+}
+/* line 137, ../partials/_header.scss */
+body.app .navbar .steps .step-3 {
+  padding-left: 14px;
+}
+/* line 139, ../partials/_header.scss */
+body.app .navbar .steps .step-3 hr {
+  left: 25px;
+  width: 148px;
+}
+/* line 144, ../partials/_header.scss */
+body.app .navbar .steps .hover-hr {
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+/* line 148, ../partials/_header.scss */
+body.app .navbar .steps .step-1:hover .hover-hr {
+  opacity: 1;
+}
+/* line 151, ../partials/_header.scss */
+body.app .navbar .steps .step-2:hover .hover-hr {
+  opacity: 1;
+}
+/* line 154, ../partials/_header.scss */
+body.app .navbar .steps .step-3:hover .hover-hr {
+  opacity: 1;
+}
+/* line 194, ../partials/_header.scss */
+body.app .navbar .navbar-right {
+  width: 29.65%;
+  height: 100%;
+  padding: 18px 16px;
+  margin: 0 !important;
+}
+/* line 199, ../partials/_header.scss */
+body.app .navbar .navbar-right div {
+  height: 100%;
+  float: right;
+  margin-left: 8.12%;
+}
+/* line 205, ../partials/_header.scss */
+body.app .navbar .navbar-right div:nth-child(1) {
+  width: 36.957%;
+}
+/* line 207, ../partials/_header.scss */
+body.app .navbar .navbar-right div:nth-child(1) span.btn {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  font-size: 18px;
+  line-height: 2.8;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 4px;
+  font-family: "Myriad Pro";
+  font-weight: bolder;
+  /* letter-spacing: 0.5px; */
+}
+/* line 224, ../partials/_header.scss */
+body.app .navbar .navbar-right div:nth-child(2) img {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e7ecf0;
+  border-radius: 50%;
+  background-color: #f4f7f9;
+  height: 100%;
+}
+/* line 234, ../partials/_header.scss */
+body.app .navbar .navbar-right div:nth-child(3) {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e7ecf0;
+  border-radius: 50%;
+  background-color: #f4f7f9;
+  padding: 9px;
+}
+/* line 244, ../partials/_header.scss */
+body.app .navbar .navbar-right div.gray-cart object, body.app .navbar .navbar-right div.gray-cart img {
+  height: 100%;
+}
+/* line 250, ../partials/_header.scss */
+body.app .navbar-header {
+  width: 29.65%;
+  height: 100%;
+  padding: 18px 16px;
+  text-align: left;
+}
+/* line 256, ../partials/_header.scss */
+body.app a.navbar-brand {
+  padding: 0;
+  float: none;
+  height: auto;
+  margin: 0 !important;
+}
+/* line 261, ../partials/_header.scss */
+body.app a.navbar-brand img {
+  width: 216px;
+  padding-left: 1%;
+}
+/* line 266, ../partials/_header.scss */
+body.app .navbar-collapse {
+  padding: 0;
+}
+
+/* line 1, ../partials/others/_filmstrip.scss */
+body.app {
+  /*
+  Film Strip
+  */
+}
+/* line 6, ../partials/others/_filmstrip.scss */
+body.app .carousel-inner {
+  height: 100%;
+}
+/* line 9, ../partials/others/_filmstrip.scss */
+body.app .carousel-inner-item .item {
+  left: 50%;
+  margin-left: -249px;
+  height: 100%;
+  padding: 2.7% 0;
+  width: 34%;
+}
+/* line 16, ../partials/others/_filmstrip.scss */
+body.app .carousel-inner-item .item img {
+  position: absolute;
+  clip: rect(0px, 426px, 426px, 0);
+}
+/* line 20, ../partials/others/_filmstrip.scss */
+body.app #carousel-thumbs {
+  width: 100%;
+  position: absolute;
+  z-index: 3;
+  height: 21.3%;
+  bottom: 0;
+  /*-- photoshop style filmstrip : start --*/
+  box-shadow: 0px 0px 10px 0px rgba(239, 243, 246, 0.4);
+  /*-- photoshop style filmstrip : end --*/
+}
+/* line 32, ../partials/others/_filmstrip.scss */
+body.app #carousel-thumbs .carousel-control.left img {
+  width: 20px;
+  position: absolute;
+  top: 59px;
+  left: 20px;
+}
+/* line 40, ../partials/others/_filmstrip.scss */
+body.app #carousel-thumbs .carousel-control.right img {
+  width: 20px;
+  position: absolute;
+  top: 59px;
+  right: 20px;
+}
+/* line 47, ../partials/others/_filmstrip.scss */
+body.app #carousel-thumbs .thumbs-carousel-inner {
+  height: 100%;
+}
+/* line 51, ../partials/others/_filmstrip.scss */
+body.app #carousel-thumbs .items {
+  padding: 0 50px;
+  background: #ffffff;
+  text-align: center;
+  height: 100%;
+}
+/* line 58, ../partials/others/_filmstrip.scss */
+body.app #carousel-thumbs .item {
+  width: 128px;
+  height: 128px;
+  display: inline-block;
+  margin: 13px 3px 10px;
+}
+/* line 65, ../partials/others/_filmstrip.scss */
+body.app #carousel-thumbs .item img {
+  width: 100%;
+  height: 100%;
+}
+/* line 70, ../partials/others/_filmstrip.scss */
+body.app #carousel-thumbs .item.active {
+  padding: 2px;
+  border: 2px solid #65e0e4;
+}
+/* line 74, ../partials/others/_filmstrip.scss */
+body.app #carousel-thumbs .item:not(.active) img {
+  cursor: pointer;
+}
+/* line 77, ../partials/others/_filmstrip.scss */
+body.app #carousel-thumbs .carousel-control {
+  background-image: none;
+  width: 50px;
+}
+/* line 81, ../partials/others/_filmstrip.scss */
+body.app .carousel-inner-item .slider {
+  opacity: 0.7;
+  position: absolute;
+  left: 50%;
+  top: 115px;
+  margin-left: 194px;
+  height: 272px;
+}
+/* line 88, ../partials/others/_filmstrip.scss */
+body.app .carousel-inner-item .slider .slider-track {
+  width: 6px;
+}
+/* line 91, ../partials/others/_filmstrip.scss */
+body.app .carousel-inner-item .slider .slider-selection {
+  top: 0%;
+  height: 15%;
+  width: 6px;
+  background: #d8dce0;
+}
+/* line 97, ../partials/others/_filmstrip.scss */
+body.app .carousel-inner-item .slider .slider-track-high {
+  bottom: 0px;
+  width: 6px;
+  height: 85%;
+  background: #ffffff;
+}
+/* line 103, ../partials/others/_filmstrip.scss */
+body.app .carousel-inner-item .slider .slider-handle {
+  top: 15%;
+  width: 10px;
+  height: 10px;
+  border: 5px solid #ffffff;
+  padding: 5px;
+  margin-left: -7px;
+  background-color: #9a9fa4;
+  background-image: none;
+}
+/* line 113, ../partials/others/_filmstrip.scss */
+body.app .carousel-inner-item .slider .tooltip {
+  display: none;
+}
+/* line 117, ../partials/others/_filmstrip.scss */
+body.app .carousel-inner-item .slider:hover {
+  opacity: 1;
+}
+/* line 120, ../partials/others/_filmstrip.scss */
+body.app .carousel-thumbs-collapse-btn {
+  top: -32px;
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+  border: 3px solid #e7ecf1;
+  padding: 6px 10px;
+  border-bottom: none;
+  left: 50%;
+  margin-left: -66px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* line 3, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider {
+  height: 166px;
+  width: 100%;
+  background-color: #fff;
+  position: absolute;
+  z-index: 3;
+  bottom: 0;
+  padding: 16px 58px;
+  /*-- photoshop style filmstrip : start --*/
+  box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
+  /*-- photoshop style filmstrip : end --*/
+}
+/* line 14, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider #step2-lightSlider {
+  height: 134px !important;
+}
+/* line 16, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider #step2-lightSlider li, body.app .ptt-lightSlider #step2-lightSlider li img {
+  height: 100%;
+}
+/* line 22, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider #step2-lightSlider li {
+  text-align: center;
+}
+/* line 42, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider .custom-svg-icon.left-arrow {
+  position: absolute;
+  left: 19px;
+  top: 0;
+  height: 100%;
+  width: 20px;
+}
+/* line 48, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider .custom-svg-icon.left-arrow .object-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+/* line 57, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider .custom-svg-icon.right-arrow {
+  position: absolute;
+  right: 19px;
+  top: 0;
+  height: 100%;
+  width: 20px;
+}
+/* line 63, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider .custom-svg-icon.right-arrow .object-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+/* line 72, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider .gray-left-arrow {
+  position: absolute;
+  width: 20px;
+  top: 69px;
+}
+/* line 77, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider .gray-right-arrow {
+  position: absolute;
+  width: 20px;
+  top: 69px;
+}
+/* line 82, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider .thumbs-collapse-btn {
+  height: 23px;
+  line-height: 0;
+  top: -22px;
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+  border: none;
+  padding: 8px 10px 8px 14px;
+  border-bottom: none;
+  text-align: center;
+  left: 50%;
+  margin-left: -77px;
+  padding-bottom: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-family: Font_Open_Sans_Semibold;
+  /*-- photoshop style filmstrip : start --*/
+  box-shadow: 0px -7px 10px -4px rgba(239, 243, 246, 0.9);
+  /*-- photoshop style filmstrip : end --*/
+}
+/* line 103, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider .thumbs-collapse-btn object, body.app .ptt-lightSlider .thumbs-collapse-btn img {
+  width: 16px;
+}
+/* line 106, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider .thumbs-collapse-btn span {
+  font-size: 14px;
+  padding-left: 5px;
+  letter-spacing: -0.2px;
+}
+/* line 115, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider {
+  height: 134px !important;
+}
+/* line 117, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li, body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li img {
+  height: 100%;
+}
+/* line 123, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li {
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+/* line 128, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li img.white-cross {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 8px;
+  z-index: 3;
+  cursor: pointer;
+  left: 50%;
+  margin-left: 44px;
+}
+/* line 144, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.left-arrow {
+  position: absolute;
+  left: 19px;
+  top: 0;
+  height: 100%;
+  width: 20px;
+}
+/* line 150, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.left-arrow .object-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+/* line 159, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.right-arrow {
+  position: absolute;
+  right: 19px;
+  top: 0;
+  height: 100%;
+  width: 20px;
+}
+/* line 165, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.right-arrow .object-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+/* line 174, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider .gray-left-arrow {
+  position: absolute;
+  width: 20px;
+  top: 69px;
+}
+/* line 179, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider .gray-right-arrow {
+  position: absolute;
+  width: 20px;
+  top: 69px;
+}
+/* line 184, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider .thumbs-collapse-btn {
+  padding: 13px 15px 8px 16px;
+  border-bottom: none;
+  margin-left: -62px;
+  padding-bottom: 0;
+}
+/* line 189, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider .thumbs-collapse-btn span {
+  padding: 0;
+}
+
+/* line 1, ../partials/others/_app-others.scss */
+body.app {
+  /*
+  DropMenus
+  */
+  /*
+  Action Icons
+  */
+}
+/* line 6, ../partials/others/_app-others.scss */
+body.app .action-icons-3 .ptt-dropmenu {
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 100%;
+}
+/* line 10, ../partials/others/_app-others.scss */
+body.app .action-icons-3 .ptt-dropmenu button {
+  border: none;
+  background: white;
+  border-radius: 50px;
+  padding: 3px 21px;
+}
+/* line 20, ../partials/others/_app-others.scss */
+body.app .action-icons-3 .ptt-dropmenu .dropdown-menu {
+  border: none;
+  box-shadow: none;
+  min-width: 20px !important;
+  width: 68px;
+  top: 26px;
+  border-radius: 0 0 20px 20px;
+  padding-left: 19px;
+}
+/* line 29, ../partials/others/_app-others.scss */
+body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-2, body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-3 {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 100%;
+  margin-top: 3px;
+  /* margin-right: 5px; */
+  margin-left: 2px;
+  margin-right: 6px;
+}
+/* line 39, ../partials/others/_app-others.scss */
+body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-1 {
+  width: 21px;
+  height: 21px;
+  display: inline-block;
+  border-radius: 100%;
+  margin-top: 4px;
+  background-color: #f4f7f9;
+  margin-left: -5px;
+  margin-right: 2px;
+}
+/* line 51, ../partials/others/_app-others.scss */
+body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-2 {
+  background-color: #969ba0;
+}
+/* line 54, ../partials/others/_app-others.scss */
+body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-3 {
+  background-color: #353b42;
+}
+/* line 57, ../partials/others/_app-others.scss */
+body.app .action-icons-3 .ptt-dropmenu .caret {
+  margin-top: -12px;
+  margin-left: 2px;
+  margin-right: -4px;
+}
+/* line 63, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu {
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 100%;
+}
+/* line 67, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu button {
+  border: none;
+  background: white;
+  border-radius: 50px;
+  padding: 7px 15px;
+  color: #59626a;
+}
+/* line 74, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .caret {
+  position: relative;
+  margin-top: -4px;
+  margin-right: 2px;
+}
+/* line 79, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu {
+  border: none;
+  width: 170px;
+  height: 252px;
+  bottom: 48px;
+  left: 46px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
+}
+/* line 91, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-size {
+  position: absolute;
+  right: 23px;
+}
+/* line 94, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-size p {
+  font-family: Font_Open_Sans_Semibold;
+  color: #59626a;
+  margin: 0;
+  font-size: 12px;
+}
+/* line 100, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-size p:hover {
+  border-radius: 50%;
+  background-color: #65e0e4;
+  color: white;
+}
+/* line 106, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box {
+  background-color: #d8dce0;
+  color: #59626a;
+  font-family: Font_Open_Sans_Semibold;
+  position: relative;
+}
+/* line 111, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box img {
+  position: absolute;
+  width: 20px;
+  transition: 0.4s;
+  visibility: hidden;
+}
+/* line 118, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-border {
+  padding: 2px;
+}
+/* line 121, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-border:hover {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #65e0e4;
+  padding: 1px;
+}
+/* line 127, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-border:hover img {
+  visibility: visible;
+}
+/* line 130, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge {
+  display: flex;
+}
+/* line 132, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box {
+  width: 87px;
+  height: 65px;
+  text-align: center;
+  padding-top: 23px;
+  font-size: 11px;
+}
+/* line 138, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box img.left-arrow {
+  top: 13px;
+  left: 24px;
+}
+/* line 142, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box img.right-arrow {
+  bottom: 13px;
+  right: 24px;
+}
+/* line 147, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box-border:hover .box > img.left-arrow {
+  transform: translate3d(-24px, -13px, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 152, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box-border:hover .box > img.right-arrow {
+  transform: translate3d(24px, 13px, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 157, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box-size {
+  padding-top: 8px;
+}
+/* line 161, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular {
+  display: flex;
+  padding-top: 11px;
+}
+/* line 164, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box {
+  width: 80px;
+  height: 58px;
+  text-align: center;
+  padding-top: 21px;
+  font-size: 10px;
+}
+/* line 170, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box img.left-arrow {
+  top: 13px;
+  left: 23px;
+}
+/* line 174, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box img.right-arrow {
+  bottom: 13px;
+  right: 23px;
+}
+/* line 179, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box-border:hover .box > img.left-arrow {
+  transform: translate3d(-23px, -13px, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 184, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box-border:hover .box > img.right-arrow {
+  transform: translate3d(23px, 13px, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 189, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box-size {
+  padding-top: 3px;
+}
+/* line 193, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square {
+  display: flex;
+  padding-top: 10px;
+}
+/* line 196, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box {
+  width: 64px;
+  height: 64px;
+  text-align: center;
+  padding-top: 23px;
+  font-size: 11px;
+}
+/* line 202, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box img.left-arrow {
+  top: 13px;
+  left: 13px;
+}
+/* line 206, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box img.right-arrow {
+  bottom: 13px;
+  right: 13px;
+}
+/* line 211, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box-border:hover .box > img.left-arrow {
+  transform: translate3d(-13px, -13px, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 216, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box-border:hover .box > img.right-arrow {
+  transform: translate3d(13px, 13px, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 221, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box-size {
+  padding-top: 6px;
+}
+/* line 227, ../partials/others/_app-others.scss */
+body.app .action-icons-5 .ptt-dropmenu {
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 100%;
+}
+/* line 231, ../partials/others/_app-others.scss */
+body.app .action-icons-5 .ptt-dropmenu button {
+  border: none;
+  background: white;
+  border-radius: 50px;
+  padding: 7px 15px 7px 18px;
+  letter-spacing: -0.2px;
+}
+/* line 243, ../partials/others/_app-others.scss */
+body.app .action-icons {
+  opacity: 0.5;
+  position: absolute;
+  top: 134px;
+  left: 50%;
+  margin-left: -309px;
+}
+/* line 249, ../partials/others/_app-others.scss */
+body.app .action-icons .action-icon {
+  background-color: #ffffff;
+  display: flex;
+  border-radius: 100%;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  margin: 9px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+}
+/* line 263, ../partials/others/_app-others.scss */
+body.app .action-icons:hover {
+  opacity: 1;
+}
+/* line 266, ../partials/others/_app-others.scss */
+body.app .action-icons-2 {
+  padding: 0 12px;
+}
+/* line 268, ../partials/others/_app-others.scss */
+body.app .action-icons-2 .action-icon {
+  text-align: center;
+  cursor: pointer;
+  height: 90px;
+}
+/* line 272, ../partials/others/_app-others.scss */
+body.app .action-icons-2 .action-icon .title {
+  color: #59626a;
+  font-family: Font_Open_Sans_Semibold;
+}
+/* line 279, ../partials/others/_app-others.scss */
+body.app .action-icons-3 .action-icon {
+  background-color: #ffffff;
+  display: inline-block;
+  border-radius: 100%;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  margin: 9px 4px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+}
+/* line 294, ../partials/others/_app-others.scss */
+body.app .action-icons-4 {
+  position: absolute;
+  bottom: 0px;
+  right: 20px;
+}
+/* line 298, ../partials/others/_app-others.scss */
+body.app .action-icons-4 .action-icon {
+  background-color: #ffffff;
+  display: inline-block;
+  border-radius: 100%;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  margin: 9px 3px -13px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+}
+/* line 317, ../partials/others/_app-others.scss */
+body.app .action-question {
+  background: url(/images/icon_question.png);
+}
+/* line 320, ../partials/others/_app-others.scss */
+body.app .action-flip-h {
+  background: url(/images/flip_horizontal_icon.png);
+}
+/* line 323, ../partials/others/_app-others.scss */
+body.app .action-flip-v {
+  background: url(/images/flip_vertical_icon.png);
+}
+/* line 326, ../partials/others/_app-others.scss */
+body.app .action-rotate-h {
+  background: url(/images/rotate_horizontal_icon.png);
+}
+/* line 329, ../partials/others/_app-others.scss */
+body.app .action-rotate-v {
+  background: url(/images/rotate_vertical_icon.png);
+}
+/* line 332, ../partials/others/_app-others.scss */
+body.app .action-layout {
+  margin-top: 18px;
+  height: 67px !important;
+  padding-top: 5px;
+}
+/* line 336, ../partials/others/_app-others.scss */
+body.app .action-layout .gray-layout {
+  margin-bottom: 6px;
+}
+/* line 339, ../partials/others/_app-others.scss */
+body.app .action-layout img, body.app .action-layout object {
+  width: 41px;
+}
+/* line 343, ../partials/others/_app-others.scss */
+body.app .action-layout.active {
+  border-radius: 12px;
+  background-color: #f4f7f9;
+}
+/* line 346, ../partials/others/_app-others.scss */
+body.app .action-layout.active .title {
+  color: #65e0e4;
+}
+/* line 350, ../partials/others/_app-others.scss */
+body.app .action-filter {
+  margin-top: 20px;
+  height: 67px !important;
+  padding-top: 5px;
+}
+/* line 354, ../partials/others/_app-others.scss */
+body.app .action-filter .gray-filter {
+  margin-bottom: 6px;
+}
+/* line 357, ../partials/others/_app-others.scss */
+body.app .action-filter img, body.app .action-filter object {
+  width: 42px;
+}
+/* line 361, ../partials/others/_app-others.scss */
+body.app .action-filter.active {
+  border-radius: 12px;
+  background-color: #f4f7f9;
+}
+/* line 364, ../partials/others/_app-others.scss */
+body.app .action-filter.active .title {
+  color: #65e0e4;
+}
+/* line 368, ../partials/others/_app-others.scss */
+body.app .action-text {
+  margin-top: 20px;
+  padding-top: 5px;
+  height: 67px !important;
+}
+/* line 372, ../partials/others/_app-others.scss */
+body.app .action-text .gray-text {
+  line-height: 0;
+}
+/* line 375, ../partials/others/_app-others.scss */
+body.app .action-text img, body.app .action-text object {
+  width: 37px;
+}
+/* line 379, ../partials/others/_app-others.scss */
+body.app .action-text.active {
+  border-radius: 12px;
+  background-color: #f4f7f9;
+}
+/* line 382, ../partials/others/_app-others.scss */
+body.app .action-text.active .title {
+  color: #65e0e4;
+}
+/* line 386, ../partials/others/_app-others.scss */
+body.app .action-stickers {
+  position: relative;
+  margin-top: 12px;
+  height: 72px !important;
+  padding-top: 40px;
+}
+/* line 391, ../partials/others/_app-others.scss */
+body.app .action-stickers .gray-sticker {
+  padding-left: 17px;
+  margin-bottom: 6px;
+}
+/* line 395, ../partials/others/_app-others.scss */
+body.app .action-stickers img, body.app .action-stickers object {
+  position: absolute;
+  left: 15px;
+  top: -20px;
+  width: 64px;
+}
+/* line 403, ../partials/others/_app-others.scss */
+body.app .action-stickers.active {
+  border-radius: 12px;
+  background-color: #f4f7f9;
+}
+/* line 406, ../partials/others/_app-others.scss */
+body.app .action-stickers.active .title {
+  color: #65e0e4;
+}
+/* line 410, ../partials/others/_app-others.scss */
+body.app .action-add-photos {
+  margin-top: 15px;
+  padding-top: 5px;
+  height: 80px !important;
+}
+/* line 414, ../partials/others/_app-others.scss */
+body.app .action-add-photos .gray-photos {
+  margin-bottom: 2px;
+}
+/* line 417, ../partials/others/_app-others.scss */
+body.app .action-add-photos img, body.app .action-add-photos object {
+  width: 39px;
+}
+/* line 421, ../partials/others/_app-others.scss */
+body.app .action-fb {
+  background: url(/images/fb_icon.png);
+  background-size: 20px !important;
+}
+/* line 425, ../partials/others/_app-others.scss */
+body.app .action-copy {
+  background: url(/images/copy_icon.png);
+}
+/* line 428, ../partials/others/_app-others.scss */
+body.app .action-dustbin {
+  background: url(/images/dustbin_icon.png);
+}
+/* line 431, ../partials/others/_app-others.scss */
+body.app .action-border-a {
+  background: url(/images/border_a_icon.png);
+}
+/* line 434, ../partials/others/_app-others.scss */
+body.app .action-border-b {
+  background: url(/images/border_b_icon.png);
+}
+/* line 437, ../partials/others/_app-others.scss */
+body.app .action-border-ab {
+  background: url(/images/border_ab_icon.png);
+}
+/* line 440, ../partials/others/_app-others.scss */
+body.app .action-border-ab-color-a {
+  background: url(/images/border_ab_color_a_icon.png);
+}
+/* line 443, ../partials/others/_app-others.scss */
+body.app .action-border-ab-color-b {
+  background: url(/images/border_ab_color_b_icon.png);
+}
+/* line 447, ../partials/others/_app-others.scss */
+body.app .opacity-0 {
+  opacity: 0;
+}
+/* line 451, ../partials/others/_app-others.scss */
+body.app .opacity-1 {
+  opacity: 1;
+}
+/* line 455, ../partials/others/_app-others.scss */
+body.app .top-80px {
+  top: 80px !important;
+}
+
+/* line 1, ../partials/_webapp-step1.scss */
+body.app {
+  /*
+  Step 2
+  */
+}
+/* line 6, ../partials/_webapp-step1.scss */
+body.app .step1 {
+  background-color: #f4f7f9;
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 80px - 166px);
+  top: 80px;
+  padding: 1.5% 18.64% 2.598%;
+  /*
+  Jumbotron
+  */
+  /*
+  Uploaded Images
+  */
+  /*
+  Upload Icons
+  */
+  /*
+  FB Albums
+  */
+}
+/* line 15, ../partials/_webapp-step1.scss */
+body.app .step1 .row {
+  margin: 0;
+  height: 100%;
+}
+/* line 22, ../partials/_webapp-step1.scss */
+body.app .step1 .left-div {
+  height: 100%;
+  float: left;
+  width: 13.7%;
+  min-width: 123px;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0px 0px 10px 4px rgba(239, 243, 246, 0.9);
+  padding: 15px 10px;
+  position: relative;
+}
+/* line 35, ../partials/_webapp-step1.scss */
+body.app .step1 .right-div {
+  height: 100%;
+  width: calc(100% - 13.7% - 10px);
+  margin-left: calc(13.7% + 16px);
+  background-color: white;
+  box-shadow: 0px 0px 10px 4px rgba(239, 243, 246, 0.9);
+  border-radius: 12px;
+  padding: 19px 16px 30px 22px;
+}
+/* line 48, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron {
+  margin: 0;
+  padding: 30px 0;
+  background-color: #f4f7f9;
+  border-width: 1.119px;
+  border-color: #e0e5ea;
+  border-style: dashed;
+  border-radius: 12px;
+  margin-left: 4px;
+}
+/* line 57, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron img {
+  width: 60px;
+  margin: -40px 20px 0 -24px;
+}
+/* line 61, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron div.description {
+  display: inline-block;
+}
+/* line 63, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron div.description .title {
+  font-family: Font_Open_Sans_Semibold;
+  font-size: 26px;
+  margin-top: -3px;
+}
+/* line 68, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron div.description .details {
+  font-family: Font_Open_Sans_Regular;
+  font-size: 18px;
+  margin-top: 1px;
+}
+/* line 76, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron .device div.description .title {
+  margin-top: -5px;
+}
+/* line 83, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron div.fb-login-div {
+  padding: 18px 0;
+}
+/* line 86, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron a.fb-login {
+  background-color: #3c5698;
+  font-family: Font_Open_Sans_Semibold;
+  color: white;
+  padding: 18px 46px;
+  border-radius: 4px;
+  position: relative;
+  margin-left: 8px;
+  cursor: pointer;
+}
+/* line 95, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron a.fb-login i.fa {
+  position: absolute;
+  top: 13px;
+  left: 12px;
+  font-size: 32px;
+}
+/* line 101, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron a.fb-login span.text {
+  padding-left: 12px;
+}
+/* line 105, ../partials/_webapp-step1.scss */
+body.app .step1 .jumbotron a.fb-login:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+/* line 113, ../partials/_webapp-step1.scss */
+body.app .step1 .uploaded-images {
+  height: calc(100% - 19px - 123px);
+  padding: 0 0 0 4px;
+  text-align: left;
+  overflow: hidden;
+  overflow-y: auto;
+  position: relative;
+  margin-top: 17px;
+}
+/* line 121, ../partials/_webapp-step1.scss */
+body.app .step1 .uploaded-images div.img {
+  position: relative;
+  display: inline-block;
+  width: 18.6%;
+  height: 133px;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: center;
+  /* padding: 0px 5px 0 0px; */
+  margin-bottom: 10px;
+  margin-right: 6px;
+}
+/* line 132, ../partials/_webapp-step1.scss */
+body.app .step1 .uploaded-images div.img .progress {
+  position: absolute;
+  width: 108px;
+  height: 6px;
+  bottom: -10px;
+  left: 50%;
+  margin-left: -54px;
+  background: #ffffff;
+}
+/* line 141, ../partials/_webapp-step1.scss */
+body.app .step1 .uploaded-images div.img .progress-bar {
+  background: #65e0e4;
+}
+/* line 144, ../partials/_webapp-step1.scss */
+body.app .step1 .uploaded-images div.img .custom-svg-icon {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  top: 50%;
+  margin-top: -23px;
+  z-index: 2;
+  left: 50%;
+  margin-left: -23px;
+  /* background: white; */
+  text-align: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e7ecf0;
+  border-radius: 50%;
+  padding: 8px;
+  background-color: white;
+  opacity: 0.7;
+  transition: opacity 0.8s;
+}
+/* line 166, ../partials/_webapp-step1.scss */
+body.app .step1 .uploaded-images div.img:hover .custom-svg-icon {
+  opacity: 1;
+}
+/* line 169, ../partials/_webapp-step1.scss */
+body.app .step1 .uploaded-images div.img.add-all-photos {
+  border-width: 1.119px;
+  border-color: #e0e5ea;
+  border-style: dashed;
+  border-radius: 12px;
+  background-color: #f4f7f9;
+}
+/* line 176, ../partials/_webapp-step1.scss */
+body.app .step1 .uploaded-images img {
+  height: 100%;
+}
+/* line 184, ../partials/_webapp-step1.scss */
+body.app .step1 .upload-icons {
+  height: 100%;
+}
+/* line 186, ../partials/_webapp-step1.scss */
+body.app .step1 .upload-icons .upload-icon {
+  height: 20%;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 3px;
+}
+/* line 192, ../partials/_webapp-step1.scss */
+body.app .step1 .upload-icons .upload-icon .custom-svg-icon {
+  position: relative;
+}
+/* line 194, ../partials/_webapp-step1.scss */
+body.app .step1 .upload-icons .upload-icon .custom-svg-icon img, body.app .step1 .upload-icons .upload-icon .custom-svg-icon object {
+  width: 32%;
+}
+/* line 197, ../partials/_webapp-step1.scss */
+body.app .step1 .upload-icons .upload-icon .custom-svg-icon .object-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+/* line 206, ../partials/_webapp-step1.scss */
+body.app .step1 .upload-icons .upload-icon .title {
+  font-family: Font_Open_Sans_Semibold;
+  color: #59626a;
+  margin-top: 1px;
+  letter-spacing: 0px;
+  word-spacing: 0px;
+  font-size: 13px;
+}
+/* line 216, ../partials/_webapp-step1.scss */
+body.app .step1 .upload-icons .upload-icon.active .title {
+  color: #65e0e4;
+}
+/* line 220, ../partials/_webapp-step1.scss */
+body.app .step1 .upload-icons .upload-icon:last-child {
+  margin-bottom: 0;
+}
+/* line 228, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums {
+  overflow: hidden;
+  height: calc(100% - 123px - 20px);
+  overflow-y: auto;
+  margin-top: 20px;
+}
+/* line 233, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row {
+  height: auto;
+}
+/* line 235, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row .col-sm-4 {
+  margin: 0;
+  padding: 0;
+  padding-top: 50px;
+  min-height: 220px;
+}
+/* line 240, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row .col-sm-4 p {
+  margin: 0;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  color: #9d9d9d;
+  font-size: 12px;
+  font-family: Font_Open_Sans_Bold;
+  margin-bottom: -5px;
+}
+/* line 250, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row .col-sm-4 div.square {
+  width: 134px;
+  height: 134px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.18);
+  background-color: #f9f9f9;
+  position: absolute;
+  cursor: pointer;
+  overflow: hidden;
+  transition: 0.8s;
+  left: 50%;
+  margin-left: -69px;
+}
+/* line 264, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row .col-sm-4 div.square img {
+  height: 100%;
+}
+/* line 268, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(1) {
+  transform: rotate(-19deg);
+}
+/* line 271, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(2) {
+  transform: rotate(-15deg);
+}
+/* line 274, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(3) {
+  transform: rotate(-10deg);
+}
+/* line 281, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(1) {
+  transform: rotate(0deg);
+}
+/* line 284, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(2) {
+  transform: rotate(0deg);
+}
+/* line 287, ../partials/_webapp-step1.scss */
+body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(3) {
+  transform: rotate(0deg);
+}
+
+/* line 1, ../partials/_webapp-step2.scss */
+body.app {
+  /* Ptt-Wrappers */
+  /* Toggle Styles */
+  /* Sidebar Styles */
+  /* Action Icons */
+  /* Image Studio */
+}
+/* line 3, ../partials/_webapp-step2.scss */
+body.app .step2-main {
+  transition: opacity 0.6s;
+}
+/* line 8, ../partials/_webapp-step2.scss */
+body.app #ptt-wrapper {
+  padding-left: 90px;
+  background-color: #f4f7f9;
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 80px - 166px);
+  top: 80px;
+}
+/* line 16, ../partials/_webapp-step2.scss */
+body.app #ptt-wrapper #menu-toggle {
+  color: white;
+  text-decoration: none;
+}
+/* line 21, ../partials/_webapp-step2.scss */
+body.app #ptt-sidebar-wrapper {
+  width: 90px;
+  background: #ffffff;
+  z-index: 3;
+  position: absolute;
+  left: 250px;
+  top: 0;
+  height: 100%;
+  margin-left: -250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  /*-- photoshop style sidebar : start --*/
+  box-shadow: 0px 7px 10px 0px rgba(239, 243, 246, 0.9);
+  /*-- photoshop style sidebar : end --*/
+}
+/* line 42, ../partials/_webapp-step2.scss */
+body.app #ptt-content-wrapper {
+  overflow-y: auto;
+  height: 100%;
+  position: relative;
+}
+/* line 47, ../partials/_webapp-step2.scss */
+body.app #ptt-content-wrapper-2 {
+  height: 100%;
+  position: relative;
+}
+/* line 50, ../partials/_webapp-step2.scss */
+body.app #ptt-content-wrapper-2 .container-fluid {
+  height: 100%;
+}
+/* line 52, ../partials/_webapp-step2.scss */
+body.app #ptt-content-wrapper-2 .container-fluid .row {
+  height: 100%;
+}
+/* line 54, ../partials/_webapp-step2.scss */
+body.app #ptt-content-wrapper-2 .container-fluid .row .carousel {
+  height: 100%;
+}
+/* line 63, ../partials/_webapp-step2.scss */
+body.app #ptt-wrapper-2 {
+  padding-left: 0;
+  color: black;
+  height: 100%;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+/* line 74, ../partials/_webapp-step2.scss */
+body.app #ptt-wrapper-2.toggled {
+  padding-left: 295px;
+}
+/* line 78, ../partials/_webapp-step2.scss */
+body.app #ptt-sidebar-wrapper-2 {
+  z-index: 2;
+  position: absolute;
+  width: 0;
+  height: 100%;
+  margin-left: -295px;
+  overflow-y: auto;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+/* line 91, ../partials/_webapp-step2.scss */
+body.app #ptt-sidebar-wrapper-2 button {
+  position: absolute;
+  right: 5px;
+  top: 22px;
+  background: white;
+  box-shadow: 7px 0px 10px 1px rgba(239, 243, 246, 0.9);
+  padding: 6px 8px;
+  border: none;
+  border-radius: 4px;
+}
+/* line 100, ../partials/_webapp-step2.scss */
+body.app #ptt-sidebar-wrapper-2 button i {
+  color: #969ba0;
+}
+/* line 106, ../partials/_webapp-step2.scss */
+body.app #ptt-wrapper-2.toggled #ptt-sidebar-wrapper-2 {
+  width: 325px;
+}
+/* line 110, ../partials/_webapp-step2.scss */
+body.app #page-content-wrapper {
+  width: 100%;
+  position: absolute;
+  padding: 15px;
+}
+/* line 116, ../partials/_webapp-step2.scss */
+body.app #ptt-wrapper-2.toggled #page-content-wrapper {
+  position: absolute;
+  margin-right: -250px;
+}
+/* line 123, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2 {
+  position: absolute;
+  top: 0;
+  width: 295px;
+  height: 100%;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  background: #ffffff;
+  overflow-y: auto;
+  /*-- photoshop style sidebar : start --*/
+  box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
+  /*-- photoshop style sidebar : end --*/
+}
+/* line 138, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-layouts {
+  padding: 5px 26px;
+}
+/* line 141, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-layouts .empty-images {
+  display: inline-block;
+  width: 111px;
+  height: 110px;
+  margin: 0;
+  margin-top: 26px;
+  margin-right: 5px;
+  padding: 8px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e7ecf0;
+  border-radius: 5px;
+  background-color: #f4f7f9;
+}
+/* line 154, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-layouts .empty-images img {
+  transition: 1s;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+/* line 163, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-filters {
+  text-align: left;
+  padding-top: 8px;
+  padding-left: 16px;
+}
+/* line 167, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-filters div.filter {
+  transition: 1s;
+  opacity: 0;
+  height: 106px;
+  display: inline-block;
+  text-align: center;
+  padding: 13px 3px 0;
+}
+/* line 174, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-filters div.filter img {
+  cursor: pointer;
+  width: 75px;
+  background-color: #e3e3e3;
+  border-radius: 10px;
+  margin: 0 3px;
+}
+/* line 181, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-filters div.filter img:hover {
+  transform: scale3d(1.1, 1.1, 1);
+}
+/* line 184, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-filters div.filter p {
+  font-family: Font_Open_Sans_Semibold;
+  margin-bottom: 0;
+  margin-top: 6px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+/* line 195, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-stickers {
+  padding: 10px 15px;
+}
+/* line 197, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-stickers #gallery-container {
+  transition: 1s;
+  opacity: 0;
+}
+/* line 201, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-stickers ul {
+  height: 100% !important;
+}
+/* line 205, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-stickers ul li {
+  cursor: pointer;
+  padding: 2px 10px;
+}
+/* line 208, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-stickers ul li img:hover {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 219, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts {
+  padding: 15px 0 0 12px;
+}
+/* line 221, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts div.text {
+  transition: 1s;
+  opacity: 0;
+  margin: 9px 6px 0 0;
+  position: relative;
+  font-size: 100%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e7ecf0;
+  border-radius: 5px;
+  background-color: #f4f7f9;
+  width: 128px;
+  height: 83px;
+  display: inline-block;
+  color: #59626a;
+}
+/* line 236, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts div.text .text1 {
+  font-family: Font_Myriad_Pro_Regular;
+}
+/* line 239, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts div.text .text2 {
+  font-family: Font_Open_Sans_Semibold;
+}
+/* line 242, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts div.text .text3 {
+  font-family: "Goudy Old Style";
+}
+/* line 245, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts div.text .text4 {
+  font-family: Helvetica;
+}
+/* line 248, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts div.text .bold {
+  font-weight: bold;
+}
+/* line 251, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts div.text .italic {
+  font-style: italic;
+}
+/* line 255, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts div.sample {
+  margin: 5px;
+}
+/* line 258, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts div.showcase {
+  text-overflow: clip;
+  overflow: hidden;
+  font-size: 200%;
+}
+/* line 263, ../partials/_webapp-step2.scss */
+body.app .ptt-sidebar-content-2.sidemenu-texts div.type {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+/* line 273, ../partials/_webapp-step2.scss */
+body.app .action-icons-3 {
+  position: absolute;
+  top: 16px;
+  right: 11px;
+  display: inline-flex;
+  z-index: 2;
+}
+/* line 279, ../partials/_webapp-step2.scss */
+body.app .action-icons-3 .custom-svg-icon {
+  border-radius: 50%;
+  background-color: white;
+  padding: 9px 12px;
+  display: inline-flex;
+  height: 36px;
+  width: 36px;
+  margin-right: 13px;
+  cursor: pointer;
+}
+/* line 289, ../partials/_webapp-step2.scss */
+body.app .action-icons-3 .custom-svg-icon.gray-share-white-bkg {
+  padding: 3px 2px;
+}
+/* line 292, ../partials/_webapp-step2.scss */
+body.app .action-icons-3 .gray-question object, body.app .action-icons-3 .gray-question img, body.app .action-icons-3 .gray-share-white-bkg object, body.app .action-icons-3 .gray-share-white-bkg img {
+  height: 100%;
+}
+/* line 297, ../partials/_webapp-step2.scss */
+body.app .action-icons-4 {
+  position: absolute;
+  bottom: 14px;
+  right: 15px;
+  display: inline-flex;
+  font-family: Font_Open_Sans_Semibold;
+  z-index: 2;
+}
+/* line 304, ../partials/_webapp-step2.scss */
+body.app .action-icons-4 .custom-svg-icon {
+  border-radius: 50%;
+  background-color: white;
+  padding: 8px 8px;
+  display: inline-flex;
+  height: 36px;
+  width: 36px;
+  margin-right: 9px;
+  cursor: pointer;
+}
+/* line 314, ../partials/_webapp-step2.scss */
+body.app .action-icons-4 .custom-svg-icon.gray-delete {
+  padding: 8px 11px;
+}
+/* line 317, ../partials/_webapp-step2.scss */
+body.app .action-icons-4 .gray-copy object, body.app .action-icons-4 .gray-copy img, body.app .action-icons-4 .gray-delete object, body.app .action-icons-4 .gray-delete img {
+  height: 100%;
+}
+/* line 322, ../partials/_webapp-step2.scss */
+body.app .action-icons-5 {
+  font-family: Font_Open_Sans_Semibold;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  z-index: 2;
+}
+/* line 328, ../partials/_webapp-step2.scss */
+body.app .action-icons-5 .caret {
+  position: relative;
+  margin-top: -4px;
+  margin-left: 1px;
+}
+/* line 333, ../partials/_webapp-step2.scss */
+body.app .action-icons-5 span.count {
+  margin-left: 13px;
+}
+/* line 340, ../partials/_webapp-step2.scss */
+body.app div#image-studio {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  padding: 2.65% 0;
+  overflow-y: auto;
+}
+/* line 346, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar {
+  position: absolute;
+  left: -55px;
+  top: 50%;
+  margin-top: -111px;
+}
+/* line 351, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar .custom-svg-icon {
+  opacity: 0.6;
+  transition: opacity 0.8s;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: white;
+  padding: 10px 8px;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  margin-bottom: 11px;
+}
+/* line 362, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar .custom-svg-icon object, body.app div#image-studio div.toolbar .custom-svg-icon img {
+  height: 100%;
+}
+/* line 366, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar .custom-svg-icon:hover {
+  opacity: 1;
+}
+/* line 369, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar .custom-svg-icon.gray-border-none {
+  padding: 9px 10px 9px;
+}
+/* line 372, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar .custom-svg-icon.gray-flip-v {
+  padding: 7px 10px;
+  transform: rotate(270deg);
+}
+/* line 376, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar .custom-svg-icon.gray-flip-h {
+  padding: 7px 9px;
+}
+/* line 379, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-r {
+  padding: 9px 8px;
+}
+/* line 381, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-r object, body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-r img {
+  transform: rotate(180deg);
+}
+/* line 385, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-l {
+  padding: 9px 9px;
+}
+/* line 387, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-l object, body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-l img {
+  transform: scaleY(-1) rotate(-90deg);
+}
+/* line 392, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.element {
+  min-width: 240px;
+  min-height: 240px;
+  background-color: #cccccc;
+  box-shadow: 0px 0px 10px 1px rgba(229, 229, 229, 0.9);
+  position: relative;
+}
+/* line 404, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.zoomBar {
+  position: absolute;
+  height: 100%;
+  right: -39px;
+  width: 20px;
+  padding: 19% 0;
+  top: 0;
+}
+/* line 411, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.zoomBar .slider {
+  transition: opacity 0.8s;
+  opacity: 0.8;
+  position: relative;
+  height: 100%;
+}
+/* line 416, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.zoomBar .slider .slider-track {
+  width: 6px;
+}
+/* line 419, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.zoomBar .slider .slider-selection {
+  top: 0%;
+  height: 15%;
+  width: 6px;
+  background: #d8dce0;
+}
+/* line 425, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.zoomBar .slider .slider-track-high {
+  bottom: 0px;
+  width: 6px;
+  height: 85%;
+  background: #ffffff;
+}
+/* line 431, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.zoomBar .slider .slider-handle {
+  top: 15%;
+  width: 10px;
+  height: 10px;
+  border: 5px solid #ffffff;
+  padding: 5px;
+  margin-left: -7px;
+  background-color: #9a9fa4;
+  background-image: none;
+}
+/* line 441, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.zoomBar .slider .tooltip {
+  display: none;
+}
+/* line 445, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.zoomBar .slider:hover {
+  opacity: 1;
+}
+/* line 449, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.editor {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: inline-block;
+  transition: width,height 0.5s;
+}
+/* line 455, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.editor img {
+  height: 100%;
+  width: 100%;
+}
+
+/* line 1, ../partials/_webapp-step2-b.scss */
+body.app {
+  /*
+  Step 3
+  */
+}
+/* line 6, ../partials/_webapp-step2-b.scss */
+body.app .step2b {
+  background-color: #f4f7f9;
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 80px);
+  top: 100%;
+  transition: top 0.6s;
+  overflow: hidden;
+  z-index: 3;
+  /*
+  Uploaded Images
+  */
+}
+/* line 17, ../partials/_webapp-step2-b.scss */
+body.app .step2b .step2b-container {
+  margin-top: 2.2%;
+  height: calc(100% - 2.2% - 2.2%);
+  padding: 3.6% 0;
+  background-color: #ffffff;
+  margin-left: 0;
+  margin-right: 0;
+  position: relative;
+  /*-- photoshop style sidebar : start --*/
+  box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
+  /*-- photoshop style sidebar : end --*/
+}
+/* line 30, ../partials/_webapp-step2-b.scss */
+body.app .step2b .collapse-btn {
+  width: 106px;
+  height: 20px;
+  line-height: 0;
+  top: -19px;
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+  border: none;
+  padding: 3px 10px 8px 7px;
+  border-bottom: none;
+  text-align: center;
+  left: 50%;
+  margin-left: -54px;
+  padding-bottom: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-family: Font_Open_Sans_Semibold;
+  box-shadow: 0px -7px 10px 1px rgba(239, 243, 246, 0.9);
+}
+/* line 49, ../partials/_webapp-step2-b.scss */
+body.app .step2b .collapse-btn object, body.app .step2b .collapse-btn img {
+  width: 14px;
+  margin-top: 2px;
+  margin-right: 5px;
+}
+/* line 54, ../partials/_webapp-step2-b.scss */
+body.app .step2b .collapse-btn span {
+  font-size: 14px;
+  padding-left: 5px;
+  letter-spacing: -0.2px;
+}
+/* line 61, ../partials/_webapp-step2-b.scss */
+body.app .step2b div.img {
+  border: 1px solid #ccc;
+  position: relative;
+}
+/* line 66, ../partials/_webapp-step2-b.scss */
+body.app .step2b .expand-icons {
+  background-color: rgba(240, 242, 242, 0.5);
+  position: absolute;
+  height: 42px;
+  bottom: -42px;
+  width: 134px;
+  left: 50%;
+  margin-left: -67px;
+  padding: 12px 12px;
+  transition: bottom 0.2s;
+}
+/* line 76, ../partials/_webapp-step2-b.scss */
+body.app .step2b .expand-icons img {
+  cursor: pointer;
+}
+/* line 79, ../partials/_webapp-step2-b.scss */
+body.app .step2b .expand-icons .copy img {
+  float: left;
+  height: 20px;
+  margin-left: 10px;
+}
+/* line 84, ../partials/_webapp-step2-b.scss */
+body.app .step2b .expand-icons .dustbin img {
+  float: right;
+  height: 20px;
+}
+/* line 97, ../partials/_webapp-step2-b.scss */
+body.app .step2b .padding-right-22px {
+  padding-right: 16px;
+  height: 100%;
+  position: relative;
+}
+/* line 102, ../partials/_webapp-step2-b.scss */
+body.app .step2b .uploaded-images {
+  height: 100%;
+  text-align: left;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: relative;
+  padding: 0 6px 0 22px;
+}
+/* line 110, ../partials/_webapp-step2-b.scss */
+body.app .step2b .uploaded-images div.img {
+  position: relative;
+  display: inline-block;
+  width: 9.6%;
+  height: 133px;
+  border: none;
+  overflow: hidden;
+  text-align: center;
+  margin: 0 8.5px 16px 8.5px;
+  transition: width 0.8s;
+}
+/* line 121, ../partials/_webapp-step2-b.scss */
+body.app .step2b .uploaded-images div.img img {
+  height: 100%;
+}
+/* line 127, ../partials/_webapp-step2-b.scss */
+body.app .step2b .uploaded-images div.img:hover div.expand-icons {
+  position: absolute;
+  height: 42px;
+  bottom: 0;
+  z-index: 2;
+}
+
+/* line 1, ../partials/_webapp-step3.scss */
+body.app {
+  /*
+  Step 3
+  */
+}
+/* line 6, ../partials/_webapp-step3.scss */
+body.app .step3 {
+  margin: 51px;
+  background: white;
+  border-radius: 16px;
+  border: 3px solid #e7ecf1;
+}
+/* line 11, ../partials/_webapp-step3.scss */
+body.app .step3 .header {
+  padding: 10px 20px;
+  border-bottom: 2px solid #e7ecf1;
+  margin: 0;
+}
+/* line 15, ../partials/_webapp-step3.scss */
+body.app .step3 .header .title {
+  color: #65e0e4;
+  font-size: 24px;
+  font-weight: bold;
+}
+/* line 20, ../partials/_webapp-step3.scss */
+body.app .step3 .header span {
+  margin: 0 10px;
+}
+/* line 26, ../partials/_webapp-step3.scss */
+body.app .step3 .header .view-history {
+  color: #7a8188;
+  font-weight: bold;
+}
+/* line 32, ../partials/_webapp-step3.scss */
+body.app .step3 .content .thumbnail {
+  border: none;
+  padding: 40px 0 17px;
+}
+/* line 35, ../partials/_webapp-step3.scss */
+body.app .step3 .content .thumbnail div.img {
+  height: 306px;
+  background: url(/images/image_stack_icon.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+/* line 41, ../partials/_webapp-step3.scss */
+body.app .step3 .content .thumbnail div.img img {
+  position: relative;
+  top: 60px;
+}
+/* line 46, ../partials/_webapp-step3.scss */
+body.app .step3 .content .thumbnail .caption {
+  font-size: 18px;
+  font-weight: bold;
+  color: #9d9d9d;
+}
+/* line 53, ../partials/_webapp-step3.scss */
+body.app .step3 .footer {
+  padding: 17px 10px 46px;
+  border-top: 2px solid #e7ecf1;
+  margin: 0;
+}
+
+@media all and (max-width: 1600px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 2B
+    */
+  }
+}
+@media all and (max-width: 1440px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 1
+    */
+    /*
+    STEP 2B
+    */
+  }
+}
+@media all and (max-width: 1415px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 1
+    */
+    /*
+    STEP 2B
+    */
+  }
+  /* line 46, ../partials/media-queries/_media-queries.scss */
+  body.app .step1 .uploaded-images div.img {
+    width: 23%;
+  }
+  /* line 57, ../partials/media-queries/_media-queries.scss */
+  body.app .step2b .uploaded-images div.img {
+    width: 12.5%;
+  }
+}
+@media all and (max-width: 1320px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 1
+    */
+  }
+}
+@media all and (max-width: 1280px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 1
+    */
+    /*
+    STEP 2B
+    */
+    /*
+    Header
+    */
+  }
+  /* line 81, ../partials/media-queries/_media-queries.scss */
+  body.app .step1 .right-div {
+    margin-left: calc(123px + 16px);
+  }
+  /* line 85, ../partials/media-queries/_media-queries.scss */
+  body.app .step1 .uploaded-images div.img {
+    width: 31%;
+  }
+  /* line 96, ../partials/media-queries/_media-queries.scss */
+  body.app .step2b .uploaded-images div.img {
+    width: 18%;
+  }
+  /* line 112, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .steps .step .description span {
+    font-size: 15px;
+  }
+  /* line 118, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .steps .step-2 hr {
+    width: 140px;
+  }
+  /* line 123, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .steps .step-1 hr {
+    width: 118px;
+  }
+  /* line 128, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .steps .step-3 hr {
+    width: 130px;
+  }
+  /* line 135, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .navbar-right div span.btn-text {
+    font-size: 16px;
+  }
+  /* line 138, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .navbar-right div i {
+    font-size: 15px;
+  }
+}
+@media all and (max-width: 1150px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 2B
+    */
+    /*
+    Header
+    */
+  }
+  /* line 152, ../partials/media-queries/_media-queries.scss */
+  body.app .step2b .uploaded-images div.img {
+    width: 22%;
+  }
+  /* line 168, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .steps .step .description div {
+    padding-top: 12px;
+  }
+  /* line 171, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .steps .step .description span {
+    display: none;
+  }
+  /* line 176, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .steps .step-1, body.app .navbar .steps .step-2, body.app .navbar .steps .step-3 {
+    padding: 0;
+  }
+  /* line 180, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .steps .step-2 hr {
+    width: 80px;
+  }
+  /* line 185, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .steps .step-1 hr {
+    left: 12px;
+    width: 80px;
+  }
+  /* line 191, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .steps .step-3 hr {
+    left: 12px;
+    width: 80px;
+  }
+  /* line 199, ../partials/media-queries/_media-queries.scss */
+  body.app a.navbar-brand img {
+    width: 180px;
+    padding-top: 4px;
+  }
+}
+@media all and (max-width: 1024px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 1
+    */
+    /*
+    STEP 2B
+    */
+    /*
+    Header
+    */
+  }
+  /* line 212, ../partials/media-queries/_media-queries.scss */
+  body.app .step1 .uploaded-images div.img {
+    width: 47%;
+  }
+  /* line 220, ../partials/media-queries/_media-queries.scss */
+  body.app .step2b .step2b-container {
+    margin-top: 2.4%;
+  }
+  /* line 228, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .navbar-right div {
+    margin-left: 4.12%;
+  }
+  /* line 230, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .navbar-right div span.btn-text {
+    display: none;
+  }
+  /* line 233, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar .navbar-right div i {
+    padding-top: 14px;
+  }
+}
+@media all and (max-width: 810px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 1
+    */
+    /*
+    STEP 2B
+    */
+  }
+  /* line 247, ../partials/media-queries/_media-queries.scss */
+  body.app .step1 .jumbotron img {
+    width: 60px;
+    margin: 0;
+  }
+  /* line 251, ../partials/media-queries/_media-queries.scss */
+  body.app .step1 .jumbotron div.description {
+    display: block;
+  }
+  /* line 265, ../partials/media-queries/_media-queries.scss */
+  body.app .step2b .uploaded-images div.img {
+    width: 45%;
+  }
+}
+@media all and (max-width: 767px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 1
+    */
+    /*
+    STEP 2B
+    */
+    /*
+    Header
+     */
+  }
+  /* line 281, ../partials/media-queries/_media-queries.scss */
+  body.app .step1 .uploaded-images {
+    text-align: center;
+  }
+  /* line 283, ../partials/media-queries/_media-queries.scss */
+  body.app .step1 .uploaded-images div.img {
+    width: 90%;
+  }
+  /* line 291, ../partials/media-queries/_media-queries.scss */
+  body.app .step2b .step2b-container {
+    margin-top: 5%;
+  }
+  /* line 297, ../partials/media-queries/_media-queries.scss */
+  body.app .navbar-header {
+    width: 100%;
+    text-align: center;
+  }
+}
+@media all and (max-width: 500px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 2B
+    */
+  }
+  /* line 308, ../partials/media-queries/_media-queries.scss */
+  body.app .step2b .uploaded-images {
+    text-align: center;
+  }
+  /* line 310, ../partials/media-queries/_media-queries.scss */
+  body.app .step2b .uploaded-images div.img {
+    width: 80%;
+  }
+}
+@media all and (max-height: 700px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 1
+    */
+    /*
+    STEP 2
+    */
+  }
+  /* line 329, ../partials/media-queries/_media-queries.scss */
+  body.app .step1 .upload-icons .upload-icon .title {
+    font-size: 11px;
+  }
+  /* line 339, ../partials/media-queries/_media-queries.scss */
+  body.app .action-icons-2 .action-icon {
+    margin-top: 0;
+  }
+}
+@media all and (max-height: 620px) {
+  /* line 3, ../partials/media-queries/_media-queries.scss */
+  body.app {
+    /*
+    STEP 1
+    */
+  }
+  /* line 353, ../partials/media-queries/_media-queries.scss */
+  body.app .step1 .upload-icons .upload-icon .custom-svg-icon object, body.app .step1 .upload-icons .upload-icon .custom-svg-icon img {
+    width: 24%;
+  }
+}
+
+/*
+Not App Style
+*/
+/* line 2, ../partials/others/_others.scss */
+body:not(.app) {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-weight: 300;
   color: #888;
   line-height: 30px;
   text-align: center;
+  background: transparent;
+  /***** Top menu *****/
+  /***** Top content *****/
+  /***** Media queries *****/
+  /* Retina-ize images/icons */
+  /*
+  FORM STYLE
+  */
 }
-
-/* line 11, ../partials/others/others.scss */
-strong {
+/* line 11, ../partials/others/_others.scss */
+body:not(.app) strong {
   font-weight: 500;
 }
-
-/* line 13, ../partials/others/others.scss */
-a, a:hover, a:focus {
+/* line 13, ../partials/others/_others.scss */
+body:not(.app) a, body:not(.app) a:hover, body:not(.app) a:focus {
   color: #19b9e7;
   text-decoration: none;
   -o-transition: all .3s;
@@ -23,56 +2727,48 @@ a, a:hover, a:focus {
   -ms-transition: all .3s;
   transition: all .3s;
 }
-
-/* line 19, ../partials/others/others.scss */
-h1, h2 {
+/* line 19, ../partials/others/_others.scss */
+body:not(.app) h1, body:not(.app) h2 {
   margin-top: 10px;
   font-size: 38px;
   font-weight: 100;
   color: #555;
   line-height: 50px;
 }
-
-/* line 27, ../partials/others/others.scss */
-h3 {
+/* line 27, ../partials/others/_others.scss */
+body:not(.app) h3 {
   font-size: 22px;
   font-weight: 300;
   color: #555;
   line-height: 30px;
 }
-
-/* line 34, ../partials/others/others.scss */
-img {
+/* line 34, ../partials/others/_others.scss */
+body:not(.app) img {
   max-width: 100%;
 }
-
-/* line 36, ../partials/others/others.scss */
-.medium-paragraph {
+/* line 36, ../partials/others/_others.scss */
+body:not(.app) .medium-paragraph {
   font-size: 18px;
   line-height: 32px;
 }
-
-/* line 41, ../partials/others/others.scss */
-.blue {
+/* line 41, ../partials/others/_others.scss */
+body:not(.app) .blue {
   color: #19b9e7;
 }
-
-/* line 43, ../partials/others/others.scss */
-::-moz-selection {
+/* line 43, ../partials/others/_others.scss */
+body:not(.app) ::-moz-selection {
   background: #19b9e7;
   color: #fff;
   text-shadow: none;
 }
-
-/* line 44, ../partials/others/others.scss */
-::selection {
+/* line 44, ../partials/others/_others.scss */
+body:not(.app) ::selection {
   background: #19b9e7;
   color: #fff;
   text-shadow: none;
 }
-
-/* line 47, ../partials/others/others.scss */
-.btn-link-1 {
+/* line 47, ../partials/others/_others.scss */
+body:not(.app) .btn-link-1 {
   display: inline-block;
   height: 50px;
   margin: 0 5px;
@@ -86,16 +2782,14 @@ img {
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-
-/* line 59, ../partials/others/others.scss */
-.btn-link-1:hover, .btn-link-1:focus, .btn-link-1:active {
+/* line 59, ../partials/others/_others.scss */
+body:not(.app) .btn-link-1:hover, body:not(.app) .btn-link-1:focus, body:not(.app) .btn-link-1:active {
   outline: 0;
   opacity: 0.6;
   color: #fff;
 }
-
-/* line 61, ../partials/others/others.scss */
-.btn-link-2 {
+/* line 61, ../partials/others/_others.scss */
+body:not(.app) .btn-link-2 {
   display: inline-block;
   height: 50px;
   margin: 0 5px;
@@ -110,62 +2804,50 @@ img {
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-
-/* line 74, ../partials/others/others.scss */
-.btn-link-2:hover, .btn-link-2:focus,
-.btn-link-2:active, .btn-link-2:active:focus {
+/* line 74, ../partials/others/_others.scss */
+body:not(.app) .btn-link-2:hover, body:not(.app) .btn-link-2:focus,
+body:not(.app) .btn-link-2:active, body:not(.app) .btn-link-2:active:focus {
   outline: 0;
   opacity: 0.6;
   background: rgba(0, 0, 0, 0.3);
   color: #fff;
 }
-
-/***** Top menu *****/
-/***** Top content *****/
-/* line 83, ../partials/others/others.scss */
-.inner-bg {
+/* line 83, ../partials/others/_others.scss */
+body:not(.app) .inner-bg {
   padding: 100px 0 100px 0;
 }
-
-/* line 87, ../partials/others/others.scss */
-.top-content .text {
+/* line 87, ../partials/others/_others.scss */
+body:not(.app) .top-content .text {
   padding-top: 120px;
   color: #fff;
 }
-
-/* line 92, ../partials/others/others.scss */
-.top-content .text h1 {
+/* line 92, ../partials/others/_others.scss */
+body:not(.app) .top-content .text h1 {
   color: #fff;
 }
-
-/* line 94, ../partials/others/others.scss */
-.top-content .description {
+/* line 94, ../partials/others/_others.scss */
+body:not(.app) .top-content .description {
   margin: 20px 0 10px 0;
 }
-
-/* line 98, ../partials/others/others.scss */
-.top-content .description p {
+/* line 98, ../partials/others/_others.scss */
+body:not(.app) .top-content .description p {
   opacity: 0.8;
 }
-
-/* line 100, ../partials/others/others.scss */
-.top-content .description a {
+/* line 100, ../partials/others/_others.scss */
+body:not(.app) .top-content .description a {
   color: #fff;
 }
-
-/* line 103, ../partials/others/others.scss */
-.top-content .description a:hover,
-.top-content .description a:focus {
+/* line 103, ../partials/others/_others.scss */
+body:not(.app) .top-content .description a:hover,
+body:not(.app) .top-content .description a:focus {
   border-bottom: 1px dotted #fff;
 }
-
-/* line 106, ../partials/others/others.scss */
-.top-content .top-big-link {
+/* line 106, ../partials/others/_others.scss */
+body:not(.app) .top-content .top-big-link {
   margin-top: 35px;
 }
-
-/* line 110, ../partials/others/others.scss */
-.form-top {
+/* line 110, ../partials/others/_others.scss */
+body:not(.app) .form-top {
   overflow: hidden;
   padding: 0 25px 15px 25px;
   background: #fff;
@@ -174,21 +2856,18 @@ img {
   border-radius: 4px 4px 0 0;
   text-align: left;
 }
-
-/* line 118, ../partials/others/others.scss */
-.form-top-left {
+/* line 118, ../partials/others/_others.scss */
+body:not(.app) .form-top-left {
   float: left;
   width: 75%;
   padding-top: 25px;
 }
-
-/* line 124, ../partials/others/others.scss */
-.form-top-left h3 {
+/* line 124, ../partials/others/_others.scss */
+body:not(.app) .form-top-left h3 {
   margin-top: 0;
 }
-
-/* line 126, ../partials/others/others.scss */
-.form-top-right {
+/* line 126, ../partials/others/_others.scss */
+body:not(.app) .form-top-right {
   float: left;
   width: 25%;
   padding-top: 5px;
@@ -197,9 +2876,8 @@ img {
   line-height: 100px;
   text-align: right;
 }
-
-/* line 136, ../partials/others/others.scss */
-.form-bottom {
+/* line 136, ../partials/others/_others.scss */
+body:not(.app) .form-bottom {
   padding: 25px 25px 30px 25px;
   background: #eee;
   -moz-border-radius: 0 0 4px 4px;
@@ -209,88 +2887,76 @@ img {
   height: auto;
   overflow: hidden;
 }
-/* line 143, ../partials/others/others.scss */
-.form-bottom .btn {
+/* line 143, ../partials/others/_others.scss */
+body:not(.app) .form-bottom .btn {
   margin-top: 5px;
 }
-
-/* line 148, ../partials/others/others.scss */
-.form-bottom form textarea {
+/* line 148, ../partials/others/_others.scss */
+body:not(.app) .form-bottom form textarea {
   height: 100px;
 }
-
-/* line 152, ../partials/others/others.scss */
-.form-bottom form .input-error {
+/* line 152, ../partials/others/_others.scss */
+body:not(.app) .form-bottom form .input-error {
   border-color: #19b9e7;
 }
-
-/***** Media queries *****/
 @media (max-width: 767px) {
-  /* line 165, ../partials/others/others.scss */
-  .navbar {
+  /* line 165, ../partials/others/_others.scss */
+  body:not(.app) .navbar {
     padding-top: 0;
   }
-
-  /* line 167, ../partials/others/others.scss */
-  .navbar-brand {
+  /* line 167, ../partials/others/_others.scss */
+  body:not(.app) .navbar-brand {
     height: 60px;
     margin-left: 15px;
   }
-
-  /* line 168, ../partials/others/others.scss */
-  .navbar-collapse {
+  /* line 168, ../partials/others/_others.scss */
+  body:not(.app) .navbar-collapse {
     border: 0;
   }
-
-  /* line 169, ../partials/others/others.scss */
-  .navbar-toggle {
+  /* line 169, ../partials/others/_others.scss */
+  body:not(.app) .navbar-toggle {
     margin-top: 12px;
   }
-
-  /* line 171, ../partials/others/others.scss */
-  .inner-bg {
+  /* line 171, ../partials/others/_others.scss */
+  body:not(.app) .inner-bg {
     padding: 60px 0 110px 0;
   }
-
-  /* line 172, ../partials/others/others.scss */
-  .top-content .text {
+  /* line 172, ../partials/others/_others.scss */
+  body:not(.app) .top-content .text {
     padding-top: 0;
     padding-bottom: 60px;
   }
-
-  /* line 173, ../partials/others/others.scss */
-  .top-content .top-big-link {
+  /* line 173, ../partials/others/_others.scss */
+  body:not(.app) .top-content .top-big-link {
     margin-top: 25px;
   }
-
-  /* line 174, ../partials/others/others.scss */
-  .top-content .top-big-link a.btn {
+  /* line 174, ../partials/others/_others.scss */
+  body:not(.app) .top-content .top-big-link a.btn {
     margin-top: 10px;
   }
 }
 @media (max-width: 415px) {
-  /* line 180, ../partials/others/others.scss */
-  h1, h2 {
+  /* line 180, ../partials/others/_others.scss */
+  body:not(.app) h1, body:not(.app) h2 {
     font-size: 32px;
   }
 }
-/* Retina-ize images/icons */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-  /* logo */
-  /* line 196, ../partials/others/others.scss */
-  .navbar-brand {
+  /* line 2, ../partials/others/_others.scss */
+  body:not(.app) {
+    /* logo */
+  }
+  /* line 196, ../partials/others/_others.scss */
+  body:not(.app) .navbar-brand {
     background-image: url(../img/logo@2x.png) !important;
     background-repeat: no-repeat !important;
     background-size: 123px 49px !important;
   }
 }
-/*
-FORM STYLE
-*/
-/* line 211, ../partials/others/others.scss */
-input[type="text"], input[type="email"], input[type="password"],
-textarea,
-textarea.form-control {
+/* line 211, ../partials/others/_others.scss */
+body:not(.app) input[type="text"], body:not(.app) input[type="email"], body:not(.app) input[type="password"],
+body:not(.app) textarea,
+body:not(.app) textarea.form-control {
   height: 50px;
   margin: 0;
   padding: 0 20px;
@@ -314,19 +2980,17 @@ textarea.form-control {
   -ms-transition: all .3s;
   transition: all .3s;
 }
-
-/* line 230, ../partials/others/others.scss */
-textarea,
-textarea.form-control {
+/* line 230, ../partials/others/_others.scss */
+body:not(.app) textarea,
+body:not(.app) textarea.form-control {
   padding-top: 10px;
   padding-bottom: 10px;
   line-height: 30px;
 }
-
-/* line 237, ../partials/others/others.scss */
-input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
-textarea:focus,
-textarea.form-control:focus {
+/* line 237, ../partials/others/_others.scss */
+body:not(.app) input[type="text"]:focus, body:not(.app) input[type="email"]:focus, body:not(.app) input[type="password"]:focus,
+body:not(.app) textarea:focus,
+body:not(.app) textarea.form-control:focus {
   outline: 0;
   background: #fff;
   border: 3px solid #ccc;
@@ -334,24 +2998,20 @@ textarea.form-control:focus {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-
-/* line 246, ../partials/others/others.scss */
-input[type="text"]:-moz-placeholder, textarea:-moz-placeholder, textarea.form-control:-moz-placeholder {
+/* line 246, ../partials/others/_others.scss */
+body:not(.app) input[type="text"]:-moz-placeholder, body:not(.app) textarea:-moz-placeholder, body:not(.app) textarea.form-control:-moz-placeholder {
   color: #888;
 }
-
-/* line 247, ../partials/others/others.scss */
-input[type="text"]:-ms-input-placeholder, textarea:-ms-input-placeholder, textarea.form-control:-ms-input-placeholder {
+/* line 247, ../partials/others/_others.scss */
+body:not(.app) input[type="text"]:-ms-input-placeholder, body:not(.app) textarea:-ms-input-placeholder, body:not(.app) textarea.form-control:-ms-input-placeholder {
   color: #888;
 }
-
-/* line 248, ../partials/others/others.scss */
-input[type="text"]::-webkit-input-placeholder, textarea::-webkit-input-placeholder, textarea.form-control::-webkit-input-placeholder {
+/* line 248, ../partials/others/_others.scss */
+body:not(.app) input[type="text"]::-webkit-input-placeholder, body:not(.app) textarea::-webkit-input-placeholder, body:not(.app) textarea.form-control::-webkit-input-placeholder {
   color: #888;
 }
-
-/* line 252, ../partials/others/others.scss */
-button.btn {
+/* line 252, ../partials/others/_others.scss */
+body:not(.app) button.btn {
   height: 50px;
   margin: 0;
   padding: 0 20px;
@@ -376,15 +3036,13 @@ button.btn {
   -ms-transition: all .3s;
   transition: all .3s;
 }
-
-/* line 270, ../partials/others/others.scss */
-button.btn:hover {
+/* line 270, ../partials/others/_others.scss */
+body:not(.app) button.btn:hover {
   opacity: 0.6;
   color: #fff;
 }
-
-/* line 272, ../partials/others/others.scss */
-button.btn:active {
+/* line 272, ../partials/others/_others.scss */
+body:not(.app) button.btn:active {
   outline: 0;
   opacity: 0.6;
   color: #fff;
@@ -392,24 +3050,22 @@ button.btn:active {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-
-/* line 274, ../partials/others/others.scss */
-button.btn:focus {
+/* line 274, ../partials/others/_others.scss */
+body:not(.app) button.btn:focus {
+  outline: 0;
+  opacity: 0.6;
+  background: #19b9e7;
+  color: #fff;
+}
+/* line 276, ../partials/others/_others.scss */
+body:not(.app) button.btn:active:focus, body:not(.app) button.btn.active:focus {
   outline: 0;
   opacity: 0.6;
   background: #19b9e7;
   color: #fff;
 }
 
-/* line 276, ../partials/others/others.scss */
-button.btn:active:focus, button.btn.active:focus {
-  outline: 0;
-  opacity: 0.6;
-  background: #19b9e7;
-  color: #fff;
-}
-
-/* line 2, ../partials/dashboard.scss */
-.dashboard nav {
+/* line 4, ../partials/_dashboard.scss */
+body.app .dashboard nav {
   color: white !important;
 }

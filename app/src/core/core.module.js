@@ -11,9 +11,11 @@
   angular.module('app.core', [
     'ui.router',
     'restangular',
+    'ngAnimate',
     'ngStorage',
     'ngMessages',
-    'satellizer'
+    'satellizer',
+    'ngFileUpload'
   ])
     .run(function(){
 

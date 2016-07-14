@@ -16,7 +16,7 @@
   function restFactory(Restangular, $localStorage){
 
     /* Rest Objects */
-    var User = Restangular.all('user');
+    var Users = Restangular.all('users');
     var Auth = Restangular.all('auth');
     var Photos = Restangular.all('photos');
 
@@ -28,13 +28,16 @@
         getAuthenticatedUser: getAuthenticatedUser,
         forgotEmailSend: forgotEmailSend
       },
-      user: {
+      users: {
         create: createUser,
         read: readUser,
         update: updateUser,
-        remove: removeUser
+        remove: removeUser,
+        activeSocialProfiles: activeSocialProfiles,
+        socialDetails: socialDetails
       },
       photos: {
+        getPhotos: getPhotos,
         getSocialPhotos: getSocialPhotos
       }
     };
@@ -73,8 +76,20 @@
       //
     }
 
+    function getPhotos(data){
+      return Restangular.one('photos').get(data);
+    }
+
     function getSocialPhotos(data){
-      return Photos.one('getSocialPhotos').post(null, {provider: 'facebook'}, {}, {token: $localStorage.token})
+      //return Photos.one('getSocialPhotos').post(null, {provider: 'facebook'}, {}, {token: $localStorage.token})
+    }
+
+    function activeSocialProfiles(){
+      return Users.one('social').one('active').get();
+    }
+
+    function socialDetails(data){
+      return Users.one('social').one('details').get(data);
     }
 
   }

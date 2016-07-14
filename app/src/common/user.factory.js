@@ -21,7 +21,10 @@
       createUserInLocal: createUserInLocal,
       getUserFromLocal: getUserFromLocal,
       updateUserInLocal: updateUserInLocal,
-      removeUserFromLocal: removeUserFromLocal
+      removeUserFromLocal: removeUserFromLocal,
+      activeSocialProfilesFromServer: activeSocialProfilesFromServer,
+      activeSocialProfiles: activeSocialProfiles,
+      socialDetails: socialDetails
     };
 
 
@@ -57,17 +60,14 @@
     }
 
     function createUserInLocal(user) {
-      //
       $rootScope.user = user;
     }
 
-    function getUserFromLocal() {
-      //
+    function getUserFromLocal(){
       return $rootScope.user || null;
     }
 
     function updateUserInLocal (user){
-      //
       for(var obj in user){
         if(user.hasOwnProperty(obj)){
           $rootScope.user[obj] = user[obj];
@@ -76,9 +76,61 @@
     }
 
     function removeUserFromLocal() {
-      //
       delete $rootScope.user;
     }
+
+    // get activeSocialProfiles
+    function activeSocialProfilesFromServer(){
+      var deffered = $q.defer();
+      restFactory.users.activeSocialProfiles()
+        .then(function(resp){
+          console.log(resp);
+          if(resp.success){
+            // if no social profile
+            if(!resp.data){
+              resp.data = [];
+            }
+            updateUserInLocal({activeSocialProfiles: resp.data});
+            deffered.resolve(resp.data);
+          }
+          else{
+            // TODO
+            deffered.reject(resp);
+          }
+        }, function(err){
+          deffered.reject(err);
+        });
+      return deffered.promise;
+    }
+
+    // get getActiveSocialProfilesFromFactory
+    function activeSocialProfiles(){
+      if($rootScope.user.activeSocialProfiles){
+        return $rootScope.user.activeSocialProfiles;
+      }
+      else{
+        return [];
+      }
+    }
+
+    // get socialDetails
+    function socialDetails(){
+      var deffered = $q.defer();
+      restFactory.users.socialDetails()
+        .then(function(resp){
+          if(resp.success){
+            deffered.resolve(resp.data);
+          }
+          else{
+            // TODO
+            deffered.reject(resp);
+          }
+        }, function(err){
+          deffered.reject(err);
+        });
+      return deffered.promise;
+    }
+
 
   }
 

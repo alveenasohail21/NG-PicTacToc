@@ -10,7 +10,7 @@
     .module('app.auth')
     .factory('authFactory', authFactory);
 
-  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state, $timeout, Restangular, restFactory){
+  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state, $timeout, Restangular, restFactory, $rootScope, pttFBFactory){
 
 
     /*  */
@@ -35,7 +35,7 @@
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             $auth.removeToken();
             $localStorage.token = resp.data.token;
-            Restangular.setDefaultHeaders({'token': $localStorage.token});
+            Restangular.setDefaultHeaders({'token': 'Bearer {'+ $localStorage.token +'}'});
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
             $timeout(function(){
@@ -64,7 +64,7 @@
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             $auth.removeToken();
             $localStorage.token = resp.data.token;
-            Restangular.setDefaultHeaders({'token': $localStorage.token});
+            Restangular.setDefaultHeaders({'token': 'Bearer {'+ $localStorage.token +'}'});
             userFactory.createUserInLocal(resp.data.data);
             alertFactory.success(null,resp.data.message);
             $timeout(function(){
@@ -95,13 +95,27 @@
             //$auth.removeToken();
             //$localStorage.$reset();
             localStorage.setItem('ptt_token','"'+resp.data.token+'"');
+            // user signup through social provider
             if(!userFactory.getUserFromLocal()){
-
               console.log(resp.data.data);
               userFactory.createUserInLocal(resp.data.data);
               $timeout(function(){
                 $state.go('Dashboard');
               },1500);
+            }
+            // user linked social platform
+            else{
+              if($rootScope.user['activeSocialProfiles']){
+                $rootScope.user['activeSocialProfiles'].push(provider);
+              }
+              else{
+                $rootScope.user['activeSocialProfiles'] = [provider];
+              }
+              // save social data in respective factory
+              switch(provider){
+                case 'facebook':
+                  pttFBFactory.saveAuth(resp.data.data);
+              }
             }
           }
           else{

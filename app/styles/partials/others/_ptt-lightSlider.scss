@@ -1,0 +1,202 @@
+body.app{
+
+  .ptt-lightSlider{
+    height: 166px;
+    width: 100%;
+    background-color: #fff;
+    position: absolute;
+    z-index: 3;
+    bottom: 0;
+    padding: 16px 58px;
+    /*-- photoshop style filmstrip : start --*/
+    box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
+    /*-- photoshop style filmstrip : end --*/
+    #step2-lightSlider{
+      height: 134px !important;
+      li, li img{
+        height: 100%;
+      }
+      li img{
+        //width: 100%;
+      }
+      li{
+        //margin-right: 11px !important;
+        text-align: center;
+        //overflow: hidden;
+      }
+      li.active{
+        //padding: 2px;
+        //border: 2px solid $thumbnail-border-color;
+      }
+      .lsPrev{
+        object{
+
+        }
+      }
+      .lsNext{
+        object{
+
+        }
+      }
+    }
+    .custom-svg-icon.left-arrow{
+      position: absolute;
+      left: 19px;
+      top: 0;
+      height: 100%;
+      width: 20px;
+      .object-backdrop{
+        position: absolute;
+        top: 0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+      }
+    }
+    .custom-svg-icon.right-arrow{
+      position: absolute;
+      right: 19px;
+      top: 0;
+      height: 100%;
+      width: 20px;
+      .object-backdrop{
+        position: absolute;
+        top: 0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+      }
+    }
+    .gray-left-arrow{
+      position: absolute;
+      width: 20px;
+      top: 69px;
+    }
+    .gray-right-arrow{
+      position: absolute;
+      width: 20px;
+      top: 69px;
+    }
+    .thumbs-collapse-btn{
+      height: 23px;
+      line-height: 0;
+      top: -22px;
+      position: absolute;
+      background-color: white;
+      z-index: 2;
+      //border: 3px solid #e7ecf1;
+      border: none;
+      padding: 8px 10px 8px 14px;
+      border-bottom: none;
+      text-align: center;
+      left: 50%;
+      margin-left: -77px;
+      padding-bottom: 0;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      font-family: Font_Open_Sans_Semibold;
+      /*-- photoshop style filmstrip : start --*/
+      box-shadow: 0px -7px 10px -4px rgba(239, 243, 246, 0.9);
+      /*-- photoshop style filmstrip : end --*/
+      object, img{
+        width: 16px;
+      }
+      span{
+        font-size: 14px;
+        padding-left: 5px;
+        letter-spacing: -0.2px;
+      }
+    }
+  }
+
+  .ptt-lightSlider.step1-lightSlider {
+    #step1-lightSlider{
+      height: 134px !important;
+      li, li img{
+        height: 100%;
+      }
+      li img{
+
+      }
+      li{
+        text-align: center;
+        //margin-right: 11px !important;
+        overflow: hidden;
+        position: relative;
+        img.white-cross{
+          position: absolute;
+          width: 15px;
+          height: 15px;
+          top: 8px;
+          z-index: 3;
+          cursor: pointer;
+          left: 50%;
+          margin-left: 44px;
+        }
+      }
+      li.active{
+        //padding: 2px;
+        //border: 2px solid $thumbnail-border-color;
+      }
+    }
+    .custom-svg-icon.left-arrow{
+      position: absolute;
+      left: 19px;
+      top: 0;
+      height: 100%;
+      width: 20px;
+      .object-backdrop{
+        position: absolute;
+        top: 0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+      }
+    }
+    .custom-svg-icon.right-arrow{
+      position: absolute;
+      right: 19px;
+      top: 0;
+      height: 100%;
+      width: 20px;
+      .object-backdrop{
+        position: absolute;
+        top: 0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+      }
+    }
+    .gray-left-arrow{
+      position: absolute;
+      width: 20px;
+      top: 69px;
+    }
+    .gray-right-arrow{
+      position: absolute;
+      width: 20px;
+      top: 69px;
+    }
+    .thumbs-collapse-btn {
+      padding: 13px 15px 8px 16px;
+      border-bottom: none;
+      margin-left: -62px;
+      padding-bottom: 0;
+      span{
+        padding:0;
+      }
+    }
+  }
+  //position: absolute;
+  //width: 30px;
+  //height: 30px;
+  //top: 0;
+  //right: 0;
+  //z-index: 3;
+  //background: white;
+
+}

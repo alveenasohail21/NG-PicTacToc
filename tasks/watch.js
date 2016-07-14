@@ -7,7 +7,8 @@ module.exports = {
   },
   js: {
     files:[
-      'src/{,*/}/*.js'
+      'src/{,*/}/*.js',
+      'src/{,*/}/{,*/}/*.js'
     ],
     tasks: watchTasks
   },
@@ -15,6 +16,7 @@ module.exports = {
     files:[
       '*.html',
       'src/{,*/}/*.html',
+      'src/{,*/}/{,*/}/*.html'
     ],
     tasks: watchTasks
   },

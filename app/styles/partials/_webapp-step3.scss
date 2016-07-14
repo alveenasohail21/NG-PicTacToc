@@ -1,0 +1,60 @@
+body.app{
+
+  /*
+  Step 3
+  */
+  .step3{
+    margin: 51px;
+    background: white;
+    border-radius: 16px;
+    border: 3px solid $border-color;
+    .header{
+      padding: 10px 20px;
+      border-bottom: 2px solid $border-color;
+      margin: 0;
+      .title{
+        color: $btn-bkg-color;
+        font-size: 24px;
+        font-weight:bold;
+      }
+      span{
+        margin: 0 10px;
+      }
+      .edit-order{
+
+      }
+      .view-history{
+        color: $view-history-color;
+        font-weight: bold;
+      }
+    }
+    .content{
+      .thumbnail{
+        border: none;
+        padding: 40px 0 17px;
+        div.img{
+          height: 306px;
+          background: url(/images/image_stack_icon.png);
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center;
+          img{
+            position: relative;
+            top: 60px;
+          }
+        }
+        .caption{
+          font-size: 18px;
+          font-weight: bold;
+          color:$image-stack-text-color;
+        }
+      }
+    }
+    .footer{
+      padding: 17px 10px 46px;
+      border-top: 2px solid #e7ecf1;
+      margin: 0;
+    }
+  }
+
+}

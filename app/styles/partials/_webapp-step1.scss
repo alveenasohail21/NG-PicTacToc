@@ -1,0 +1,334 @@
+body.app{
+
+  /*
+  Step 2
+  */
+  .step1{
+    //margin: 18px 19%;
+    //padding: 0 8px;
+    background-color: #f4f7f9;
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 80px - 166px);
+    top: 80px;
+    padding: 1.5% 18.64% 2.598%;
+    .row{
+      margin:0;
+      height: 100%;
+    }
+    .sub-content{
+      //border: 3px solid $border-color;
+    }
+    .left-div{
+      height: 100%;
+      float: left;
+      width: 13.7%;
+      min-width: 123px;
+      overflow: hidden;
+      //overflow-y: auto;
+      border-radius: 12px;
+      background-color: rgb(255, 255, 255);
+      box-shadow: 0px 0px 10px 4px rgba(239, 243, 246, 0.9);
+      padding: 15px 10px;
+      position: relative;
+    }
+    .right-div{
+      height: 100%;
+      width: calc(100% - 13.7% - 10px);
+      margin-left: calc(13.7% + 16px);
+      background-color: white;
+      box-shadow: 0px 0px 10px 4px rgba(239, 243, 246, 0.9);
+      border-radius: 12px;
+      padding: 19px 16px 30px 22px;
+    }
+
+    /*
+    Jumbotron
+    */
+    .jumbotron{
+      margin: 0;
+      padding: 30px 0;
+      background-color: $body-bkg-color;
+      border-width: 1.119px;
+      border-color: rgb(224, 229, 234);
+      border-style: dashed;
+      border-radius: 12px;
+      margin-left: 4px;
+      img{
+        width: 60px;
+        margin: -40px 20px 0 -24px;
+      }
+      div.description{
+        display: inline-block;
+        .title{
+          font-family: Font_Open_Sans_Semibold;
+          font-size: 26px;
+          margin-top: -3px;
+        }
+        .details{
+          font-family: Font_Open_Sans_Regular;
+          font-size: 18px;
+          margin-top: 1px;
+        }
+      }
+      .device{
+        div.description{
+          .title{
+            margin-top: -5px;
+          }
+          .details{
+          }
+        }
+      }
+      div.fb-login-div{
+        padding: 18px 0;
+      }
+      a.fb-login{
+        background-color: $fb-blue-color;
+        font-family: Font_Open_Sans_Semibold;
+        color: white;
+        padding: 18px 46px;
+        border-radius: 4px;
+        position: relative;
+        margin-left: 8px;
+        cursor: pointer;
+        i.fa{
+          position: absolute;
+          top: 13px;
+          left: 12px;
+          font-size: 32px;
+        }
+        span.text{
+          padding-left: 12px;
+        }
+      }
+      a.fb-login:hover{
+        color: rgba(255,255,255,0.9);
+      }
+    }
+
+    /*
+    Uploaded Images
+    */
+    .uploaded-images{
+      height: calc(100% - 19px - 123px);
+      padding: 0 0 0 4px;
+      text-align: left;
+      overflow: hidden;
+      overflow-y: auto;
+      position: relative;
+      margin-top: 17px;
+      div.img{
+        position: relative;
+        display: inline-block;
+        width: 18.6%;
+        height: 133px;
+        cursor: pointer;
+        overflow: hidden;
+        text-align: center;
+        /* padding: 0px 5px 0 0px; */
+        margin-bottom: 10px;
+        margin-right: 6px;
+        .progress{
+          position: absolute;
+          width: 108px;
+          height: 6px;
+          bottom: -10px;
+          left: 50%;
+          margin-left: -54px;
+          background: $progress-bar-bkg-color;
+        }
+        .progress-bar{
+          background: $progress-bar-color;
+        }
+        .custom-svg-icon{
+          position: absolute;
+          width: 46px;
+          height: 46px;
+          top: 50%;
+          margin-top: -23px;
+          z-index: 2;
+          left: 50%;
+          margin-left: -23px;
+          /* background: white; */
+          text-align: center;
+          border-style: solid;
+          border-width: 1px;
+          border-color: #e7ecf0;
+          border-radius: 50%;
+          padding: 8px;
+          background-color: white;
+          opacity: 0.7;
+          transition: opacity 0.8s;
+        }
+
+      }
+      div.img:hover .custom-svg-icon{
+        opacity: 1;
+      }
+      div.img.add-all-photos{
+        border-width: 1.119px;
+        border-color: rgb(224, 229, 234);
+        border-style: dashed;
+        border-radius: 12px;
+        background-color: rgb(244, 247, 249);
+      }
+      img{
+        height: 100%;
+      }
+    }
+
+    /*
+    Upload Icons
+    */
+    .upload-icons{
+      height: 100%;
+      .upload-icon{
+        height: 20%;
+        //min-height: 89px;
+        text-align: center;
+        cursor: pointer;
+        margin-bottom: 3px;
+        .custom-svg-icon{
+          position: relative;
+          img, object{
+            width: 32%;
+          }
+          .object-backdrop{
+            position: absolute;
+            top: 0;
+            left:0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+          }
+        }
+        .title{
+          font-family: Font_Open_Sans_Semibold;
+          color: $body-text-color;
+          margin-top: 1px;
+          letter-spacing: 0px;
+          word-spacing: 0px;
+          font-size: 13px;
+        }
+      }
+      .upload-icon.active{
+        .title{
+          color: $header-current-step-color;
+        }
+      }
+      .upload-icon:last-child{
+        margin-bottom: 0;
+      }
+    }
+
+    /*
+    FB Albums
+    */
+    .fb-albums{
+      overflow: hidden;
+      height: calc(100% - 123px - 20px);
+      overflow-y: auto;
+      margin-top: 20px;
+      .row{
+        height: auto;
+        .col-sm-4{
+          margin: 0;
+          padding: 0;
+          padding-top: 50px;
+          min-height: 220px;
+          p{
+            margin: 0;
+            bottom: 0;
+            position: absolute;
+            width: 100%;
+            color: #9d9d9d;
+            font-size: 12px;
+            font-family: Font_Open_Sans_Bold;
+            margin-bottom: -5px;
+          }
+          div.square{
+            width: 134px;
+            height: 134px;
+            border-style: solid;
+            border-width: 1px;
+            border-color: rgba(0, 0, 0, 0.18);
+            background-color: #f9f9f9;
+            //opacity: 0.18;
+            position: absolute;
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.8s;
+            left: 50%;
+            margin-left: -69px;
+            img{
+              height: 100%;
+            }
+          }
+          div.square:nth-child(1){
+            transform: rotate(-19deg);
+          }
+          div.square:nth-child(2){
+            transform: rotate(-15deg);
+          }
+          div.square:nth-child(3){
+            transform: rotate(-10deg);
+          }
+          div.square:nth-child(4){
+          }
+        }
+        // Animation
+        div.col-sm-4:hover div.square:nth-child(1){
+          transform: rotate(0deg);
+        }
+        div.col-sm-4:hover div.square:nth-child(2){
+          transform: rotate(0deg);
+        }
+        div.col-sm-4:hover div.square:nth-child(3){
+          transform: rotate(0deg);
+        }
+        ///*
+        // child 1
+        //*/
+        //div.col-sm-4:nth-child(1):hover div.square:nth-child(1){
+        //  transform: rotate(0deg);
+        //}
+        //div.col-sm-4:nth-child(1):hover div.square:nth-child(2){
+        //  transform: rotate(0deg);
+        //}
+        //div.col-sm-4:nth-child(1):hover div.square:nth-child(3){
+        //  transform: rotate(0deg);
+        //}
+        //      /*
+        // child 2
+        //*/
+        //      div.col-sm-4:nth-child(2):hover div.square:nth-child(1){
+        //        transform: rotate(19deg);
+        //      }
+        //      div.col-sm-4:nth-child(2):hover div.square:nth-child(2){
+        //        transform: rotate(15deg);
+        //      }
+        //      div.col-sm-4:nth-child(2):hover div.square:nth-child(3){
+        //        transform: rotate(10deg);
+        //      }
+        //      /*
+        // child 3
+        //*/
+        //      div.col-sm-4:nth-child(3):hover div.square:nth-child(1){
+        //        transform: rotate(-28deg);
+        //      }
+        //      div.col-sm-4:nth-child(3):hover div.square:nth-child(2){
+        //        transform: rotate(-24deg);
+        //      }
+        //      div.col-sm-4:nth-child(3):hover div.square:nth-child(3){
+        //        transform: rotate(-20deg);
+        //      }
+        //      div.col-sm-4:nth-child(3):hover div.square:nth-child(4){
+        //        transform: rotate(-3deg);
+        //      }
+      }
+    }
+
+  }
+
+}

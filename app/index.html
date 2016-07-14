@@ -2,24 +2,28 @@
 <html ng-app="app">
 <head lang="en">
     <meta charset="UTF-8">
-    <title ng-bind="pageTitle"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title ng-bind="$root.pageTitle"></title>
     <!-- build:css styles/main.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.css" />
+    <link rel="stylesheet" href="bower_components/jScrollPane/style/jquery.jscrollpane.css" />
+    <link rel="stylesheet" href="bower_components/lightslider/dist/css/lightslider.min.css" />
     <!-- endbower -->
     <link rel="stylesheet" href="styles/css/main.css"/>
     <!-- endbuild -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
 </head>
 
-<body class="container" ng-cloak>
-<button onclick="myFacebookLogin()">Login with Facebook</button>
+<body class=" scroll-pane" ng-cloak ng-class="{'app': $root.app.isActive}">
 
-<div ui-view></div>
+<div ui-view class="view-animate" style="height: 100%;"></div>
 
 <!-- Alert Message -->
-<div class="alert alert-dismissible" ng-class="alert.class" role="alert" ng-if="alert.show" style="position:fixed; top:10px; right:10px; z-index: 99999999;">
+<div class="alert alert-dismissible" ng-class="$root.alert.class" role="alert" ng-if="$root.alert.show" style="position:fixed; top:10px; right:10px; z-index: 99999999;">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>{{alert.title}}</strong> {{alert.message}}
+    <strong>{{$root.alert.title}}</strong> {{$root.alert.message}}
 </div>
 
 </body>
@@ -40,29 +44,52 @@
 <script src="bower_components/satellizer/satellizer.js"></script>
 <script src="bower_components/jquery-backstretch/jquery.backstretch.js"></script>
 <script src="bower_components/placeholders/dist/placeholders.js"></script>
-<script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+<script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+<script src="bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.js"></script>
+<script src="bower_components/jScrollPane/script/jquery.mousewheel.js"></script>
+<script src="bower_components/jScrollPane/script/mwheelIntent.js"></script>
+<script src="bower_components/jScrollPane/script/jquery.jscrollpane.js"></script>
+<script src="bower_components/jScrollPane/script/jquery.jscrollpane.min.js"></script>
+<script src="bower_components/lightslider/dist/js/lightslider.min.js"></script>
+<script src="bower_components/ng-lodash/build/ng-lodash.js"></script>
 <!-- endbower -->
+
+
+<!-- stored libraries -->
+<script src="scripts/snapGallery.js"></script>
+<script src="scripts/queue.js"></script>
+
+<!-- modules -->
 <script src="src/core/core.module.js"></script>
 <script src="src/common/common.module.js"></script>
 <script src="src/auth/auth.module.js"></script>
 <script src="src/layouts/layouts.module.js"></script>
 <script src="src/dashboard/dashboard.module.js"></script>
 <script src="src/app.module.js"></script>
+<!-- configs -->
 <script src="src/core/restangular.config.js"></script>
 <script src="src/core/router.config.js"></script>
 <script src="src/core/localStorage.config.js"></script>
 <script src="src/core/satellizer.config.js"></script>
 <script src="src/core/httpStatus.constant.js"></script>
 <script src="src/core/core.contants.js"></script>
-<script src="src/auth/auth.controller.js"></script>
+<!-- factories -->
 <script src="src/auth/auth.factory.js"></script>
 <script src="src/common/alert.factory.js"></script>
 <script src="src/common/rest.factory.js"></script>
 <script src="src/common/user.factory.js"></script>
+<script src="src/common/photos.factory.js"></script>
+<script src="src/common/pttFB.factory.js"></script>
+<!-- directives -->
+<script src="src/common/compareTo.directive.js"></script>
+<!-- controllers -->
+<script src="src/auth/auth.controller.js"></script>
+<script src="src/layouts/appheader.controller.js"></script>
 <script src="src/dashboard/dashboard.controller.js"></script>
 <script src="src/dashboard/dashboard.factory.js"></script>
-<script src="src/layouts/appheader.controller.js"></script>
-<script src="src/common/compareTo.directive.js"></script>
+<script src="src/dashboard/upload/webapp-step1.controller.js"></script>
+<script src="src/dashboard/prints/webapp-step2.controller.js"></script>
+<script src="src/dashboard/cart/webapp-step3.controller.js"></script>
 <!-- endbuild -->
 
 <script>

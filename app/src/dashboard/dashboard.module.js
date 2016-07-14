@@ -10,7 +10,18 @@
 
   angular
     .module('app.dashboard', [])
-    .config(configuration);
+    .config(configuration)
+    .run(run);
+
+  /* @ngInject */
+  function run($rootScope){
+    // setup the app
+    $rootScope.app = {
+      isActive: false,     // will be active through router.config.js
+      productState: '',
+      productTitle: ''
+    };
+  }
 
   /* @ngInject */
   function configuration($stateProvider){
@@ -49,8 +60,70 @@
           footer: true,
           views: {
             "content@Dashboard": {
-              templateUrl:'src/dashboard/prints.html',
+              templateUrl:'src/dashboard/prints/prints.html',
               controller: 'dashboardCtrl as vm'
+            }
+          }
+        }
+      )
+      .state('Dashboard.Prints.Upload',{
+          url:'/upload',
+          title: "Uploads - Pictaktoe",
+          contentClass: "prints",
+          header: true,
+          footer: true,
+          resolve: {
+            r_photos: function(photosFactory){
+              return photosFactory.getPhotos()
+                .then(function(resp){
+                  return resp;
+                })
+            },
+            r_activeSocialProfiles: function(userFactory, $rootScope){
+              if($rootScope.user.activeSocialProfiles){
+                return $rootScope.user.activeSocialProfiles;
+              }
+              else{
+                return userFactory.activeSocialProfilesFromServer()
+                  .then(function(resp){
+                    console.log(resp);
+                    return resp;
+                  })
+              }
+            }
+          },
+          views: {
+            "@": {
+              templateUrl:'src/dashboard/upload/webapp-step1.html',
+              controller: 'webappStep1Ctrl as vm'
+            }
+          }
+        }
+      )
+      .state('Dashboard.Prints.Design',{
+          url:'/design',
+          title: "Design Product - Prints",
+          contentClass: "prints",
+          header: true,
+          footer: true,
+          views: {
+            "@": {
+              templateUrl:'src/dashboard/prints/webapp-step2.html',
+              controller: 'webappStep2Ctrl as vm'
+            }
+          }
+        }
+      )
+      .state('Dashboard.Prints.Checkout',{
+          url:'/checkout',
+          title: "Checkout - Pictaktoe",
+          contentClass: "prints",
+          header: true,
+          footer: true,
+          views: {
+            "@": {
+              templateUrl:'src/dashboard/cart/webapp-step3.html',
+              controller: 'webappStep3Ctrl as vm'
             }
           }
         }
@@ -63,7 +136,7 @@
           footer: true,
           views: {
             "content@Dashboard": {
-              templateUrl:'src/dashboard/albums.html',
+              templateUrl:'src/dashboard/albums/albums.html',
               controller: 'dashboardCtrl as vm'
             }
           }
@@ -77,7 +150,7 @@
           footer: true,
           views: {
             "content@Dashboard": {
-              templateUrl:'src/dashboard/photogifts.html',
+              templateUrl:'src/dashboard/photogifts/photogifts.html',
               controller: 'dashboardCtrl as vm'
             }
           }
@@ -91,7 +164,7 @@
           footer: true,
           views: {
             "content@Dashboard": {
-              templateUrl:'src/dashboard/photobooks.html',
+              templateUrl:'src/dashboard/photobooks/photobooks.html',
               controller: 'dashboardCtrl as vm'
             }
           }

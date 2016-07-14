@@ -1,0 +1,318 @@
+/*
+Globals
+*/
+
+/*
+Theme Colors
+*/
+$action-icon-bkg-color: #ffffff;
+$sidebar-bkg-color: #ffffff;
+$filmstrip-bkg-color: #ffffff;
+$navbar-bkg-color: #ffffff;
+$btn-bkg-color: #65e0e4;
+$progress-bar-color: #65e0e4;
+$progress-bar-bkg-color: #ffffff;
+$thumbnail-border-color: #65e0e4;
+$body-bkg-color: #f4f7f9;
+$body-bkg-color-2: #969ba0;
+$body-bkg-color-3: #353b42;
+$border-color: #e7ecf1;
+$theme-color-4: #969ba0;
+$theme-color-5: #353b42;
+$theme-color-6: #9ee9ec;
+$body-text-color: #59626a;
+$slider-up-bkg-color: #d8dce0;
+$slider-down-bkg-color: #ffffff;
+$slider-handler-bkg-color: #ffffff;
+$slider-handler-color: #9a9fa4;
+$view-history-color: #7a8188;
+$image-stack-text-color: #9d9d9d;
+$scrollbar-color: #f0f2f2;
+$sidmenu-text-color: #59626a;
+$header-current-step-color: #65e0e4;
+$header-hr-color: rgb(101, 224, 228);
+$fb-blue-color: #3c5698;
+/*
+Font Families
+*/
+@font-face {
+  font-family: Font_Myriad_Pro_Regular;
+  src: url(/fonts/Myriad_Pro/MYRIADPRO-REGULAR.OTF);
+}
+.font-myriad-regular {
+  font-family: Font_Myriad_Pro_Regular;
+}
+@font-face {
+  font-family: Font_Myriad_Pro_Bold;
+  src: url(/fonts/Myriad_Pro/MYRIADPRO-BOLD.OTF);
+}
+.font-myriad-bold {
+  font-family: Font_Myriad_Pro_Bold;
+}
+@font-face {
+  font-family: Font_Open_Sans_Semibold;
+  src: url(/fonts/Open_Sans/OpenSans-Semibold.ttf);
+}
+.font-opensans-semibold {
+  font-family: Font_Open_Sans_Semibold;
+}
+@font-face {
+  font-family: Font_Open_Sans_Regular;
+  src: url(/fonts/Open_Sans/OpenSans-Regular.ttf);
+}
+.font-opensans-regular {
+  font-family: Font_Open_Sans_Regular;
+}
+@font-face {
+  font-family: Font_Open_Sans_Bold;
+  src: url(/fonts/Open_Sans/OpenSans-Bold.ttf);
+}
+.font-opensans-bold {
+  font-family: Font_Open_Sans_Bold;
+}
+
+html{
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 100%;
+  background-color: lightblue;
+  overflow: hidden;
+}
+body.app{
+  position: relative;
+  overflow: hidden;
+  color: $body-text-color;
+
+  height: 100% !important;
+  min-height: 100% !important;
+  width: 100% !important;
+  min-width: 100% !important;
+
+  height: 778px;
+  min-height: 778px;
+  width: 1440px;
+  min-width: 1440px;
+}
+
+body.app {
+  /*
+  Buttons
+  */
+  button:hover, button:focus, button:active {
+    outline: none !important;
+  }
+  .ptt-btn-blue {
+    color: white;
+    font-weight: bold;
+    background-color: $btn-bkg-color;
+  }
+  .ptt-btn-blue:hover, .ptt-btn-blue:focus, .ptt-btn-blue:active {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .ptt-btn-white {
+    color: $btn-bkg-color;
+    font-weight: bold;
+    background-color: white;
+  }
+  .ptt-btn-white:hover, .ptt-btn-white:focus, .ptt-btn-white:active {
+    color: $body-bkg-color-2;
+  }
+  .ptt-uppercase {
+    text-transform: uppercase;
+  }
+  .ppt-lowercase {
+    text-transform: lowercase;
+  }
+  .ptt-caps {
+    text-transform: capitalize;
+  }
+
+  /*
+  Tooltip
+  */
+  .tooltip-inner {
+    background-color: $slider-handler-color;
+    color: white;
+  }
+  .tooltip-arrow {
+    border-left-color: $slider-handler-color !important;
+  }
+
+  /*
+  Cursor
+  */
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  /*
+  Anchors
+  */
+  a {
+    text-decoration: none;
+    color: $btn-bkg-color;
+  }
+  a:hover, a:focus, a:active {
+    text-decoration: none;
+    color: $body-bkg-color-2;
+  }
+
+  /*
+  Visibility
+  */
+  .visibility-visible {
+    visibility: visible !important;
+  }
+  .visibility-hidden {
+    visibility: hidden !important;
+  }
+
+  /*
+  Opacity
+  */
+  .opacity-1 {
+    opacity: 1 !important;
+  }
+  .opacity-0 {
+    opacity: 0 !important;
+  }
+
+  /*
+  Animate
+  */
+  // ng-if
+  .animate-if.ng-enter, .animate-if.ng-leave {
+    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  }
+
+  .animate-if.ng-enter,
+  .animate-if.ng-leave.ng-leave-active {
+    opacity: 0;
+  }
+
+  .animate-if.ng-leave,
+  .animate-if.ng-enter.ng-enter-active {
+    opacity: 1;
+  }
+  // dropdown
+  .dropdown .dropdown-menu {
+    -webkit-transition: all 0.8s;
+    -moz-transition: all 0.8s;
+    -ms-transition: all 0.8s;
+    -o-transition: all 0.8s;
+    transition: all 0.8s;
+
+    max-height: 0;
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  .dropdown.open .dropdown-menu {
+    max-height: 300px;
+    opacity: 1;
+  }
+  // dropup
+  .dropup .dropdown-menu {
+    -webkit-transition: all 0.8s;
+    -moz-transition: all 0.8s;
+    -ms-transition: all 0.8s;
+    -o-transition: all 0.8s;
+    transition: all 0.8s;
+
+    max-height: 0;
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  .dropup.open .dropdown-menu {
+    max-height: 300px;
+    opacity: 1;
+  }
+  // ng-view
+  //.view-animate {
+  //  //padding:10px;
+  //}
+  //
+  //.view-animate.ng-enter, .view-animate.ng-leave {
+  //  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.8s;
+  //
+  //  display:block;
+  //  width:100%;
+  //  border-left:1px solid black;
+  //
+  //  position:absolute;
+  //  top:0;
+  //  left:0;
+  //  right:0;
+  //  bottom:0;
+  //  padding:10px;
+  //}
+  //
+  //.view-animate.ng-enter {
+  //  left:100%;
+  //}
+  //.view-animate.ng-enter.ng-enter-active {
+  //  left:0;
+  //}
+  //.view-animate.ng-leave.ng-leave-active {
+  //  left:-100%;
+  //}
+  // ng-view custom
+  .view-animate.ng-enter, .view-animate.ng-leave {
+    transition: opacity 1s;
+  }
+  .view-animate.ng-enter {
+    opacity: 1;
+  }
+  .view-animate.ng-enter.ng-enter-active {
+    opacity: 1;
+  }
+  .view-animate.ng-leave.ng-leave-active {
+    opacity: 0;
+  }
+
+
+}
+
+/*
+Scrollbar
+*/
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 10px 10px 10px rgba(255,255,255,0.8);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $scrollbar-color;
+  border-radius: 10px;
+  //outline: 1px solid slategrey;
+}
+
+
+/*
+Key Frmaes
+*/
+// SHAKE
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, -1px, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 2px, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, -4px, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 4px, 0);
+  }
+}

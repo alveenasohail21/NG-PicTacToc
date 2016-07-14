@@ -1,20 +1,25 @@
 /* line 2, ../../../partials/others/others.scss */
-body {
+body:not(.app) {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-weight: 300;
   color: #888;
   line-height: 30px;
   text-align: center;
+  /***** Top menu *****/
+  /***** Top content *****/
+  /***** Media queries *****/
+  /* Retina-ize images/icons */
+  /*
+  FORM STYLE
+  */
 }
-
 /* line 11, ../../../partials/others/others.scss */
-strong {
+body:not(.app) strong {
   font-weight: 500;
 }
-
 /* line 13, ../../../partials/others/others.scss */
-a, a:hover, a:focus {
+body:not(.app) a, body:not(.app) a:hover, body:not(.app) a:focus {
   color: #19b9e7;
   text-decoration: none;
   -o-transition: all .3s;
@@ -23,56 +28,48 @@ a, a:hover, a:focus {
   -ms-transition: all .3s;
   transition: all .3s;
 }
-
 /* line 19, ../../../partials/others/others.scss */
-h1, h2 {
+body:not(.app) h1, body:not(.app) h2 {
   margin-top: 10px;
   font-size: 38px;
   font-weight: 100;
   color: #555;
   line-height: 50px;
 }
-
 /* line 27, ../../../partials/others/others.scss */
-h3 {
+body:not(.app) h3 {
   font-size: 22px;
   font-weight: 300;
   color: #555;
   line-height: 30px;
 }
-
 /* line 34, ../../../partials/others/others.scss */
-img {
+body:not(.app) img {
   max-width: 100%;
 }
-
 /* line 36, ../../../partials/others/others.scss */
-.medium-paragraph {
+body:not(.app) .medium-paragraph {
   font-size: 18px;
   line-height: 32px;
 }
-
 /* line 41, ../../../partials/others/others.scss */
-.blue {
+body:not(.app) .blue {
   color: #19b9e7;
 }
-
 /* line 43, ../../../partials/others/others.scss */
-::-moz-selection {
+body:not(.app) ::-moz-selection {
   background: #19b9e7;
   color: #fff;
   text-shadow: none;
 }
-
 /* line 44, ../../../partials/others/others.scss */
-::selection {
+body:not(.app) ::selection {
   background: #19b9e7;
   color: #fff;
   text-shadow: none;
 }
-
 /* line 47, ../../../partials/others/others.scss */
-.btn-link-1 {
+body:not(.app) .btn-link-1 {
   display: inline-block;
   height: 50px;
   margin: 0 5px;
@@ -86,16 +83,14 @@ img {
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-
 /* line 59, ../../../partials/others/others.scss */
-.btn-link-1:hover, .btn-link-1:focus, .btn-link-1:active {
+body:not(.app) .btn-link-1:hover, body:not(.app) .btn-link-1:focus, body:not(.app) .btn-link-1:active {
   outline: 0;
   opacity: 0.6;
   color: #fff;
 }
-
 /* line 61, ../../../partials/others/others.scss */
-.btn-link-2 {
+body:not(.app) .btn-link-2 {
   display: inline-block;
   height: 50px;
   margin: 0 5px;
@@ -110,62 +105,50 @@ img {
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-
 /* line 74, ../../../partials/others/others.scss */
-.btn-link-2:hover, .btn-link-2:focus,
-.btn-link-2:active, .btn-link-2:active:focus {
+body:not(.app) .btn-link-2:hover, body:not(.app) .btn-link-2:focus,
+body:not(.app) .btn-link-2:active, body:not(.app) .btn-link-2:active:focus {
   outline: 0;
   opacity: 0.6;
   background: rgba(0, 0, 0, 0.3);
   color: #fff;
 }
-
-/***** Top menu *****/
-/***** Top content *****/
 /* line 83, ../../../partials/others/others.scss */
-.inner-bg {
+body:not(.app) .inner-bg {
   padding: 100px 0 100px 0;
 }
-
 /* line 87, ../../../partials/others/others.scss */
-.top-content .text {
+body:not(.app) .top-content .text {
   padding-top: 120px;
   color: #fff;
 }
-
 /* line 92, ../../../partials/others/others.scss */
-.top-content .text h1 {
+body:not(.app) .top-content .text h1 {
   color: #fff;
 }
-
 /* line 94, ../../../partials/others/others.scss */
-.top-content .description {
+body:not(.app) .top-content .description {
   margin: 20px 0 10px 0;
 }
-
 /* line 98, ../../../partials/others/others.scss */
-.top-content .description p {
+body:not(.app) .top-content .description p {
   opacity: 0.8;
 }
-
 /* line 100, ../../../partials/others/others.scss */
-.top-content .description a {
+body:not(.app) .top-content .description a {
   color: #fff;
 }
-
 /* line 103, ../../../partials/others/others.scss */
-.top-content .description a:hover,
-.top-content .description a:focus {
+body:not(.app) .top-content .description a:hover,
+body:not(.app) .top-content .description a:focus {
   border-bottom: 1px dotted #fff;
 }
-
 /* line 106, ../../../partials/others/others.scss */
-.top-content .top-big-link {
+body:not(.app) .top-content .top-big-link {
   margin-top: 35px;
 }
-
 /* line 110, ../../../partials/others/others.scss */
-.form-top {
+body:not(.app) .form-top {
   overflow: hidden;
   padding: 0 25px 15px 25px;
   background: #fff;
@@ -174,21 +157,18 @@ img {
   border-radius: 4px 4px 0 0;
   text-align: left;
 }
-
 /* line 118, ../../../partials/others/others.scss */
-.form-top-left {
+body:not(.app) .form-top-left {
   float: left;
   width: 75%;
   padding-top: 25px;
 }
-
 /* line 124, ../../../partials/others/others.scss */
-.form-top-left h3 {
+body:not(.app) .form-top-left h3 {
   margin-top: 0;
 }
-
 /* line 126, ../../../partials/others/others.scss */
-.form-top-right {
+body:not(.app) .form-top-right {
   float: left;
   width: 25%;
   padding-top: 5px;
@@ -197,9 +177,8 @@ img {
   line-height: 100px;
   text-align: right;
 }
-
 /* line 136, ../../../partials/others/others.scss */
-.form-bottom {
+body:not(.app) .form-bottom {
   padding: 25px 25px 30px 25px;
   background: #eee;
   -moz-border-radius: 0 0 4px 4px;
@@ -210,87 +189,75 @@ img {
   overflow: hidden;
 }
 /* line 143, ../../../partials/others/others.scss */
-.form-bottom .btn {
+body:not(.app) .form-bottom .btn {
   margin-top: 5px;
 }
-
 /* line 148, ../../../partials/others/others.scss */
-.form-bottom form textarea {
+body:not(.app) .form-bottom form textarea {
   height: 100px;
 }
-
 /* line 152, ../../../partials/others/others.scss */
-.form-bottom form .input-error {
+body:not(.app) .form-bottom form .input-error {
   border-color: #19b9e7;
 }
-
-/***** Media queries *****/
 @media (max-width: 767px) {
   /* line 165, ../../../partials/others/others.scss */
-  .navbar {
+  body:not(.app) .navbar {
     padding-top: 0;
   }
-
   /* line 167, ../../../partials/others/others.scss */
-  .navbar-brand {
+  body:not(.app) .navbar-brand {
     height: 60px;
     margin-left: 15px;
   }
-
   /* line 168, ../../../partials/others/others.scss */
-  .navbar-collapse {
+  body:not(.app) .navbar-collapse {
     border: 0;
   }
-
   /* line 169, ../../../partials/others/others.scss */
-  .navbar-toggle {
+  body:not(.app) .navbar-toggle {
     margin-top: 12px;
   }
-
   /* line 171, ../../../partials/others/others.scss */
-  .inner-bg {
+  body:not(.app) .inner-bg {
     padding: 60px 0 110px 0;
   }
-
   /* line 172, ../../../partials/others/others.scss */
-  .top-content .text {
+  body:not(.app) .top-content .text {
     padding-top: 0;
     padding-bottom: 60px;
   }
-
   /* line 173, ../../../partials/others/others.scss */
-  .top-content .top-big-link {
+  body:not(.app) .top-content .top-big-link {
     margin-top: 25px;
   }
-
   /* line 174, ../../../partials/others/others.scss */
-  .top-content .top-big-link a.btn {
+  body:not(.app) .top-content .top-big-link a.btn {
     margin-top: 10px;
   }
 }
 @media (max-width: 415px) {
   /* line 180, ../../../partials/others/others.scss */
-  h1, h2 {
+  body:not(.app) h1, body:not(.app) h2 {
     font-size: 32px;
   }
 }
-/* Retina-ize images/icons */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-  /* logo */
+  /* line 2, ../../../partials/others/others.scss */
+  body:not(.app) {
+    /* logo */
+  }
   /* line 196, ../../../partials/others/others.scss */
-  .navbar-brand {
+  body:not(.app) .navbar-brand {
     background-image: url(../img/logo@2x.png) !important;
     background-repeat: no-repeat !important;
     background-size: 123px 49px !important;
   }
 }
-/*
-FORM STYLE
-*/
 /* line 211, ../../../partials/others/others.scss */
-input[type="text"], input[type="email"], input[type="password"],
-textarea,
-textarea.form-control {
+body:not(.app) input[type="text"], body:not(.app) input[type="email"], body:not(.app) input[type="password"],
+body:not(.app) textarea,
+body:not(.app) textarea.form-control {
   height: 50px;
   margin: 0;
   padding: 0 20px;
@@ -314,19 +281,17 @@ textarea.form-control {
   -ms-transition: all .3s;
   transition: all .3s;
 }
-
 /* line 230, ../../../partials/others/others.scss */
-textarea,
-textarea.form-control {
+body:not(.app) textarea,
+body:not(.app) textarea.form-control {
   padding-top: 10px;
   padding-bottom: 10px;
   line-height: 30px;
 }
-
 /* line 237, ../../../partials/others/others.scss */
-input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
-textarea:focus,
-textarea.form-control:focus {
+body:not(.app) input[type="text"]:focus, body:not(.app) input[type="email"]:focus, body:not(.app) input[type="password"]:focus,
+body:not(.app) textarea:focus,
+body:not(.app) textarea.form-control:focus {
   outline: 0;
   background: #fff;
   border: 3px solid #ccc;
@@ -334,24 +299,20 @@ textarea.form-control:focus {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-
 /* line 246, ../../../partials/others/others.scss */
-input[type="text"]:-moz-placeholder, textarea:-moz-placeholder, textarea.form-control:-moz-placeholder {
+body:not(.app) input[type="text"]:-moz-placeholder, body:not(.app) textarea:-moz-placeholder, body:not(.app) textarea.form-control:-moz-placeholder {
   color: #888;
 }
-
 /* line 247, ../../../partials/others/others.scss */
-input[type="text"]:-ms-input-placeholder, textarea:-ms-input-placeholder, textarea.form-control:-ms-input-placeholder {
+body:not(.app) input[type="text"]:-ms-input-placeholder, body:not(.app) textarea:-ms-input-placeholder, body:not(.app) textarea.form-control:-ms-input-placeholder {
   color: #888;
 }
-
 /* line 248, ../../../partials/others/others.scss */
-input[type="text"]::-webkit-input-placeholder, textarea::-webkit-input-placeholder, textarea.form-control::-webkit-input-placeholder {
+body:not(.app) input[type="text"]::-webkit-input-placeholder, body:not(.app) textarea::-webkit-input-placeholder, body:not(.app) textarea.form-control::-webkit-input-placeholder {
   color: #888;
 }
-
 /* line 252, ../../../partials/others/others.scss */
-button.btn {
+body:not(.app) button.btn {
   height: 50px;
   margin: 0;
   padding: 0 20px;
@@ -376,15 +337,13 @@ button.btn {
   -ms-transition: all .3s;
   transition: all .3s;
 }
-
 /* line 270, ../../../partials/others/others.scss */
-button.btn:hover {
+body:not(.app) button.btn:hover {
   opacity: 0.6;
   color: #fff;
 }
-
 /* line 272, ../../../partials/others/others.scss */
-button.btn:active {
+body:not(.app) button.btn:active {
   outline: 0;
   opacity: 0.6;
   color: #fff;
@@ -392,17 +351,15 @@ button.btn:active {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-
 /* line 274, ../../../partials/others/others.scss */
-button.btn:focus {
+body:not(.app) button.btn:focus {
   outline: 0;
   opacity: 0.6;
   background: #19b9e7;
   color: #fff;
 }
-
 /* line 276, ../../../partials/others/others.scss */
-button.btn:active:focus, button.btn.active:focus {
+body:not(.app) button.btn:active:focus, body:not(.app) button.btn.active:focus {
   outline: 0;
   opacity: 0.6;
   background: #19b9e7;
