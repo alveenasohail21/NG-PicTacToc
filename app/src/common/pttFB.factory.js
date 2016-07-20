@@ -100,6 +100,7 @@
           .then(function(resp){
             console.log(resp);
             if(resp.success){
+              console.log("Social DETAILS: ", resp.data);
               $rootScope.user.socialName = resp.data.social_name;
               authResponse = resp.data;
             }
@@ -119,7 +120,14 @@
           deffered.resolve(albums.data);
         }
         else{
-          _getAlbums();
+          // check if all albums are downloaded
+          if(albums.pagination.end){
+            console.log("no more album");
+            deffered.resolve([]);
+          }
+          else{
+            _getAlbums();
+          }
         }
       }
 

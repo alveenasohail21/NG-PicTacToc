@@ -142,7 +142,10 @@
     function getFBAlbums(cursor){
       pttFBFactory.getAlbums(cursor)
         .then(function(resp){
-          vm.fb.albums = resp;
+          resp.forEach(function(elem, index){
+            vm.fb.albums.push(elem);
+          });
+          //vm.fb.albums = resp;
         })
     }
 
@@ -340,24 +343,24 @@
       });
     }
 
-    //function bindLoadMoreFBAlbumsScroll(){
-    //  var uploadImagesDiv = angular.element('div.fb-albums');
-    //  console.log(uploadImagesDiv);
-    //  uploadImagesDiv.off('scroll');
-    //  uploadImagesDiv.scroll(function(){
-    //    var offset = 50;
-    //    var uploadImagesDivHeight = uploadImagesDiv.height();
-    //    var scrollBottom = uploadImagesDiv.scrollTop() + uploadImagesDivHeight;
-    //    var uploadImageDivScrollHeight = uploadImagesDiv[0].scrollHeight;
-    //    console.log("scrollBottom: ",Math.floor(scrollBottom));
-    //    console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
-    //    console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
-    //    if(scrollBottom == uploadImageDivScrollHeight){
-    //      console.log("fetching more albums");
-    //      getFBAlbums('next');
-    //    }
-    //  });
-    //}
+    function bindLoadMoreFBAlbumsScroll(){
+      var uploadImagesDiv = angular.element('div.fb-albums');
+      console.log(uploadImagesDiv);
+      uploadImagesDiv.off('scroll');
+      uploadImagesDiv.scroll(function(){
+        var offset = 50;
+        var uploadImagesDivHeight = uploadImagesDiv.height();
+        var scrollBottom = uploadImagesDiv.scrollTop() + uploadImagesDivHeight;
+        var uploadImageDivScrollHeight = uploadImagesDiv[0].scrollHeight;
+        console.log("scrollBottom: ",Math.floor(scrollBottom));
+        console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
+        console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
+        if(scrollBottom == uploadImageDivScrollHeight){
+          console.log("fetching more albums");
+          getFBAlbums('next');
+        }
+      });
+    }
 
     /************************************* MANIPULATE DOM *************************************/
     function manipulateDOM(){
@@ -366,6 +369,8 @@
 
         $timeout(function(){
           angular.element('[data-toggle="tooltip"]').tooltip();
+
+          bindLoadMoreFBAlbumsScroll();
 
           setupSlider();
 
