@@ -19,7 +19,7 @@
       data: [],
       pagination: {
         from: 0,
-        limit: 9,
+        limit: 25,
         next: null,
         previous: null,
         end: false
@@ -140,7 +140,7 @@
         FB.api(url, 'GET',
           {
             access_token: authResponse.access_token,
-            limit: albums.pagination.limit,
+            //limit: albums.pagination.limit,
             fields: 'name,source,picture,count'
           },
           function (response) {
@@ -154,7 +154,7 @@
                 albums.pagination.previous = response.paging.previous;
               }
               // add received album length in from
-              albums.pagination.from += response.data.length;
+              //albums.pagination.from += response.data.length;
               // see if no albums remaining
               if(response.data.length < albums.pagination.limit){
                 albums.pagination.end = true;

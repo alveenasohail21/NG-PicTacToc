@@ -13,7 +13,7 @@
 
     <ul id="step1-lightSlider">
         <li ng-repeat="photo in vm.myPhotos">
-            <img ng-src="{{photo.base64}}" alt="">
+            <img ng-src="{{photo.base64}}" alt="" ptt-loader="img-fb-albums">
             <img class="white-cross" src="images/white-cross.png" alt="X">
         </li>
         <!--<li>-->
@@ -28,33 +28,33 @@
         <!--<li>-->
             <!--<img src="images/source6.png" alt="">-->
             <!--<img class="white-cross" src="images/white-cross.png" alt="X">        </li>-->
-        <li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">
+        <li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*" ng-if="vm.slider.showUploadImage">
             <img src="images/add_image.png" alt="">
         </li>
-        <li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">
-            <img src="images/add_image.png" alt="">
-        </li>
-        <li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">
-            <img src="images/add_image.png" alt="">
-        </li>
-        <li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">
-            <img src="images/add_image.png" alt="">
-        </li>
-        <li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">
-            <img src="images/add_image.png" alt="">
-        </li>
-        <li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">
-            <img src="images/add_image.png" alt="">
-        </li>
-        <li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">
-            <img src="images/add_image.png" alt="">
-        </li>
-        <li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">
-            <img src="images/add_image.png" alt="">
-        </li>
-        <li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">
-            <img src="images/add_image.png" alt="">
-        </li>
+        <!--<li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">-->
+            <!--<img src="images/add_image.png" alt="">-->
+        <!--</li>-->
+        <!--<li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">-->
+            <!--<img src="images/add_image.png" alt="">-->
+        <!--</li>-->
+        <!--<li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">-->
+            <!--<img src="images/add_image.png" alt="">-->
+        <!--</li>-->
+        <!--<li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">-->
+            <!--<img src="images/add_image.png" alt="">-->
+        <!--</li>-->
+        <!--<li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">-->
+            <!--<img src="images/add_image.png" alt="">-->
+        <!--</li>-->
+        <!--<li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">-->
+            <!--<img src="images/add_image.png" alt="">-->
+        <!--</li>-->
+        <!--<li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">-->
+            <!--<img src="images/add_image.png" alt="">-->
+        <!--</li>-->
+        <!--<li class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">-->
+            <!--<img src="images/add_image.png" alt="">-->
+        <!--</li>-->
     </ul>
 
     <div class="custom-svg-icon right-arrow cursor-pointer">
@@ -68,63 +68,7 @@
 
 <script>
     $(document).ready(function() {
-        var step2Slider = $("#step1-lightSlider").lightSlider({
-            item: 12,
-            loop: false,
-            slideMove: 1,
-            easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
-            speed: 600,
-            pager: false,
-            controls: false,
-            responsive: [
-                {
-                    breakpoint: 1980,
-                    settings: {
-                        item: 12
-                    }
-                },
-                {
-                    breakpoint: 1740,
-                    settings: {
-                        item: 9
-                    }
-                },
-                {
-                    breakpoint: 1400,
-                    settings: {
-                        item: 8
-                    }
-                },
-                {
-                    breakpoint: 1280,
-                    settings: {
-                        item: 6
-                    }
-                },
-                {
-                    breakpoint: 1024,
-                    settings: {
-                        item: 5
-                    }
-                },
-                {
-                    breakpoint: 800,
-                    settings: {
-                        item: 4
-                    }
-                },
-            ]
-        });
 
-        $('.custom-svg-icon.left-arrow').click(function(){
-            console.log("left arrow");
-            step2Slider.goToPrevSlide();
-        })
-
-        $('.custom-svg-icon.right-arrow').click(function(){
-            console.log("right arrow");
-            step2Slider.goToNextSlide();
-        })
 
     });
 </script>

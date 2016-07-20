@@ -217,7 +217,7 @@ Content : Start
                     <!--</div>-->
                 <!--</div>-->
                 <div class="img" ng-repeat="file in vm.filesToUpload" ng-click="(!file.inProgress)?vm.addFilesToUploadQueue($index):null">
-                    <img src="{{file.picture}}" alt="">
+                    <img src="{{file.picture}}" alt="" ptt-loader="loader-fb-photo">
                     <div class="custom-svg-icon" ng-show="!file.inProgress">
                         <img src="svgs/gray-arrow-down.svg" alt="">
                     </div>
@@ -245,7 +245,7 @@ Content : Start
                         <div class="square"></div>
                         <div class="square"></div>
                         <div class="square" ng-click="vm.chooseAlbum($index)">
-                            <img src="{{album.picture.data.url}}" alt="">
+                            <img src="{{album.picture.data.url}}" alt="" ptt-loader="loader-fb-album">
                         </div>
                         <p>{{album.name}} <span ng-show="vm.debug"> : count = {{album.count}}</span></p>
                     </div>

@@ -274,6 +274,51 @@ body.app {
     opacity: 0;
   }
 
+  /*
+  Loaders
+  */
+
+  // blur for img
+  .blur-5px{
+    -webkit-filter: blur(5px);
+  }
+
+  /*backdrop for img*/
+  .ptt-loader{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    //background-color: rgba(0,0,0,0.6);
+    z-index: 2;
+  }
+  /*any css to img*/
+  .ptt-loader img{
+    /* height: 10%; */
+    width: 10%;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -5%;
+    //margin-top: -5vw;
+    animation: loader 0.82s cubic-bezier(.36,.07,.19,.97) infinite;
+    transform: rotate(360deg);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  .ptt-loader img.loader-fb-album{
+    width: 30px;
+    margin-left: -15px;
+    margin-top: -15px;
+  }
+
+  .ptt-loader img.loader-fb-photo{
+    width: 30px;
+    height: 30px !important;  // due to rule overwrite
+    margin-left: -15px;
+    margin-top: -15px;
+  }
 
 }
 
@@ -314,5 +359,14 @@ Key Frmaes
 
   40%, 60% {
     transform: translate3d(4px, 4px, 0);
+  }
+}
+// LOADER
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

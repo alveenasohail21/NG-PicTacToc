@@ -103,6 +103,11 @@ body.app {
   /*
   Animate
   */
+  /*
+  Loaders
+  */
+  /*backdrop for img*/
+  /*any css to img*/
 }
 /* line 102, ../partials/base/_global.scss */
 body.app button:hover, body.app button:focus, body.app button:active {
@@ -243,21 +248,59 @@ body.app .view-animate.ng-enter.ng-enter-active {
 body.app .view-animate.ng-leave.ng-leave-active {
   opacity: 0;
 }
+/* line 282, ../partials/base/_global.scss */
+body.app .blur-5px {
+  -webkit-filter: blur(5px);
+}
+/* line 287, ../partials/base/_global.scss */
+body.app .ptt-loader {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}
+/* line 295, ../partials/base/_global.scss */
+body.app .ptt-loader img {
+  /* height: 10%; */
+  width: 10%;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -5%;
+  animation: loader 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+  transform: rotate(360deg);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 310, ../partials/base/_global.scss */
+body.app .ptt-loader img.loader-fb-album {
+  width: 30px;
+  margin-left: -15px;
+  margin-top: -15px;
+}
+/* line 316, ../partials/base/_global.scss */
+body.app .ptt-loader img.loader-fb-photo {
+  width: 30px;
+  height: 30px !important;
+  margin-left: -15px;
+  margin-top: -15px;
+}
 
 /*
 Scrollbar
 */
-/* line 283, ../partials/base/_global.scss */
+/* line 328, ../partials/base/_global.scss */
 *::-webkit-scrollbar {
   width: 10px;
 }
 
-/* line 287, ../partials/base/_global.scss */
+/* line 332, ../partials/base/_global.scss */
 *::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 10px 10px 10px rgba(255, 255, 255, 0.8);
 }
 
-/* line 291, ../partials/base/_global.scss */
+/* line 336, ../partials/base/_global.scss */
 *::-webkit-scrollbar-thumb {
   background-color: #f0f2f2;
   border-radius: 10px;
@@ -278,6 +321,14 @@ Key Frmaes
   }
   40%, 60% {
     transform: translate3d(4px, 4px, 0);
+  }
+}
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 /* line 1, ../partials/_header.scss */
@@ -1682,7 +1733,7 @@ body.app .step1 .fb-albums .row .col-sm-4 div.square {
   margin-left: -69px;
 }
 /* line 264, ../partials/_webapp-step1.scss */
-body.app .step1 .fb-albums .row .col-sm-4 div.square img {
+body.app .step1 .fb-albums .row .col-sm-4 div.square img:not(.loader-fb-album) {
   height: 100%;
 }
 /* line 268, ../partials/_webapp-step1.scss */

@@ -12,7 +12,7 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, authFactory, userFactory, $location){
+  function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, authFactory, userFactory, photosFactory, uploadSliderConfig){
 
     var vm = this;
 
@@ -24,7 +24,18 @@
     /*
      * Variables
      * */
-    vm.myPhotos = r_photos;
+    vm.myPhotos = r_photos['photos'];
+    var step2Slider;
+    vm.slider = {
+      photosInCurrentFrame: 8,
+      indexOfLastPhotoInCurrentFrame: 8,
+      showUploadImage: false                 // only show it when all user images are fetched
+    };
+    vm.myPhotosPagination = {
+      from: 0,
+      size: 12,
+      dimension: '100x100'
+    };
     vm.uploadCategory = 'device';
     // fb login confirm
     vm.fbLogin = false;
@@ -42,6 +53,14 @@
     // uploaded files count for single category
     vm.filesUploadedCount = 0;
 
+    vm.loadStart = function(){
+      console.log("Load Start");
+    }
+
+    vm.loadEnd = function(){
+      console.log("Load End");
+    }
+
     /*
      * Functions
      * */
@@ -53,6 +72,8 @@
     vm.addFilesToUploadQueue = addFilesToUploadQueue;
     vm.uploadFile = uploadFile;
     //vm.manipulateDOM = manipulateDOM;
+    vm.nextPhoto = nextPhoto;
+    vm.prevPhoto = prevPhoto;
 
 
     /*
@@ -63,6 +84,7 @@
       console.log(vm.showAlbumImages);
       console.log(vm.uploadCategory);
       manipulateDOM();
+      loadMoreMyPhotos();
       if(location.href.indexOf('?platform=')!=-1){
         var platformInUrl = location.href.indexOf('?platform=');
         var offset = 10;
@@ -117,8 +139,8 @@
     /************************************* FACEBOOK *************************************/
 
     // get facebook albums
-    function getFBAlbums(){
-      pttFBFactory.getAlbums()
+    function getFBAlbums(cursor){
+      pttFBFactory.getAlbums(cursor)
         .then(function(resp){
           vm.fb.albums = resp;
         })
@@ -149,7 +171,7 @@
           if(resp.data.length>1){
             vm.showAllUploadButton = true;
           }
-          manipulateDOM();
+          bindLoadMoreSocialPhotosScroll();
         })
     }
 
@@ -269,6 +291,15 @@
               console.log("> 1");
               vm.showAllUploadButton = true;
             }
+            // go to last item in slider
+            console.log('vm.myPhotos.length: ',vm.myPhotos.length);
+            console.log("step2Slider.getTotalSlideCount(): ", step2Slider.getTotalSlideCount());
+            //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
+            //step2Slider.refresh();
+            step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
+            step2Slider.goToSlide(step2Slider.getTotalSlideCount() - vm.slider.photosInCurrentFrame + 1);
+            vm.slider.indexOfLastPhotoInCurrentFrame = vm.myPhotos.length-1;
+            //$(window).trigger('resize');
             // see if queue is not empty, call it self
             if(!vm.uploadQueue.isEmpty()){
               vm.uploadFile();
@@ -290,8 +321,7 @@
 
     }
 
-    /************************************* MANIPULATE DOM *************************************/
-    function manipulateDOM(){
+    function bindLoadMoreSocialPhotosScroll(){
       var uploadImagesDiv = angular.element('div.uploaded-images');
       console.log(uploadImagesDiv);
       uploadImagesDiv.off('scroll');
@@ -300,7 +330,6 @@
         var uploadImagesDivHeight = uploadImagesDiv.height();
         var scrollBottom = uploadImagesDiv.scrollTop() + uploadImagesDivHeight;
         var uploadImageDivScrollHeight = uploadImagesDiv[0].scrollHeight;
-        //var elementHeight = angular.element('.results')[0].scrollHeight;
         console.log("scrollBottom: ",Math.floor(scrollBottom));
         console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
         console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
@@ -308,14 +337,144 @@
           console.log("fetching more images");
           chooseAlbum(vm.fb.currentAlbumIndex, true);
         }
-        //console.log("elemHeight: ",Math.floor(elementHeight));
-        //if((Math.floor(scrollBottom) >= Math.floor(elementHeight)-5 && Math.floor(scrollBottom) <= Math.floor(elementHeight)+5)){
-        //console.log("mdom");
-        //loading = true;
-        //vm.loadMorePhotos();
-        //}
       });
-      angular.element('[data-toggle="tooltip"]').tooltip();
+    }
+
+    //function bindLoadMoreFBAlbumsScroll(){
+    //  var uploadImagesDiv = angular.element('div.fb-albums');
+    //  console.log(uploadImagesDiv);
+    //  uploadImagesDiv.off('scroll');
+    //  uploadImagesDiv.scroll(function(){
+    //    var offset = 50;
+    //    var uploadImagesDivHeight = uploadImagesDiv.height();
+    //    var scrollBottom = uploadImagesDiv.scrollTop() + uploadImagesDivHeight;
+    //    var uploadImageDivScrollHeight = uploadImagesDiv[0].scrollHeight;
+    //    console.log("scrollBottom: ",Math.floor(scrollBottom));
+    //    console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
+    //    console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
+    //    if(scrollBottom == uploadImageDivScrollHeight){
+    //      console.log("fetching more albums");
+    //      getFBAlbums('next');
+    //    }
+    //  });
+    //}
+
+    /************************************* MANIPULATE DOM *************************************/
+    function manipulateDOM(){
+
+      $(document).ready(function() {
+
+        $timeout(function(){
+          angular.element('[data-toggle="tooltip"]').tooltip();
+
+          setupSlider();
+
+          sliderFrameCount();
+
+          $(window).resize(function(){
+            sliderFrameCount();
+          })
+
+        }, 100);
+
+      });
+
+    }
+
+    /************************************* MY PHOTOS SLIDER *************************************/
+
+    function setupSlider(){
+      step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
+
+      $('.custom-svg-icon.left-arrow').click(function(){
+        if(vm.slider.indexOfLastPhotoInCurrentFrame > vm.slider.photosInCurrentFrame)
+          vm.slider.indexOfLastPhotoInCurrentFrame--;
+        console.log("left arrow");
+        console.log("vm.slider: ",vm.slider);
+        step2Slider.goToPrevSlide();
+        console.log("step2Slider..getCurrentSlideCount(): ", step2Slider.getCurrentSlideCount());
+      });
+
+      $('.custom-svg-icon.right-arrow').click(function(){
+        if(vm.slider.indexOfLastPhotoInCurrentFrame < vm.myPhotos.length)
+          vm.slider.indexOfLastPhotoInCurrentFrame++;
+        console.log("right arrow");
+        console.log("vm.slider: ",vm.slider);
+        step2Slider.goToNextSlide();
+        console.log("step2Slider..getCurrentSlideCount(): ", step2Slider.getCurrentSlideCount());
+      });
+    }
+
+    function sliderFrameCount(){
+      var currentWidth = $('body').css('width').replace('px', '');
+      var photosRemovedFromCF = 0;
+      for(var i=uploadSliderConfig.responsive.length-1;i>=0;i--){
+        var elem = uploadSliderConfig.responsive[i];
+        photosRemovedFromCF++;
+        if(elem.breakpoint > currentWidth){
+          if(vm.slider.photosInCurrentFrame != elem.settings.item){
+            var prevIndex = vm.slider.indexOfLastPhotoInCurrentFrame;
+            // TODO need fix
+            console.log("changing slider data");
+            console.log("currentWidth: ",currentWidth);
+            console.log("elem.breakpoint: ",elem.breakpoint);
+            console.log("elem.settings: ",elem.settings);
+            vm.slider.photosInCurrentFrame = vm.slider.indexOfLastPhotoInCurrentFrame = elem.settings.item;
+            console.log("prevIndex: ", prevIndex);
+            console.log("photosInCurrentFrame: ",vm.slider.photosInCurrentFrame);
+            var diffOfPhotosInBreakpoints = prevIndex-vm.slider.photosInCurrentFrame;
+            console.log("diffOfPhotosInBreakpoints: ",diffOfPhotosInBreakpoints);
+            //vm.slider.indexOfLastPhotoInCurrentFrame += ((diff>0)?(diff+ photosRemovedFromCF):(photosRemovedFromCF));
+          }
+          break;
+        }
+      }
+    }
+
+    function loadMoreMyPhotos(){
+
+        if(!vm.slider.showUploadImage){
+          // load new photos
+          vm.myPhotosPagination.from += 12;
+          photosFactory.getPhotos(vm.myPhotosPagination)
+            .then(function(resp){
+              console.log("new photos: ", resp);
+              resp['photos'].forEach(function(elem, index){
+                vm.myPhotos.push(elem);
+              });
+              if(resp['photos'].length==0){
+                console.log("all photos are loaded");
+                vm.slider.showUploadImage = true;
+                step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
+                step2Slider.goToSlide(vm.slider.indexOfLastPhotoInCurrentFrame-vm.slider.photosInCurrentFrame);
+                //step2Slider.goToSlide(vm.myPhotos.length);
+              }
+              else{
+                //step2Slider.refresh();
+                // stupid jquery slider needs reload
+                //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
+                //step2Slider.goToSlide(vm.slider.indexOfLastPhotoInCurrentFrame-vm.slider.photosInCurrentFrame);
+                // call it self
+                loadMoreMyPhotos();
+              }
+            })
+        }
+
+    }
+
+    function nextPhoto(){
+      if(vm.slider.indexOfLastPhotoInCurrentFrame < vm.myPhotos.length)
+        vm.slider.indexOfLastPhotoInCurrentFrame++;
+      console.log("next photo");
+      console.log("vm.slider: ",vm.slider);
+    }
+
+    function prevPhoto(){
+      // TODO range
+      if(vm.slider.indexOfLastPhotoInCurrentFrame > vm.slider.photosInCurrentFrame)
+        vm.slider.indexOfLastPhotoInCurrentFrame--;
+      console.log("prev photo");
+      console.log("vm.slider: ",vm.slider);
     }
 
 

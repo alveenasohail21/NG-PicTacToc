@@ -261,7 +261,7 @@ body.app{
             transition: 0.8s;
             left: 50%;
             margin-left: -69px;
-            img{
+            img:not(.loader-fb-album){
               height: 100%;
             }
           }

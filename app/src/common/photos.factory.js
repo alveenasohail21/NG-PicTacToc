@@ -31,11 +31,11 @@
       return arr;
     }
 
-    function getPhotos() {
+    function getPhotos(queryParams) {
       var deffered = $q.defer();
-      var data = {
+      var data = queryParams || {
         from: 0,
-        size: 10,
+        size: 12,
         dimension: '100x100'
       };
       console.log("Photos");
@@ -43,7 +43,8 @@
         .then(function(resp){
           console.log(resp);
           if(resp.success){
-            deffered.resolve(mapPhotos(resp.data.photos));
+            resp.data['photos'] = mapPhotos(resp.data.photos);
+            deffered.resolve(resp.data);
           }
           else{
             // TODO
