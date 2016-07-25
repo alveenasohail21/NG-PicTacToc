@@ -6,7 +6,7 @@ body.app{
   .step1{
     //margin: 18px 19%;
     //padding: 0 8px;
-    background-color: #f4f7f9;
+    background-color: $body-bkg-color;
     position: absolute;
     width: 100%;
     height: calc(100% - 80px - 166px);

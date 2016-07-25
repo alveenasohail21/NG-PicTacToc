@@ -32,6 +32,8 @@ $sidmenu-text-color: #59626a;
 $header-current-step-color: #65e0e4;
 $header-hr-color: rgb(101, 224, 228);
 $fb-blue-color: #3c5698;
+$anchor-dark-hover: #59626a;
+$form-input-text-color: #c2c2c2;
 /*
 Font Families
 */
@@ -157,6 +159,7 @@ body.app {
     text-decoration: none;
     color: $body-bkg-color-2;
   }
+
 
   /*
   Visibility
@@ -318,6 +321,15 @@ body.app {
     height: 30px !important;  // due to rule overwrite
     margin-left: -15px;
     margin-top: -15px;
+  }
+
+  /*
+  Modals
+  */
+  .modal-backdrop{
+    background-color: rgb(203, 206, 208);
+    opacity: 0.71;
+    top: 80px;
   }
 
 }

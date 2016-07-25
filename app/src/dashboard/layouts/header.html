@@ -50,7 +50,7 @@
                     <hr class="hover-hr">
                 </div>
                 <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-                <div class="step step-3" ng-class="{'active': $root.stateUrl=='/checkout'}" >
+                <div class="step step-3" ng-class="{'active': $root.stateUrl=='/checkout'}" ui-sref="{{$root.app.productState + '.Checkout'}}">
                     <div class="custom-svg-icon gray-tick" ng-if="$root.stateUrl!='/checkout'">
                         <!--<object class=""  type="image/svg+xml" data="svgs/gray-tick.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/gray-tick.svg">
@@ -76,7 +76,7 @@
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
                     <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-                    <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateUrl=='/design'" >
+                    <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateUrl=='/design'" ui-sref="{{$root.app.productState + '.Checkout'}}">
                         <span class="btn-text">Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>

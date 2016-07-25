@@ -1,6 +1,19 @@
 ///* Media Queries */
 
 body.app{
+  @media all and (max-width: 2048px) {
+    /*
+   STEP 3
+   */
+    .step3{
+      .edit-order{
+        div.img {
+          width: 11%;
+        }
+      }
+    }
+  }
+
   @media all and (max-width: 1600px) {
     /*
     STEP 2B
@@ -9,6 +22,16 @@ body.app{
       .uploaded-images {
         div.img {
           //height: 150px;
+        }
+      }
+    }
+    /*
+   STEP 3
+   */
+    .step3{
+      .edit-order{
+        div.img {
+          width: 10.8%;
         }
       }
     }
@@ -35,6 +58,16 @@ body.app{
         }
       }
     }
+    /*
+   STEP 3
+   */
+    .step3{
+      .edit-order{
+        div.img {
+          width: 10.6%;
+        }
+      }
+    }
   }
 
   @media all and (max-width: 1415px) {
@@ -54,6 +87,16 @@ body.app{
     */
     .step2b{
       .uploaded-images {
+        div.img {
+          width: 12.5%;
+        }
+      }
+    }
+    /*
+    STEP 3
+    */
+    .step3{
+      .edit-order{
         div.img {
           width: 12.5%;
         }
@@ -99,6 +142,16 @@ body.app{
           img.upl-img{
             //width: 100%;
           }
+        }
+      }
+    }
+    /*
+    STEP 3
+    */
+    .step3{
+      .edit-order{
+        div.img {
+          width: 18%;
         }
       }
     }
@@ -155,6 +208,16 @@ body.app{
           img.upl-img{
             //width: 100%;
           }
+        }
+      }
+    }
+    /*
+    STEP 3
+    */
+    .step3{
+      .edit-order{
+        div.img {
+          width: 22%;
         }
       }
     }
@@ -238,6 +301,17 @@ body.app{
     }
   }
 
+  @media all and (max-width: 992px) {
+    #step3-confirm-modal{
+      .modal-content{
+        .details{
+          border: 0 !important;
+          border-bottom: 1.114px solid rgb(203, 206, 208) !important;
+        }
+      }
+    }
+  }
+
   @media all and (max-width: 810px) {
     /*
     STEP 1
@@ -268,6 +342,16 @@ body.app{
           img.upl-img{
             //width: 100%;
           }
+        }
+      }
+    }
+    /*
+    STEP 3
+    */
+    .step3{
+      .edit-order{
+        div.img {
+          width: 45%;
         }
       }
     }
@@ -313,6 +397,17 @@ body.app{
           img.upl-img{
             //width: 100%;
           }
+        }
+      }
+    }
+    /*
+    STEP 3
+    */
+    .step3{
+      .edit-order{
+        text-align: center;
+        div.img {
+          width: 80%;
         }
       }
     }
