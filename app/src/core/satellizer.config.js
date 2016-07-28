@@ -54,7 +54,7 @@
       authorizationEndpoint: 'https://api.instagram.com/oauth/authorize',
       redirectUri: window.location.origin + '/',
       requiredUrlParams: ['scope'],
-      scope: ['basic'],
+      scope: ['basic','public_content'],
       scopeDelimiter: '+',
       type: '2.0'
     });
