@@ -46,25 +46,25 @@
 <h4>Go To App</h4>
 <button class="btn btn-primary" ui-sref="Dashboard.Prints.Upload">Go To App</button>
 
-<h4>Upload on file select</h4>
+<!--<h4>Upload on file select</h4>-->
 
-<button ngf-select="vm.uploadFiles($files)" multiple
-        accept="image/*">Select Files</button>
-<br>
-<br>Files:
-<ul>
-    <li ng-repeat="f in vm.files" style="font-size:smaller">
-        {{f.name}}
-    </li>
-</ul>
-<span class="progress" ng-show="vm.progress >= 0">
-        <div style="width:{{vm.progress}}%" ng-bind="vm.progress + '%'"></div>
-    </span>
-{{vm.errorMsg}}
+<!--<button ngf-select="vm.uploadFiles($files)" multiple-->
+        <!--accept="image/*">Select Files</button>-->
+<!--<br>-->
+<!--<br>Files:-->
+<!--<ul>-->
+    <!--<li ng-repeat="f in vm.files" style="font-size:smaller">-->
+        <!--{{f.name}}-->
+    <!--</li>-->
+<!--</ul>-->
+<!--<span class="progress" ng-show="vm.progress >= 0">-->
+        <!--<div style="width:{{vm.progress}}%" ng-bind="vm.progress + '%'"></div>-->
+    <!--</span>-->
+<!--{{vm.errorMsg}}-->
 
-<h4>Get Facebook Albums</h4>
+<!--<h4>Get Facebook Albums</h4>-->
 
-<button ng-click="vm.getSocialAlbums()">Get Facebook Albums</button>
+<!--<button ng-click="vm.getSocialAlbums()">Get Facebook Albums</button>-->
 
 
 <style>

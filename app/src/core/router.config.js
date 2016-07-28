@@ -13,10 +13,9 @@
     .run(routingEvents);
 
   /* @ngInject */
-  function configuration($urlRouterProvider){
-
+  function configuration($urlRouterProvider, $locationProvider){
+//      $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
-
   }
 
   /* @ngInject */
