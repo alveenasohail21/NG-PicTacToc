@@ -16,7 +16,8 @@
     return {
       getPhotos: getPhotos,
       uploadPhotos: uploadPhotos,
-      mapPhotos: mapPhotos
+      mapPhotos: mapPhotos,
+        deletePhoto: deletePhoto
     };
 
 
@@ -60,7 +61,13 @@
     function uploadPhotos() {
 
     }
-
+      function deletePhoto(id) { //delete selected photo in step 1
+          var deferred = $q.defer();
+          restFactory.photos.deletePhoto(id).then(function(response){
+              console.log(response);
+              deferred.resolve(response);
+          });
+          return deferred.promise;
+      }
   }
-
 }());

@@ -13,19 +13,17 @@
 
   /* @ngInject */
   function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, authFactory, userFactory, photosFactory, uploadSliderConfig){
-
-    var vm = this;
+      var vm = this;
 
     /*
      * Debug mode
      * */
     vm.debug = false;
-
     /*
      * Variables
      * */
     vm.myPhotos = r_photos['photos'];
-    var step2Slider;
+      var step2Slider;
     vm.slider = {
       photosInCurrentFrame: 8,
       indexOfLastPhotoInCurrentFrame: 8,
@@ -55,11 +53,11 @@
 
     vm.loadStart = function(){
       console.log("Load Start");
-    }
+    };
 
     vm.loadEnd = function(){
       console.log("Load End");
-    }
+    };
 
     /*
      * Functions
@@ -71,9 +69,11 @@
     vm.selectFiles = selectFiles;
     vm.addFilesToUploadQueue = addFilesToUploadQueue;
     vm.uploadFile = uploadFile;
+      vm.deletePhoto=deletePhoto;
     //vm.manipulateDOM = manipulateDOM;
     vm.nextPhoto = nextPhoto;
     vm.prevPhoto = prevPhoto;
+
 
 
     /*
@@ -238,8 +238,16 @@
       }
     }
 
+    //delete selected photo
+      function deletePhoto(id, index1){
+          photosFactory.deletePhoto(id).then(function(response){
+              if(response.success){
+                  vm.myPhotos.splice(index1, 1);
+              }
+          });
+      };
 
-    // upload single file from queue
+      // upload single file from queue
     function uploadFile(){
 
       var file, url;
