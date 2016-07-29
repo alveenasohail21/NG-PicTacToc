@@ -241,9 +241,10 @@
     //delete selected photo
       function deletePhoto(id, index1){
           photosFactory.deletePhoto(id).then(function(response){
-              console.log("api works");
+              if(response.success){
+                  vm.myPhotos.splice(index1, 1);
+              }
           });
-          vm.myPhotos.splice(index1, 1);
       };
 
       // upload single file from queue
