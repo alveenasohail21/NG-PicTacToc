@@ -38,7 +38,8 @@
       },
       photos: {
         getPhotos: getPhotos,
-        getSocialPhotos: getSocialPhotos
+        getSocialPhotos: getSocialPhotos,
+        deletePhoto: deletePhoto
       }
     };
 
@@ -91,7 +92,9 @@
     function socialDetails(data){
       return Users.one('social').one('details').get(data);
     }
-
+    function deletePhoto(id){
+       return Restangular.one('photos', id).remove();
+    }
   }
 
 }());

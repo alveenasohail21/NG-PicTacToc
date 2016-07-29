@@ -13,9 +13,12 @@
 
   /* @ngInject */
   function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, authFactory, userFactory, photosFactory, uploadSliderConfig){
-
-    var vm = this;
-
+      var vm = this;
+      vm.deletePhoto=function(id){
+          photosFactory.deletePhoto(id).then(function(response){
+              console.log("api works");
+          });
+      };
     /*
      * Debug mode
      * */
@@ -25,7 +28,10 @@
      * Variables
      * */
     vm.myPhotos = r_photos['photos'];
-    var step2Slider;
+
+
+
+      var step2Slider;
     vm.slider = {
       photosInCurrentFrame: 8,
       indexOfLastPhotoInCurrentFrame: 8,
@@ -55,11 +61,11 @@
 
     vm.loadStart = function(){
       console.log("Load Start");
-    }
+    };
 
     vm.loadEnd = function(){
       console.log("Load End");
-    }
+    };
 
     /*
      * Functions
