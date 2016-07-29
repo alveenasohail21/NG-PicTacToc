@@ -92,7 +92,7 @@
     function socialDetails(data){
       return Users.one('social').one('details').get(data);
     }
-    function deletePhoto(id){
+    function deletePhoto(id){ ////delete selected photo in step 1
        return Restangular.one('photos', id).remove();
     }
   }

@@ -14,23 +14,15 @@
   /* @ngInject */
   function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, authFactory, userFactory, photosFactory, uploadSliderConfig){
       var vm = this;
-      vm.deletePhoto=function(id){
-          photosFactory.deletePhoto(id).then(function(response){
-              console.log("api works");
-          });
-      };
+
     /*
      * Debug mode
      * */
     vm.debug = false;
-
     /*
      * Variables
      * */
     vm.myPhotos = r_photos['photos'];
-
-
-
       var step2Slider;
     vm.slider = {
       photosInCurrentFrame: 8,
@@ -77,9 +69,11 @@
     vm.selectFiles = selectFiles;
     vm.addFilesToUploadQueue = addFilesToUploadQueue;
     vm.uploadFile = uploadFile;
+      vm.deletePhoto=deletePhoto;
     //vm.manipulateDOM = manipulateDOM;
     vm.nextPhoto = nextPhoto;
     vm.prevPhoto = prevPhoto;
+
 
 
     /*
@@ -244,8 +238,15 @@
       }
     }
 
+    //delete selected photo
+      function deletePhoto(id, index1){
+          photosFactory.deletePhoto(id).then(function(response){
+              console.log("api works");
+          });
+          vm.myPhotos.splice(index1, 1);
+      };
 
-    // upload single file from queue
+      // upload single file from queue
     function uploadFile(){
 
       var file, url;

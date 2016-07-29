@@ -61,7 +61,7 @@
     function uploadPhotos() {
 
     }
-      function deletePhoto(id) {
+      function deletePhoto(id) { //delete selected photo in step 1
           var deferred = $q.defer();
           restFactory.photos.deletePhoto(id).then(function(response){
               console.log(response);
