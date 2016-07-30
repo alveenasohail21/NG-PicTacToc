@@ -155,13 +155,9 @@
     //}
 
     function getSelectPhoto(id){
-
-      photosFactory.getSelectedPhoto(id).then(function(response){
-        console.log(response.data);
-          vm.selectedPhoto=response.data.imageBase64;
-
+      photosFactory.getSelectedPhoto(id).then(function(resp){
+          vm.selectedPhoto = resp.base64;
       });
-
     };
 
 

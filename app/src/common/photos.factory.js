@@ -92,9 +92,12 @@
     function getSelectedPhoto(id) {
       var deferred = $q.defer();
       restFactory.photos.getSelectedPhoto(id)
-        .then(function(response){
-
-          deferred.resolve(response);
+        .then(function(resp){
+          if('imageBase64' in resp.data){
+            resp.data.base64 = resp.data.imageBase64;
+            delete resp.data.imageBase64;
+          }
+          deferred.resolve(resp.data);
         });
       return deferred.promise;
     }
