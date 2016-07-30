@@ -11,7 +11,7 @@
 
     <ul id="step2-lightSlider">
         <li ng-repeat="photo in vm.myPhotos">
-            <img ng-src="{{photo.base64}}" alt="" ptt-loader="img-fb-albums">
+            <img ng-src="{{photo.base64}}" ng-click="vm.getSelectPhoto(photo.id)" alt="" ptt-loader="img-fb-albums">
         </li>
         <!--<li>-->
             <!--<img src="images/source1.png" alt="">-->

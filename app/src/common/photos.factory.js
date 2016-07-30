@@ -24,7 +24,8 @@
       mapPhotos: mapPhotos,
       deletePhoto: deletePhoto,
       mapSocialPhotos: mapSocialPhotos,
-      getLocalPhotosIfPresent: getLocalPhotosIfPresent
+      getLocalPhotosIfPresent: getLocalPhotosIfPresent,
+      getSelectedPhoto: getSelectedPhoto
     };
 
 
@@ -77,12 +78,27 @@
 
     }
 
-    function deletePhoto(id) { //delete selected photo in step 1
+    //delete selected photo in step 1
+    function deletePhoto(id) {
       var deferred = $q.defer();
       restFactory.photos.deletePhoto(id).then(function(response){
         console.log(response);
         deferred.resolve(response);
       });
+      return deferred.promise;
+    }
+
+    //get a photo selected by user in original size in step 2
+    function getSelectedPhoto(id) {
+      var deferred = $q.defer();
+      restFactory.photos.getSelectedPhoto(id)
+        .then(function(resp){
+          if('imageBase64' in resp.data){
+            resp.data.base64 = resp.data.imageBase64;
+            delete resp.data.imageBase64;
+          }
+          deferred.resolve(resp.data);
+        });
       return deferred.promise;
     }
 

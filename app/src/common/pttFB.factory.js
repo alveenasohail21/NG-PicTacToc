@@ -116,6 +116,8 @@
       }
       // if authenticated and token is not expired, get albums
       else{
+        $rootScope.user.socialName = authResponse.social_name;
+
         if(albums.data.length>0 && !cursor){
           console.log("albums present");
           deffered.resolve(albums.data);

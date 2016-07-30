@@ -83,7 +83,7 @@ Content : Start
                     <img src="images/profile_icon.png" alt="">
                     <div class="description">
                         <div class="title">Connected as {{$root.user.socialName}}</div>
-                        <div class="details"><a href="">click here</a> to disconnect</div>
+                        <div class="details"><a href="" ng-click="vm.socialDisconnect(vm.uploadCategory)">click here</a> to disconnect</div>
                     </div>
                 </span>
                 <!-- Device Drag & Drop -->
@@ -96,7 +96,7 @@ Content : Start
                     </div>
                 </span>
                 <!-- Facebook Login Button -->
-                <div ng-if="vm.uploadCategory!='device' && !vm.fbLogin && vm.uploadCategory=='facebook'" class="login-div fb-login-div">
+                <div ng-if="!vm.fbLogin && vm.uploadCategory=='facebook'" class="login-div fb-login-div">
                     <a class="fb-login" ng-click="vm.socialLogin('facebook')">
                         <i class="fa fa-facebook-official" aria-hidden="true"></i>
                         <span class="text">
@@ -143,7 +143,7 @@ Content : Start
             </div>
 
             <!-- Only for photos -->
-            <div class="uploaded-images animate-if " ng-if="vm.showAlbumImages">
+            <div class="uploaded-images animate-if " ng-if="vm.showAlbumOrPhotos">
                 <div class="img" ng-repeat="file in vm.filesToUpload" ng-click="(!file.inProgress)?vm.addFilesToUploadQueue($index):null">
                     <!-- For device -->
                     <img ngf-thumbnail="file" alt="" ng-if="vm.uploadCategory=='device'">
@@ -167,7 +167,7 @@ Content : Start
             </div>
 
             <!-- only for facebook albums -->
-            <div class="fb-albums animate-if" ng-if="vm.uploadCategory=='facebook' && vm.fbLogin && !vm.showAlbumImages">
+            <div class="fb-albums animate-if" ng-if="vm.uploadCategory=='facebook' && vm.fbLogin && !vm.showAlbumOrPhotos">
                 <div class="row">
                     <div class="col-sm-4" ng-repeat="album in vm.fb.albums">
                         <div class="square"></div>

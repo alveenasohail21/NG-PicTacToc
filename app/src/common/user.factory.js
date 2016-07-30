@@ -24,6 +24,7 @@
       removeUserFromLocal: removeUserFromLocal,
       activeSocialProfilesFromServer: activeSocialProfilesFromServer,
       activeSocialProfiles: activeSocialProfiles,
+      removeSocialProfile: removeSocialProfile,
       socialDetails: socialDetails
     };
 
@@ -111,6 +112,16 @@
       else{
         return [];
       }
+    }
+
+    // update activeSocialProfiles
+    function removeSocialProfile(platform){
+      var index = $rootScope.user.activeSocialProfiles.indexOf(platform);
+      if(index>=0){
+        $rootScope.user.socialName = '';
+        $rootScope.user.activeSocialProfiles.splice(index, 1);
+      }
+      console.log("Active Social Profiles Update: ",$rootScope.user.activeSocialProfiles);
     }
 
     // get socialDetails

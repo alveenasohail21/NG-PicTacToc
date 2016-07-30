@@ -27,6 +27,11 @@
       dimension: '100x100'
     };
 
+
+
+
+
+
     var totalItems = $('#carousel .item').length;
     var thumbs = 9;
     var currentThumbs = 0;
@@ -40,6 +45,7 @@
     vm.closeSidemenu = closeSidemenu;
     vm.toggleExpandView = toggleExpandView;
     vm.toggleDropdownVisibility = toggleDropdownVisibility;
+    vm.getSelectPhoto=getSelectPhoto;
 
     /* Initializer */
     function init(){
@@ -147,6 +153,13 @@
     //  $('#carousel').carousel(activeThumbIndex);
     //  //toggleThumbActive(thumbActive);
     //}
+
+    function getSelectPhoto(id){
+      photosFactory.getSelectedPhoto(id).then(function(resp){
+          vm.selectedPhoto = resp.base64;
+      });
+    };
+
 
     function toggleSidemenu(template){
       // if opening
