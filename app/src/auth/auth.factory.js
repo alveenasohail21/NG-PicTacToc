@@ -10,7 +10,7 @@
     .module('app.auth')
     .factory('authFactory', authFactory);
 
-  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state, $timeout, Restangular, restFactory, $rootScope, pttFBFactory){
+  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state, $timeout, Restangular, restFactory, $rootScope, pttFBFactory, pttInstagram){
 
 
     /*  */
@@ -115,6 +115,14 @@
               switch(provider){
                 case 'facebook':
                   pttFBFactory.saveAuth(resp.data.data);
+                  break;
+                case 'instagram':
+                  pttInstagram.saveAuth(resp.data.data);
+                  break;
+                case 'google':
+                  break;
+                case 'flickr':
+                  break;
               }
             }
           }

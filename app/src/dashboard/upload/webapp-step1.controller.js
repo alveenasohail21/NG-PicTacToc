@@ -12,9 +12,11 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, authFactory, userFactory, photosFactory, uploadSliderConfig){
-      var vm = this;
+  function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, uploadSliderConfig){
 
+    console.log("CONTROLLER STEP 1");
+
+    var vm = this;
     /*
      * Debug mode
      * */
@@ -41,6 +43,12 @@
     vm.fb = {
       albums: [],
       currentAlbumIndex: ''
+    };
+    // instagram data
+    vm.instagram = {
+      photos: {
+        pagination: null
+      }
     };
     // files to upload
     vm.showAllUploadButton = true;
@@ -108,11 +116,20 @@
           break;
         case 'facebook':
           // check fb present
-          if(userFactory.activeSocialProfiles().indexOf('facebook')>=0){
+          if(userFactory.activeSocialProfiles().indexOf(uploadCategory)>=0){
             // already linked fb account
             vm.fbLogin = true;
             // get albums
             getFBAlbums();
+          }
+          break;
+        case 'instagram':
+          // check fb present
+          if(userFactory.activeSocialProfiles().indexOf(uploadCategory)>=0){
+            // already linked instagram account
+            vm.instagramLogin = true;
+            // get instagram photos
+            getInstagramPhotos();
           }
       }
     }
@@ -171,6 +188,35 @@
             vm.filesToUpload.push(elem);
           });
           vm.fb.albums.photosPagination = resp.paging;
+          if(resp.data.length>1){
+            vm.showAllUploadButton = true;
+          }
+          bindLoadMoreSocialPhotosScroll();
+        })
+    }
+
+    /************************************* INSTAGRAM *************************************/
+
+    // get instagram photos
+    function getInstagramPhotos(getNext){
+      vm.showAlbumImages = true;
+      var nextCursor = null;
+      // if getNext is true, pass the paging cursor
+      if(getNext && vm.instagram.photos.pagination.next_url){
+        nextCursor = vm.instagram.photos.pagination.next_url;
+        console.log("next photos paging: ", vm.instagram.photos.pagination.next_url);
+      }
+      else if(vm.instagram.photos.pagination && !('next_url' in vm.instagram.photos.pagination)){
+        console.log("no next image");
+        return;
+      }
+      pttInstagram.getPhotos(nextCursor)
+        .then(function(resp){
+          console.log(resp);
+          resp.data.forEach(function(elem, index){
+            vm.filesToUpload.push(elem);
+          });
+          vm.instagram.photos.pagination = resp.pagination;
           if(resp.data.length>1){
             vm.showAllUploadButton = true;
           }
@@ -346,7 +392,14 @@
         console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
         if(scrollBottom == uploadImageDivScrollHeight){
           console.log("fetching more images");
-          chooseAlbum(vm.fb.currentAlbumIndex, true);
+          switch(vm.uploadCategory){
+            case 'facebook':
+              chooseAlbum(vm.fb.currentAlbumIndex, true);
+              break;
+            case 'instagram':
+              getInstagramPhotos(true);
+              break;
+          }
         }
       });
     }
@@ -445,13 +498,12 @@
     }
 
     function loadMoreMyPhotos(){
-
         if(!vm.slider.showUploadImage){
           // load new photos
           vm.myPhotosPagination.from += 12;
           photosFactory.getPhotos(vm.myPhotosPagination)
             .then(function(resp){
-              console.log("new photos: ", resp);
+              console.log("new photos length: ", resp.photos.length);
               resp['photos'].forEach(function(elem, index){
                 vm.myPhotos.push(elem);
               });

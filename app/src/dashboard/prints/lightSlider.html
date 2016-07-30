@@ -1,62 +1,60 @@
 <div class="ptt-lightSlider">
 
-    <!-- ui-sref="WebAppStep2b" -->
     <button class="thumbs-collapse-btn" ng-click="vm.toggleExpandView()">
-        <!--<object data="svgs/gray-expand.svg" type=""></object>-->
-        <!--<img src="svgs/gray-expand.svg" alt="">-->
         <img src="images/gray-expand.png" alt="">
         <span>View All Photos</span>
     </button>
 
     <div class="custom-svg-icon left-arrow cursor-pointer">
-        <!--<object class="gray-left-arrow" data="svgs/gray-left-arrow.svg" type=""></object>-->
-        <!--<img class="gray-left-arrow" src="svgs/gray-left-arrow.svg" alt="">-->
         <img class="gray-left-arrow" src="images/gray-left-arrow-slider.png" alt="">
     </div>
 
     <ul id="step2-lightSlider">
-        <li>
-            <img src="images/source1.png" alt="">
+        <li ng-repeat="photo in vm.myPhotos">
+            <img ng-src="{{photo.base64}}" alt="" ptt-loader="img-fb-albums">
         </li>
-        <li>
-            <img src="images/source2.png" alt="">
-        </li>
-        <li>
-            <img src="images/source3.png" alt="">
-        </li>
-        <li>
-            <img src="images/source4.png" alt="">
-        </li>
-        <li>
-            <img src="images/source6.png" alt="">
-        </li>
-        <li>
-            <img src="images/source5.png" alt="">
-        </li>
-        <li>
-            <img src="images/source7.png" alt="">
-        </li>
-        <li>
-            <img src="images/source8.png" alt="">
-        </li>
-        <li>
-            <img src="images/source9.png" alt="">
-        </li>
-        <li>
-            <img src="images/source5.png" alt="">
-        </li>
-        <li>
-            <img src="images/source1.png" alt="">
-        </li>
-        <li>
-            <img src="images/source4.png" alt="">
-        </li>
-        <li>
-            <img src="images/source3.png" alt="">
-        </li>
-        <li>
-            <img src="images/source9.png" alt="">
-        </li>
+        <!--<li>-->
+            <!--<img src="images/source1.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source2.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source3.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source4.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source6.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source5.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source7.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source8.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source9.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source5.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source1.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source4.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source3.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<img src="images/source9.png" alt="">-->
+        <!--</li>-->
     </ul>
 
     <div class="custom-svg-icon right-arrow cursor-pointer">

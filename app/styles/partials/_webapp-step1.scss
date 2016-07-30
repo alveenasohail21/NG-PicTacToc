@@ -80,30 +80,43 @@ body.app{
           }
         }
       }
-      div.fb-login-div{
+      div.fb-login-div, div.instagram-login-div, div.google-login-div, div.flickr-login-div{
         padding: 18px 0;
+      }
+      div.login-div{
+        a{
+          font-family: Font_Open_Sans_Semibold;
+          color: white;
+          padding: 18px 46px;
+          border-radius: 4px;
+          position: relative;
+          margin-left: 8px;
+          cursor: pointer;
+          i.fa{
+            position: absolute;
+            top: 13px;
+            left: 12px;
+            font-size: 32px;
+          }
+          span.text{
+            padding-left: 12px;
+          }
+        }
+        a:hover{
+          color: rgba(255,255,255,0.9);
+        }
       }
       a.fb-login{
         background-color: $fb-blue-color;
-        font-family: Font_Open_Sans_Semibold;
-        color: white;
-        padding: 18px 46px;
-        border-radius: 4px;
-        position: relative;
-        margin-left: 8px;
-        cursor: pointer;
-        i.fa{
-          position: absolute;
-          top: 13px;
-          left: 12px;
-          font-size: 32px;
-        }
-        span.text{
-          padding-left: 12px;
-        }
       }
-      a.fb-login:hover{
-        color: rgba(255,255,255,0.9);
+      a.instagram-login{
+        background-color: $instagram-blue-color;
+      }
+      a.google-login{
+        background-color: $google-red-color;
+      }
+      a.flickr-login{
+        background-color: $flickr-pink-color;
       }
     }
 

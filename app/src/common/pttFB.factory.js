@@ -10,8 +10,9 @@
     .module('app.common')
     .factory('pttFBFactory', pttFBFactory);
 
-  function pttFBFactory($q, restFactory, $rootScope){
+  function pttFBFactory($q, restFactory, $rootScope, photosFactory){
 
+    var platform = 'facebook';
     var authResponse = null;
     var requestTimeInSecond;
     var graphAPIversion = "v2.6";
@@ -264,6 +265,9 @@
             console.log("Album Photos Response: ", response);
             if (response && !response.error) {
               // resolve
+              response.data.forEach(function(elem, index){
+                response.data[index] = photosFactory.mapSocialPhotos(elem, platform);
+              });
               deffered.resolve(response);
             }
             else{

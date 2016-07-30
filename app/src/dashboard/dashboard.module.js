@@ -74,10 +74,15 @@
           footer: true,
           resolve: {
             r_photos: function(photosFactory){
-              return photosFactory.getPhotos()
-                .then(function(resp){
-                  return resp;
-                })
+              if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
+                return photosFactory.getLocalPhotosIfPresent();
+              }
+              else{
+                return photosFactory.getPhotos()
+                  .then(function(resp){
+                    return resp;
+                  })
+              }
             },
             r_activeSocialProfiles: function(userFactory, $rootScope){
               if($rootScope.user.activeSocialProfiles){
@@ -106,6 +111,19 @@
           contentClass: "prints",
           header: true,
           footer: true,
+        resolve: {
+          r_photos: function(photosFactory){
+            if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
+              return photosFactory.getLocalPhotosIfPresent();
+            }
+            else{
+              return photosFactory.getPhotos()
+                .then(function(resp){
+                  return resp;
+                })
+            }
+          }
+        },
           views: {
             "@": {
               templateUrl:'src/dashboard/prints/webapp-step2.html',

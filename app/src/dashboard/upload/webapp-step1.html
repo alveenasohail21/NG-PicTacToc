@@ -78,15 +78,25 @@ Content : Start
         <div class="right-div sub-content">
 
             <div class="jumbotron">
-
-                <span ng-if="vm.uploadCategory!='device' && vm.fbLogin" class="">
+                <!-- Connected as -->
+                <span ng-if="vm.uploadCategory!='device' && (vm.fbLogin || vm.instagramLogin || vm.flickrLogin || vm.googleLogin)" class="">
                     <img src="images/profile_icon.png" alt="">
                     <div class="description">
                         <div class="title">Connected as {{$root.user.socialName}}</div>
                         <div class="details"><a href="">click here</a> to disconnect</div>
                     </div>
                 </span>
-                <div ng-if="vm.uploadCategory!='device' && !vm.fbLogin" class="fb-login-div">
+                <!-- Device Drag & Drop -->
+                <span ng-if="vm.uploadCategory=='device'" class="device">
+                    <div class="description">
+                        <div class="title">Drag & Drop</div>
+                        <div class="details">or
+                            <a class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">browse</a>
+                            your photo files</div>
+                    </div>
+                </span>
+                <!-- Facebook Login Button -->
+                <div ng-if="vm.uploadCategory!='device' && !vm.fbLogin && vm.uploadCategory=='facebook'" class="login-div fb-login-div">
                     <a class="fb-login" ng-click="vm.socialLogin('facebook')">
                         <i class="fa fa-facebook-official" aria-hidden="true"></i>
                         <span class="text">
@@ -96,28 +106,49 @@ Content : Start
                         </span>
                     </a>
                 </div>
-                <span ng-if="vm.uploadCategory=='device'" class="device">
-                    <div class="description">
-                        <div class="title">Drag & Drop</div>
-                        <div class="details">or
-                            <a class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">browse</a>
-                            your photo files</div>
-                    </div>
-                </span>
+                <!-- Instagram Login Button -->
+                <div ng-if="!vm.instagramLogin && vm.uploadCategory=='instagram'" class="login-div instagram-login-div">
+                    <a class="instagram-login" ng-click="vm.socialLogin('instagram')">
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                        <span class="text">
+                            <strong>Login</strong>
+                            with
+                            <strong>Instagram</strong>
+                        </span>
+                    </a>
+                </div>
+                <!-- Flickr Login Button -->
+                <div ng-if="!vm.flickrLogin && vm.uploadCategory=='flickr'" class="login-div flickr-login-div">
+                    <a class="flickr-login" ng-click="vm.socialLogin('flickr')">
+                        <i class="fa fa-flickr" aria-hidden="true"></i>
+                        <span class="text">
+                            <strong>Login</strong>
+                            with
+                            <strong>Flickr</strong>
+                        </span>
+                    </a>
+                </div>
+                <!-- Google Login Button -->
+                <div ng-if="!vm.googleLogin && vm.uploadCategory=='google'" class="login-div google-login-div">
+                    <a class="google-login" ng-click="vm.socialLogin('google')">
+                        <i class="fa fa-google" aria-hidden="true"></i>
+                        <span class="text">
+                            <strong>Login</strong>
+                            for
+                            <strong>Google Photos</strong>
+                        </span>
+                    </a>
+                </div>
+
             </div>
 
-            <!-- Only for device photos -->
-            <div class="uploaded-images animate-if " ng-if="vm.showAlbumImages && vm.uploadCategory=='device'">
-                <!--<div class="img">-->
-                <!--<img src="images/source9.png" alt="">-->
-                <!--<div class="progress">-->
-                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!-- Files To Upload -->
+            <!-- Only for photos -->
+            <div class="uploaded-images animate-if " ng-if="vm.showAlbumImages">
                 <div class="img" ng-repeat="file in vm.filesToUpload" ng-click="(!file.inProgress)?vm.addFilesToUploadQueue($index):null">
-                    <img ngf-thumbnail="file" alt="">
+                    <!-- For device -->
+                    <img ngf-thumbnail="file" alt="" ng-if="vm.uploadCategory=='device'">
+                    <!-- For facebook, instagram, google, flickr photos -->
+                    <img src="{{file.thumbnail}}" alt="" ptt-loader="loader-fb-photo" ng-if="vm.uploadCategory!='device'">
                     <div class="custom-svg-icon" ng-show="!file.inProgress">
                         <img src="svgs/gray-arrow-down.svg" alt="">
                     </div>
@@ -133,111 +164,9 @@ Content : Start
                         <img src="svgs/gray-arrow-down.svg" alt="">
                     </div>
                 </div>
-
-                <!--<div class="img">-->
-                <!--<img src="images/source1.png" alt="">-->
-                <!--<div class="progress">-->
-                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="img">-->
-                <!--<img src="images/source2.png" alt="">-->
-                <!--<div class="progress">-->
-                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="img">-->
-                <!--<img src="images/source3.png" alt="">-->
-                <!--<div class="progress">-->
-                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="img">-->
-                <!--<img src="images/source4.png" alt="">-->
-                <!--<div class="progress">-->
-                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="img">-->
-                <!--<img src="images/source5.png" alt="">-->
-                <!--<div class="progress">-->
-                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="img">-->
-                <!--<img src="images/source6.png" alt="">-->
-                <!--<div class="progress">-->
-                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="img">-->
-                <!--<img src="images/source7.png" alt="">-->
-                <!--<div class="progress">-->
-                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="img">-->
-                <!--<img src="images/source9.png" alt="">-->
-                <!--<div class="progress">-->
-                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="img" ng-if="vm.uploadCategory=='device'">-->
-                <!--<img src="images/source8.png" alt="">-->
-                <!--<div class="progress">-->
-                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="img">-->
-                <!--<img src="images/source8.png" alt="">-->
-                <!--<div class="custom-svg-icon">-->
-                <!--<img src="svgs/gray-arrow-down.svg" alt="">-->
-                <!--</div>-->
-                <!--</div>-->
-
             </div>
 
-            <!-- Only for facebook photos -->
-            <div class="uploaded-images animate-if" ng-if="vm.showAlbumImages && vm.uploadCategory=='facebook'">
-                <!-- Files To Upload -->
-                <!--<div class="img">-->
-                    <!--<img src="images/source9.png" alt="">-->
-                    <!--<div class="progress">-->
-                        <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <div class="img" ng-repeat="file in vm.filesToUpload" ng-click="(!file.inProgress)?vm.addFilesToUploadQueue($index):null">
-                    <img src="{{file.picture}}" alt="" ptt-loader="loader-fb-photo">
-                    <div class="custom-svg-icon" ng-show="!file.inProgress">
-                        <img src="svgs/gray-arrow-down.svg" alt="">
-                    </div>
-                    <div class="progress" ng-show="file.inProgress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{file.progress}}">
-                        </div>
-                    </div>
-                </div>
-                <!-- Upload All Files -->
-                <div class="img" ng-if="vm.filesToUpload.length>1 && vm.showAllUploadButton" ng-click="vm.addFilesToUploadQueue()">
-                    <div class="add-all-photos"></div>
-                    <div class="custom-svg-icon">
-                        <img src="svgs/gray-arrow-down.svg" alt="">
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- only for facebool albums -->
-
+            <!-- only for facebook albums -->
             <div class="fb-albums animate-if" ng-if="vm.uploadCategory=='facebook' && vm.fbLogin && !vm.showAlbumImages">
                 <div class="row">
                     <div class="col-sm-4" ng-repeat="album in vm.fb.albums">
@@ -249,78 +178,6 @@ Content : Start
                         </div>
                         <p>{{album.name}} <span ng-show="vm.debug"> : count = {{album.count}}</span></p>
                     </div>
-                    <!--<div class="col-sm-4">-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square" ng-click="vm.chooseAlbum()">-->
-                    <!--<img src="images/source2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<p>Album 2</p>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-4">-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square" ng-click="vm.chooseAlbum()">-->
-                    <!--<img src="images/source3.png" alt="">-->
-                    <!--</div>-->
-                    <!--<p>Album 3</p>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-4">-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square" ng-click="vm.chooseAlbum()">-->
-                    <!--<img src="images/source1.png" alt="">-->
-                    <!--</div>-->
-                    <!--<p>Album 4</p>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-4">-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square">-->
-                    <!--<img src="images/source2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<p>Album 5</p>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-4">-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square">-->
-                    <!--<img src="images/source3.png" alt="">-->
-                    <!--</div>-->
-                    <!--<p>Album 6</p>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-4">-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square">-->
-                    <!--<img src="images/source1.png" alt="">-->
-                    <!--</div>-->
-                    <!--<p>Album 7</p>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-4">-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square">-->
-                    <!--<img src="images/source2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<p>Album 8</p>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-4">-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square">-->
-                    <!--<img src="images/source3.png" alt="">-->
-                    <!--</div>-->
-                    <!--<p>Album 9</p>-->
-                    <!--</div>-->
                 </div>
             </div>
 

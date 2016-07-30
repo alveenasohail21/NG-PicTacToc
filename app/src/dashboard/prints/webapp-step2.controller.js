@@ -12,10 +12,21 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl(){
+  function webappStep2Ctrl(r_photos, photosFactory){
+
+    console.log("CONTROLLER STEP 2");
+
     var vm = this;
 
     /* Variables */
+    vm.myPhotos = r_photos['photos'];
+    vm.myPhotosTotalCount = r_photos.totalCount;
+    vm.myPhotosPagination = {
+      from: 0,
+      size: 12,
+      dimension: '100x100'
+    };
+
     var totalItems = $('#carousel .item').length;
     var thumbs = 9;
     var currentThumbs = 0;
@@ -32,6 +43,9 @@
 
     /* Initializer */
     function init(){
+
+      // Load more my photos
+      loadMoreMyPhotos();
 
       // Tooltip
       $(function () {
@@ -269,6 +283,30 @@
         'left': '50%'
       });
 
+    }
+
+    // load new photos
+    function loadMoreMyPhotos(){
+      if((vm.myPhotosTotalCount > vm.myPhotos.length)) {
+        vm.myPhotosPagination.from += 12;
+        photosFactory.getPhotos(vm.myPhotosPagination)
+          .then(function (resp) {
+            console.log("new photos length: ", resp.photos.length);
+            resp['photos'].forEach(function (elem, index) {
+              vm.myPhotos.push(elem);
+            });
+            if (vm.myPhotosTotalCount > vm.myPhotos.length) {
+              // call it self
+              loadMoreMyPhotos();
+            }
+            else {
+              console.log("all photos are loaded");
+              //vm.slider.showUploadImage = true;
+              //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
+              //step2Slider.goToSlide(vm.slider.indexOfLastPhotoInCurrentFrame-vm.slider.photosInCurrentFrame);
+            }
+          })
+      }
     }
 
     /* Initializer Call */

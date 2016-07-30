@@ -12,12 +12,19 @@
 
   function photosFactory($rootScope, $localStorage, $q, restFactory){
 
+    var _data = {
+      photos: [],
+      totalCount: 0
+    };
+
     /* Return Functions */
     return {
       getPhotos: getPhotos,
       uploadPhotos: uploadPhotos,
       mapPhotos: mapPhotos,
-        deletePhoto: deletePhoto
+      deletePhoto: deletePhoto,
+      mapSocialPhotos: mapSocialPhotos,
+      getLocalPhotosIfPresent: getLocalPhotosIfPresent
     };
 
 
@@ -32,19 +39,27 @@
       return arr;
     }
 
+    function getLocalPhotosIfPresent(){
+      return _data;
+    }
+
     function getPhotos(queryParams) {
       var deffered = $q.defer();
       var data = queryParams || {
-        from: 0,
-        size: 12,
-        dimension: '100x100'
-      };
+          from: 0,
+          size: 12,
+          dimension: '100x100'
+        };
       console.log("Photos");
       restFactory.photos.getPhotos(data)
         .then(function(resp){
           console.log(resp);
           if(resp.success){
             resp.data['photos'] = mapPhotos(resp.data.photos);
+            resp.data['photos'].forEach(function(elem, index){
+              _data.photos.push(angular.copy(elem));
+            });
+            _data.totalCount = resp.data['totalCount'];
             deffered.resolve(resp.data);
           }
           else{
@@ -61,13 +76,47 @@
     function uploadPhotos() {
 
     }
-      function deletePhoto(id) { //delete selected photo in step 1
-          var deferred = $q.defer();
-          restFactory.photos.deletePhoto(id).then(function(response){
-              console.log(response);
-              deferred.resolve(response);
-          });
-          return deferred.promise;
+
+    function deletePhoto(id) { //delete selected photo in step 1
+      var deferred = $q.defer();
+      restFactory.photos.deletePhoto(id).then(function(response){
+        console.log(response);
+        deferred.resolve(response);
+      });
+      return deferred.promise;
+    }
+
+    function mapSocialPhotos(photo, platform){
+      var photoObj = {
+        original: '',
+        thumbnail: '',
+        width: '',
+        height: '',
+        platform: ''
+      };
+      switch(platform){
+        case 'facebook':
+          photoObj.original = photo.source;
+          photoObj.thumbnail = photo.picture;
+          photoObj.width = photo.width;
+          photoObj.height = photo.height;
+          photoObj.platform = platform;
+          break;
+        case 'instagram':
+          photoObj.original = photo.images.standard_resolution.url;
+          photoObj.thumbnail = photo.images.thumbnail.url;
+          photoObj.width = photo.images.standard_resolution.width;
+          photoObj.height = photo.images.standard_resolution.height;
+          photoObj.platform = platform;
+          break;
+        case 'google':
+          break;
+        case 'flickr':
+          break;
       }
+
+      return photoObj;
+    }
+
   }
 }());
