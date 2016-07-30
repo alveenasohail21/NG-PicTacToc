@@ -93,6 +93,7 @@
       var deferred = $q.defer();
       restFactory.photos.getSelectedPhoto(id)
         .then(function(resp){
+              console.log(resp.data);
           if('imageBase64' in resp.data){
             resp.data.base64 = resp.data.imageBase64;
             delete resp.data.imageBase64;

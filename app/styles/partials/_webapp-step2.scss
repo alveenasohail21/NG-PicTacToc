@@ -482,9 +482,13 @@ body.app{
       overflow: hidden;
       display: inline-block;
       transition: width,height 0.5s;
-      img{
+      #selected-image{
         height: 100%;
         width: 100%;
+        max-width: 100%;
+      }
+      .cropper-view-box{
+        outline: none;
       }
     }
   }
