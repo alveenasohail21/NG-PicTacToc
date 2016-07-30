@@ -48,6 +48,7 @@
       }
       // if authenticated and token is not expired, get albums
       else{
+        $rootScope.user.socialName = authResponse.social_name;
         _getPhotos();
       }
 

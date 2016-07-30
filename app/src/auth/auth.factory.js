@@ -12,16 +12,14 @@
 
   function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state, $timeout, Restangular, restFactory, $rootScope, pttFBFactory, pttInstagram){
 
-
-    /*  */
-
     /* Return Functions */
     return {
       login: login,
       signup:signup,
       socialAuthenticate: socialAuthenticate,
       logout: logout,
-      forgotEmailSend: forgotEmailSend
+      forgotEmailSend: forgotEmailSend,
+      socialDisconnect: socialDisconnect
     };
 
     /* Define Fuctions */
@@ -166,6 +164,19 @@
           })
       }
       return deffered.promise;
+    }
+
+    //disconnect social login in step 1
+    function socialDisconnect(platform) {
+      var deferred = $q.defer();
+      restFactory.auth.socialDisconnect(platform).then(function(resp){
+        console.log(resp);
+        if(resp.success){
+          userFactory.removeSocialProfile(platform);
+        }
+        deferred.resolve(resp);
+      });
+      return deferred.promise;
     }
 
   }

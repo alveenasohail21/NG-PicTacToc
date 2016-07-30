@@ -26,7 +26,8 @@
         login: login,
         signup: signup,
         getAuthenticatedUser: getAuthenticatedUser,
-        forgotEmailSend: forgotEmailSend
+        forgotEmailSend: forgotEmailSend,
+        socialDisconnect: socialDisconnect
       },
       users: {
         create: createUser,
@@ -39,7 +40,8 @@
       photos: {
         getPhotos: getPhotos,
         getSocialPhotos: getSocialPhotos,
-        deletePhoto: deletePhoto
+        deletePhoto: deletePhoto,
+        getSelectedPhoto: getSelectedPhoto
       }
     };
 
@@ -92,9 +94,17 @@
     function socialDetails(data){
       return Users.one('social').one('details').get(data);
     }
-    function deletePhoto(id){ ////delete selected photo in step 1
-       return Restangular.one('photos', id).remove();
+    function deletePhoto(id){ //delete selected photo in step 1
+      return Restangular.one('photos', id).remove();
     }
+    function getSelectedPhoto(id){ //get a photo selected by user in original size
+      return Restangular.one('photos').one(id).get();
+    }
+    function socialDisconnect(platform){
+      return Auth.one('social').one('disconnect').post(null, {platform: platform});
+    }
+
+
   }
 
 }());

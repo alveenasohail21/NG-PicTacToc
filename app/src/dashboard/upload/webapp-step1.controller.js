@@ -17,10 +17,12 @@
     console.log("CONTROLLER STEP 1");
 
     var vm = this;
+
     /*
      * Debug mode
      * */
     vm.debug = false;
+
     /*
      * Variables
      * */
@@ -44,6 +46,8 @@
       albums: [],
       currentAlbumIndex: ''
     };
+    // instagram login confirm
+    vm.instagramLogin = false;
     // instagram data
     vm.instagram = {
       photos: {
@@ -55,17 +59,9 @@
     vm.filesToUpload = [];              // Stack
     vm.uploadQueue = new Queue();       // Queue
     vm.uploadInProgress = false;
-    vm.showAlbumImages = true;
+    vm.showAlbumOrPhotos = true;
     // uploaded files count for single category
     vm.filesUploadedCount = 0;
-
-    vm.loadStart = function(){
-      console.log("Load Start");
-    };
-
-    vm.loadEnd = function(){
-      console.log("Load End");
-    };
 
     /*
      * Functions
@@ -81,7 +77,7 @@
     //vm.manipulateDOM = manipulateDOM;
     vm.nextPhoto = nextPhoto;
     vm.prevPhoto = prevPhoto;
-
+    vm.socialDisconnect = socialDisconnect;
 
 
     /*
@@ -89,7 +85,7 @@
      * */
 
     function init(){
-      console.log(vm.showAlbumImages);
+      console.log(vm.showAlbumOrPhotos);
       console.log(vm.uploadCategory);
       manipulateDOM();
       loadMoreMyPhotos();
@@ -103,16 +99,23 @@
     // changing upload category
     function changeUploadCategory(uploadCategory){
       vm.uploadCategory = uploadCategory;
-      vm.showAlbumImages = false;
+      // hide albums and photos at first
+      vm.showAlbumOrPhotos = false;
+      // update file upload count
       vm.filesUploadedCount = 0;
       // empty all data
       vm.filesToUpload = [];
       // update url
       updateHref();
+      // all login to false
+      vm.fbLogin = false;
+      vm.instagramLogin = false;
+      vm.flickrLogin = false;
+      vm.googleLogin = false;
       // switch
       switch(uploadCategory){
         case 'device':
-          vm.showAlbumImages = true;
+          vm.showAlbumOrPhotos = true;
           break;
         case 'facebook':
           // check fb present
@@ -134,12 +137,16 @@
       }
     }
 
+
+
     // update href
     function updateHref(){
       var currentHref = location.href.substr(0, (location.href.indexOf('?')!=-1)?location.href.indexOf('?'):location.href.length);
       currentHref+="?platform="+vm.uploadCategory;
       location.href=currentHref;
     }
+
+    /************************************* SOCIAL AUTH *************************************/
 
     // social login
     function socialLogin(platform){
@@ -150,6 +157,30 @@
             changeUploadCategory(platform);
           }
         });
+    }
+
+    //disconnect social login
+    function socialDisconnect(platform){
+      authFactory.socialDisconnect(platform)
+        .then(function(resp){
+          if(resp.success){
+            vm.showAlbumOrPhotos = false;
+            switch(platform){
+              case 'facebook':
+                vm.fbLogin = false;
+                break;
+              case 'instagram':
+                vm.instagramLogin = false;
+                break;
+              case 'google':
+                vm.googleLogin = false;
+                break;
+              case 'flickr':
+                vm.flickrLogin = false;
+                break;
+            }
+          }
+      });
     }
 
 
@@ -168,7 +199,7 @@
 
     // selecting a facebook album
     function chooseAlbum(index, getNext){
-      vm.showAlbumImages = true;
+      vm.showAlbumOrPhotos = true;
       vm.fb.currentAlbumIndex = index;
       var nextCursor = null;
       // if getNext is true, pass the paging cursor
@@ -199,7 +230,7 @@
 
     // get instagram photos
     function getInstagramPhotos(getNext){
-      vm.showAlbumImages = true;
+      vm.showAlbumOrPhotos = true;
       var nextCursor = null;
       // if getNext is true, pass the paging cursor
       if(getNext && vm.instagram.photos.pagination.next_url){
@@ -380,16 +411,16 @@
 
     function bindLoadMoreSocialPhotosScroll(){
       var uploadImagesDiv = angular.element('div.uploaded-images');
-      console.log(uploadImagesDiv);
+      //console.log(uploadImagesDiv);
       uploadImagesDiv.off('scroll');
       uploadImagesDiv.scroll(function(){
         var offset = 50;
         var uploadImagesDivHeight = uploadImagesDiv.height();
         var scrollBottom = uploadImagesDiv.scrollTop() + uploadImagesDivHeight;
         var uploadImageDivScrollHeight = uploadImagesDiv[0].scrollHeight;
-        console.log("scrollBottom: ",Math.floor(scrollBottom));
-        console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
-        console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
+        //console.log("scrollBottom: ",Math.floor(scrollBottom));
+        //console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
+        //console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
         if(scrollBottom == uploadImageDivScrollHeight){
           console.log("fetching more images");
           switch(vm.uploadCategory){
