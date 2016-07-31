@@ -109,7 +109,7 @@
             console.log("details:",details);
             console.log("sdklfsidfhiosdfhsdkhf",typeof(details.crop.width));
 
-            return Photos.one('edit').one(id).post(null, {details: details});
+            return Photos.one('edit').one(id).post(null, details);
         }
     }
 }());
