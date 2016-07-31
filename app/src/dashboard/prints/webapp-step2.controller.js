@@ -356,7 +356,9 @@
             });
         }
 
-        //Expand view methods definition
+        /*Expand view methods definition */
+
+        //delete photo
         function deletePhoto(id, index){
             photosFactory.deletePhoto(id).then(function(response){
                 if(response.success){
@@ -364,17 +366,19 @@
                     alertFactory.success("Success!", "Photo deleted.");
                 }
             });
-        };
-        function copyPhoto(id, index){
+        }
+        //copy photo
+        function copyPhoto(id, index, base64){
+            console.log("photos: ", vm.myPhotos[0]);
             photosFactory.copyPhoto(id, index).then(function(response){
                 if(response.success){
-//                    vm.myPhotos.splice(index, 1);
-                    alertFactory.success("Success!", "Photo deleted.");
+                    response.data.base64=base64;
+                    vm.myPhotos.splice(index, 0, response.data);
+                    alertFactory.success("Success!", "Another copy made.");
                 }
+            console.log(response);  
             });
-        };
-
-//splice(index,0,element)
+        }
         /* Initializer Call */
         init();
     }

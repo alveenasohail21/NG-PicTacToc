@@ -108,7 +108,6 @@
             return Photos.one('edit').one(id).post(null, details);
         }
         function copyPhoto(id, index){
-            console.log("at rest: ", id, index);
             return Photos.one('copy').post(null, {id: id, index: index});
         }
 

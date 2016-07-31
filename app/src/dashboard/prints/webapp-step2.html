@@ -286,7 +286,7 @@ Content : Start : Step 2 B
                     <img class="upl-img" src="{{photo.base64}}" alt="">
                     <div class="expand-icons">
                         <span class="copy" ng-click="vm.copyPhoto(photo.id, $index)"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin" ng-click="vm.deletePhoto(photo.id, $index)" ><img src="svgs/white-delete.svg" alt=""></span>
+                        <span class="dustbin" ng-click="vm.deletePhoto(photo.id, $index, photo.base64)" ><img src="svgs/white-delete.svg" alt=""></span>
                         <!--<span class="dustbin"><object data="svgs/white-delete.svg" alt="" type="image/svg+xml"></object></span>-->
                     </div>
                 </div>
