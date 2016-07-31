@@ -49,9 +49,9 @@
         vm.crop=crop;
         vm.flipHorizontal=flipHorizontal;
         vm.flipVertical=flipVertical;
-
         vm.rotateClockwise=rotateClockwise;
         vm.rotateAntiClockwise=rotateAntiClockwise;
+        vm.reset=reset;
 
 
         /* Initializer */
@@ -349,6 +349,10 @@
         function rotateAntiClockwise(){
             cropperFactory.rotateAntiClockwise();
         }
+        function reset(){
+            cropperFactory.reset();
+        }
+
         function sendEditedImage(){
             var details=cropperFactory.getImageDetails();
             photosFactory.sendEditedImage(vm.imageId, details).then(function(resp){

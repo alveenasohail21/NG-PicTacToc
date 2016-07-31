@@ -9,6 +9,7 @@
   'use strict';
 
   angular.module('app.core')
-    .constant('API_URL','http://192.168.8.100:8000');
-//    .constant('API_URL','http://pictaktoeapi-dev.ap-northeast-2.elasticbeanstalk.com');
+//    .constant('API_URL','http://localhost:8000');
+    .constant('API_URL','http://pictaktoeapi-dev.ap-northeast-2.elasticbeanstalk.com');
+
 }());

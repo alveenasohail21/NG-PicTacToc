@@ -136,7 +136,7 @@
         }
         function sendEditedImage(id, details) {
             var deferred = $q.defer();
-            console.log("at afctory");
+            console.log("at afctory");re
             restFactory.photos.sendEditedImage(id, details).then(function(response){
                 console.log(response);
                 deferred.resolve(response);
