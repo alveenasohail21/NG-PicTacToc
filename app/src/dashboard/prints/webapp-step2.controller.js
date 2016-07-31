@@ -12,10 +12,7 @@
         .controller('webappStep2Ctrl', webappStep2Ctrl);
 
     /* @ngInject */
-    function webappStep2Ctrl(r_photos, photosFactory, cropperFactory){
-
-        console.log("CONTROLLER STEP 2");
-
+    function webappStep2Ctrl(r_photos, photosFactory, cropperFactory, alertFactory){
         var vm = this;
 
         /* Variables */
@@ -45,14 +42,16 @@
         vm.getSelectPhoto=getSelectPhoto;
         vm.sendEditedImage=sendEditedImage;
 
-        //Toolbar functions
-        vm.crop=crop;
+        //Toolbar methods
         vm.flipHorizontal=flipHorizontal;
         vm.flipVertical=flipVertical;
         vm.rotateClockwise=rotateClockwise;
         vm.rotateAntiClockwise=rotateAntiClockwise;
         vm.reset=reset;
 
+        //Expand view methods
+        vm.deletePhoto=deletePhoto;
+        vm.copyPhoto=copyPhoto;
 
         /* Initializer */
         function init(){
@@ -227,7 +226,7 @@
         }
 
         function toggleExpandView(){
-            console.log("hitted");
+
             if($('.step2b').hasClass('top-80px')){
                 $('.step2-main').removeClass('opacity-0');
                 $('.step2b').removeClass('top-80px');
@@ -332,11 +331,7 @@
             });
         };
 
-
-
-        function crop(){
-
-        }
+        //Toolbar methods
         function flipHorizontal(){
             cropperFactory.flipHorizontal();
         }
@@ -353,15 +348,34 @@
             cropperFactory.reset();
         }
 
+        //send edited image to the server
         function sendEditedImage(){
             var details=cropperFactory.getImageDetails();
             photosFactory.sendEditedImage(vm.imageId, details).then(function(resp){
                 console.log(resp);
             });
         }
+
+        //Expand view methods definition
+        function deletePhoto(id, index){
+            photosFactory.deletePhoto(id).then(function(response){
+                if(response.success){
+                    vm.myPhotos.splice(index, 1);
+                    alertFactory.success("Success!", "Photo deleted.");
+                }
+            });
+        };
+        function copyPhoto(id, index){
+            photosFactory.copyPhoto(id, index).then(function(response){
+                if(response.success){
+//                    vm.myPhotos.splice(index, 1);
+                    alertFactory.success("Success!", "Photo deleted.");
+                }
+            });
+        };
+
+//splice(index,0,element)
         /* Initializer Call */
         init();
-
     }
-
 }());

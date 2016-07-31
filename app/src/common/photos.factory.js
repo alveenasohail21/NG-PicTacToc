@@ -26,7 +26,8 @@
             mapSocialPhotos: mapSocialPhotos,
             getLocalPhotosIfPresent: getLocalPhotosIfPresent,
             getSelectedPhoto: getSelectedPhoto,
-            sendEditedImage:sendEditedImage
+            sendEditedImage:sendEditedImage,
+            copyPhoto: copyPhoto
         };
 
 
@@ -136,12 +137,18 @@
         }
         function sendEditedImage(id, details) {
             var deferred = $q.defer();
-            console.log("at afctory");re
             restFactory.photos.sendEditedImage(id, details).then(function(response){
-                console.log(response);
                 deferred.resolve(response);
             });
             return deferred.promise;
         }
+        function copyPhoto(id, index) {
+            var deferred = $q.defer();
+            restFactory.photos.copyPhoto(id, index).then(function(response){
+                deferred.resolve(response);
+            });
+            return deferred.promise;
+        }
+
     }
 }());

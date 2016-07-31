@@ -42,7 +42,8 @@
                 getSocialPhotos: getSocialPhotos,
                 deletePhoto: deletePhoto,
                 getSelectedPhoto: getSelectedPhoto,
-                sendEditedImage: sendEditedImage
+                sendEditedImage: sendEditedImage,
+                copyPhoto: copyPhoto
             }
         };
 
@@ -104,12 +105,13 @@
             return Auth.one('social').one('disconnect').post(null, {platform: platform});
         }
         function sendEditedImage(id, details){
-            console.log("at rest");
-            console.log("id:",id);
-            console.log("details:",details);
-            console.log("sdklfsidfhiosdfhsdkhf",typeof(details.crop.width));
-
             return Photos.one('edit').one(id).post(null, details);
         }
+        function copyPhoto(id, index){
+            console.log("at rest: ", id, index);
+            return Photos.one('copy').post(null, {id: id, index: index});
+        }
+
+
     }
 }());

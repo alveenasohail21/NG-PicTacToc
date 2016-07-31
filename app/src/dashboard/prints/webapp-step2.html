@@ -278,240 +278,242 @@ Content : Start : Step 2 B
             <span>Collapse</span>
         </button>
 
+
+
         <div class="padding-right-22px">
             <div class="uploaded-images">
-                <div class="img">
-                    <img class="upl-img" src="images/source1.png" alt="">
+                <div class="img" ng-repeat="photo in vm.myPhotos">
+                    <img class="upl-img" src="{{photo.base64}}" alt="">
                     <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin" ><img src="svgs/white-delete.svg" alt=""></span>
+                        <span class="copy" ng-click="vm.copyPhoto(photo.id, $index)"><img src="images/white-copy.png" alt=""></span>
+                        <span class="dustbin" ng-click="vm.deletePhoto(photo.id, $index)" ><img src="svgs/white-delete.svg" alt=""></span>
                         <!--<span class="dustbin"><object data="svgs/white-delete.svg" alt="" type="image/svg+xml"></object></span>-->
                     </div>
                 </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source2.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source3.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source4.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source5.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source6.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source3.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source4.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source5.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source6.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source7.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source9.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source8.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source4.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source5.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source6.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source3.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source4.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source5.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source6.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source7.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source9.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source8.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source4.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source5.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source6.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source3.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source4.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source5.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source6.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source7.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source9.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source8.png" alt="">
-                    <div class="expand-icons">
-                        <span class="copy"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>
-                    </div>
-                </div>
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source2.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/ssource3.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source4.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source5.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source6.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source3.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source4.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source5.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source6.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source7.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source9.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source8.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source4.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source5.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source6.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source3.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source4.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source5.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source6.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source7.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source9.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source8.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source4.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source5.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source6.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source3.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source4.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source5.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source6.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source7.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source9.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="img">-->
+                    <!--<img class="upl-img" src="images/source8.png" alt="">-->
+                    <!--<div class="expand-icons">-->
+                        <!--<span class="copy"><img src="images/white-copy.png" alt=""></span>-->
+                        <!--<span class="dustbin"><img src="svgs/white-delete.svg" alt=""></span>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
         </div>
 

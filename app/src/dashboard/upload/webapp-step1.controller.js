@@ -12,7 +12,7 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, uploadSliderConfig){
+  function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, uploadSliderConfig, alertFactory){
 
     console.log("CONTROLLER STEP 1");
 
@@ -316,10 +316,11 @@
     }
 
     //delete selected photo
-      function deletePhoto(id, index1){
+      function deletePhoto(id, index){
           photosFactory.deletePhoto(id).then(function(response){
               if(response.success){
-                  vm.myPhotos.splice(index1, 1);
+                  vm.myPhotos.splice(index, 1);
+                  alertFactory.success("Success!", "Photo deleted.");
               }
           });
       };
