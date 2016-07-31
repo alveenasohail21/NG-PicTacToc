@@ -43,6 +43,8 @@
         vm.toggleExpandView = toggleExpandView;
         vm.toggleDropdownVisibility = toggleDropdownVisibility;
         vm.getSelectPhoto=getSelectPhoto;
+        vm.sendEditedImage=sendEditedImage;
+
         //Toolbar functions
         vm.crop=crop;
         vm.flipHorizontal=flipHorizontal;
@@ -51,9 +53,9 @@
         vm.rotateClockwise=rotateClockwise;
         vm.rotateAntiClockwise=rotateAntiClockwise;
 
+
         /* Initializer */
         function init(){
-
             // Load more my photos
             loadMoreMyPhotos();
 
@@ -68,13 +70,11 @@
             //  $("#ptt-wrapper-2").toggleClass("toggled");
             //});
 
-
             // Slider With JQuery
             zoomSlider = $("#ex4").slider({
                 reversed : true
             });
             zoomSlider.on('slide', function(data) {
-                console.log(data.value);
                 cropperFactory.zoom(data.value);
             });
 
@@ -323,6 +323,7 @@
             }
         }
         function getSelectPhoto(id){
+            vm.imageId=id;
             photosFactory.getSelectedPhoto(id).then(function(resp){
                 vm.selectedPhoto = resp.base64;
                 setTimeout(function(){
@@ -330,6 +331,8 @@
                 }, 500);
             });
         };
+
+
 
         function crop(){
 
@@ -340,14 +343,18 @@
         function flipVertical(){
             cropperFactory.flipVertical();
         }
-
         function rotateClockwise(){
             cropperFactory.rotateClockwise();
         }
         function rotateAntiClockwise(){
             cropperFactory.rotateAntiClockwise();
         }
-
+        function sendEditedImage(){
+            var details=cropperFactory.getImageDetails();
+            photosFactory.sendEditedImage(vm.imageId, details).then(function(resp){
+                console.log(resp);
+            });
+        }
         /* Initializer Call */
         init();
 

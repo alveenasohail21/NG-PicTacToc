@@ -164,8 +164,7 @@
     //  });
     //}
 
-
-    vm.uploadFiles = function (files) {
+      vm.uploadFiles = function (files) {
       vm.files = files;
       console.log(vm.files);
       if (files && files.length) {
