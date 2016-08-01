@@ -76,8 +76,8 @@
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
                     <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-                    <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateUrl=='/design'" ui-sref="{{$root.app.productState + '.Checkout'}}">
-                        <span class="btn-text">Continue</span>
+                    <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateUrl=='/design'" ui-sref="{{$root.app.productState + '.Checkout'}}" ng-click="vm.sendEditedImage()">
+                        <span class="btn-text" >Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
                     <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateUrl=='/checkout'">

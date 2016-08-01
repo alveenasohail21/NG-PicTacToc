@@ -40,8 +40,7 @@
     }
 
     function error(title, message) {
-      //
-      $rootScope.alert.class = 'alert-danger';
+        $rootScope.alert.class = 'alert-danger';
       $rootScope.alert.title = title || 'Error: ';
       $rootScope.alert.message = message;
       $rootScope.alert.show = true;

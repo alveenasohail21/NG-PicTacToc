@@ -2168,9 +2168,14 @@ body.app div#image-studio div.editor {
   transition: width,height 0.5s;
 }
 /* line 485, ../partials/_webapp-step2.scss */
-body.app div#image-studio div.editor img {
+body.app div#image-studio div.editor #selected-image {
   height: 100%;
   width: 100%;
+  max-width: 100%;
+}
+/* line 490, ../partials/_webapp-step2.scss */
+body.app div#image-studio div.editor .cropper-view-box {
+  outline: none;
 }
 
 /* line 1, ../partials/_webapp-step2-b.scss */
