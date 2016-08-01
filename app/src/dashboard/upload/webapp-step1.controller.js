@@ -27,11 +27,12 @@
      * Variables
      * */
     vm.myPhotos = r_photos['photos'];
+    vm.myPhotosTotalCount = r_photos.totalCount;
       var step2Slider;
     vm.slider = {
       photosInCurrentFrame: 8,
       indexOfLastPhotoInCurrentFrame: 8,
-      showUploadImage: false                 // only show it when all user images are fetched
+      showUploadImage: true                 // only show it when all user images are fetched
     };
     vm.myPhotosPagination = {
       from: 0,
@@ -75,8 +76,6 @@
     vm.uploadFile = uploadFile;
       vm.deletePhoto=deletePhoto;
     //vm.manipulateDOM = manipulateDOM;
-    vm.nextPhoto = nextPhoto;
-    vm.prevPhoto = prevPhoto;
     vm.socialDisconnect = socialDisconnect;
 
 
@@ -202,6 +201,10 @@
       vm.showAlbumOrPhotos = true;
       vm.fb.currentAlbumIndex = index;
       var nextCursor = null;
+      // selecting a new album, remove pagination
+      if(!getNext){
+        vm.fb.albums.photosPagination = null;
+      }
       // if getNext is true, pass the paging cursor
       if(getNext && vm.fb.albums.photosPagination.next){
         nextCursor = vm.fb.albums.photosPagination.next;
@@ -328,26 +331,27 @@
       // upload single file from queue
     function uploadFile(){
 
-      var file, url;
+      var file;
       // see if queue is not empty
       if(!vm.uploadQueue.isEmpty()){
         // get the first element in queue
         file = vm.uploadQueue.peek();
-      }
-      // set url on the basis of uploadCategory
-      switch(vm.uploadCategory){
-        case 'device':
-          url = API_URL+'/photos/upload/device';
-          break;
-        case 'facebook':
-          url = API_URL+'/photos/upload/social';
-          break;
       }
 
       // uploading files
       console.log("uploading file from Queue: ",file);
       // added here only for progress :/
       if (file) {
+        // set url on the basis of uploadCategory
+        var url;
+        switch(vm.uploadCategory){
+          case 'device':
+            url = API_URL+'/photos/upload/device';
+            break;
+          case 'facebook':
+            url = API_URL+'/photos/upload/social';
+            break;
+        }
         Upload.upload({
           method: 'POST',
           url: url,
@@ -385,9 +389,12 @@
             console.log("step2Slider.getTotalSlideCount(): ", step2Slider.getTotalSlideCount());
             //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
             //step2Slider.refresh();
-            step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
+            //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
+            setupSlider();
+            sliderFrameCount();
             step2Slider.goToSlide(step2Slider.getTotalSlideCount() - vm.slider.photosInCurrentFrame + 1);
-            vm.slider.indexOfLastPhotoInCurrentFrame = vm.myPhotos.length-1;
+            //vm.slider.indexOfLastPhotoInCurrentFrame = vm.myPhotos.length-1;
+            //vm.myPhotosTotalCount++;
             //$(window).trigger('resize');
             // see if queue is not empty, call it self
             if(!vm.uploadQueue.isEmpty()){
@@ -473,7 +480,7 @@
             sliderFrameCount();
           })
 
-        }, 100);
+        }, 200);
 
       });
 
@@ -482,24 +489,34 @@
     /************************************* MY PHOTOS SLIDER *************************************/
 
     function setupSlider(){
+      console.log("RUNNING SLIDER SETUP");
       step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
 
+      $('.custom-svg-icon.left-arrow').off('click');
+      $('.custom-svg-icon.right-arrow').off('click');
+
       $('.custom-svg-icon.left-arrow').click(function(){
-        if(vm.slider.indexOfLastPhotoInCurrentFrame > vm.slider.photosInCurrentFrame)
+        if(vm.slider.indexOfLastPhotoInCurrentFrame >= vm.slider.photosInCurrentFrame){
           vm.slider.indexOfLastPhotoInCurrentFrame--;
+          step2Slider.goToPrevSlide();
+        }
         console.log("left arrow");
         console.log("vm.slider: ",vm.slider);
-        step2Slider.goToPrevSlide();
-        console.log("step2Slider..getCurrentSlideCount(): ", step2Slider.getCurrentSlideCount());
+        console.log("step2Slider.getCurrentSlideCount(): ", step2Slider.getCurrentSlideCount());
+        console.log("vm.slider.indexOfLastPhotoInCurrentFrame: ", vm.slider.indexOfLastPhotoInCurrentFrame);
+        console.log("vm.slider.photosInCurrentFrame: ", vm.slider.photosInCurrentFrame);
       });
 
       $('.custom-svg-icon.right-arrow').click(function(){
-        if(vm.slider.indexOfLastPhotoInCurrentFrame < vm.myPhotos.length)
+        if(vm.slider.indexOfLastPhotoInCurrentFrame <= vm.myPhotos.length){
           vm.slider.indexOfLastPhotoInCurrentFrame++;
+          step2Slider.goToNextSlide();
+        }
         console.log("right arrow");
         console.log("vm.slider: ",vm.slider);
-        step2Slider.goToNextSlide();
-        console.log("step2Slider..getCurrentSlideCount(): ", step2Slider.getCurrentSlideCount());
+        console.log("step2Slider.getCurrentSlideCount(): ", step2Slider.getCurrentSlideCount());
+        console.log("vm.slider.indexOfLastPhotoInCurrentFrame: ", vm.slider.indexOfLastPhotoInCurrentFrame);
+        console.log("vm.slider.photosInCurrentFrame: ", vm.slider.photosInCurrentFrame);
       });
     }
 
@@ -530,7 +547,7 @@
     }
 
     function loadMoreMyPhotos(){
-        if(!vm.slider.showUploadImage){
+        if(vm.myPhotosTotalCount > vm.myPhotos.length){
           // load new photos
           vm.myPhotosPagination.from += 12;
           photosFactory.getPhotos(vm.myPhotosPagination)
@@ -539,10 +556,10 @@
               resp['photos'].forEach(function(elem, index){
                 vm.myPhotos.push(elem);
               });
-              if(resp['photos'].length==0){
+              if(vm.myPhotosTotalCount >= vm.myPhotos.length){
                 console.log("all photos are loaded");
-                vm.slider.showUploadImage = true;
-                step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
+                //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
+                setupSlider();
                 step2Slider.goToSlide(vm.slider.indexOfLastPhotoInCurrentFrame-vm.slider.photosInCurrentFrame);
                 //step2Slider.goToSlide(vm.myPhotos.length);
               }
@@ -557,21 +574,6 @@
             })
         }
 
-    }
-
-    function nextPhoto(){
-      if(vm.slider.indexOfLastPhotoInCurrentFrame < vm.myPhotos.length)
-        vm.slider.indexOfLastPhotoInCurrentFrame++;
-      console.log("next photo");
-      console.log("vm.slider: ",vm.slider);
-    }
-
-    function prevPhoto(){
-      // TODO range
-      if(vm.slider.indexOfLastPhotoInCurrentFrame > vm.slider.photosInCurrentFrame)
-        vm.slider.indexOfLastPhotoInCurrentFrame--;
-      console.log("prev photo");
-      console.log("vm.slider: ",vm.slider);
     }
 
 

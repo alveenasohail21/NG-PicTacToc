@@ -32,7 +32,6 @@
       isAuthenticated: isAuthenticated,
       login: login,
       getAlbums: getAlbums,
-      getAlbumCover: getAlbumCover,
       getAlbumPhotos: getAlbumPhotos,
       saveAuth: saveAuth
     };
@@ -197,45 +196,6 @@
 
     }
 
-    /* Unused */
-    function getAlbumCover(albumId){
-      var deffered = $q.defer();
-
-      // if not authenticated, authenticate first and get access_token
-      if(!isAuthenticated()){
-        login().then(function(resp){
-          _getAlbumCover();
-        })
-      }
-      // if authenticated and token is not expired, get albums
-      else{
-        _getAlbumCover();
-      }
-
-      function _getAlbumCover(){
-        // if authenticated, get album cover
-        var url= graphAPIversion + '/'+ albumId + "/picture";
-        console.log(url);
-        FB.api(url, 'GET',
-          {
-            access_token: authResponse.access_token
-          },
-          function (response) {
-            console.log("Album Cover Response: ", response);
-            if (response && !response.error) {
-              // resolve
-              deffered.resolve(response.data);
-            }
-            else{
-              deffered.reject('Something is wrong');
-            }
-          }
-        );
-      }
-
-      return deffered.promise;
-    }
-
     function getAlbumPhotos(albumId, index, pagingCursor){
       var deffered = $q.defer();
 
@@ -271,45 +231,6 @@
                 response.data[index] = photosFactory.mapSocialPhotos(elem, platform);
               });
               deffered.resolve(response);
-            }
-            else{
-              deffered.reject('Something is wrong');
-            }
-          }
-        );
-      }
-
-      return deffered.promise;
-    }
-
-    function getPhotoById(photoId){
-      var deffered = $q.defer();
-
-      // if not authenticated, authenticate first and get access_token
-      if(!isAuthenticated()){
-        login().then(function(resp){
-          _getAlbumPhotos();
-        })
-      }
-      // if authenticated and token is not expired, get albums
-      else{
-        _getAlbumPhotos();
-      }
-
-      function _getAlbumPhotos(){
-        // if authenticated, get album cover
-        var url= graphAPIversion + '/'+ photoId;
-        console.log(url);
-        FB.api(url, 'GET',
-          {
-            access_token: authResponse.accessToken,
-            fields: 'picture'
-          },
-          function (response) {
-            console.log("Single Photo Response: ", response);
-            if (response && !response.error) {
-              // resolve
-              deffered.resolve(response.data);
             }
             else{
               deffered.reject('Something is wrong');

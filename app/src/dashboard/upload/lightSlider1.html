@@ -13,8 +13,10 @@
 
     <ul id="step1-lightSlider">
         <li ng-repeat="photo in vm.myPhotos">
+            <div class="backdrop"></div>
             <img ng-src="{{photo.base64}}" alt="" ptt-loader="img-fb-albums">
             <img ng-click="vm.deletePhoto(photo.id, $index)" class="white-cross" src="images/white-cross.png" alt="X">
+            <!--</div>-->
         </li>
         <!--<li>-->
             <!--<img src="images/source2.png" alt="">-->

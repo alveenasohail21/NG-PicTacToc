@@ -135,6 +135,17 @@ body.app{
           left: 50%;
           margin-left: 44px;
         }
+        .backdrop{
+          position: absolute;
+          height:100%;
+          width:100%;
+          background-color: rgba(0,0,0, 0.5);
+          opacity: 0;
+          transition: opacity 0.8s;
+        }
+      }
+      li:hover .backdrop{
+        opacity: 1;
       }
       li.active{
         //padding: 2px;
