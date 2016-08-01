@@ -10,7 +10,7 @@
         .module('app.common')
         .factory('photosFactory', photosFactory);
 
-    function photosFactory($rootScope, $localStorage, $q, restFactory){
+    function photosFactory($rootScope, $localStorage, $q, restFactory, alertFactory){
 
         var _data = {
             photos: [],
@@ -83,10 +83,13 @@
         //delete selected photo in step 1
         function deletePhoto(id) {
             var deferred = $q.defer();
-            restFactory.photos.deletePhoto(id).then(function(response){
-                console.log(response);
-                deferred.resolve(response);
-            });
+            restFactory.photos.deletePhoto(id)
+                .then(function(resp){
+                    if(resp.success){
+                        alertFactory.success("Success!", resp.message);
+                        deferred.resolve(resp);
+                    }
+                });
             return deferred.promise;
         }
 
@@ -144,9 +147,13 @@
         }
         function copyPhoto(id, index) {
             var deferred = $q.defer();
-            restFactory.photos.copyPhoto(id, index).then(function(response){
-                deferred.resolve(response);
-            });
+            restFactory.photos.copyPhoto(id, index)
+                .then(function(resp){
+                    resp.data.base64 = _data.photos[index].base64;
+                    _data.photos.splice(index, 0, angular.copy(resp.data));
+                    alertFactory.success("Success!", resp.message);
+                    deferred.resolve(resp);
+                });
             return deferred.promise;
         }
 
