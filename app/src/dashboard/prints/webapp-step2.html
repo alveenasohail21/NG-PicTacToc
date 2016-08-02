@@ -76,14 +76,6 @@ Content : Start : Step 2
                     All Pictures
                     <span class="caret"></span>
                 </button>
-                <!--<ul class="dropdown-menu" aria-labelledby="dLabel3">-->
-                    <!--<li class="">-->
-                        <!--A-->
-                    <!--</li>-->
-                    <!--<li class="">-->
-                        <!--B-->
-                    <!--</li>-->
-                <!--</ul>-->
             </div>
                   <span class="count">
                     28 Photos
@@ -136,8 +128,6 @@ Content : Start : Step 2
                 <!-- Action Icons 4 : Start -->
                 <div class="action-icons-4">
                     <div class="custom-svg-icon gray-copy">
-                        <!--<object class="" type="image/svg+xml" data="svgs/gray-copy.svg"></object>-->
-                        <!--<img src="svgs/gray-copy.svg" alt="">-->
                         <img src="images/gray-copy.png" alt="">
                     </div>
                     <div ng-click="vm.reset()" class="custom-svg-icon gray-delete">
@@ -145,10 +135,6 @@ Content : Start : Step 2
                         <img src="svgs/gray-delete.svg" alt="">
                     </div>
                     <div class="ptt-dropmenu dropup">
-                        <!--<button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                            <!--8 x 8 inches-->
-                            <!--<span class="caret"></span>-->
-                        <!--</button>-->
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.toggleDropdownVisibility('.action-icons-4 .ptt-dropmenu .dropdown-menu')">
                             8 x 8 inches
                             <span class="caret"></span>
@@ -228,7 +214,7 @@ Content : Start : Step 2
                             </div>
                         </div>
                         <div class="editor">
-                            <img id="selected-image" src="{{vm.selectedPhoto}}" alt="">
+                            <img id="selected-image" src="{{vm.selectedPhoto.base64}}" alt="">
                         </div>
                         <div class="zoomBar">
                             <input id="ex4" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="0.01" data-slider-value="0" data-slider-orientation="vertical"/>
@@ -255,7 +241,18 @@ Content : Start : Step 2
 
 
 <!-- Film Strip Thumbs : Start-->
-<div ng-include="'src/dashboard/prints/lightSlider2.html'"></div>
+<!--<div ng-include="'src/dashboard/prints/lightSlider2.html'"></div>-->
+    <ptt-photo-strip
+            photos="vm.myPhotos"
+            show-upload-image=""
+            step=2
+            on-delete=""
+            on-select=""
+            on-select-files=""
+            on-toggle-expand-view="vm.toggleExpandView()"
+            on-get-select-photo="vm.getSelectPhoto(id)"
+    >
+    </ptt-photo-strip>
 <!-- Film Strip Thumbs : End-->
 </span>
 

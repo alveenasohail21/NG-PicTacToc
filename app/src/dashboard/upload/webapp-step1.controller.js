@@ -12,7 +12,7 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, uploadSliderConfig, alertFactory){
+  function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, alertFactory){
 
     console.log("CONTROLLER STEP 1");
 
@@ -28,12 +28,7 @@
      * */
     vm.myPhotos = r_photos['photos'];
     vm.myPhotosTotalCount = r_photos.totalCount;
-      var step2Slider;
-    vm.slider = {
-      photosInCurrentFrame: 8,
-      indexOfLastPhotoInCurrentFrame: 8,
-      showUploadImage: true                 // only show it when all user images are fetched
-    };
+
     vm.myPhotosPagination = {
       from: 0,
       size: 12,
@@ -74,7 +69,7 @@
     vm.selectFiles = selectFiles;
     vm.addFilesToUploadQueue = addFilesToUploadQueue;
     vm.uploadFile = uploadFile;
-      vm.deletePhoto=deletePhoto;
+    vm.deletePhoto = deletePhoto;
     //vm.manipulateDOM = manipulateDOM;
     vm.socialDisconnect = socialDisconnect;
 
@@ -179,7 +174,7 @@
                 break;
             }
           }
-      });
+        });
     }
 
 
@@ -263,13 +258,12 @@
 
     // Select files and add to local variable
     function selectFiles(files) {
+      console.log("file selected: ", files);
       if(files.length>0){
-
         // first update category
         if(vm.uploadCategory!='device'){
           changeUploadCategory('device');
         }
-
         for(var i=0;i<files.length;i++){
           vm.filesToUpload.push(files[i]);
         }
@@ -318,17 +312,7 @@
       }
     }
 
-    //delete selected photo
-      function deletePhoto(id, index){
-          photosFactory.deletePhoto(id).then(function(response){
-              if(response.success){
-                  vm.myPhotos.splice(index, 1);
-                  alertFactory.success("Success!", "Photo deleted.");
-              }
-          });
-      };
-
-      // upload single file from queue
+    // upload single file from queue
     function uploadFile(){
 
       var file;
@@ -371,7 +355,10 @@
             // loop it, but its length will always be zero
             for(var i=0;i<response.data.data.photos.length;i++){
               // update myPhotos
+              console.log("pussing to photos");
               vm.myPhotos.push(response.data.data.photos[i]);
+              // save photo in photoFactotry
+              photosFactory.addPhotoToLocal(response.data.data.photos[i]);
             }
             // remove from queue
             vm.uploadQueue.dequeue();
@@ -384,18 +371,6 @@
               console.log("> 1");
               vm.showAllUploadButton = true;
             }
-            // go to last item in slider
-            console.log('vm.myPhotos.length: ',vm.myPhotos.length);
-            console.log("step2Slider.getTotalSlideCount(): ", step2Slider.getTotalSlideCount());
-            //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
-            //step2Slider.refresh();
-            //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
-            setupSlider();
-            sliderFrameCount();
-            step2Slider.goToSlide(step2Slider.getTotalSlideCount() - vm.slider.photosInCurrentFrame + 1);
-            //vm.slider.indexOfLastPhotoInCurrentFrame = vm.myPhotos.length-1;
-            //vm.myPhotosTotalCount++;
-            //$(window).trigger('resize');
             // see if queue is not empty, call it self
             if(!vm.uploadQueue.isEmpty()){
               vm.uploadFile();
@@ -452,9 +427,6 @@
         var uploadImagesDivHeight = uploadImagesDiv.height();
         var scrollBottom = uploadImagesDiv.scrollTop() + uploadImagesDivHeight;
         var uploadImageDivScrollHeight = uploadImagesDiv[0].scrollHeight;
-        console.log("scrollBottom: ",Math.floor(scrollBottom));
-        console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
-        console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
         if(scrollBottom == uploadImageDivScrollHeight){
           console.log("fetching more albums");
           getFBAlbums('next');
@@ -462,117 +434,46 @@
       });
     }
 
+    //delete selected photo
+    function deletePhoto(id, index){
+      photosFactory.deletePhoto(id, index).then(function(response){
+        if(response.success){
+          vm.myPhotos.splice(index, 1);
+        }
+      });
+    }
+
     /************************************* MANIPULATE DOM *************************************/
+
     function manipulateDOM(){
-
       $(document).ready(function() {
-
         $timeout(function(){
           angular.element('[data-toggle="tooltip"]').tooltip();
-
           bindLoadMoreFBAlbumsScroll();
-
-          setupSlider();
-
-          sliderFrameCount();
-
-          $(window).resize(function(){
-            sliderFrameCount();
-          })
-
         }, 200);
-
-      });
-
-    }
-
-    /************************************* MY PHOTOS SLIDER *************************************/
-
-    function setupSlider(){
-      console.log("RUNNING SLIDER SETUP");
-      step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
-
-      $('.custom-svg-icon.left-arrow').off('click');
-      $('.custom-svg-icon.right-arrow').off('click');
-
-      $('.custom-svg-icon.left-arrow').click(function(){
-        if(vm.slider.indexOfLastPhotoInCurrentFrame >= vm.slider.photosInCurrentFrame){
-          vm.slider.indexOfLastPhotoInCurrentFrame--;
-          step2Slider.goToPrevSlide();
-        }
-        console.log("left arrow");
-        console.log("vm.slider: ",vm.slider);
-        console.log("step2Slider.getCurrentSlideCount(): ", step2Slider.getCurrentSlideCount());
-        console.log("vm.slider.indexOfLastPhotoInCurrentFrame: ", vm.slider.indexOfLastPhotoInCurrentFrame);
-        console.log("vm.slider.photosInCurrentFrame: ", vm.slider.photosInCurrentFrame);
-      });
-
-      $('.custom-svg-icon.right-arrow').click(function(){
-        if(vm.slider.indexOfLastPhotoInCurrentFrame <= vm.myPhotos.length){
-          vm.slider.indexOfLastPhotoInCurrentFrame++;
-          step2Slider.goToNextSlide();
-        }
-        console.log("right arrow");
-        console.log("vm.slider: ",vm.slider);
-        console.log("step2Slider.getCurrentSlideCount(): ", step2Slider.getCurrentSlideCount());
-        console.log("vm.slider.indexOfLastPhotoInCurrentFrame: ", vm.slider.indexOfLastPhotoInCurrentFrame);
-        console.log("vm.slider.photosInCurrentFrame: ", vm.slider.photosInCurrentFrame);
       });
     }
 
-    function sliderFrameCount(){
-      var currentWidth = $('body').css('width').replace('px', '');
-      var photosRemovedFromCF = 0;
-      for(var i=uploadSliderConfig.responsive.length-1;i>=0;i--){
-        var elem = uploadSliderConfig.responsive[i];
-        photosRemovedFromCF++;
-        if(elem.breakpoint > currentWidth){
-          if(vm.slider.photosInCurrentFrame != elem.settings.item){
-            var prevIndex = vm.slider.indexOfLastPhotoInCurrentFrame;
-            // TODO need fix
-            console.log("changing slider data");
-            console.log("currentWidth: ",currentWidth);
-            console.log("elem.breakpoint: ",elem.breakpoint);
-            console.log("elem.settings: ",elem.settings);
-            vm.slider.photosInCurrentFrame = vm.slider.indexOfLastPhotoInCurrentFrame = elem.settings.item;
-            console.log("prevIndex: ", prevIndex);
-            console.log("photosInCurrentFrame: ",vm.slider.photosInCurrentFrame);
-            var diffOfPhotosInBreakpoints = prevIndex-vm.slider.photosInCurrentFrame;
-            console.log("diffOfPhotosInBreakpoints: ",diffOfPhotosInBreakpoints);
-            //vm.slider.indexOfLastPhotoInCurrentFrame += ((diff>0)?(diff+ photosRemovedFromCF):(photosRemovedFromCF));
-          }
-          break;
-        }
-      }
-    }
+    /************************************* LOADER *************************************/
 
     function loadMoreMyPhotos(){
-        if(vm.myPhotosTotalCount > vm.myPhotos.length){
-          // load new photos
-          vm.myPhotosPagination.from += 12;
-          photosFactory.getPhotos(vm.myPhotosPagination)
-            .then(function(resp){
-              console.log("new photos length: ", resp.photos.length);
-              resp['photos'].forEach(function(elem, index){
-                vm.myPhotos.push(elem);
-              });
-              if(vm.myPhotosTotalCount >= vm.myPhotos.length){
-                console.log("all photos are loaded");
-                //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
-                setupSlider();
-                step2Slider.goToSlide(vm.slider.indexOfLastPhotoInCurrentFrame-vm.slider.photosInCurrentFrame);
-                //step2Slider.goToSlide(vm.myPhotos.length);
-              }
-              else{
-                //step2Slider.refresh();
-                // stupid jquery slider needs reload
-                //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
-                //step2Slider.goToSlide(vm.slider.indexOfLastPhotoInCurrentFrame-vm.slider.photosInCurrentFrame);
-                // call it self
-                loadMoreMyPhotos();
-              }
-            })
-        }
+      if(vm.myPhotosTotalCount > vm.myPhotos.length){
+        // load new photos
+        vm.myPhotosPagination.from += 12;
+        photosFactory.getPhotos(vm.myPhotosPagination)
+          .then(function(resp){
+            console.log("new photos length: ", resp.photos.length);
+            resp['photos'].forEach(function(elem, index){
+              vm.myPhotos.push(elem);
+            });
+            if(vm.myPhotosTotalCount >= vm.myPhotos.length){
+              console.log("all photos are loaded");
+            }
+            else{
+              loadMoreMyPhotos();
+            }
+          })
+      }
 
     }
 

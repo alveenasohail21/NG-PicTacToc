@@ -191,7 +191,18 @@ Content : Start
 
 
 <!-- Film Strip Thumbs : Start-->
-<div ng-include="'src/dashboard/upload/lightSlider1.html'"></div>
+<!--<div ng-include="'src/dashboard/upload/lightSlider1.html'"></div>-->
+<ptt-photo-strip
+        photos="vm.myPhotos"
+        show-upload-image=""
+        step=1
+        on-delete="vm.deletePhoto(id, index)"
+        on-select=""
+        on-select-files="vm.selectFiles(files)"
+        on-toggle-expand-view=""
+        on-get-select-photo=""
+>
+</ptt-photo-strip>
 <!-- Film Strip Thumbs : End-->
 
 

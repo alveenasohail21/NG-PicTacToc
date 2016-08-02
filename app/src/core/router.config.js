@@ -93,7 +93,6 @@
         }
         // if found appState
         if(appStateIndex>=0){
-          console.log("inside app");
           $rootScope.app.productState = appStates[appStateIndex].parent;
           $rootScope.app.productTitle = toState.title;
           $rootScope.app.isActive = true;

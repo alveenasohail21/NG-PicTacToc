@@ -10,7 +10,7 @@
     .module('app.auth')
     .factory('authFactory', authFactory);
 
-  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state, $timeout, Restangular, restFactory, $rootScope, pttFBFactory, pttInstagram){
+  function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state, $timeout, Restangular, restFactory, $rootScope){
 
     /* Return Functions */
     return {
@@ -45,8 +45,6 @@
           }
           defer.resolve(resp);
         }, function(err){
-          console.log(err);
-          alertFactory.error(null,err.data.message);
           defer.reject(err);
         });
       return defer.promise;
@@ -74,8 +72,6 @@
           }
           defer.resolve(resp);
         }, function(err){
-          console.log(err);
-          alertFactory.error(null,err.data.message);
           defer.reject(err);
         });
       return defer.promise;
@@ -109,19 +105,9 @@
               else{
                 $rootScope.user['activeSocialProfiles'] = [provider];
               }
-              // save social data in respective factory
-              switch(provider){
-                case 'facebook':
-                  pttFBFactory.saveAuth(resp.data.data);
-                  break;
-                case 'instagram':
-                  pttInstagram.saveAuth(resp.data.data);
-                  break;
-                case 'google':
-                  break;
-                case 'flickr':
-                  break;
-              }
+              // event with social data
+              console.log(resp.data.data);
+              $rootScope.$emit('socialAuthenticate', resp.data.data);
             }
           }
           else{
@@ -129,18 +115,14 @@
           }
           defer.resolve(resp);
         }, function(err){
-          console.log(err);
-
-          alertFactory.error(null,err.data.message);
           defer.reject(err);
         });
       return defer.promise;
     }
 
     function logout(){
-      console.log('logout clicked');
       $auth.removeToken();
-      userFactory.removeUserFromLocal();
+      $rootScope.$emit('logout');
       $state.go('Login');
     }
 
@@ -173,6 +155,7 @@
         console.log(resp);
         if(resp.success){
           userFactory.removeSocialProfile(platform);
+          alertFactory.success(null,resp.message);
         }
         deferred.resolve(resp);
       });

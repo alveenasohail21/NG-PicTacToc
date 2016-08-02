@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html ng-app="app" ng-cloak>
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <base href="/">
     <title ng-bind="$root.pageTitle"></title>
-    <!-- build:css styles/main.css -->
+    <!-- build:css styles/libs.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.css" />
@@ -13,9 +13,12 @@
     <link rel="stylesheet" href="bower_components/lightslider/dist/css/lightslider.min.css" />
     <link rel="stylesheet" href="bower_components/cropper/dist/cropper.css" />
     <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="styles/css/main.css"/>
     <!-- endbuild -->
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
 </head>
 
 <body class=" scroll-pane" ng-cloak ng-class="{'app': $root.app.isActive}">
@@ -30,7 +33,7 @@
 
 </body>
 
-<!-- build:js scripts/app.js -->
+<!-- build:js scripts/libs.js -->
 <!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
@@ -56,8 +59,9 @@
 <script src="bower_components/ng-lodash/build/ng-lodash.js"></script>
 <script src="bower_components/cropper/dist/cropper.js"></script>
 <!-- endbower -->
+<!-- endbuild -->
 
-
+<!-- build:js scripts/app.js -->
 <!-- stored libraries -->
 <script src="scripts/snapGallery.js"></script>
 <script src="scripts/queue.js"></script>
@@ -69,6 +73,7 @@
 <script src="src/layouts/layouts.module.js"></script>
 <script src="src/dashboard/dashboard.module.js"></script>
 <script src="src/app.module.js"></script>
+<script src="src/common/events/events.run.js"></script>
 <!-- configs -->
 <script src="src/core/restangular.config.js"></script>
 <script src="src/core/router.config.js"></script>
@@ -79,7 +84,8 @@
 <script src="src/core/core.values.js"></script>
 <!-- factories -->
 <script src="src/auth/auth.factory.js"></script>
-<script src="src/common/alert.factory.js"></script>
+<script src="src/common/exceptions/exceptions.factory.js"></script>
+<script src="src/common/alerts/alert.factory.js"></script>
 <script src="src/common/rest.factory.js"></script>
 <script src="src/common/user.factory.js"></script>
 <script src="src/common/photos.factory.js"></script>
@@ -90,6 +96,7 @@
 <!-- directives -->
 <script src="src/common/compareTo.directive.js"></script>
 <script src="src/common/pttLoader.directive.js"></script>
+<script src="src/dashboard/lightSlider.directive.js"></script>
 <!-- controllers -->
 <script src="src/auth/auth.controller.js"></script>
 <script src="src/layouts/appheader.controller.js"></script>

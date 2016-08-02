@@ -111,19 +111,19 @@
           contentClass: "prints",
           header: true,
           footer: true,
-        resolve: {
-          r_photos: function(photosFactory){
-            if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
-              return photosFactory.getLocalPhotosIfPresent();
+          resolve: {
+            r_photos: function(photosFactory){
+              if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
+                return photosFactory.getLocalPhotosIfPresent();
+              }
+              else{
+                return photosFactory.getPhotos()
+                  .then(function(resp){
+                    return resp;
+                  })
+              }
             }
-            else{
-              return photosFactory.getPhotos()
-                .then(function(resp){
-                  return resp;
-                })
-            }
-          }
-        },
+          },
           views: {
             "@": {
               templateUrl:'src/dashboard/prints/webapp-step2.html',
@@ -138,6 +138,25 @@
           contentClass: "prints",
           header: true,
           footer: true,
+          params: {
+            id: null,
+            configs: null
+          },
+          resolve: {
+            r_product: function(photosFactory, $stateParams){
+              if($stateParams.id!=null && $stateParams.configs!=null){
+                console.log("INSIDE IF");
+                return photosFactory.sendEditedImage($stateParams.id, $stateParams.configs)
+                  .then(function(resp){
+                    console.log("r_editedPhoto: ", resp);
+                    return resp.data;
+                  });
+              }
+              else{
+                return null;
+              }
+            }
+          },
           views: {
             "@": {
               templateUrl:'src/dashboard/cart/webapp-step3.html',

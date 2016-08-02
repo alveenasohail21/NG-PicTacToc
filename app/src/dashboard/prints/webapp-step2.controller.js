@@ -12,7 +12,7 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl(r_photos, photosFactory, cropperFactory, alertFactory, $timeout){
+  function webappStep2Ctrl(r_photos, photosFactory, cropperFactory, $rootScope, $state){
 
     console.log("CONTROLLER STEP 2");
 
@@ -26,44 +26,26 @@
       size: 12,
       dimension: '100x100'
     };
-    var totalItems = $('#carousel .item').length;
-    var thumbs = 9;
-    var currentThumbs = 0;
-    var to = 0;
-    var thumbActive = 5;
     vm.activeSidemenuItem = '';
-
-
-    // slider
-    var step2Slider;
-    vm.slider = {
-      photosInCurrentFrame: 8,
-      indexOfLastPhotoInCurrentFrame: 8,
-      showUploadImage: false                 // only show it when all user images are fetched
-    };
 
     // zoom slider
     var zoomSlider;
 
     /* Function Assignment */
-    //vm.changeThumb = changeThumb;
     vm.toggleSidemenu = toggleSidemenu;
     vm.closeSidemenu = closeSidemenu;
     vm.toggleExpandView = toggleExpandView;
-    vm.toggleDropdownVisibility = toggleDropdownVisibility;
     vm.getSelectPhoto=getSelectPhoto;
     vm.sendEditedImage=sendEditedImage;
-
     //Toolbar methods
     vm.flipHorizontal=flipHorizontal;
     vm.flipVertical=flipVertical;
     vm.rotateClockwise=rotateClockwise;
     vm.rotateAntiClockwise=rotateAntiClockwise;
     vm.reset=reset;
-
     //Expand view methods
-    vm.deletePhoto=deletePhoto;
-    vm.copyPhoto=copyPhoto;
+    vm.deletePhoto = deletePhoto;
+    vm.copyPhoto = copyPhoto;
 
     /* Initializer */
     function init(){
@@ -74,12 +56,6 @@
       $(function () {
         $('[data-toggle="tooltip"]').tooltip();
       });
-
-      // Sidebar
-      //$(".action-icons-2 .action-icon, .ptt-sidebar-2-close").click(function(e) {
-      //  e.preventDefault();
-      //  $("#ptt-wrapper-2").toggleClass("toggled");
-      //});
 
       // Slider With JQuery
       zoomSlider = $("#ex4").slider({
@@ -105,88 +81,13 @@
         updateImageEditorSize(null, true);
       });
 
-      // Carousel
-      //function toggleThumbActive (i) {
-      //  $('#carousel-thumbs .item').removeClass('active');
-      //  $('#carousel-thumbs .item:nth-child(' + i +')').addClass('active');
-      //}
-      //$('#carousel').on('slide.bs.carousel', function(e) {
-      //  //var active = $(e.target).find('.carousel-inner > .item.active');
-      //  //var from = active.index();
-      //  var from = $('#carousel .item.active').index()+1;
-      //  var next = $(e.relatedTarget);
-      //  to = next.index();
-      //  var nextThumbs = Math.ceil(to/thumbs) - 1;
-      //  if (nextThumbs != currentThumbs) {
-      //    $('#carousel-thumbs').carousel(nextThumbs);
-      //    currentThumbs = nextThumbs;
-      //  }
-      //  thumbActive = +to-(currentThumbs*thumbs);
-      //  //console.log(from + ' => ' + to + ' / ' + currentThumbs);
-      //});
-      //$('#carousel').on('slid.bs.carousel', function(e) {
-      //  toggleThumbActive(thumbActive);
-      //});
-      //$('#carousel-thumbs').on('slid.bs.carousel', function(e) {
-      //  toggleThumbActive(thumbActive);
-      //});
-
-      // Refresh Svgs
-      //setTimeout(function(){
-      //  var svgs = $('.custom-svg-icon object');
-      //  for(var i=0; i<svgs.length; i++){
-      //    var actualWidth = $(svgs[i]).css('width');
-      //    $(svgs[i]).css({
-      //      'width': 0
-      //    });
-      //    $(svgs[i]).css({
-      //      'width': actualWidth
-      //    })
-      //  }
-      //}, 3000);
-
-      // Draggable & Resizable for demo
-      //$('.draggableHelper').draggable();
-
-
     }
-
-    // Light Slider
-
-
-    /* Functions */
-    //function changeThumb(position){
-    //  console.log(position);
-    //  console.log("Thumnail",thumbActive);
-    //  $('#carousel-thumbs').carousel(position);
-    //  var activeThumbIndex = $('#carousel-thumbs .item.active').index();
-    //  if(position=='next'){activeThumbIndex++;}
-    //  else {activeThumbIndex--;}
-    //  if(activeThumbIndex>=thumbs){
-    //    activeThumbIndex = 0;
-    //  }
-    //  else if(activeThumbIndex<0){
-    //    activeThumbIndex = thumbs-1;
-    //  }
-    //  console.log(activeThumbIndex);
-    //  $('#carousel').carousel(activeThumbIndex);
-    //  //toggleThumbActive(thumbActive);
-    //}
 
     function toggleSidemenu(template){
       // if opening
       if(!$("#ptt-wrapper-2").hasClass("toggled")){
         console.log("opening");
-        //width: 43.6%;
-        //margin-left: -21.5%;
         vm.sideMenuTemplate = 'src/dashboard/sidemenu/'+template+'.html';
-        //$('div#image-studio div.element').css({
-        //  'width': '43.6%',
-        //  'margin-left': '-21.5%'
-        //});
-        //$('div#image-studio').css({
-        //  'padding': '3.6% 0'
-        //});
         vm.activeSidemenuItem = template;
         $("#ptt-wrapper-2").toggleClass("toggled");
       }
@@ -199,15 +100,6 @@
         else{
           console.log("closing");
           vm.activeSidemenuItem = '';
-          //width: 34%;
-          //margin-left: -19.5%;
-          //$('div#image-studio div.element').css({
-          //  'width': '34%',
-          //  'margin-left': '-19.5%'
-          //});
-          //$('div#image-studio').css({
-          //  'padding': '2.65% 0'
-          //});
           $("#ptt-wrapper-2").toggleClass("toggled");
         }
       }
@@ -216,10 +108,6 @@
     function closeSidemenu(){
       if($("#ptt-wrapper-2").hasClass("toggled")){
         $("#ptt-wrapper-2").removeClass("toggled");
-        //$('div#image-studio div.element').css({
-        //  'width': '34%',
-        //  'margin-left': '-19.5%'
-        //});
         $('div#image-studio').css({
           'padding': '2.65% 0'
         });
@@ -231,7 +119,6 @@
       var stickerArray = ['images/sidemenu/stickers/2.png', 'images/sidemenu/stickers/3.png', 'images/sidemenu/stickers/5.png',
         'images/sidemenu/stickers/4.png', 'images/sidemenu/stickers/1.png', 'images/sidemenu/stickers/6.png'];
       $.each(stickerArray, function(){
-        console.log(this);
         var img = new Image();
         img.src = this;
       });
@@ -249,15 +136,11 @@
       }
     }
 
-    function toggleDropdownVisibility(dropDownSelector){
-      //$(dropDownSelector).toggleClass('opacity-1');
-    }
-
     // resize event
     $(window).resize(updateImageEditorSize);
 
     function updateImageEditorSize(event, runningFirstTime){
-      console.log("resizing :)");
+      //console.log("resizing :)");
       var imageStudio = {
         height: $("#image-studio").height(),
         width: $("#image-studio").width()
@@ -274,10 +157,10 @@
       };
       var updateValue = 0;
       var firstTimeDifference = 17;
-      console.log("#image-studio height: ", imageStudio.height);
-      console.log("#image-studio width: ", imageStudio.width);
-      console.log("#image-studio .element current height: ", element.current.height);
-      console.log("#image-studio .element current width: ", element.current.width);
+      //console.log("#image-studio height: ", imageStudio.height);
+      //console.log("#image-studio width: ", imageStudio.width);
+      //console.log("#image-studio .element current height: ", element.current.height);
+      //console.log("#image-studio .element current width: ", element.current.width);
 
       // Formula for aspect ratio equality calculation
       // (original height / original width) = (new height / new width)
@@ -290,17 +173,17 @@
         //  console.log("running first time: ",runningFirstTime);
         //  updateValue = Number(updateValue + firstTimeDifference);
         //}
-        console.log("height is small");
+        //console.log("height is small");
       }
       // else if image studio width is small
       else if(imageStudio.width < imageStudio.height){
         // new height = (original height / original width) x (new width)
         updateValue = (element.original.height/element.original.width) * (imageStudio.width);
-        console.log("width is small");
+        //console.log("width is small");
       }
 
       // update css
-      console.log("change height and width to: ", updateValue);
+      //console.log("change height and width to: ", updateValue);
       $("#image-studio .element").width(updateValue);
       $("#image-studio .element").height(updateValue);
       $("#image-studio .element").css({
@@ -313,77 +196,10 @@
     /************************************* MANIPULATE DOM *************************************/
     function manipulateDOM(){
 
-      $(document).ready(function() {
-
-        $timeout(function(){
-
-          setupSlider();
-
-          sliderFrameCount();
-
-          $(window).resize(function(){
-            sliderFrameCount();
-          })
-
-        }, 100);
-
-      });
-
     }
 
 
     /************************************* MY PHOTOS SLIDER *************************************/
-
-    function setupSlider(){
-      step2Slider = $("#step2-lightSlider").lightSlider(uploadSliderConfig);
-
-      $('.custom-svg-icon.left-arrow').off('click');
-      $('.custom-svg-icon.right-arrow').off('click');
-
-      $('.custom-svg-icon.left-arrow').click(function(){
-        if(vm.slider.indexOfLastPhotoInCurrentFrame > vm.slider.photosInCurrentFrame)
-          vm.slider.indexOfLastPhotoInCurrentFrame--;
-        console.log("left arrow");
-        console.log("vm.slider: ",vm.slider);
-        step2Slider.goToPrevSlide();
-        console.log("step2Slider.getCurrentSlideCount(): ", step2Slider.getCurrentSlideCount());
-      });
-
-      $('.custom-svg-icon.right-arrow').click(function(){
-        if(vm.slider.indexOfLastPhotoInCurrentFrame < vm.myPhotos.length)
-          vm.slider.indexOfLastPhotoInCurrentFrame++;
-        console.log("right arrow");
-        console.log("vm.slider: ",vm.slider);
-        step2Slider.goToNextSlide();
-        console.log("step2Slider.getCurrentSlideCount(): ", step2Slider.getCurrentSlideCount());
-      });
-    }
-
-    function sliderFrameCount(){
-      var currentWidth = $('body').css('width').replace('px', '');
-      var photosRemovedFromCF = 0;
-      for(var i=uploadSliderConfig.responsive.length-1;i>=0;i--){
-        var elem = uploadSliderConfig.responsive[i];
-        photosRemovedFromCF++;
-        if(elem.breakpoint > currentWidth){
-          if(vm.slider.photosInCurrentFrame != elem.settings.item){
-            var prevIndex = vm.slider.indexOfLastPhotoInCurrentFrame;
-            // TODO need fix
-            console.log("changing slider data");
-            console.log("currentWidth: ",currentWidth);
-            console.log("elem.breakpoint: ",elem.breakpoint);
-            console.log("elem.settings: ",elem.settings);
-            vm.slider.photosInCurrentFrame = vm.slider.indexOfLastPhotoInCurrentFrame = elem.settings.item;
-            console.log("prevIndex: ", prevIndex);
-            console.log("photosInCurrentFrame: ",vm.slider.photosInCurrentFrame);
-            var diffOfPhotosInBreakpoints = prevIndex-vm.slider.photosInCurrentFrame;
-            console.log("diffOfPhotosInBreakpoints: ",diffOfPhotosInBreakpoints);
-            //vm.slider.indexOfLastPhotoInCurrentFrame += ((diff>0)?(diff+ photosRemovedFromCF):(photosRemovedFromCF));
-          }
-          break;
-        }
-      }
-    }
 
     // load new photos
     function loadMoreMyPhotos(){
@@ -400,21 +216,19 @@
               loadMoreMyPhotos();
             }
             else {
-              setupSlider();
               console.log("all photos are loaded");
-              //vm.slider.showUploadImage = true;
-              //step2Slider = $("#step1-lightSlider").lightSlider(uploadSliderConfig);
-              //step2Slider.goToSlide(vm.slider.indexOfLastPhotoInCurrentFrame-vm.slider.photosInCurrentFrame);
             }
           });
       }
     }
 
+    // get the high res image for editing
     function getSelectPhoto(id){
       vm.imageId=id;
       photosFactory.getSelectedPhoto(id).then(function(resp){
-        vm.selectedPhoto = resp.base64;
+        vm.selectedPhoto = resp;
         setTimeout(function(){
+          cropperFactory.destroy();
           cropperFactory.initiateCrop('#selected-image');
         }, 500);
       });
@@ -439,10 +253,10 @@
 
     //send edited image to the server
     function sendEditedImage(){
-      var details=cropperFactory.getImageDetails();
-      photosFactory.sendEditedImage(vm.imageId, details).then(function(resp){
-        console.log(resp);
-      });
+      if(vm.selectedPhoto){
+        var configs = cropperFactory.getImageDetails();
+        $state.go($rootScope.app.productState + '.Checkout', {id: vm.selectedPhoto.id, configs: configs});
+      }
     }
 
     /*Expand view methods definition */
@@ -455,6 +269,7 @@
         }
       });
     }
+
     //copy photo
     function copyPhoto(id, index){
       photosFactory.copyPhoto(id, index)
@@ -464,6 +279,7 @@
           }
         });
     }
+
     /* Initializer Call */
     init();
   }

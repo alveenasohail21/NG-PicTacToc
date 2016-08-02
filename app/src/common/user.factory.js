@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('userFactory', userFactory);
 
-  function userFactory($rootScope, $localStorage, $q, restFactory){
+  function userFactory($rootScope, $q, restFactory){
 
     /* Return Functions */
     return {

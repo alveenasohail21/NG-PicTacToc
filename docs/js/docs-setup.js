@@ -131,12 +131,30 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "app.common.user",
+      "shortName": "app.common.user",
+      "type": "service",
+      "moduleName": "app.common",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app common description placeholder service user"
+    },
+    {
+      "section": "api",
+      "id": "app.common.user",
+      "shortName": "app.common.user",
+      "type": "service",
+      "moduleName": "app.common",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app common description placeholder service user"
+    },
+    {
+      "section": "api",
       "id": "app.core",
       "shortName": "app.core",
       "type": "overview",
       "moduleName": "app.core",
-      "shortDescription": "Core is where the Magma is",
-      "keywords": "api app core magma overview"
+      "shortDescription": "Configuration block for restangular",
+      "keywords": "api app block configuration core overview restangular"
     },
     {
       "section": "api",
@@ -153,8 +171,8 @@ NG_DOCS={
       "shortName": "app.core",
       "type": "overview",
       "moduleName": "app.core",
-      "shortDescription": "Configuration block for restangular",
-      "keywords": "api app block configuration core overview restangular"
+      "shortDescription": "Core is where the Magma is",
+      "keywords": "api app core magma overview"
     },
     {
       "section": "api",
@@ -191,6 +209,15 @@ NG_DOCS={
       "moduleName": "app.dashboard",
       "shortDescription": "&lt; description placeholder &gt;",
       "keywords": "api app dashboard description entity placeholder service testfunction"
+    },
+    {
+      "section": "api",
+      "id": "app.dashboard.directive:lightSlider",
+      "shortName": "lightSlider",
+      "type": "directive",
+      "moduleName": "app.dashboard",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app dashboard description directive object placeholder test true"
     },
     {
       "section": "api",

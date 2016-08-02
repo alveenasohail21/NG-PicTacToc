@@ -31,7 +31,6 @@
 
     /* Define Fuctions */
     function success(title, message) {
-      //
       $rootScope.alert.class = 'alert-success';
       $rootScope.alert.title = title || 'Success: ';
       $rootScope.alert.message = message;
@@ -40,7 +39,7 @@
     }
 
     function error(title, message) {
-        $rootScope.alert.class = 'alert-danger';
+      $rootScope.alert.class = 'alert-danger';
       $rootScope.alert.title = title || 'Error: ';
       $rootScope.alert.message = message;
       $rootScope.alert.show = true;
