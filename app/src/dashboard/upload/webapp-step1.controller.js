@@ -14,8 +14,6 @@
   /* @ngInject */
   function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, alertFactory){
 
-    console.log("CONTROLLER STEP 1");
-
     var vm = this;
 
     /*
@@ -26,8 +24,9 @@
     /*
      * Variables
      * */
-    vm.myPhotos = r_photos['photos'];
-    vm.myPhotosTotalCount = r_photos.totalCount;
+    vm.myPhotos = photosFactory._data.photos;
+    vm.myPhotosTotalCount = photosFactory._data.totalCount;
+    console.log("Scope 1: ", vm.myPhotos);
 
     vm.myPhotosPagination = {
       from: 0,
@@ -356,7 +355,7 @@
             for(var i=0;i<response.data.data.photos.length;i++){
               // update myPhotos
               console.log("pussing to photos");
-              vm.myPhotos.push(response.data.data.photos[i]);
+              // vm.myPhotos.push(response.data.data.photos[i]);
               // save photo in photoFactotry
               photosFactory.addPhotoToLocal(response.data.data.photos[i]);
             }
@@ -438,7 +437,7 @@
     function deletePhoto(id, index){
       photosFactory.deletePhoto(id, index).then(function(response){
         if(response.success){
-          vm.myPhotos.splice(index, 1);
+          // vm.myPhotos.splice(index, 1);
         }
       });
     }

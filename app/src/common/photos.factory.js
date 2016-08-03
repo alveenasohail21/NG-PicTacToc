@@ -29,7 +29,8 @@
       getSelectedPhoto: getSelectedPhoto,
       sendEditedImage:sendEditedImage,
       addPhotoToLocal: addPhotoToLocal,
-      removePhotosFromLocal: removePhotosFromLocal
+      removePhotosFromLocal: removePhotosFromLocal,
+      _data: _data
     };
 
     /* Define Fuctions */
@@ -91,6 +92,7 @@
         .then(function(resp){
           if(resp.success){
             _data.photos.splice(index, 1);
+            console.log("At delete _data.photos: ",_data.photos);
             alertFactory.success("Success!", resp.message);
             deferred.resolve(resp);
           }
@@ -128,10 +130,10 @@
 
     function copyPhoto(id, index) {
       var deferred = $q.defer();
-      restFactory.photos.copyPhoto(id, index)
-        .then(function(resp){
+      restFactory.photos.copyPhoto(id, index).then(function(resp){
           resp.data.base64 = _data.photos[index].base64;
           _data.photos.splice(index, 0, angular.copy(resp.data));
+          console.log("At copy _data.photos: ",_data.photos);
           alertFactory.success("Success!", resp.message);
           deferred.resolve(resp);
         });

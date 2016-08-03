@@ -78,8 +78,7 @@
                 return photosFactory.getLocalPhotosIfPresent();
               }
               else{
-                return photosFactory.getPhotos()
-                  .then(function(resp){
+                return photosFactory.getPhotos().then(function(resp){
                     return resp;
                   })
               }
@@ -89,10 +88,8 @@
                 return $rootScope.user.activeSocialProfiles;
               }
               else{
-                return userFactory.activeSocialProfilesFromServer()
-                  .then(function(resp){
-                    console.log(resp);
-                    return resp;
+                return userFactory.activeSocialProfilesFromServer().then(function(resp){
+                  return resp;
                   })
               }
             }
@@ -117,8 +114,7 @@
                 return photosFactory.getLocalPhotosIfPresent();
               }
               else{
-                return photosFactory.getPhotos()
-                  .then(function(resp){
+                return photosFactory.getPhotos().then(function(resp){
                     return resp;
                   })
               }

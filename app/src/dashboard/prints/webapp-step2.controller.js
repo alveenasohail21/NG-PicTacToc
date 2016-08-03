@@ -14,13 +14,12 @@
   /* @ngInject */
   function webappStep2Ctrl(r_photos, photosFactory, cropperFactory, $rootScope, $state){
 
-    console.log("CONTROLLER STEP 2");
-
     var vm = this;
 
     /* Variables */
-    vm.myPhotos = r_photos['photos'];
-    vm.myPhotosTotalCount = r_photos.totalCount;
+    vm.myPhotos = photosFactory._data.photos;
+    vm.myPhotosTotalCount = photosFactory._data.totalCount;
+    vm.myPhotosTotalCount = photosFactory._data.totalCount;
     vm.myPhotosPagination = {
       from: 0,
       size: 12,
@@ -30,6 +29,7 @@
 
     // zoom slider
     var zoomSlider;
+    console.log("Scope2: ", vm.myPhotos);
 
     /* Function Assignment */
     vm.toggleSidemenu = toggleSidemenu;
@@ -263,9 +263,10 @@
 
     //delete photo
     function deletePhoto(id, index){
-      photosFactory.deletePhoto(id).then(function(response){
+      photosFactory.deletePhoto(id, index).then(function(response){
         if(response.success){
-          vm.myPhotos.splice(index, 1);
+          console.log("at delete", vm.myPhotos);
+          // vm.myPhotos.splice(index, 1);
         }
       });
     }
@@ -275,7 +276,7 @@
       photosFactory.copyPhoto(id, index)
         .then(function(resp){
           if(resp.success){
-            vm.myPhotos.splice(index, 0, resp.data);
+            // vm.myPhotos.splice(index, 0, angular.copy(resp.data));
           }
         });
     }
