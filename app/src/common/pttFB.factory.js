@@ -186,6 +186,7 @@
               //});
             }
             else{
+              alertFactory.error(null, "Unable to get Facebook photos, Please try later");
               deffered.reject('Something is wrong');
             }
           }

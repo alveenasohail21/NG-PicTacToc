@@ -61,7 +61,6 @@
         };
       restFactory.photos.getPhotos(data)
         .then(function(resp){
-          console.log(resp);
           if(resp.success){
             resp.data['photos'] = mapPhotos(resp.data.photos);
             resp.data['photos'].forEach(function(elem, index){
@@ -72,6 +71,7 @@
           }
           else{
             // TODO
+            alertFactory.error(null, resp.message);
             deffered.reject(resp);
           }
         }, function(err){
@@ -92,9 +92,11 @@
         .then(function(resp){
           if(resp.success){
             _data.photos.splice(index, 1);
-            console.log("At delete _data.photos: ",_data.photos);
-            alertFactory.success("Success!", resp.message);
+            alertFactory.success(null , resp.message);
             deferred.resolve(resp);
+          }
+          else{
+            alertFactory.error(null, resp.message);
           }
         });
       return deferred.promise;
@@ -103,15 +105,19 @@
     //get a photo selected by user in original size in step 2
     function getSelectedPhoto(id) {
       var deferred = $q.defer();
-      restFactory.photos.getSelectedPhoto(id)
-        .then(function(resp){
-          console.log(resp.data);
+      restFactory.photos.getSelectedPhoto(id).then(function(resp){
+        if(resp.success){
           if('imageBase64' in resp.data){
             resp.data.base64 = resp.data.imageBase64;
             delete resp.data.imageBase64;
           }
           deferred.resolve(resp.data);
-        });
+        }
+        else{
+          alertFactory.error(null, resp.message);
+          deferred.reject(resp);
+        }
+      });
       return deferred.promise;
     }
 
@@ -119,11 +125,17 @@
       var deferred = $q.defer();
       restFactory.photos.sendEditedImage(id, configs)
         .then(function(resp){
-          if('imageBase64' in resp.data){
-            resp.data.base64 = resp.data.imageBase64;
-            delete resp.data.imageBase64;
+          if(resp.success){
+            if('imageBase64' in resp.data){
+              resp.data.base64 = resp.data.imageBase64;
+              delete resp.data.imageBase64;
+            }
+            deferred.resolve(resp);
           }
-          deferred.resolve(resp);
+          else{
+            alertFactory.error(null, resp.message);
+            deferred.reject(resp);
+          }
         });
       return deferred.promise;
     }
@@ -131,12 +143,17 @@
     function copyPhoto(id, index) {
       var deferred = $q.defer();
       restFactory.photos.copyPhoto(id, index).then(function(resp){
+        if(resp.success){
           resp.data.base64 = _data.photos[index].base64;
           _data.photos.splice(index, 0, angular.copy(resp.data));
-          console.log("At copy _data.photos: ",_data.photos);
           alertFactory.success("Success!", resp.message);
           deferred.resolve(resp);
-        });
+        }
+        else{
+          alertFactory.error(null, resp.message);
+          deferred.reject(resp);
+        }
+      });
       return deferred.promise;
     }
 

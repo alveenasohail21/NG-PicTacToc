@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('pttInstagram', pttInstagram);
 
-  function pttInstagram($q, restFactory, $rootScope, $http, photosFactory){
+  function pttInstagram($q, restFactory, $rootScope, $http, photosFactory, alertFactory){
 
     var platform = 'instagram';
     var authResponse = null;
@@ -71,6 +71,7 @@
               deffered.resolve(resp.data);
             }
             else{
+              alertFactory.error(null, "Unable to get Instagram photos, Please try later");
               deffered.reject('Something is wrong');
             }
           }

@@ -12,7 +12,7 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl(API_URL, r_photos, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, alertFactory){
+  function webappStep1Ctrl(API_URL, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, alertFactory){
 
     var vm = this;
 
@@ -26,7 +26,7 @@
      * */
     vm.myPhotos = photosFactory._data.photos;
     vm.myPhotosTotalCount = photosFactory._data.totalCount;
-    console.log("Scope 1: ", vm.myPhotos);
+
 
     vm.myPhotosPagination = {
       from: 0,
@@ -435,11 +435,7 @@
 
     //delete selected photo
     function deletePhoto(id, index){
-      photosFactory.deletePhoto(id, index).then(function(response){
-        if(response.success){
-          // vm.myPhotos.splice(index, 1);
-        }
-      });
+      photosFactory.deletePhoto(id, index);
     }
 
     /************************************* MANIPULATE DOM *************************************/

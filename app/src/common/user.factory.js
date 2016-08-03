@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('userFactory', userFactory);
 
-  function userFactory($rootScope, $q, restFactory){
+  function userFactory($rootScope, $q, restFactory, alertFactory){
 
     /* Return Functions */
     return {
@@ -44,6 +44,7 @@
             deffered.resolve(resp);
           }
           else{
+            alertFactory.error(null, resp.message);
             deffered.reject(resp);
           }
         }, function(err){
@@ -96,6 +97,7 @@
           }
           else{
             // TODO
+            alertFactory.error(null, resp.message);
             deffered.reject(resp);
           }
         }, function(err){
@@ -134,6 +136,7 @@
           }
           else{
             // TODO
+            alertFactory.error(null, resp.message);
             deffered.reject(resp);
           }
         }, function(err){
