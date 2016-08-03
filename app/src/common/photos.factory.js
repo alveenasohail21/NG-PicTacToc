@@ -92,6 +92,7 @@
         .then(function(resp){
           if(resp.success){
             _data.photos.splice(index, 1);
+            _data.totalCount--;
             alertFactory.success(null , resp.message);
             deferred.resolve(resp);
           }
@@ -146,6 +147,7 @@
         if(resp.success){
           resp.data.base64 = _data.photos[index].base64;
           _data.photos.splice(index, 0, angular.copy(resp.data));
+          _data.totalCount++;
           alertFactory.success("Success!", resp.message);
           deferred.resolve(resp);
         }
