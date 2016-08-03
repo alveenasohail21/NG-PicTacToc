@@ -92,6 +92,7 @@
 
     function getImageDetails(){
       var details = element.cropper('getData');
+      console.log("CONFIGS TO SERVER: ", details);
       return {
         "crop":{
           "width":details.width,
@@ -100,7 +101,8 @@
           "y" : details.y
         },
         "rotate" : {
-          "angle":details.rotate
+          // multiply by -1 due to laravel image intervention
+          "angle": details.rotate*-1
         },
         "scale" : {
           "scaleX" : details.scaleX,
