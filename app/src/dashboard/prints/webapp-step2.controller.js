@@ -9,16 +9,18 @@
   'use strict';
 
   angular.module('app.dashboard')
-    .controller('webappStep2Ctrl', webappStep2Ctrl);
+    .controller('webappStep2Ctrl', webappStep2Ctrl)
+    .directive('filterDirective', filterDirective);
 
   /* @ngInject */
-  function webappStep2Ctrl(photosFactory, cropperFactory, $rootScope, $state){
+  function webappStep2Ctrl(photosFactory, cropperFactory, $rootScope, $state, camanFactory){
 
     var vm = this;
 
     /* Variables */
     vm.myPhotos = photosFactory._data.photos;
     vm.myPhotosTotalCount = photosFactory._data.totalCount;
+    vm.camanFilters=camanFactory.filters;
 
     vm.myPhotosPagination = {
       from: 0,
@@ -224,6 +226,7 @@
     // get the high res image for editing
     function getSelectPhoto(id){
       vm.imageId=id;
+
       photosFactory.getSelectedPhoto(id).then(function(resp){
         vm.selectedPhoto = resp;
         setTimeout(function(){
@@ -231,6 +234,7 @@
           cropperFactory.initiateCrop('#selected-image');
         }, 500);
       });
+
     }
 
     //Toolbar methods
@@ -272,5 +276,11 @@
 
     /* Initializer Call */
     init();
+  }
+
+  function filterDirective(photosFactory){
+    function link(scope, element, attrs){
+
+    }
   }
 }());
