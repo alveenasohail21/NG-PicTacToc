@@ -263,6 +263,9 @@
     function sendEditedImage(){
       if(vm.selectedPhoto){
         var configs = cropperFactory.getImageDetails();
+        if(vm.selectedPhoto.filter!=false && vm.selectedPhoto.filter!='normal'){
+          configs.filteredImage = vm.selectedPhoto.filteredImage;
+        }
         $state.go($rootScope.app.productState + '.Checkout', {id: vm.selectedPhoto.original.id, configs: configs});
       }
     }
@@ -310,12 +313,14 @@
       // if its not an img, then its canvas
       if(!$('#canvas-image').is('img')){
         // this will hide the canvas, and show a new canvas instead : its all angular baby :P
+        vm.selectedPhoto.filter = false;
         // destroy the cropper on canvas
         cropperFactory.destroy();
         // remove the hidden canvas (2nd canvas)
         $('#canvas-image:nth-child(1)').remove();
-        vm.selectedPhoto.filter = false;
         if(filter=='normal') {
+          $('#canvas-image:nth-child(2)').remove();
+          cropperFactory.destroy();
           cropperFactory.initiateCrop('#selected-image');
           vm.readyToDisplay = true;
           return;
@@ -330,7 +335,7 @@
         this[filter]();
         this.render(function(){
           // destroy cropper and set it for filtered image
-          //vm.filteredImage = that.toBase64();
+          vm.selectedPhoto.filteredImage = this.toBase64();
           cropperFactory.destroy();
           cropperFactory.initiateCrop('#canvas-image');
           vm.readyToDisplay = true;
