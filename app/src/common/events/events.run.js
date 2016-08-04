@@ -40,6 +40,36 @@
         case 'flickr':
           break;
       }
+    });
+
+    // sidemenu opens
+    $rootScope.$on('sidemenuOpens', function(event, args){
+      console.log("Angular Event: sidemenuOpens");
+      console.log("Angular Event Args: ", args);
+      switch(args.type){
+        case 'filters':
+          $(document).ready(function(){
+            setTimeout(function () {
+              $(".sidemenu-filters div.filter").css('opacity', 1);
+            }, 500);
+          });
+          break;
+      }
+    })
+
+    // sidemenu closes
+    $rootScope.$on('sidemenuCloses', function(event, args){
+      console.log("Angular Event: sidemenuCloses");
+      console.log("Angular Event Args: ", args);
+      switch(args.type){
+        case 'filters':
+          $(document).ready(function(){
+            setTimeout(function () {
+              $(".sidemenu-filters div.filter").css('opacity', 0);
+            });
+          });
+          break;
+      }
     })
 
   }

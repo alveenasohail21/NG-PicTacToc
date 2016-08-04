@@ -1,7 +1,7 @@
 <div class="ptt-sidebar-content-2 sidemenu-filters">
-  <div class="filter" ng-repeat="filter in vm.camanFilters">
-    <img ng-if="!vm.selectedPhoto.base64" src="images/sidemenu/filters/normal.png" alt="">
-    <img ng-if="vm.selectedPhoto.base64" src="{{vm.selectedPhoto.base64}}"  alt="">
+  <div class="filter" ng-repeat="filter in filters" ng-click="onSelect({filter: filter})">
+    <!--<img ng-if="!vm.selectedPhoto.base64" src="images/sidemenu/filters/normal.png" alt="">-->
+    <img ng-if="thumbnail" id="{{filter}}" src="{{thumbnail.base64}}"  alt="">
     <p>{{filter}}</p>
   </div>
   <!--<div class="filter">-->
@@ -49,7 +49,6 @@
     <!--<img ng-if="vm.selectedPhoto.base64" src="{{vm.selectedPhoto.base64}}" alt="">-->
     <!--<p>Pinhole</p>-->
   <!--</div>-->
-</div>
 
 <!--<div class="filter">-->
 <!--<img src="images/sidemenu/filters/brannan.png" alt="">-->
@@ -85,14 +84,3 @@
 <!--</div>-->
 </div>
 
-<script>
-  $(document).ready(function(){
-    setTimeout(function () {
-      $(".sidemenu-filters div.filter").css('opacity', 1);
-      Caman("#vintage", function () {
-        this[element]();
-        this.render();
-      });
-    }, 500);
-  });
-</script>
