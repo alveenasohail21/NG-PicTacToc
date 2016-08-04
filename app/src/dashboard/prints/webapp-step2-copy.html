@@ -87,8 +87,7 @@ Content : Start : Step 2
 
             <!-- Sub Sidebar : Start -->
             <div id="ptt-sidebar-wrapper-2">
-                <span ng-include="vm.sideMenuTemplate" ng-if="vm.activeSidemenuItem != 'filters'"></span>
-                <ptt-filters thumbnail="vm.selectedPhoto.thumbnail" on-select="vm.applyFilter(filter)"  ng-show="vm.activeSidemenuItem == 'filters'"></ptt-filters>
+                <span ng-include="vm.sideMenuTemplate"></span>
                 <button class="ptt-sidebar-2-close" ng-click="vm.closeSidemenu()">
                     <i class="glyphicon glyphicon-remove"></i>
                 </button>
@@ -215,13 +214,7 @@ Content : Start : Step 2
                             </div>
                         </div>
                         <div class="editor">
-                            <!-- Normal Image -->
-                            <img id="selected-image" src="{{vm.selectedPhoto.original.base64}}" alt=""
-                                 ng-show="!vm.selectedPhoto.filter && vm.readyToDisplay"
-                            >
-                            <!-- Hidden Image For Filter -->
-                            <img id="canvas-image" src="{{vm.selectedPhoto.original.base64}}" alt=""
-                                 style="visibility: hidden;" ng-if="vm.selectedPhoto.filter">
+                            <img id="selected-image"  src="{{vm.selectedPhoto.base64}}" alt="">
                         </div>
                         <div class="zoomBar">
                             <input id="ex4" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="0.01" data-slider-value="0" data-slider-orientation="vertical"/>
@@ -257,7 +250,7 @@ Content : Start : Step 2
             on-select=""
             on-select-files=""
             on-toggle-expand-view="vm.toggleExpandView()"
-            on-get-select-photo="vm.getSelectPhoto(id, index)"
+            on-get-select-photo="vm.getSelectPhoto(id)"
     >
     </ptt-photo-strip>
 <!-- Film Strip Thumbs : End-->

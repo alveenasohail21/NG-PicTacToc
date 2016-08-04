@@ -42,7 +42,7 @@
 
     <ul id="step2-lightSlider">
         <li ng-repeat="photo in photos track by $index">
-            <img ng-src="{{photo.base64}}" ng-click="onGetSelectPhoto({id: photo.id})" alt="" ptt-loader="img-fb-albums">
+            <img ng-src="{{photo.base64}}" ng-click="onGetSelectPhoto({id: photo.id, index: $index})" alt="" ptt-loader="img-fb-albums">
         </li>
     </ul>
 

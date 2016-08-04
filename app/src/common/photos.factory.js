@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('photosFactory', photosFactory);
 
-  function photosFactory($q, restFactory, alertFactory){
+  function photosFactory($q, restFactory, alertFactory, camanFactory){
 
     var _data = {
       photos: [],

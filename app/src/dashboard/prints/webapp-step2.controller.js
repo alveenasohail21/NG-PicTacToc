@@ -27,6 +27,12 @@
     };
     vm.activeSidemenuItem = '';
 
+    vm.selectedPhoto = {
+      thumbnail: null,
+      original: null,
+      filter: null
+    };
+
     // zoom slider
     var zoomSlider;
 
@@ -45,6 +51,8 @@
     //Expand view methods
     vm.deletePhoto = deletePhoto;
     vm.copyPhoto = copyPhoto;
+    // filter
+    vm.applyFilter = applyFilter;
 
     /* Initializer */
     function init(){
@@ -89,6 +97,7 @@
         vm.sideMenuTemplate = 'src/dashboard/sidemenu/'+template+'.html';
         vm.activeSidemenuItem = template;
         $("#ptt-wrapper-2").toggleClass("toggled");
+        $rootScope.$emit('sidemenuOpens', {type: template});
       }
       // else if closing
       else{
@@ -106,6 +115,7 @@
 
     function closeSidemenu(){
       if($("#ptt-wrapper-2").hasClass("toggled")){
+        $rootScope.$emit('sidemenuCloses', {type: vm.activeSidemenuItem});
         $("#ptt-wrapper-2").removeClass("toggled");
         $('div#image-studio').css({
           'padding': '2.65% 0'
@@ -222,43 +232,67 @@
     }
 
     // get the high res image for editing
-    function getSelectPhoto(id){
-      vm.imageId=id;
+    function getSelectPhoto(id, index){
+      vm.readyToDisplay = false;
+      // if its not an img, then its canvas
+      if(!$('#canvas-image').is('img')){
+        // this will hide the canvas, and show a new canvas instead : its all angular baby :P
+        vm.selectedPhoto.filter = false;
+        // destroy the cropper on canvas
+        cropperFactory.destroy();
+        // remove the hidden canvas (2nd canvas)
+        $('#canvas-image:nth-child(2)').remove();
+      }
+      // close sidemenu if open
+      vm.closeSidemenu();
+      // get photo now
       photosFactory.getSelectedPhoto(id).then(function(resp){
-        vm.selectedPhoto = resp;
+        vm.selectedPhoto = {
+          thumbnail: vm.myPhotos[index],
+          original: resp
+        };
         setTimeout(function(){
           cropperFactory.destroy();
           cropperFactory.initiateCrop('#selected-image');
-        }, 500);
+          vm.readyToDisplay = true;
+        }, 200);
       });
-    }
-
-    //Toolbar methods
-    function flipHorizontal(){
-      cropperFactory.flipHorizontal();
-    }
-    function flipVertical(){
-      cropperFactory.flipVertical();
-    }
-    function rotateClockwise(){
-      cropperFactory.rotateClockwise();
-    }
-    function rotateAntiClockwise(){
-      cropperFactory.rotateAntiClockwise();
-    }
-    function reset(){
-      cropperFactory.reset();
     }
 
     //send edited image to the server
     function sendEditedImage(){
       if(vm.selectedPhoto){
         var configs = cropperFactory.getImageDetails();
-        $state.go($rootScope.app.productState + '.Checkout', {id: vm.selectedPhoto.id, configs: configs});
+        if(vm.selectedPhoto.filter!=false && vm.selectedPhoto.filter!='normal'){
+          configs.filteredImage = vm.selectedPhoto.filteredImage;
+        }
+        $state.go($rootScope.app.productState + '.Checkout', {id: vm.selectedPhoto.original.id, configs: configs});
       }
     }
 
-    /*Expand view methods definition */
+
+    /************************************* CROPPER *************************************/
+    function flipHorizontal(){
+      cropperFactory.flipHorizontal();
+    }
+
+    function flipVertical(){
+      cropperFactory.flipVertical();
+    }
+
+    function rotateClockwise(){
+      cropperFactory.rotateClockwise();
+    }
+
+    function rotateAntiClockwise(){
+      cropperFactory.rotateAntiClockwise();
+    }
+
+    function reset(){
+      cropperFactory.reset();
+    }
+
+    /************************************* EXPAND VIEW *************************************/
 
     //delete photo
     function deletePhoto(id, index){
@@ -270,7 +304,47 @@
       photosFactory.copyPhoto(id, index);
     }
 
+    /************************************* FILTERS *************************************/
+
+    // apply filter
+    function applyFilter(filter){
+      vm.readyToDisplay = false;
+      console.log("FILTER TO APPLY: ", filter);
+      // if its not an img, then its canvas
+      if(!$('#canvas-image').is('img')){
+        // this will hide the canvas, and show a new canvas instead : its all angular baby :P
+        vm.selectedPhoto.filter = false;
+        // destroy the cropper on canvas
+        cropperFactory.destroy();
+        // remove the hidden canvas (2nd canvas)
+        $('#canvas-image:nth-child(1)').remove();
+        if(filter=='normal') {
+          $('#canvas-image:nth-child(2)').remove();
+          cropperFactory.destroy();
+          cropperFactory.initiateCrop('#selected-image');
+          vm.readyToDisplay = true;
+          return;
+        }
+      }
+      // add new filter
+      vm.selectedPhoto.filter = filter;
+      // apply filter to hidden filter-image
+      Caman('.step2-main #canvas-image', function () {
+        //var that = this;
+        this.revert(true);
+        this[filter]();
+        this.render(function(){
+          // destroy cropper and set it for filtered image
+          vm.selectedPhoto.filteredImage = this.toBase64();
+          cropperFactory.destroy();
+          cropperFactory.initiateCrop('#canvas-image');
+          vm.readyToDisplay = true;
+        });
+      });
+    }
+
     /* Initializer Call */
     init();
   }
+
 }());
