@@ -215,13 +215,15 @@ Content : Start : Step 2
                             </div>
                         </div>
                         <div class="editor">
+                            <!-- Canvas -->
+                            <canvas id="canvas" ng-show="vm.readyToDisplay"></canvas>
                             <!-- Normal Image -->
-                            <img id="selected-image" src="{{vm.selectedPhoto.original.base64}}" alt=""
-                                 ng-show="!vm.selectedPhoto.filter && vm.readyToDisplay"
-                            >
+                            <!--<img id="selected-image" src="{{vm.selectedPhoto.original.base64}}" alt=""-->
+                                 <!--ng-show="!vm.selectedPhoto.filter && vm.readyToDisplay"-->
+                            <!--&gt;-->
                             <!-- Hidden Image For Filter -->
-                            <img id="canvas-image" src="{{vm.selectedPhoto.original.base64}}" alt=""
-                                 style="visibility: hidden;" ng-if="vm.selectedPhoto.filter">
+                            <!--<img id="canvas-image" src="{{vm.selectedPhoto.original.base64}}" alt=""-->
+                                 <!--style="visibility: hidden;" ng-if="vm.selectedPhoto.filter">-->
                         </div>
                         <div class="zoomBar">
                             <input id="ex4" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="0.01" data-slider-value="0" data-slider-orientation="vertical"/>

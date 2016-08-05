@@ -35,6 +35,12 @@
 
     // zoom slider
     var zoomSlider;
+    // canvas
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    // canvas image - Enable Cross Origin Image Editing
+    var canvasImage = new Image();
+    canvasImage.crossOrigin = '';
 
     /* Function Assignment */
     vm.toggleSidemenu = toggleSidemenu;
@@ -234,28 +240,28 @@
     // get the high res image for editing
     function getSelectPhoto(id, index){
       vm.readyToDisplay = false;
-      // if its not an img, then its canvas
-      if(!$('#canvas-image').is('img')){
-        // this will hide the canvas, and show a new canvas instead : its all angular baby :P
-        vm.selectedPhoto.filter = false;
-        // destroy the cropper on canvas
-        cropperFactory.destroy();
-        // remove the hidden canvas (2nd canvas)
-        $('#canvas-image:nth-child(2)').remove();
-      }
       // close sidemenu if open
       vm.closeSidemenu();
       // get photo now
       photosFactory.getSelectedPhoto(id).then(function(resp){
+        // save image data
         vm.selectedPhoto = {
           thumbnail: vm.myPhotos[index],
           original: resp
         };
-        setTimeout(function(){
-          cropperFactory.destroy();
-          cropperFactory.initiateCrop('#selected-image');
-          vm.readyToDisplay = true;
-        }, 200);
+        // destroy prev cropper
+        cropperFactory.destroy();
+        // load image in controller
+        canvasImage.src = vm.selectedPhoto.original.base64;
+        canvasImage.onload = function() {
+          // load image to canvas
+          canvas.width = canvasImage.width;
+          canvas.height = canvasImage.height;
+          ctx.drawImage(canvasImage, 0, 0, canvasImage.width, canvasImage.height);
+          // initiate cropper again
+          cropperFactory.initiateCrop('#canvas');
+          //vm.readyToDisplay = true;
+        };
       });
     }
 
@@ -308,37 +314,27 @@
 
     // apply filter
     function applyFilter(filter){
-      vm.readyToDisplay = false;
       console.log("FILTER TO APPLY: ", filter);
-      // if its not an img, then its canvas
-      if(!$('#canvas-image').is('img')){
-        // this will hide the canvas, and show a new canvas instead : its all angular baby :P
-        vm.selectedPhoto.filter = false;
-        // destroy the cropper on canvas
-        cropperFactory.destroy();
-        // remove the hidden canvas (2nd canvas)
-        $('#canvas-image:nth-child(1)').remove();
-        if(filter=='normal') {
-          $('#canvas-image:nth-child(2)').remove();
-          cropperFactory.destroy();
-          cropperFactory.initiateCrop('#selected-image');
-          vm.readyToDisplay = true;
-          return;
-        }
-      }
+      vm.readyToDisplay = false;
       // add new filter
       vm.selectedPhoto.filter = filter;
       // apply filter to hidden filter-image
-      Caman('.step2-main #canvas-image', function () {
+      Caman('#canvas', function () {
         //var that = this;
         this.revert(true);
-        this[filter]();
+        switch(filter){
+          case'normal':
+            // do nothing
+            break;
+          default:
+            this[filter]();
+            break;
+        }
         this.render(function(){
           // destroy cropper and set it for filtered image
           vm.selectedPhoto.filteredImage = this.toBase64();
           cropperFactory.destroy();
-          cropperFactory.initiateCrop('#canvas-image');
-          vm.readyToDisplay = true;
+          cropperFactory.initiateCrop('#canvas');
         });
       });
     }
