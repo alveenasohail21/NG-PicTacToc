@@ -251,9 +251,13 @@
         };
         // destroy prev cropper
         cropperFactory.destroy();
+        // remove caman id to reset caman
+        $('#canvas').removeAttr('data-caman-id');
         // load image in controller
         canvasImage.src = vm.selectedPhoto.original.base64;
         canvasImage.onload = function() {
+          // clear canvas
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
           // load image to canvas
           canvas.width = canvasImage.width;
           canvas.height = canvasImage.height;
@@ -318,10 +322,10 @@
       vm.readyToDisplay = false;
       // add new filter
       vm.selectedPhoto.filter = filter;
-      // apply filter to hidden filter-image
+      // apply filter
       Caman('#canvas', function () {
         //var that = this;
-        this.revert(true);
+        this.revert(false);
         switch(filter){
           case'normal':
             // do nothing
