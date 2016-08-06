@@ -10,39 +10,78 @@
     .module('app.common')
     .factory('mediaFactory', mediaFactory);
 
-  function mediaFactory(){
-    /*Default Configurations*/
-
-    var defaultOptions = {
-
+  function mediaFactory(restFactory){
+    /* Default Pagination */
+    var defaultPagination = {
+      from: 0,
+      size: 12
     };
 
-
-    var element;
-
     /* Return Functions */
-
     return {
-      init: init,
-      getImageDetails: getImageDetails,
-      revert: revert
+      getFilters: getFilters,
+      getStickers: getStickers,
+      getFonts: getFonts,
+      getLayouts: getLayouts
     };
 
     /* Define Functions */
-
-    function init(id, options) {
-      element = $(id).selector;
-      console.log("id: ", element);
-
-      // var canvas = new fabric.Canvas(element);
-
+    function getFilters(pagination){
+      var queryPrams = {
+        type: 'filter',
+        from: pagination.from || defaultPagination.from,
+        size: pagination.size || defaultPagination.size
+      };
+      // TODO: Test REST Call
+      return getMedia(queryPrams);
     }
 
-    function revert(){
-
+    function getStickers(pagination){
+      var queryPrams = {
+        type: 'sticker',
+        from: pagination.from || defaultPagination.from,
+        size: pagination.size || defaultPagination.size
+      };
+      // TODO: Test REST Call
+      return getMedia(queryPrams);
     }
-    function getImageDetails(){
 
+    function getFonts(pagination){
+      var queryPrams = {
+        type: 'font',
+        from: pagination.from || defaultPagination.from,
+        size: pagination.size || defaultPagination.size
+      };
+      // TODO: Test REST Call
+      return getMedia(queryPrams);
     }
+
+    function getLayouts(pagination){
+      var queryPrams = {
+        type: 'layout',
+        from: pagination.from || defaultPagination.from,
+        size: pagination.size || defaultPagination.size
+      };
+      // TODO: Test REST Call
+      return getMedia(queryPrams);
+    }
+
+    function getMedia(queryParams){
+      var deffered = $q.defer();
+      restFactory.media.get(queryParams)
+        .then(function (resp){
+          if(resp.success){
+            deffered.resolve(resp);
+          }
+          else{
+            alertFactory.error(null, resp.message);
+            deffered.reject(resp);
+          }
+        }, function(err){
+          deffered.reject(err);
+        });
+      return deffered.promise;
+    }
+
   }
 }());

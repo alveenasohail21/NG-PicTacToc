@@ -19,6 +19,7 @@
     var Users = Restangular.all('users');
     var Auth = Restangular.all('auth');
     var Photos = Restangular.all('photos');
+    var Media = Restangular.all('media');
 
     /* Return Functions */
     return {
@@ -44,6 +45,9 @@
         getSelectedPhoto: getSelectedPhoto,
         sendEditedImage: sendEditedImage,
         copyPhoto: copyPhoto
+      },
+      media: {
+        get: getMedia
       },
       oneUrl: oneUrl
     };
@@ -99,25 +103,34 @@
     function activeSocialProfiles(){
       return Users.one('social').one('active').get();
     }
+
     function socialDetails(data){
       return Users.one('social').one('details').get(data);
     }
+
     function deletePhoto(id){ //delete selected photo in step 1
       return Restangular.one('photos', id).remove();
     }
+
     function getSelectedPhoto(id){ //get a photo selected by user in original size
       return Restangular.one('photos').one(id).get();
     }
+
     function socialDisconnect(platform){
       return Auth.one('social').one('disconnect').post(null, {platform: platform});
     }
+
     function sendEditedImage(id, configs){
       return Photos.one('edit').one(id).post(null, configs);
     }
+
     function copyPhoto(id, index){
       return Photos.one('copy').post(null, {id: id});
     }
 
+    function getMedia(queryParams){
+      return Media.one('get').get(queryParams);
+    }
 
   }
 }());
