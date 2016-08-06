@@ -32,28 +32,50 @@
       original: null,
       filter: null
     };
-
+    // canvas parent div
+    var element = {
+      original:{
+        height: 459,
+        width: 459
+      },
+      current:{
+        height: $("#image-studio .element").height(),
+        width: $("#image-studio .element").width()
+      }
+    };
     // zoom slider
     var zoomSlider;
     // canvas
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
+    //var canvas = document.getElementById('canvas');
+    //var ctx = canvas.getContext('2d');
     // canvas image - Enable Cross Origin Image Editing
     var canvasImage = new Image();
     canvasImage.crossOrigin = '';
+    // fabric canvas
+    var fabricCanvas = new fabric.Canvas('canvas');
+    var canvasBkgImg = {
+      instance: null,
+      active: false,
+      id: null
+    };
+    var scaleFactor;
+    vm.readyToDisplay = true;
+
+
+
 
     /* Function Assignment */
     vm.toggleSidemenu = toggleSidemenu;
     vm.closeSidemenu = closeSidemenu;
     vm.toggleExpandView = toggleExpandView;
-    vm.getSelectPhoto=getSelectPhoto;
-    vm.sendEditedImage=sendEditedImage;
-    //Toolbar methods
-    vm.flipHorizontal=flipHorizontal;
-    vm.flipVertical=flipVertical;
-    vm.rotateClockwise=rotateClockwise;
-    vm.rotateAntiClockwise=rotateAntiClockwise;
-    vm.reset=reset;
+    vm.getSelectPhoto = getSelectPhoto;
+    vm.sendEditedImage = sendEditedImage;
+    // Toolbar methods
+    vm.flipHorizontal = flipHorizontal;
+    vm.flipVertical = flipVertical;
+    vm.rotateClockwise = rotateClockwise;
+    vm.rotateAntiClockwise = rotateAntiClockwise;
+    vm.deleteSelectedObject = deleteSelectedObject;
     //Expand view methods
     vm.deletePhoto = deletePhoto;
     vm.copyPhoto = copyPhoto;
@@ -88,6 +110,14 @@
       });
 
       $(document).ready(function(){
+        // set canvas
+        fabricCanvas.setDimensions({
+          width: element.original.width,
+          height: element.original.height
+        });
+        fabricCanvas.renderAll();
+        // bind fabricjs events
+        bindEventsOnFabric();
         // Pre cache sticker images test
         preCacheHeros();
         // update image studio .element css
@@ -160,22 +190,9 @@
         height: $("#image-studio").height(),
         width: $("#image-studio").width()
       };
-      var element = {
-        original:{
-          height: 459,
-          width: 459
-        },
-        current:{
-          height: $("#image-studio .element").height(),
-          width: $("#image-studio .element").width()
-        }
-      };
+
       var updateValue = 0;
       var firstTimeDifference = 17;
-      //console.log("#image-studio height: ", imageStudio.height);
-      //console.log("#image-studio width: ", imageStudio.width);
-      //console.log("#image-studio .element current height: ", element.current.height);
-      //console.log("#image-studio .element current width: ", element.current.width);
 
       // Formula for aspect ratio equality calculation
       // (original height / original width) = (new height / new width)
@@ -184,10 +201,6 @@
       if(imageStudio.height < imageStudio.width){
         // new width = (new height)/(original height / original width)
         updateValue = (imageStudio.height)/(element.original.height/element.original.width);
-        //if(runningFirstTime != undefined){
-        //  console.log("running first time: ",runningFirstTime);
-        //  updateValue = Number(updateValue + firstTimeDifference);
-        //}
         //console.log("height is small");
       }
       // else if image studio width is small
@@ -205,6 +218,20 @@
         'margin-left': '-' + Number((updateValue/2)+33) + 'px',
         'left': '50%'
       });
+
+      // set zoom and dimensions of canvas
+      // got from canvas test
+      scaleFactor = updateValue/element.original.width;
+      console.log("--- FACTOR SCALE ---", scaleFactor);
+      fabricCanvas.setZoom(scaleFactor*0.76);
+      console.log("CURRENT ZOOM: ", fabricCanvas.getZoom());
+      //fabricCanvas.setDimensions({
+      //  width: updateValue,
+      //  height: updateValue
+      //});
+      fabricCanvas.setWidth(updateValue);
+      fabricCanvas.setHeight(updateValue);
+      fabricCanvas.renderAll();
 
     }
 
@@ -239,9 +266,11 @@
 
     // get the high res image for editing
     function getSelectPhoto(id, index){
-      vm.readyToDisplay = false;
       // close sidemenu if open
       vm.closeSidemenu();
+      // remove caman canvas
+      vm.showCamanImg = false;
+      $('canvas#caman-canvas').remove();
       // get photo now
       photosFactory.getSelectedPhoto(id).then(function(resp){
         // save image data
@@ -249,22 +278,27 @@
           thumbnail: vm.myPhotos[index],
           original: resp
         };
-        // destroy prev cropper
-        cropperFactory.destroy();
         // remove caman id to reset caman
-        $('#canvas').removeAttr('data-caman-id');
+        $('#caman-canvas').removeAttr('data-caman-id');
+        // this will add caman img tag in DOM - its angular baby :P
+        vm.showCamanImg = true;
         // load image in controller
         canvasImage.src = vm.selectedPhoto.original.base64;
         canvasImage.onload = function() {
-          // clear canvas
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          // load image to canvas
-          canvas.width = canvasImage.width;
-          canvas.height = canvasImage.height;
-          ctx.drawImage(canvasImage, 0, 0, canvasImage.width, canvasImage.height);
-          // initiate cropper again
-          cropperFactory.initiateCrop('#canvas');
-          //vm.readyToDisplay = true;
+          if(!canvasBkgImg.active){
+            canvasBkgImg.id = (new Date().getTime() / 1000);
+            canvasBkgImg.instance = new fabric.Image(canvasImage, {
+              id: canvasBkgImg.id
+            });
+            canvasBkgImg.active = true;
+            fabricCanvas.add(canvasBkgImg.instance);
+          }
+          else{
+            canvasBkgImg.instance.setElement(canvasImage);
+          }
+          canvasBkgImg.instance.center();
+          canvasBkgImg.instance.setCoords();
+          fabricCanvas.setActiveObject(canvasBkgImg.instance);
         };
       });
     }
@@ -278,28 +312,6 @@
         }
         $state.go($rootScope.app.productState + '.Checkout', {id: vm.selectedPhoto.original.id, configs: configs});
       }
-    }
-
-
-    /************************************* CROPPER *************************************/
-    function flipHorizontal(){
-      cropperFactory.flipHorizontal();
-    }
-
-    function flipVertical(){
-      cropperFactory.flipVertical();
-    }
-
-    function rotateClockwise(){
-      cropperFactory.rotateClockwise();
-    }
-
-    function rotateAntiClockwise(){
-      cropperFactory.rotateAntiClockwise();
-    }
-
-    function reset(){
-      cropperFactory.reset();
     }
 
     /************************************* EXPAND VIEW *************************************/
@@ -319,11 +331,10 @@
     // apply filter
     function applyFilter(filter){
       console.log("FILTER TO APPLY: ", filter);
-      vm.readyToDisplay = false;
       // add new filter
       vm.selectedPhoto.filter = filter;
       // apply filter
-      Caman('#canvas', function () {
+      Caman('#caman-canvas', function () {
         //var that = this;
         this.revert(false);
         switch(filter){
@@ -337,9 +348,59 @@
         this.render(function(){
           // destroy cropper and set it for filtered image
           vm.selectedPhoto.filteredImage = this.toBase64();
-          cropperFactory.destroy();
-          cropperFactory.initiateCrop('#canvas');
+          canvasImage.src = this.toBase64();
+          canvasImage.onload = function() {
+            canvasBkgImg.instance.setElement(canvasImage);
+            fabricCanvas.renderAll();
+          };
         });
+      });
+    }
+
+    /************************************* LEFT TOOLBAR FUNCTIONS *************************************/
+    function flipHorizontal(){
+      var object = fabricCanvas.getActiveObject();
+      object.flipX = object.flipX ? false : true;
+      fabricCanvas.renderAll();
+    }
+
+    function flipVertical(){
+      var object = fabricCanvas.getActiveObject();
+      object.flipY = object.flipY ? false : true;
+      fabricCanvas.renderAll();
+    }
+
+    function rotateClockwise(){
+      var object= fabricCanvas.getActiveObject();
+      var angle=object.angle+(-90);
+      object.setAngle(angle).setCoords();
+      fabricCanvas.renderAll();
+    }
+
+    function rotateAntiClockwise(){
+      var object= fabricCanvas.getActiveObject();
+      var angle=object.angle+90;
+      object.setAngle(angle).setCoords();
+      fabricCanvas.renderAll();
+    }
+
+    function deleteSelectedObject(){
+      var selectedElem = fabricCanvas.getActiveObject();
+      if(selectedElem!=null){
+        selectedElem.remove();
+      }
+    }
+
+    /************************************* FABRICJS FUNCTIONS *************************************/
+    function bindEventsOnFabric(){
+      fabricCanvas.on("object:removed", function(e){
+        switch(e.target.id){
+          case canvasBkgImg.id:
+            canvasBkgImg.active = false;
+            break;
+          default:
+            break;
+        }
       });
     }
 

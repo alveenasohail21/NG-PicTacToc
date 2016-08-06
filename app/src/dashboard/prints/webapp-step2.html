@@ -131,7 +131,7 @@ Content : Start : Step 2
                     <div class="custom-svg-icon gray-copy">
                         <img src="images/gray-copy.png" alt="">
                     </div>
-                    <div ng-click="vm.reset()" class="custom-svg-icon gray-delete">
+                    <div ng-click="vm.deleteSelectedObject()" class="custom-svg-icon gray-delete">
                         <!--<object class="" type="image/svg+xml" data="svgs/gray-delete.svg"></object>-->
                         <img src="svgs/gray-delete.svg" alt="">
                     </div>
@@ -217,13 +217,8 @@ Content : Start : Step 2
                         <div class="editor">
                             <!-- Canvas -->
                             <canvas id="canvas" ng-show="vm.readyToDisplay"></canvas>
-                            <!-- Normal Image -->
-                            <!--<img id="selected-image" src="{{vm.selectedPhoto.original.base64}}" alt=""-->
-                                 <!--ng-show="!vm.selectedPhoto.filter && vm.readyToDisplay"-->
-                            <!--&gt;-->
                             <!-- Hidden Image For Filter -->
-                            <!--<img id="canvas-image" src="{{vm.selectedPhoto.original.base64}}" alt=""-->
-                                 <!--style="visibility: hidden;" ng-if="vm.selectedPhoto.filter">-->
+                            <img id="caman-canvas" src="{{vm.selectedPhoto.original.base64}}" ng-if="vm.showCamanImg" style="z-index: -10;">
                         </div>
                         <div class="zoomBar">
                             <input id="ex4" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="0.01" data-slider-value="0" data-slider-orientation="vertical"/>

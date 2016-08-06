@@ -2187,8 +2187,9 @@ body.app div#image-studio div.editor {
   overflow: hidden;
   display: inline-block;
   transition: width,height 0.5s;
+  position: relative;
 }
-/* line 493, ../partials/_webapp-step2.scss */
+/* line 502, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.editor .cropper-view-box {
   outline: none;
 }

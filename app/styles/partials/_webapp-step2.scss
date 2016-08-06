@@ -485,11 +485,20 @@ body.app{
       overflow: hidden;
       display: inline-block;
       transition: width,height 0.5s;
+      position: relative;
       #selected-image{
         //height: 100%;
         //width: 100%;
         //max-width: 100%;
       }
+      //.canvas-container{
+      //  height: 100% !important;
+      //  width: 100% !important;
+      //}
+      //canvas{
+      //  height: 100%;
+      //  width: 100%;
+      //}
       .cropper-view-box{
         outline: none;
       }
