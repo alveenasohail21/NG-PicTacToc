@@ -12,7 +12,7 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl(photosFactory, cropperFactory, $rootScope, $state){
+  function webappStep2Ctrl(photosFactory, cropperFactory, $rootScope, $state, mediaFactory){
 
     var vm = this;
 
