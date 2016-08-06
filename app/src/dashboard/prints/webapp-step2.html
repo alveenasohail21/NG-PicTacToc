@@ -87,8 +87,9 @@ Content : Start : Step 2
 
             <!-- Sub Sidebar : Start -->
             <div id="ptt-sidebar-wrapper-2">
-                <span ng-include="vm.sideMenuTemplate" ng-if="vm.activeSidemenuItem != 'filters'"></span>
+                <span ng-include="vm.sideMenuTemplate" ng-if="vm.activeSidemenuItem != 'filters' || vm.activeSidemenuItem != 'stickers'"></span>
                 <ptt-filters thumbnail="vm.selectedPhoto.thumbnail" on-select="vm.applyFilter(filter)"  ng-show="vm.activeSidemenuItem == 'filters'"></ptt-filters>
+                <ptt-stickers on-select="vm.applySticker(sticker)" ng-show="vm.activeSidemenuItem == 'stickers'"></ptt-stickers>
                 <button class="ptt-sidebar-2-close" ng-click="vm.closeSidemenu()">
                     <i class="glyphicon glyphicon-remove"></i>
                 </button>

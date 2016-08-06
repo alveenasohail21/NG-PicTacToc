@@ -81,6 +81,9 @@
     vm.copyPhoto = copyPhoto;
     // filter
     vm.applyFilter = applyFilter;
+    // sticker
+    vm.applySticker = applySticker;
+
 
     /* Initializer */
     function init(){
@@ -371,6 +374,25 @@
           };
         });
       });
+    }
+
+    /************************************* STICKERS *************************************/
+
+    function applySticker(sticker){
+      console.log(sticker);
+      if(sticker.url && sticker.isActive){
+        var img = new Image();
+        img.src = sticker.url;
+        img.onload = function() {
+          var fabricStickerInstance = new fabric.Image(img, {
+            id: (new Date().getTime() / 1000)
+          });
+          fabricCanvas.add(fabricStickerInstance);
+          fabricStickerInstance.center();
+          fabricStickerInstance.setCoords();
+          fabricCanvas.setActiveObject(fabricStickerInstance);
+        };
+      }
     }
 
     /************************************* LEFT TOOLBAR FUNCTIONS *************************************/

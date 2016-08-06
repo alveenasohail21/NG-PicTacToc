@@ -42,7 +42,7 @@
 
       // Initializer
       function init(){
-
+        // TODO: Fetch filters from server
       }
 
       // setup filters

@@ -65,6 +65,23 @@
         }, 500);
       });
 
+      // extra work
+      switch(args.currentTemplate){
+        case 'stickers':
+          setTimeout(function () {
+            $(function() {
+              $('#gallery-container').snapGallery({
+                maxCols: 2,
+                margin: 5,
+                minWidth: 100
+              });
+            });
+          }, 500);
+          break;
+        default:
+          break;
+      }
+
     });
 
   }
