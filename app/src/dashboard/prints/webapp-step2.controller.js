@@ -25,7 +25,7 @@
       size: 12,
       dimension: '100x100'
     };
-    vm.activeSidemenuItem = '';
+    vm.activeSidemenuItem = null;
 
     vm.selectedPhoto = {
       thumbnail: null,
@@ -131,18 +131,30 @@
       if(!$("#ptt-wrapper-2").hasClass("toggled")){
         console.log("opening");
         vm.sideMenuTemplate = 'src/dashboard/sidemenu/'+template+'.html';
+        $rootScope.$emit('sidemenuToggles', {
+          previousTemplate: vm.activeSidemenuItem,
+          currentTemplate: template
+        });
         vm.activeSidemenuItem = template;
         $("#ptt-wrapper-2").toggleClass("toggled");
-        $rootScope.$emit('sidemenuOpens', {type: template});
       }
-      // else if closing
       else{
+        // switch sidemenu
         if(vm.activeSidemenuItem != template) {
+          $rootScope.$emit('sidemenuToggles', {
+            previousTemplate: vm.activeSidemenuItem,
+            currentTemplate: template
+          });
           vm.activeSidemenuItem = template;
           vm.sideMenuTemplate = 'src/dashboard/sidemenu/'+template+'.html';
         }
+        // closing
         else{
           console.log("closing");
+          $rootScope.$emit('sidemenuToggles', {
+            previousTemplate: vm.activeSidemenuItem,
+            currentTemplate: null
+          });
           vm.activeSidemenuItem = '';
           $("#ptt-wrapper-2").toggleClass("toggled");
         }
@@ -151,7 +163,11 @@
 
     function closeSidemenu(){
       if($("#ptt-wrapper-2").hasClass("toggled")){
-        $rootScope.$emit('sidemenuCloses', {type: vm.activeSidemenuItem});
+        $rootScope.$emit('sidemenuToggles', {
+          previousTemplate: vm.activeSidemenuItem,
+          currentTemplate: null
+        });
+        vm.activeSidemenuItem = '';
         $("#ptt-wrapper-2").removeClass("toggled");
         $('div#image-studio').css({
           'padding': '2.65% 0'

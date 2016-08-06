@@ -42,35 +42,30 @@
       }
     });
 
-    // sidemenu opens
-    $rootScope.$on('sidemenuOpens', function(event, args){
-      console.log("Angular Event: sidemenuOpens");
+    // sidemenu toggles
+    $rootScope.$on('sidemenuToggles', function(event, args){
+      console.log("Angular Event: sidemenuToggles");
       console.log("Angular Event Args: ", args);
-      switch(args.type){
-        case 'filters':
-          $(document).ready(function(){
-            setTimeout(function () {
-              $(".sidemenu-filters div.filter").css('opacity', 1);
-            }, 500);
-          });
-          break;
-      }
-    })
+      var cssElem = {
+        filters: '.sidemenu-filters div.filter',
+        stickers: '#gallery-container',
+        layouts: '.sidemenu-layouts .empty-images img',
+        text: '.sidemenu-texts div.text'
+      };
 
-    // sidemenu closes
-    $rootScope.$on('sidemenuCloses', function(event, args){
-      console.log("Angular Event: sidemenuCloses");
-      console.log("Angular Event Args: ", args);
-      switch(args.type){
-        case 'filters':
-          $(document).ready(function(){
-            setTimeout(function () {
-              $(".sidemenu-filters div.filter").css('opacity', 0);
-            });
-          });
-          break;
-      }
-    })
+      // apply animation
+      $(document).ready(function(){
+        setTimeout(function () {
+          // check for first time opening, then no previousTemplate
+          if(args.previousTemplate != null)
+            $(cssElem[args.previousTemplate]).css('opacity', 0);
+          // check if its closing
+          if(args.currentTemplate != null)
+            $(cssElem[args.currentTemplate]).css('opacity', 1);
+        }, 500);
+      });
+
+    });
 
   }
 }());
