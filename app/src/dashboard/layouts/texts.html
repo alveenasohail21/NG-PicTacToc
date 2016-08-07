@@ -1,0 +1,12 @@
+<div class="ptt-sidebar-content-2 sidemenu-texts">
+    <div class="text cursor-pointer" ng-repeat="text in texts" ng-click="onSelect({text: text})" ng-if="text.isActive">
+        <div class="sample">
+            <div class="showcase" ng-class="'font-'+text.name">
+                AaBbCcDdEeAaBbCcDdEe
+            </div>
+        </div>
+        <div class="type">
+            Normal
+        </div>
+    </div>
+</div>

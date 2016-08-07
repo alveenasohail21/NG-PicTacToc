@@ -50,7 +50,7 @@
         filters: '.sidemenu-filters div.filter',
         stickers: '#gallery-container',
         layouts: '.sidemenu-layouts .empty-images img',
-        text: '.sidemenu-texts div.text'
+        texts: '.sidemenu-texts div.text'
       };
 
       // apply animation

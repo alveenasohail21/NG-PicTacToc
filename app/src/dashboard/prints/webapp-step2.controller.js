@@ -45,6 +45,7 @@
     };
     // zoom slider
     var zoomSlider;
+    var zoomSliderPrevValue = 0;
     // canvas
     //var canvas = document.getElementById('canvas');
     //var ctx = canvas.getContext('2d');
@@ -53,15 +54,30 @@
     canvasImage.crossOrigin = '';
     // fabric canvas
     var fabricCanvas = new fabric.Canvas('canvas');
+    // fabric objects setting
+    var fabricObjSettings = {
+      borderColor: 'white',
+      borderDashArray: [5, 5],
+      cornerColor: 'rgba(101,224,228,0.7)',
+      //cornerColor: 'rgba(255,255,255,1)',
+      cornerSize: 10,
+      cornerStyle: 'circle',
+      borderOpacityWhenMoving: 0.6,
+      hoverCursor: 'move',
+      //cornerStrokeColor: 'white',
+      transparentCorners: false,
+      originX: 'center',
+      originY: 'center'
+    };
     var canvasBkgImg = {
       instance: null,
       active: false,
       id: null
     };
+    var scallingFirstTime = true;
     var scaleFactor;
+    var scaleConstant = 0.76;
     vm.readyToDisplay = true;
-
-
 
 
     /* Function Assignment */
@@ -76,6 +92,7 @@
     vm.rotateClockwise = rotateClockwise;
     vm.rotateAntiClockwise = rotateAntiClockwise;
     vm.deleteSelectedObject = deleteSelectedObject;
+    vm.copySelectedObject = copySelectedObject;
     //Expand view methods
     vm.deletePhoto = deletePhoto;
     vm.copyPhoto = copyPhoto;
@@ -83,6 +100,9 @@
     vm.applyFilter = applyFilter;
     // sticker
     vm.applySticker = applySticker;
+    // texts
+    vm.applyText = applyText;
+
 
 
     /* Initializer */
@@ -99,9 +119,21 @@
       zoomSlider = $("#ex4").slider({
         reversed : true
       });
-      zoomSlider.on('slide', function(data) {
-        cropperFactory.zoom(data.value);
-      });
+      //zoomSlider.on('slide', function(data) {
+      //  if(data.value >= 1 && data.value <= 2){
+      //    var point = new fabric.Point(fabricCanvas.getWidth()/2, fabricCanvas.getHeight()/2);
+      //    if((data.value - zoomSliderPrevValue) > 0){
+      //
+      //    }
+      //    else{
+      //      data.value = data.value*-1;
+      //    }
+      //    zoomSliderPrevValue = data.value;
+      //    fabricCanvas.zoomToPoint( point, data.value);
+      //    console.log("fabricCanvas.getZoom(): ", fabricCanvas.getZoom());
+      //    fabricCanvas.renderAll();
+      //  }
+      //});
 
       /* Action Icon 3 DropMenu */
       $('.action-icons-3 .ptt-dropmenu').on('show.bs.dropdown', function () {
@@ -113,16 +145,17 @@
       });
 
       $(document).ready(function(){
-        // set canvas
+        // set fabric canvas
         fabricCanvas.setDimensions({
           width: element.original.width,
           height: element.original.height
         });
+        fabricCanvas.selectionColor = 'rgba(101,224,228,0.5)';
+        fabricCanvas.selectionBorderColor = 'white';
+        fabricCanvas.selectionLineWidth = 1;
         fabricCanvas.renderAll();
         // bind fabricjs events
         bindEventsOnFabric();
-        // Pre cache sticker images test
-        preCacheHeros();
         // update image studio .element css
         updateImageEditorSize(null, true);
       });
@@ -176,16 +209,6 @@
           'padding': '2.65% 0'
         });
       }
-    }
-
-    function preCacheHeros(){
-
-      var stickerArray = ['images/sidemenu/stickers/2.png', 'images/sidemenu/stickers/3.png', 'images/sidemenu/stickers/5.png',
-        'images/sidemenu/stickers/4.png', 'images/sidemenu/stickers/1.png', 'images/sidemenu/stickers/6.png'];
-      $.each(stickerArray, function(){
-        var img = new Image();
-        img.src = this;
-      });
     }
 
     function toggleExpandView(){
@@ -242,7 +265,12 @@
       // got from canvas test
       scaleFactor = updateValue/element.original.width;
       console.log("--- FACTOR SCALE ---", scaleFactor);
-      fabricCanvas.setZoom(scaleFactor*0.76);
+      if(scallingFirstTime){
+        fabricCanvas.setZoom((scaleFactor*scaleConstant));
+      }
+      else{
+        fabricCanvas.setZoom(fabricCanvas.getZoom() + (scaleFactor*scaleConstant));
+      }
       console.log("CURRENT ZOOM: ", fabricCanvas.getZoom());
       //fabricCanvas.setDimensions({
       //  width: updateValue,
@@ -310,6 +338,7 @@
               id: canvasBkgImg.id
             });
             canvasBkgImg.active = true;
+            canvasBkgImg.instance.set(fabricObjSettings);
             fabricCanvas.add(canvasBkgImg.instance);
           }
           else{
@@ -379,7 +408,6 @@
     /************************************* STICKERS *************************************/
 
     function applySticker(sticker){
-      console.log(sticker);
       if(sticker.url && sticker.isActive){
         var img = new Image();
         img.src = sticker.url;
@@ -387,11 +415,32 @@
           var fabricStickerInstance = new fabric.Image(img, {
             id: (new Date().getTime() / 1000)
           });
+          fabricStickerInstance.set(fabricObjSettings);
           fabricCanvas.add(fabricStickerInstance);
           fabricStickerInstance.center();
           fabricStickerInstance.setCoords();
           fabricCanvas.setActiveObject(fabricStickerInstance);
         };
+      }
+    }
+
+    /************************************* TEXTS *************************************/
+
+    function applyText(text){
+      console.log(text);
+      if(text.url && text.isActive){
+        var fabricText = new fabric.IText('Add Heading', {
+          id: (new Date().getTime() / 1000),
+          fontFamily: text.name
+        });
+        fabricText.setColor('white');
+        //fabricText.enterEditing();
+        //fabricText.hiddenTextarea.focus();
+        fabricText.set(fabricObjSettings);
+        fabricCanvas.add(fabricText);
+        fabricText.center();
+        fabricText.setCoords();
+        fabricCanvas.setActiveObject(fabricText);
       }
     }
 
@@ -410,22 +459,41 @@
 
     function rotateClockwise(){
       var object= fabricCanvas.getActiveObject();
-      var angle=object.angle+(-90);
-      object.setAngle(angle).setCoords();
-      fabricCanvas.renderAll();
+      object.animate('angle', object.angle+(-90), {
+        //easing: fabric.util.ease.easeOutBounce,
+        onChange: fabricCanvas.renderAll.bind(fabricCanvas)
+      });
+      object.setCoords();
     }
 
     function rotateAntiClockwise(){
       var object= fabricCanvas.getActiveObject();
-      var angle=object.angle+90;
-      object.setAngle(angle).setCoords();
-      fabricCanvas.renderAll();
+      object.animate('angle', object.angle+(90), {
+        //easing: fabric.util.ease.easeOutBounce,
+        onChange: fabricCanvas.renderAll.bind(fabricCanvas)
+      });
+      object.setCoords();
     }
 
     function deleteSelectedObject(){
       var selectedElem = fabricCanvas.getActiveObject();
       if(selectedElem!=null){
         selectedElem.remove();
+      }
+    }
+
+    function copySelectedObject(){
+      var selectedElem = fabricCanvas.getActiveObject();
+      if(selectedElem!=null){
+        console.log("running COPY");
+        var clonedObj = fabric.util.object.clone(selectedElem);
+        clonedObj.set("top", clonedObj.top+10);
+        clonedObj.set("left", clonedObj.left+10);
+        clonedObj.set(fabricObjSettings);
+        fabricCanvas.add(clonedObj);
+        clonedObj.center();
+        clonedObj.setCoords();
+        fabricCanvas.setActiveObject(clonedObj);
       }
     }
 
@@ -440,6 +508,28 @@
             break;
         }
       });
+
+      fabricCanvas.on({
+        'mouse:down': function(e) {
+          if (e.target) {
+            e.target.opacity = 0.5;
+            fabricCanvas.renderAll();
+          }
+        },
+        'mouse:up': function(e) {
+          if (e.target) {
+            e.target.opacity = 1;
+            fabricCanvas.renderAll();
+          }
+        },
+        'object:moved': function(e) {
+          e.target.opacity = 0.5;
+        },
+        'object:modified': function(e) {
+          e.target.opacity = 1;
+        }
+      });
+
     }
 
     /* Initializer Call */
