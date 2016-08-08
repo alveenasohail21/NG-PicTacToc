@@ -80,7 +80,8 @@ Content : Start
             <div class="jumbotron">
                 <!-- Connected as -->
                 <span ng-if="vm.uploadCategory!='device' && (vm.fbLogin || vm.instagramLogin || vm.flickrLogin || vm.googleLogin)" class="">
-                    <img src="images/profile_icon.png" alt="">
+                    <!--<img src="images/profile_icon.png" alt="">-->
+                    <img src="{{$root.user.socialPicture}}" alt="" onerror="this.src = 'images/user_profile_placeholder.png'">
                     <div class="description">
                         <div class="title">Connected as {{$root.user.socialName}}</div>
                         <div class="details"><a href="" ng-click="vm.socialDisconnect(vm.uploadCategory)">click here</a> to disconnect</div>

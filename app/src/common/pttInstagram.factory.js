@@ -15,6 +15,8 @@
     var platform = 'instagram';
     var authResponse = null;
     var instagramUrl = "https://api.instagram.com/v1/users/self/media/recent/?access_token=";
+    // this will get all basic info however
+    var instagramProfilePictureUrl = "https://api.instagram.com/v1/users/";
 
     /* Return Functions */
     return {
@@ -29,6 +31,14 @@
     function saveAuth(data){
       console.log("Instagram Auth Response: ", data);
       authResponse = data;
+      if(!authResponse.picture){
+        $http.get(instagramProfilePictureUrl+authResponse.social_id+"?access_token="+authResponse.access_token)
+          .then(function(resp){
+            console.log("INSTAGRAM PROFILE PICTURE RESP: ", resp);
+            authResponse.picture = resp.data.data.profile_picture;
+            $rootScope.user.socialPicture = authResponse.picture;
+          })
+      }
     }
 
     function disconnect(){
@@ -46,7 +56,7 @@
             if(resp.success){
               console.log("Social DETAILS: ", resp.data);
               $rootScope.user.socialName = resp.data.social_name;
-              authResponse = resp.data;
+              saveAuth(resp.data);
               _getPhotos();
             }
           })
@@ -55,6 +65,7 @@
       else{
         console.log("Setting Instagram details on rootscope");
         $rootScope.user.socialName = authResponse.social_name;
+        $rootScope.user.socialPicture = authResponse.picture;
         _getPhotos();
       }
 

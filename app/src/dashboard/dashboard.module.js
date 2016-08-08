@@ -82,8 +82,8 @@
               else{
                 console.log("Fetching PHOTOS");
                 return photosFactory.getPhotos().then(function(resp){
-                    return resp;
-                  })
+                  return resp;
+                })
               }
             },
             r_activeSocialProfiles: function(userFactory, $rootScope){
@@ -93,7 +93,7 @@
               else{
                 return userFactory.activeSocialProfilesFromServer().then(function(resp){
                   return resp;
-                  })
+                })
               }
             }
           },
@@ -118,8 +118,8 @@
               }
               else{
                 return photosFactory.getPhotos().then(function(resp){
-                    return resp;
-                  })
+                  return resp;
+                })
               }
             }
           },

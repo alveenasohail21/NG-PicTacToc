@@ -10,12 +10,13 @@
     .module('app.common')
     .factory('pttFBFactory', pttFBFactory);
 
-  function pttFBFactory($q, restFactory, $rootScope, photosFactory){
+  function pttFBFactory($q, restFactory, $rootScope, photosFactory, $http){
 
     var platform = 'facebook';
     var authResponse = null;
     var requestTimeInSecond;
     var graphAPIversion = "v2.6";
+    var facebookProfilePicUrl = "https://graph.facebook.com/user_id/picture?type=large";
     var albums = {
       data: [],
       pagination: {
@@ -43,6 +44,10 @@
 
     function saveAuth(data){
       authResponse = data;
+      if(!authResponse.picture){
+        authResponse.picture = (facebookProfilePicUrl.replace('user_id', authResponse.social_id));
+        $rootScope.user.socialPicture = authResponse.picture;
+      }
     }
 
     function disconnect(){
@@ -131,7 +136,7 @@
             if(resp.success){
               console.log("Social DETAILS: ", resp.data);
               $rootScope.user.socialName = resp.data.social_name;
-              authResponse = resp.data;
+              saveAuth(resp.data);
             }
             if(albums.data.length>0 && !cursor){
               console.log("albums present");
@@ -146,6 +151,7 @@
       else{
         console.log("Setting Facebook details on rootscope");
         $rootScope.user.socialName = authResponse.social_name;
+        $rootScope.user.socialPicture = authResponse.picture;
 
         if(albums.data.length>0 && !cursor){
           console.log("albums present");

@@ -197,13 +197,6 @@
         });
     }
 
-    // logout
-    $rootScope.$on('logout', function(event, args){
-      vm.myPhotos = [];
-      vm.myPhotosTotalCount = 0;
-    });
-
-
     /************************************* FACEBOOK *************************************/
 
     // get facebook albums
@@ -385,7 +378,7 @@
             // loop it, but its length will always be zero
             for(var i=0;i<response.data.data.photos.length;i++){
               // update myPhotos
-              console.log("pushing to photos");
+              console.log("pushing to photos: ",response.data.data.photos[i]);
               // vm.myPhotos.push(response.data.data.photos[i]);
               // save photo in photoFactotry
               photosFactory.addPhotoToLocal(response.data.data.photos[i]);

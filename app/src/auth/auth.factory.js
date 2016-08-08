@@ -123,7 +123,7 @@
     function logout(){
       $auth.removeToken();
       $rootScope.$emit('logout');
-      $state.go('Login');
+      $state.go('Login',{}, {reload: true});
     }
 
     function forgotEmailSend(email){

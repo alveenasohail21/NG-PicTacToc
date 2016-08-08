@@ -41,6 +41,7 @@
       }
     ];
     var appStateIndex = -1;
+    $rootScope.reload = false;
 
     //on routing error
     $rootScope.$on('$stateNotFound',   function(event, unfoundState, fromState, fromParams){
@@ -105,6 +106,10 @@
       else if(publicStates.indexOf(toState.name)>=0){
         console.log("Router: going to "+toState.name+" not authenticated and going to a public state, Valid");
         // The user is not authenticated and is going to a public state
+        if(publicStates.indexOf('Login')>=0 && $rootScope.reload){
+          event.preventDefault();
+          window.location.reload();
+        }
         return;
       }
       // The user is not authenticated and is going to a private state , so take him to landing

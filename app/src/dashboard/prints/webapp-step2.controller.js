@@ -54,6 +54,7 @@
     canvasImage.crossOrigin = '';
     // fabric canvas
     var fabricCanvas = new fabric.Canvas('canvas');
+    fabricCanvas.renderOnAddRemove = false;
     // fabric objects setting
     var fabricObjSettings = {
       borderColor: 'white',
@@ -339,7 +340,8 @@
           if(!canvasBkgImg.active){
             canvasBkgImg.id = (new Date().getTime() / 1000);
             canvasBkgImg.instance = new fabric.Image(canvasImage, {
-              id: canvasBkgImg.id
+              id: canvasBkgImg.id,
+              renderOnAddRemove: false
             });
             canvasBkgImg.active = true;
             canvasBkgImg.instance.set(fabricObjSettings);
@@ -350,6 +352,7 @@
           }
           canvasBkgImg.instance.center();
           canvasBkgImg.instance.setCoords();
+          fabricCanvas.renderAll();
           fabricCanvas.setActiveObject(canvasBkgImg.instance);
         };
       });
@@ -423,6 +426,7 @@
           fabricCanvas.add(fabricStickerInstance);
           fabricStickerInstance.center();
           fabricStickerInstance.setCoords();
+          fabricCanvas.renderAll();
           fabricCanvas.setActiveObject(fabricStickerInstance);
         };
       }
@@ -444,6 +448,7 @@
         fabricCanvas.add(fabricText);
         fabricText.center();
         fabricText.setCoords();
+        fabricCanvas.renderAll();
         fabricCanvas.setActiveObject(fabricText);
       }
     }
@@ -509,6 +514,7 @@
       var selectedElem = fabricCanvas.getActiveObject();
       if(selectedElem!=null){
         selectedElem.remove();
+        fabricCanvas.renderAll();
       }
     }
 
@@ -549,7 +555,14 @@
         'mouse:up': function(e) {
           if (e.target) {
             e.target.opacity = 1;
+            //fabricCanvas.discardActiveObject();
+            //fabricCanvas.deactivateAll();
             fabricCanvas.renderAll();
+            //var index = fabricCanvas.getObjects().indexOf(e.target);
+            //e.target.remove();
+            //fabricCanvas.moveTo(e.target, index);
+            fabricCanvas.setActiveObject(e.target);
+
           }
         },
         'object:moved': function(e) {

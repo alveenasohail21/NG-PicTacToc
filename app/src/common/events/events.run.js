@@ -21,6 +21,8 @@
       photosFactory.removePhotosFromLocal();
       // remove data and token
       userFactory.removeUserFromLocal();
+      // reload due to photoFactory bhand
+      $rootScope.reload = true;
     });
 
     // social authenticate
