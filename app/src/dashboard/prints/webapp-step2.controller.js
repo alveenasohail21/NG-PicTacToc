@@ -78,6 +78,8 @@
     var scaleFactor;
     var scaleConstant = 0.76;
     vm.readyToDisplay = true;
+    // layout sections - default is no layout
+    var layoutSectionsObj = [];
 
 
     /* Function Assignment */
@@ -102,6 +104,8 @@
     vm.applySticker = applySticker;
     // texts
     vm.applyText = applyText;
+    // layouts
+    vm.applyLayout = applyLayout;
 
 
 
@@ -441,6 +445,32 @@
         fabricText.center();
         fabricText.setCoords();
         fabricCanvas.setActiveObject(fabricText);
+      }
+    }
+
+    /************************************* LAYOUTS *************************************/
+
+    function applyLayout(layout){
+      console.log(layout);
+      var layoutCloned = angular.copy(layout);
+      if(layoutCloned.data.length>0){
+        // remove all previous layouts from canvas
+        layoutSectionsObj.forEach(function(elem, index){
+          elem.remove();
+        });
+        layoutSectionsObj = [];
+        // customize new layouts
+        layoutCloned.data.forEach(function(elem, index){
+          // convert the percentage values to actual values
+          elem.top = fabricCanvas.getHeight()*elem.top;
+          elem.left = fabricCanvas.getWidth()*elem.left;
+          elem.height = fabricCanvas.getHeight()*elem.height;
+          elem.width = fabricCanvas.getWidth()*elem.width;
+          // add the clipping rect to canvas
+          var clipRect = new fabric.Rect(elem);
+          layoutSectionsObj.push(clipRect);
+          fabricCanvas.add(clipRect);
+        })
       }
     }
 

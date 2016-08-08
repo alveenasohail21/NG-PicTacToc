@@ -87,10 +87,11 @@ Content : Start : Step 2
 
             <!-- Sub Sidebar : Start -->
             <div id="ptt-sidebar-wrapper-2">
-                <span ng-include="vm.sideMenuTemplate" ng-if="vm.activeSidemenuItem == 'layouts'"></span>
+                <!--<span ng-include="vm.sideMenuTemplate" ng-if="vm.activeSidemenuItem == 'layouts'"></span>-->
                 <ptt-filters thumbnail="vm.selectedPhoto.thumbnail" on-select="vm.applyFilter(filter)"  ng-show="vm.activeSidemenuItem == 'filters'"></ptt-filters>
                 <ptt-stickers on-select="vm.applySticker(sticker)" ng-show="vm.activeSidemenuItem == 'stickers'"></ptt-stickers>
                 <ptt-texts on-select="vm.applyText(text)" ng-show="vm.activeSidemenuItem == 'texts'"></ptt-texts>
+                <ptt-layouts on-select="vm.applyLayout(layout)" ng-show="vm.activeSidemenuItem == 'layouts'"></ptt-layouts>
                 <button class="ptt-sidebar-2-close" ng-click="vm.closeSidemenu()">
                     <i class="glyphicon glyphicon-remove"></i>
                 </button>
@@ -195,7 +196,7 @@ Content : Start : Step 2
 
                     <div class="element">
                         <div class="toolbar">
-                            <div ng-click="vm.getDetails()" class="custom-svg-icon gray-border-none">
+                            <div class="custom-svg-icon gray-border-none">
                                 <!--<object data="svgs/gray-border-none.svg" type=""></object>-->
                                 <img src="svgs/gray-border-none.svg" alt="">
                             </div>

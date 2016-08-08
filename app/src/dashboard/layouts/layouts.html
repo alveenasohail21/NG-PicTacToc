@@ -1,5 +1,8 @@
 <div class="ptt-sidebar-content-2 sidemenu-layouts">
-    <div class="empty-images">
+    <div class="empty-images" ng-repeat="layout in layouts" ng-click="onSelect({layout: layout})" ng-if="layout.isActive">
+        <img src="{{layout.url}}" alt="">
+    </div>
+    <!--<div class="empty-images">
         <img src="images/sidemenu/layouts/layout-5.png" alt="">
     </div>
     <div class="empty-images">
@@ -13,8 +16,5 @@
     </div>
     <div class="empty-images">
         <img src="images/sidemenu/layouts/layout-5.png" alt="">
-    </div>
-    <div class="empty-images">
-        <img src="images/sidemenu/layouts/layout-5.png" alt="">
-    </div>
+    </div>-->
 </div>
