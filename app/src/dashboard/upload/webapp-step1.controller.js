@@ -295,6 +295,7 @@
     // add files to upload queue
     function addFilesToUploadQueue(index){
       // if single file
+      console.log("um tryna add mayn");
       if(index>=0 && !vm.filesToUpload[index].inProgress && !vm.filesToUpload[index].uploaded){
         vm.filesToUpload[index].inProgress = true;
         vm.filesToUpload[index].position = index;
@@ -353,6 +354,9 @@
           case 'facebook':
             url = API_URL+'/photos/upload/social';
             break;
+          case 'instagram':
+            url = API_URL+'/photos/upload/social';
+            break;
         }
         Upload.upload({
           method: 'POST',
@@ -373,7 +377,7 @@
             // loop it, but its length will always be zero
             for(var i=0;i<response.data.data.photos.length;i++){
               // update myPhotos
-              console.log("pussing to photos");
+              console.log("pushing to photos");
               // vm.myPhotos.push(response.data.data.photos[i]);
               // save photo in photoFactotry
               photosFactory.addPhotoToLocal(response.data.data.photos[i]);

@@ -144,7 +144,8 @@ Content : Start
 
             <!-- Only for photos -->
             <div class="uploaded-images animate-if " ng-if="vm.showAlbumOrPhotos">
-                <div class="img" ng-repeat="file in vm.filesToUpload" ng-click="(!file.inProgress)?vm.addFilesToUploadQueue($index):null">
+                <div class="img" ng-repeat="file in vm.filesToUpload"
+                     ng-click="(!file.inProgress)?vm.addFilesToUploadQueue($index):null">
                     <!-- For device -->
                     <img ngf-thumbnail="file" alt="" ng-if="vm.uploadCategory=='device'">
                     <!-- For facebook, instagram, google, flickr photos -->
