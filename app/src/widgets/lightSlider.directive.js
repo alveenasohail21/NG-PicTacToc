@@ -18,7 +18,7 @@
     .directive('pttPhotoStrip', pttPhotoStrip);
 
   /* @ngInject */
-  function pttPhotoStrip($timeout, uploadSliderConfig){
+  function pttPhotoStrip($timeout, uploadSliderConfig, $rootScope){
 
     var sliderHtml;
     var availableSliders = ['step1-lightSlider', 'step2-lightSlider'];
@@ -96,6 +96,12 @@
         }
 
       }, true);
+
+      // logout
+      $rootScope.$on('logout', function(event, args){
+        scope.photos = [];
+        console.log("REMOVED FROM DIRECTIVE", scope.photos);
+      });
 
       // call initializer
       init();

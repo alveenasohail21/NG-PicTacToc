@@ -46,10 +46,12 @@
     }
 
     function removePhotosFromLocal(){
+      console.log("removing local factory data ****************");
       _data = {
         photos: [],
         totalCount: 0
       };
+      console.log("REMOVED FROM FACTORY", _data);
     }
 
     function getPhotos(queryParams) {
@@ -66,6 +68,7 @@
             resp.data['photos'].forEach(function(elem, index){
               _data.photos.push(angular.copy(elem));
             });
+            console.log("DATA IN FACTORY AFTER FETCHING", _data);
             _data.totalCount = resp.data['totalCount'];
             deffered.resolve(resp.data);
           }

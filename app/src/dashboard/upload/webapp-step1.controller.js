@@ -24,9 +24,11 @@
     /*
      * Variables
      * */
+
+    console.log("DATA FROM FACTORY: ", photosFactory._data.photos);
+
     vm.myPhotos = photosFactory._data.photos;
     vm.myPhotosTotalCount = photosFactory._data.totalCount;
-
 
     vm.myPhotosPagination = {
       from: 0,
@@ -194,6 +196,12 @@
           }
         });
     }
+
+    // logout
+    $rootScope.$on('logout', function(event, args){
+      vm.myPhotos = [];
+      vm.myPhotosTotalCount = 0;
+    });
 
 
     /************************************* FACEBOOK *************************************/

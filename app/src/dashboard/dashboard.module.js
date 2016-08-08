@@ -72,12 +72,15 @@
           contentClass: "prints",
           header: true,
           footer: true,
+          cache: false,
           resolve: {
             r_photos: function(photosFactory){
               if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
+                console.log("Local PHOTOS");
                 return photosFactory.getLocalPhotosIfPresent();
               }
               else{
+                console.log("Fetching PHOTOS");
                 return photosFactory.getPhotos().then(function(resp){
                     return resp;
                   })
