@@ -33,7 +33,9 @@
       login: login,
       getAlbums: getAlbums,
       getAlbumPhotos: getAlbumPhotos,
-      saveAuth: saveAuth
+      saveAuth: saveAuth,
+      disconnect: disconnect,
+      clearInternalData: clearInternalData
     };
 
 
@@ -41,6 +43,33 @@
 
     function saveAuth(data){
       authResponse = data;
+    }
+
+    function disconnect(){
+      authResponse = null;
+      albums = {
+        data: [],
+        pagination: {
+          from: 0,
+          limit: 25,
+          next: null,
+          previous: null,
+          end: false
+        }
+      }
+    }
+
+    function clearInternalData(){
+      albums = {
+        data: [],
+        pagination: {
+          from: 0,
+          limit: 25,
+          next: null,
+          previous: null,
+          end: false
+        }
+      }
     }
 
     function isAuthenticated(){
@@ -115,6 +144,7 @@
       }
       // if authenticated and token is not expired, get albums
       else{
+        console.log("Setting Facebook details on rootscope");
         $rootScope.user.socialName = authResponse.social_name;
 
         if(albums.data.length>0 && !cursor){

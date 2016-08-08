@@ -12,7 +12,7 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl(API_URL, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, alertFactory){
+  function webappStep1Ctrl(API_URL, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, alertFactory, $rootScope){
 
     var vm = this;
 
@@ -105,12 +105,19 @@
       vm.instagramLogin = false;
       vm.flickrLogin = false;
       vm.googleLogin = false;
+      // clear all internal data of social factories
+      $rootScope.$emit('uploadCategoryChange', {provider: uploadCategory});
       // switch
       switch(uploadCategory){
         case 'device':
           vm.showAlbumOrPhotos = true;
           break;
         case 'facebook':
+          // clear controller's internal data
+          vm.fb = {
+            albums: [],
+            currentAlbumIndex: ''
+          };
           // check fb present
           if(userFactory.activeSocialProfiles().indexOf(uploadCategory)>=0){
             // already linked fb account
@@ -120,6 +127,12 @@
           }
           break;
         case 'instagram':
+          // clear controller's internal data
+          vm.instagram = {
+            photos: {
+              pagination: null
+            }
+          };
           // check fb present
           if(userFactory.activeSocialProfiles().indexOf(uploadCategory)>=0){
             // already linked instagram account
@@ -164,6 +177,11 @@
                 break;
               case 'instagram':
                 vm.instagramLogin = false;
+                vm.instagram = {
+                  photos: {
+                    pagination: null
+                  }
+                };
                 break;
               case 'google':
                 vm.googleLogin = false;
@@ -172,6 +190,7 @@
                 vm.flickrLogin = false;
                 break;
             }
+            $rootScope.$emit('socialDisconnect', {provider: platform});
           }
         });
     }
@@ -379,9 +398,29 @@
             }
           }
         }, function (response) {
-          console.log(response);
-          if (response.status > 0) {
-            vm.errorMsg = response.status + ': ' + response.data;
+          console.log("UPLOAD ERROR: ", response);
+          alertFactory.error(null, "Unable to upload this image, select a different image");
+          // set uploaded and inProgress to false
+          vm.filesToUpload[file.position].uploaded = false;
+          vm.filesToUpload[file.position].inProgress = false;
+          vm.filesToUpload[file.position].progress = 0;
+          // remove from queue
+          vm.uploadQueue.dequeue();
+          // showAllUploadButton
+          if(vm.filesToUpload.length-1 <= vm.filesUploadedCount){
+            vm.showAllUploadButton = false;
+            console.log("< 1");
+          }
+          else{
+            console.log("> 1");
+            vm.showAllUploadButton = true;
+          }
+          // see if queue is not empty, call it self
+          if(!vm.uploadQueue.isEmpty()){
+            vm.uploadFile();
+          }
+          else{
+            vm.uploadInProgress = false;
           }
         }, function (evt) {
           // set progress for the upload bar

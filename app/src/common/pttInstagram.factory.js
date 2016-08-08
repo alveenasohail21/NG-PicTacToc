@@ -19,7 +19,8 @@
     /* Return Functions */
     return {
       getPhotos: getPhotos,
-      saveAuth: saveAuth
+      saveAuth: saveAuth,
+      disconnect: disconnect
     };
 
 
@@ -28,6 +29,10 @@
     function saveAuth(data){
       console.log("Instagram Auth Response: ", data);
       authResponse = data;
+    }
+
+    function disconnect(){
+      authResponse = null;
     }
 
     function getPhotos(pagingCursor){
@@ -48,6 +53,7 @@
       }
       // if authenticated and token is not expired, get albums
       else{
+        console.log("Setting Instagram details on rootscope");
         $rootScope.user.socialName = authResponse.social_name;
         _getPhotos();
       }
@@ -59,7 +65,6 @@
         if(pagingCursor != null){
           url = pagingCursor;
         }
-        console.log(url);
         $http.get(url).then(
           function (resp) {
             console.log("Instagram Photos Response: ", resp);

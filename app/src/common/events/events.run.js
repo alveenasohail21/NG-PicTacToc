@@ -42,6 +42,33 @@
       }
     });
 
+    // social disconnect
+    $rootScope.$on('socialDisconnect', function(event, args){
+      console.log("Angular Event: socialDisconnect");
+      console.log("Angular Event Args: ", args);
+      // set the data in respective factory
+      switch(args.provider){
+        case 'facebook':
+          pttFBFactory.disconnect();
+          break;
+        case 'instagram':
+          pttInstagram.disconnect();
+          break;
+        case 'google':
+          break;
+        case 'flickr':
+          break;
+      }
+    });
+
+    // Upload Category Change
+    $rootScope.$on('uploadCategoryChange', function(event, args){
+      console.log("Angular Event: uploadCategoryChange");
+      console.log("Angular Event Args: ", args);
+      // clear the internal data from all social factory
+      pttFBFactory.clearInternalData();
+    });
+
     // sidemenu toggles
     $rootScope.$on('sidemenuToggles', function(event, args){
       console.log("Angular Event: sidemenuToggles");
