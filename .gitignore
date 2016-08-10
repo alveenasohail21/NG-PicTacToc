@@ -16,3 +16,6 @@ app/bower_components/
 .tmp
 
 .idea
+
+#css
+app/styles/css
