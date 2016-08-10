@@ -32,10 +32,11 @@
       console.log("Instagram Auth Response: ", data);
       authResponse = data;
       if(!authResponse.picture){
-        $http.get(instagramProfilePictureUrl+authResponse.social_id+"?access_token="+authResponse.access_token)
-          .then(function(resp){
+        // adding '&callback=?' as a solution for instagram APIs with getJSON request type
+        $.getJSON(instagramProfilePictureUrl+authResponse.social_id+"?access_token="+authResponse.access_token+"&callback=?",
+          function(resp){
             console.log("INSTAGRAM PROFILE PICTURE RESP: ", resp);
-            authResponse.picture = resp.data.data.profile_picture;
+            authResponse.picture = resp.data.profile_picture;
             $rootScope.user.socialPicture = authResponse.picture;
           })
       }
@@ -76,22 +77,24 @@
         if(pagingCursor != null){
           url = pagingCursor;
         }
-        $http.get(url).then(
+        // adding '&callback=?' as a solution for instagram APIs with getJSON request type
+        url +=  '&callback=?';
+        $.getJSON(url,
           function (resp) {
             console.log("Instagram Photos Response: ", resp);
             if (resp) {
               // resolve
-              resp.data.data.forEach(function(elem, index){
-                resp.data.data[index] = photosFactory.mapSocialPhotos(elem, platform);
+              resp.data.forEach(function(elem, index){
+                resp.data[index] = photosFactory.mapSocialPhotos(elem, platform);
               });
-              deffered.resolve(resp.data);
+              deffered.resolve(resp);
             }
             else{
               alertFactory.error(null, "Unable to get Instagram photos, Please try later");
               deffered.reject('Something is wrong');
             }
-          }
-        );
+          });
+
       }
 
       return deffered.promise;
