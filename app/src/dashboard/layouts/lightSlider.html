@@ -17,7 +17,7 @@
             <img ng-click="onDelete({id: photo.id, index: $index})" class="white-cross" src="images/white-cross.png" alt="X">
         </li>
         <!--ng-if="showUploadImage"-->
-        <li class="cursor-pointer" ngf-select="onSelectFiles({files: $files})" multiple accept="image/*" >
+        <li class="cursor-pointer add-new-image" ngf-select="onSelectFiles({files: $files})" multiple accept="image/*" >
             <img src="images/add_image.png" alt="">
         </li>
     </ul>
