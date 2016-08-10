@@ -19,7 +19,7 @@
     $authProvider.signupUrl = API_URL + '/auth/signup';
 
     $authProvider.facebook({
-      url: API_URL + '/auth/facebook/',
+      url: API_URL + '/auth/facebook',
       clientId: '1226159537401789',
       authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
       redirectUri: window.location.origin + '/',
@@ -32,7 +32,7 @@
     });
 
     $authProvider.google({
-      url: API_URL + '/auth/google/',
+      url: API_URL + '/auth/google',
       clientId: '251468221872-1i73ucukf8975jo58rp3fo5m2kqa77f7.apps.googleusercontent.com',
       authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
       redirectUri: window.location.origin + '/',

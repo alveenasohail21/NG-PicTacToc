@@ -77,6 +77,15 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "app.common.alert",
+      "shortName": "app.common.alert",
+      "type": "service",
+      "moduleName": "app.common",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "alert api app common description placeholder service"
+    },
+    {
+      "section": "api",
       "id": "app.common.directive:compareTo",
       "shortName": "compareTo",
       "type": "directive",
@@ -92,6 +101,15 @@ NG_DOCS={
       "moduleName": "app.common",
       "shortDescription": "&lt; description placeholder &gt;",
       "keywords": "api app common description directive object placeholder test true"
+    },
+    {
+      "section": "api",
+      "id": "app.common.eventsFactory",
+      "shortName": "app.common.eventsFactory",
+      "type": "service",
+      "moduleName": "app.common",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app common description eventsfactory placeholder service"
     },
     {
       "section": "api",
@@ -149,12 +167,21 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "app.core",
-      "shortName": "app.core",
-      "type": "overview",
-      "moduleName": "app.core",
-      "shortDescription": "Configuration block for restangular",
-      "keywords": "api app block configuration core overview restangular"
+      "id": "app.common.user",
+      "shortName": "app.common.user",
+      "type": "service",
+      "moduleName": "app.common",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app common description placeholder service user"
+    },
+    {
+      "section": "api",
+      "id": "app.common.user",
+      "shortName": "app.common.user",
+      "type": "service",
+      "moduleName": "app.common",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app common description placeholder service user"
     },
     {
       "section": "api",
@@ -164,6 +191,15 @@ NG_DOCS={
       "moduleName": "app.core",
       "shortDescription": "Configuration block for routing",
       "keywords": "api app block configuration core overview routing"
+    },
+    {
+      "section": "api",
+      "id": "app.core",
+      "shortName": "app.core",
+      "type": "overview",
+      "moduleName": "app.core",
+      "shortDescription": "Configuration block for restangular",
+      "keywords": "api app block configuration core overview restangular"
     },
     {
       "section": "api",
@@ -209,6 +245,42 @@ NG_DOCS={
       "moduleName": "app.dashboard",
       "shortDescription": "&lt; description placeholder &gt;",
       "keywords": "api app dashboard description entity placeholder service testfunction"
+    },
+    {
+      "section": "api",
+      "id": "app.dashboard.directive:lightSlider",
+      "shortName": "lightSlider",
+      "type": "directive",
+      "moduleName": "app.dashboard",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app dashboard description directive object placeholder test true"
+    },
+    {
+      "section": "api",
+      "id": "app.dashboard.directive:lightSlider",
+      "shortName": "lightSlider",
+      "type": "directive",
+      "moduleName": "app.dashboard",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app dashboard description directive object placeholder test true"
+    },
+    {
+      "section": "api",
+      "id": "app.dashboard.directive:lightSlider",
+      "shortName": "lightSlider",
+      "type": "directive",
+      "moduleName": "app.dashboard",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app dashboard description directive object placeholder test true"
+    },
+    {
+      "section": "api",
+      "id": "app.dashboard.directive:lightSlider",
+      "shortName": "lightSlider",
+      "type": "directive",
+      "moduleName": "app.dashboard",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app dashboard description directive object placeholder test true"
     },
     {
       "section": "api",
