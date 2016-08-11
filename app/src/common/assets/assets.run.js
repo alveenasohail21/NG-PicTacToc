@@ -85,6 +85,7 @@
           console.log("LOADING ASSETS");
           loadImagesAndSvgs();
           loadFonts();
+          stopDebug();
         });
       }
 
@@ -105,6 +106,13 @@
             var hiddenElem = $('<p class="'+ fontClasses[i] +'"></p>', { css: { 'visibility': 'hidden' }});
             $('body').append(hiddenElem);
           }());
+        }
+      }
+
+      // stop debug mode
+      function stopDebug(){
+        console.log = function(){
+
         }
       }
 

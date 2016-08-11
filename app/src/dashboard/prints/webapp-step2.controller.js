@@ -355,6 +355,7 @@
           fabricCanvas.renderAll();
           fabricCanvas.setActiveObject(canvasBkgImg.instance);
         };
+      }, function(err){
       });
     }
 

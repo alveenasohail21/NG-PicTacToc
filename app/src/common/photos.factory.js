@@ -91,6 +91,7 @@
     //delete selected photo in step 1
     function deletePhoto(id, index) {
       var deferred = $q.defer();
+      $('.collapse-loader').css('display', 'block');
       restFactory.photos.deletePhoto(id)
         .then(function(resp){
           if(resp.success){
@@ -102,6 +103,7 @@
           else{
             alertFactory.error(null, resp.message);
           }
+          $('.collapse-loader').css('display', 'none');
         });
       return deferred.promise;
     }
@@ -109,6 +111,7 @@
     //get a photo selected by user in original size in step 2
     function getSelectedPhoto(id) {
       var deferred = $q.defer();
+      $('.global-loader').css('display', 'block');
       restFactory.photos.getSelectedPhoto(id).then(function(resp){
         if(resp.success){
           if('imageBase64' in resp.data){
@@ -121,6 +124,7 @@
           alertFactory.error(null, resp.message);
           deferred.reject(resp);
         }
+        $('.global-loader').css('display', 'none');
       });
       return deferred.promise;
     }
@@ -146,6 +150,7 @@
 
     function copyPhoto(id, index) {
       var deferred = $q.defer();
+      $('.collapse-loader').css('display', 'block');
       restFactory.photos.copyPhoto(id, index).then(function(resp){
         if(resp.success){
           resp.data.base64 = _data.photos[index].base64;
@@ -158,6 +163,7 @@
           alertFactory.error(null, resp.message);
           deferred.reject(resp);
         }
+        $('.collapse-loader').css('display', 'none');
       });
       return deferred.promise;
     }
