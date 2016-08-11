@@ -35,6 +35,9 @@
       $rootScope.alert.title = title || 'Success: ';
       $rootScope.alert.message = message;
       $rootScope.alert.show = true;
+      $timeout(function(){
+        $('.alert.alert-dismissible').css('opacity', '1');
+      });
       removeAlert(3000);
     }
 
@@ -43,6 +46,7 @@
       $rootScope.alert.title = title || 'Error: ';
       $rootScope.alert.message = message;
       $rootScope.alert.show = true;
+      $('.alert.alert-dismissible').css('opacity', '1');
       removeAlert(3000);
     }
 
