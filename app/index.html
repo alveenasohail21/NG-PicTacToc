@@ -23,6 +23,11 @@
 
 <body class=" scroll-pane" ng-cloak ng-class="{'app': $root.app.isActive}">
 
+<!-- Global Loader -->
+<div class="global-loader" style="z-index: 99999999; display: none;">
+    <img src="svgs/ptt-loader.svg" alt="Loading...">
+</div>
+
 <div ui-view class="view-animate" style="height: 100%;"></div>
 
 <!-- Alert Message -->
@@ -30,6 +35,8 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>{{$root.alert.title}}</strong> {{$root.alert.message}}
 </div>
+
+
 
 </body>
 

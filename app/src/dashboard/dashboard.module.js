@@ -80,8 +80,10 @@
                 return photosFactory.getLocalPhotosIfPresent();
               }
               else{
+                $('.global-loader').css('display', 'block');
                 console.log("Fetching PHOTOS");
                 return photosFactory.getPhotos().then(function(resp){
+                  $('.global-loader').css('display', 'none');
                   return resp;
                 })
               }
@@ -117,7 +119,9 @@
                 return photosFactory.getLocalPhotosIfPresent();
               }
               else{
+                $('.global-loader').css('display', 'block');
                 return photosFactory.getPhotos().then(function(resp){
+                  $('.global-loader').css('display', 'none');
                   return resp;
                 })
               }

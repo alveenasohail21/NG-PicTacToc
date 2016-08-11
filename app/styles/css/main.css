@@ -293,7 +293,30 @@ body.app .ptt-loader img.loader-fb-photo {
   margin-left: -15px;
   margin-top: -15px;
 }
-/* line 335, ../partials/base/_global.scss */
+/* line 332, ../partials/base/_global.scss */
+body.app .global-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.71);
+}
+/* line 340, ../partials/base/_global.scss */
+body.app .global-loader img {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  animation: loader 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+  transform: rotate(360deg);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 360, ../partials/base/_global.scss */
 body.app .modal-backdrop {
   background-color: #cbced0;
   opacity: 0.71;
@@ -303,17 +326,17 @@ body.app .modal-backdrop {
 /*
 Scrollbar
 */
-/* line 346, ../partials/base/_global.scss */
+/* line 371, ../partials/base/_global.scss */
 *::-webkit-scrollbar {
   width: 10px;
 }
 
-/* line 350, ../partials/base/_global.scss */
+/* line 375, ../partials/base/_global.scss */
 *::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 10px 10px 10px rgba(255, 255, 255, 0.8);
 }
 
-/* line 354, ../partials/base/_global.scss */
+/* line 379, ../partials/base/_global.scss */
 *::-webkit-scrollbar-thumb {
   background-color: #f0f2f2;
   border-radius: 10px;

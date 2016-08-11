@@ -329,6 +329,31 @@ body.app {
     margin-top: -15px;
   }
 
+  .global-loader{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    //background-color: rgba(203, 206, 208, 0.71);
+    background-color: rgba(0,0,0, 0.71);
+    img{
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      top: 50%;
+      left: 50%;
+      margin-top: -50px;
+      margin-left: -50px;
+      animation: loader 0.82s cubic-bezier(.36,.07,.19,.97) infinite;
+      transform: rotate(360deg);
+      backface-visibility: hidden;
+      perspective: 1000px;
+    }
+  }
+
+
+
   /*
   Modals
   */
