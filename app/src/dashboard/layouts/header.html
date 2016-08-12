@@ -50,12 +50,12 @@
                     <hr class="hover-hr">
                 </div>
                 <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-                <div class="step step-3" ng-class="{'active': $root.stateUrl=='/checkout'}" ng-click="">
+                <div class="step step-3" ng-class="{'active': $root.stateUrl=='/checkout'}" ng-click="(vm.selectedPhoto.original)?vm.sendEditedImage():''">
                     <div class="custom-svg-icon gray-tick" ng-if="$root.stateUrl!='/checkout'">
                         <!--<object class=""  type="image/svg+xml" data="svgs/gray-tick.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/gray-tick.svg">
                     </div>
-                    <div class="custom-svg-icon blue-tick" ng-if="$root.stateUrl=='/checkout'" ng-click="(vm.selectedPhoto)?vm.sendEditedImage():''">
+                    <div class="custom-svg-icon blue-tick" ng-if="$root.stateUrl=='/checkout'">
                         <!--<object class=""  type="image/svg+xml" data="svgs/blue-tick.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/blue-tick.svg">
                     </div>
@@ -76,7 +76,7 @@
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
                     <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-                    <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateUrl=='/design'" ng-click="vm.sendEditedImage()" ng-disabled="!vm.selectedPhoto">
+                    <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateUrl=='/design'" ng-click="vm.sendEditedImage()" ng-disabled="!vm.selectedPhoto.original">
                         <span class="btn-text" >Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>

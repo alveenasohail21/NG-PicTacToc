@@ -361,12 +361,14 @@
 
     //send edited image to the server
     function sendEditedImage(){
-      if(vm.selectedPhoto){
-        var configs = cropperFactory.getImageDetails();
-        if(vm.selectedPhoto.filter!=false && vm.selectedPhoto.filter!='normal'){
-          configs.filteredImage = vm.selectedPhoto.filteredImage;
-        }
-        $state.go($rootScope.app.productState + '.Checkout', {id: vm.selectedPhoto.original.id, configs: configs});
+      if(vm.selectedPhoto.original != null){
+        //var configs = cropperFactory.getImageDetails();
+        //if(vm.selectedPhoto.filter!=false && vm.selectedPhoto.filter!='normal'){
+        //  configs.filteredImage = vm.selectedPhoto.filteredImage;
+        //}
+        fabricCanvas.deactivateAll();
+        $rootScope.dummyImage = fabricCanvas.toDataURL();
+        $state.go($rootScope.app.productState + '.Checkout', {id: vm.selectedPhoto.original.id});
       }
     }
 

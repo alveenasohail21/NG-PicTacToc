@@ -85,7 +85,7 @@
           console.log("LOADING ASSETS");
           loadImagesAndSvgs();
           loadFonts();
-          stopDebug();
+          //stopDebug();
         });
       }
 

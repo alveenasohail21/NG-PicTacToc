@@ -88,10 +88,11 @@
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             //$auth.removeToken();
             //$localStorage.$reset();
-            localStorage.setItem('ptt_token','"'+resp.data.token+'"');
+            $localStorage.token = resp.data.token;
             // user signup through social provider
             if(!userFactory.getUserFromLocal()){
               console.log(resp.data.data);
+              Restangular.setDefaultHeaders({'token': 'Bearer {'+ $localStorage.token +'}'});
               userFactory.createUserInLocal(resp.data.data);
               $timeout(function(){
                 $state.go('Dashboard');

@@ -46,11 +46,17 @@
       $rootScope.alert.title = title || 'Error: ';
       $rootScope.alert.message = message;
       $rootScope.alert.show = true;
-      $('.alert.alert-dismissible').css('opacity', '1');
+      console.log("showing alert");
+      $timeout(function(){
+        $('.alert.alert-dismissible').css('opacity', '1');
+      });
       removeAlert(3000);
     }
 
     function removeAlert(time){
+      $timeout(function(){
+        $('.alert.alert-dismissible').css('opacity', '0');
+      }, time-1000);
       $timeout(function(){
         $rootScope.alert.show = false;
         $rootScope.alert.class = '';

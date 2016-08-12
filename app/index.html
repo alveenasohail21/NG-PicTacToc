@@ -31,17 +31,14 @@
 <div ui-view class="view-animate" style="height: 100%;"></div>
 
 <!-- Alert Message -->
-<div class="alert alert-dismissible" ng-class="$root.alert.class" role="alert" ng-if="$root.alert.show" style="position:fixed; top:10px; right:10px; z-index: 99999999; opacity: 0">
+<div class="alert alert-dismissible" ng-class="$root.alert.class" role="alert" ng-if="$root.alert.show" style="position:fixed; top:10px; right:10px; z-index: 99999999; opacity: 0; transition: opacity 0.4s">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>{{$root.alert.title}}</strong> {{$root.alert.message}}
 </div>
 
-
-
 </body>
 
 <!-- build:js scripts/libs.js -->
-<!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
@@ -54,20 +51,21 @@
 <script src="bower_components/angular-messages/angular-messages.js"></script>
 <script src="bower_components/ngstorage/ngStorage.js"></script>
 <script src="bower_components/satellizer/dist/satellizer.js"></script>
-<script src="bower_components/jquery-backstretch/jquery.backstretch.js"></script>
 <script src="bower_components/placeholders/dist/placeholders.js"></script>
 <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
-<script src="bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.js"></script>
+<script src="bower_components/ng-lodash/build/ng-lodash.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/libs2.js -->
 <script src="bower_components/jScrollPane/script/jquery.mousewheel.js"></script>
 <script src="bower_components/jScrollPane/script/mwheelIntent.js"></script>
 <script src="bower_components/jScrollPane/script/jquery.jscrollpane.js"></script>
 <script src="bower_components/jScrollPane/script/jquery.jscrollpane.min.js"></script>
 <script src="bower_components/lightslider/dist/js/lightslider.min.js"></script>
-<script src="bower_components/ng-lodash/build/ng-lodash.js"></script>
+<script src="bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.js"></script>
 <script src="bower_components/caman/dist/caman.min.js"></script>
 <script src="bower_components/caman/dist/caman.full.min.js"></script>
 <script src="bower_components/fabric.js/dist/fabric.min.js"></script>
-<!-- endbower -->
 <!-- endbuild -->
 
 <!-- build:js scripts/app.js -->

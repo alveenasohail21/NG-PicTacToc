@@ -189,8 +189,8 @@ NG_DOCS={
       "shortName": "app.core",
       "type": "overview",
       "moduleName": "app.core",
-      "shortDescription": "Configuration block for routing",
-      "keywords": "api app block configuration core overview routing"
+      "shortDescription": "Core is where the Magma is",
+      "keywords": "api app core magma overview"
     },
     {
       "section": "api",
@@ -209,6 +209,15 @@ NG_DOCS={
       "moduleName": "app.core",
       "shortDescription": "Core is where the Magma is",
       "keywords": "api app core magma overview"
+    },
+    {
+      "section": "api",
+      "id": "app.core",
+      "shortName": "app.core",
+      "type": "overview",
+      "moduleName": "app.core",
+      "shortDescription": "Configuration block for routing",
+      "keywords": "api app block configuration core overview routing"
     },
     {
       "section": "api",

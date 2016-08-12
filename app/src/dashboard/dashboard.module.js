@@ -147,6 +147,9 @@
           },
           resolve: {
             r_product: function(photosFactory, $stateParams){
+
+              return null;
+              // TODO: Update the configs for Edit API
               if($stateParams.id!=null && $stateParams.configs!=null){
                 console.log("INSIDE IF");
                 return photosFactory.sendEditedImage($stateParams.id, $stateParams.configs)
