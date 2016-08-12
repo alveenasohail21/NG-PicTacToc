@@ -22,6 +22,9 @@
 
     return {
       link: link,
+      scope: {
+        keepAspectRatio: '@'
+      },
       restrict: 'A'
     };
 
@@ -47,22 +50,24 @@
       // attach event
       elem.on('load', function(){
 
-        // keep aspect ratio and put image in center
-        console.log("ELEM: ", elem, elem[0].naturalWidth, elem[0].naturalHeight);
-        if(elem[0].naturalWidth > elem[0].naturalHeight){
-          $(elem).css('width', '100%');
+        if(scope.keepAspectRatio){
+          // keep aspect ratio and put image in center
+          console.log("ELEM: ", elem, elem[0].naturalWidth, elem[0].naturalHeight);
+          if(elem[0].naturalWidth > elem[0].naturalHeight){
+            $(elem).css('width', '100%');
+          }
+          else{
+            $(elem).css('height', '100%');
+          }
+          //console.log('ELEM WIDTH HEIGHT: ', elem.width(), elem.height());
+          //$(elem).css({
+          //  position: 'absolute',
+          //  top: '50%',
+          //  left: '50%',
+          //  'margin-left': '-'+elem.width()/2+'px',
+          //  'margin-top': '-'+elem.height()/2+'px'
+          //});
         }
-        else{
-          $(elem).css('height', '100%');
-        }
-        //console.log('ELEM WIDTH HEIGHT: ', elem.width(), elem.height());
-        //$(elem).css({
-        //  position: 'absolute',
-        //  top: '50%',
-        //  left: '50%',
-        //  'margin-left': '-'+elem.width()/2+'px',
-        //  'margin-top': '-'+elem.height()/2+'px'
-        //});
 
         elem.removeClass('blur-5px');
         elem.prev().css('display', 'none');

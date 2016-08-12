@@ -13,7 +13,7 @@
     <ul id="step1-lightSlider">
         <li ng-repeat="photo in photos track by $index">
             <div class="backdrop"></div>
-            <img ng-src="{{photo.base64}}" alt="" ptt-loader="loader-fb-photo">
+            <img ng-src="{{photo.base64}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
             <img ng-click="onDelete({id: photo.id, index: $index})" class="white-cross" src="images/white-cross.png" alt="X">
         </li>
         <!--ng-if="showUploadImage"-->
@@ -42,7 +42,7 @@
 
     <ul id="step2-lightSlider">
         <li ng-repeat="photo in photos track by $index">
-            <img ng-src="{{photo.base64}}" ng-click="onGetSelectPhoto({id: photo.id, index: $index})" alt="" ptt-loader="loader-fb-photo">
+            <img ng-src="{{photo.base64}}" ng-click="onGetSelectPhoto({id: photo.id, index: $index})" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
         </li>
     </ul>
 
