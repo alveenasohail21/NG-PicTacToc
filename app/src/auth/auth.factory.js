@@ -80,17 +80,24 @@
     function socialAuthenticate(provider){
       console.log("auth factory social authenticate provider: ", provider);
       var defer = $q.defer();
-      $auth.authenticate(provider, ($auth.isAuthenticated()?{'token':$auth.getToken().slice(1, $auth.getToken().length-1)}:{}))
+      console.log($auth.getToken().slice(1, $auth.getToken().length-1));
+      $auth.authenticate(provider, ($auth.isAuthenticated()?{'token':$localStorage.token}:{}))
         .then(function(resp){
           console.log(resp);
           if(resp.data.success){
             alertFactory.success(null,resp.data.message);
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
-            //$auth.removeToken();
+            $auth.removeToken();
+            delete $localStorage.token;
+            $timeout(function(){
+              console.log("SAVING TOKEN TO LOCAL STORAGE");
+              $localStorage.token = resp.data.token;
+              $localStorage.savier = 'xyz';
+            }, 2000);
             //$localStorage.$reset();
-            $localStorage.token = resp.data.token;
             // user signup through social provider
             if(!userFactory.getUserFromLocal()){
+              console.log("User signup through social provider");
               console.log(resp.data.data);
               Restangular.setDefaultHeaders({'token': 'Bearer {'+ $localStorage.token +'}'});
               userFactory.createUserInLocal(resp.data.data);
