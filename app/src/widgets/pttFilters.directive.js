@@ -21,10 +21,34 @@
   function pttFilters($timeout){
 
     // would be get from server, only active filters will be shown
-    //var filters = ['vintage', 'lomo', 'clarity', 'sinCity', 'sunrise', 'nostalgia', 'hemingway', 'grungy', 'jarques', 'pinhole'];
-    var filters = ['vintage', 'lomo', 'clarity', 'sinCity', 'sunrise', 'crossProcess', 'orangePeel',
-      'love', 'grungy', 'jarques', 'pinhole', 'oldBoot', 'glowingSun', 'hazyDays', 'herMajesty',
-      'nostalgia', 'hemingway', 'concentrate', 'normal'];
+
+    // var filters = ['vintage', 'lomo', 'clarity', 'sinCity', 'sunrise', 'crossProcess', 'orangePeel',
+    //   'love', 'grungy', 'jarques', 'pinhole', 'oldBoot', 'glowingSun', 'hazyDays', 'herMajesty',
+    //   'nostalgia', 'hemingway', 'concentrate', 'normal'];
+
+    var filters =[
+      { name: 'vintage', selected: false },
+      { name: 'lomo', selected: false },
+      { name: 'clarity', selected: false },
+      { name: 'sinCity', selected: false },
+      { name: 'sunrise', selected: false },
+      { name: 'crossProcess', selected: false },
+      { name: 'orangePeel', selected: false },
+      { name: 'love', selected: false },
+      { name: 'grungy', selected: false },
+      { name: 'jarques', selected: false },
+      { name: 'pinhole', selected: false },
+      { name: 'oldBoot', selected: false },
+      { name: 'glowingSun', selected: false },
+      { name: 'hazyDays', selected: false },
+      { name: 'herMajesty', selected: false },
+      { name: 'nostalgia', selected: false },
+      { name: 'hemingway', selected: false },
+      { name: 'concentrate', selected: false },
+      { name: 'normal', selected: false }
+      ];
+    // {name: 'vintage', selected: false}
+    var activeFilterIndex = null;
 
     return {
       restrict: 'E',
@@ -37,20 +61,20 @@
     };
 
     /////////////////////
-
     function link(scope, elem, attrs){
+
+      scope.selectedFilter = selectedFilter;
 
       // Initializer
       function init(){
         // TODO: Fetch filters from server
       }
-
-      // setup filters
+        // setup filters
       function setupFilters(){
         if(filters){
           console.log("RUNNING FILTERS SETUP: ");
           scope.filters = filters;
-          applyFilters();
+            applyFilters();
         }
         else{
           console.log("NO FILTERS, NO SETUP");
@@ -72,7 +96,7 @@
       function applyFilters(){
         for(var i=0; i<filters.length; i++){
           (function(){
-            var filterToApply = filters[i];
+            var filterToApply = filters[i].name;
             Caman('.sidemenu-filters img#'+filterToApply, function () {
               var that = this;
               //that.revert(true);
@@ -91,11 +115,27 @@
         }
       }
 
+      function selectedFilter(filter, index) {
+        // remove old selected filter
+        if(activeFilterIndex && activeFilterIndex>=0){
+          scope.filters[activeFilterIndex].selected = false;
+        }
+        // class will be applied automatically
+        if(index == activeFilterIndex){
+          scope.filters[index].selected = false;
+          scope.onSelect({filter: 'normal'});
+        }
+        else{
+          activeFilterIndex = index;
+          scope.filters[index].selected = true;
+          scope.onSelect({filter: filter.name});
+        }
+      }
+
       // call initializer
       init();
 
     }
-
   }
 
 }());

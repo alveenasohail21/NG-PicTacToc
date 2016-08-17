@@ -98,47 +98,47 @@ Content : Start
                 </span>
                 <!-- Facebook Login Button -->
                 <div ng-if="!vm.fbLogin && vm.uploadCategory=='facebook'" class="login-div fb-login-div">
-                    <a class="fb-login" ng-click="vm.socialLogin('facebook')">
+                    <button class="btn fb-login" ng-click="vm.socialLogin('facebook')">
                         <i class="fa fa-facebook-official" aria-hidden="true"></i>
                         <span class="text">
                             <strong>Login</strong>
                             with
                             <strong>Facebook</strong>
                         </span>
-                    </a>
+                    </button>
                 </div>
                 <!-- Instagram Login Button -->
                 <div ng-if="!vm.instagramLogin && vm.uploadCategory=='instagram'" class="login-div instagram-login-div">
-                    <a class="instagram-login" ng-click="vm.socialLogin('instagram')">
+                    <button class="btn instagram-login" ng-click="vm.socialLogin('instagram')">
                         <i class="fa fa-instagram" aria-hidden="true"></i>
                         <span class="text">
                             <strong>Login</strong>
                             with
                             <strong>Instagram</strong>
                         </span>
-                    </a>
+                    </button>
                 </div>
                 <!-- Flickr Login Button -->
                 <div ng-if="!vm.flickrLogin && vm.uploadCategory=='flickr'" class="login-div flickr-login-div">
-                    <a class="flickr-login" ng-click="vm.socialLogin('flickr')">
+                    <button class="btn flickr-login" ng-click="vm.socialLogin('flickr')">
                         <i class="fa fa-flickr" aria-hidden="true"></i>
                         <span class="text">
                             <strong>Login</strong>
                             with
                             <strong>Flickr</strong>
                         </span>
-                    </a>
+                    </button>
                 </div>
                 <!-- Google Login Button -->
                 <div ng-if="!vm.googleLogin && vm.uploadCategory=='google'" class="login-div google-login-div">
-                    <a class="google-login" ng-click="vm.socialLogin('google')">
+                    <button class="btn google-login" ng-click="vm.socialLogin('google')">
                         <i class="fa fa-google" aria-hidden="true"></i>
                         <span class="text">
                             <strong>Login</strong>
                             for
                             <strong>Google Photos</strong>
                         </span>
-                    </a>
+                    </button>
                 </div>
 
             </div>

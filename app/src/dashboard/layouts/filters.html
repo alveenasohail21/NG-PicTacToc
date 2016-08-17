@@ -1,7 +1,11 @@
 <div class="ptt-sidebar-content-2 sidemenu-filters">
-  <div class="filter" ng-repeat="filter in filters" ng-click="onSelect({filter: filter})">
-    <img ng-if="thumbnail" id="{{filter}}" src="{{thumbnail.base64}}"  alt="">
-    <p>{{filter}}</p>
+  <!--<div class="filter" ng-repeat="filter in filters" ng-click="onSelect({filter: filter})">-->
+  <!--<img ng-if="thumbnail" id="{{filter}}" src="{{thumbnail.base64}}"  alt="">-->
+  <!--<p>{{filter}}</p>-->
+  <!--</div>-->
+  <div class="filter" ng-repeat="filter in filters" ng-click="selectedFilter(filter, $index)" ng-class="{'filter-selected': filter.selected}">
+    <img ng-if="thumbnail" id="{{filter.name}}" src="{{thumbnail.base64}}"  alt="">
+    <p>{{filter.name}}</p>
   </div>
-</div>
 
+</div>

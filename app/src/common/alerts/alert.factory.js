@@ -38,7 +38,7 @@
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '1');
       });
-      removeAlert(3000);
+      removeAlert(8000);
     }
 
     function error(title, message) {
@@ -50,7 +50,7 @@
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '1');
       });
-      removeAlert(3000);
+      removeAlert(8000);
     }
 
     function removeAlert(time){

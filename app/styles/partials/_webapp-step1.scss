@@ -85,7 +85,9 @@ body.app{
         padding: 18px 0;
       }
       div.login-div{
-        a{
+
+        .btn{
+          width: 245px;
           font-family: Font_Open_Sans_Semibold;
           color: white;
           padding: 18px 46px;
@@ -103,20 +105,20 @@ body.app{
             padding-left: 12px;
           }
         }
-        a:hover{
+        .btn:hover{
           color: rgba(255,255,255,0.9);
         }
       }
-      a.fb-login{
+      .btn.fb-login{
         background-color: $fb-blue-color;
       }
-      a.instagram-login{
+      .btn.instagram-login{
         background-color: $instagram-blue-color;
       }
-      a.google-login{
+      .btn.google-login{
         background-color: $google-red-color;
       }
-      a.flickr-login{
+      .btn.flickr-login{
         background-color: $flickr-pink-color;
       }
     }
