@@ -80,7 +80,7 @@
     function socialAuthenticate(provider){
       console.log("auth factory social authenticate provider: ", provider);
       var defer = $q.defer();
-      console.log($auth.getToken().slice(1, $auth.getToken().length-1));
+      //console.log($auth.getToken().slice(1, $auth.getToken().length-1));
       $auth.authenticate(provider, ($auth.isAuthenticated()?{'token':$localStorage.token}:{}))
         .then(function(resp){
           console.log(resp);

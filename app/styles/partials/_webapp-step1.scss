@@ -158,6 +158,7 @@ body.app{
         }
         .progress-bar{
           background: $progress-bar-color;
+          min-width: 0;
         }
         .custom-svg-icon{
           position: absolute;
@@ -176,8 +177,22 @@ body.app{
           border-radius: 50%;
           padding: 8px;
           background-color: white;
-          opacity: 0.7;
+          opacity: 1;
           transition: opacity 0.8s;
+        }
+        .custom-svg-icon.blue-tick{
+          opacity: 1;
+          img{
+            padding: 3px;
+            transform: rotate(12deg);
+          }
+        }
+        .fa-exclamation-circle{
+          position: absolute;
+          right: 4px;
+          top: 4px;
+          color: rgba(255, 32, 32, 0.8);
+          font-size: 22px;
         }
 
       }

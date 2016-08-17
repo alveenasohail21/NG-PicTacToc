@@ -146,21 +146,31 @@ Content : Start
             <!-- Only for photos -->
             <div class="uploaded-images animate-if " ng-if="vm.showAlbumOrPhotos">
                 <div class="img" ng-repeat="file in vm.filesToUpload"
-                     ng-click="(!file.inProgress)?vm.addFilesToUploadQueue($index):null">
+                     ng-click="(!file.inProgress)?vm.addFilesToUploadQueue($index):null" ng-if="!file.uploaded || vm.uploadCategory!='device'">
                     <!-- For device -->
                     <img ngf-thumbnail="file" alt="" ng-if="vm.uploadCategory=='device'">
                     <!-- For facebook, instagram, google, flickr photos -->
                     <img src="{{file.thumbnail}}" alt="" ptt-loader="loader-fb-photo" ng-if="vm.uploadCategory!='device'">
-                    <div class="custom-svg-icon" ng-show="!file.inProgress">
+                    <div class="custom-svg-icon" ng-show="!file.inProgress && !file.uploaded">
                         <img src="svgs/gray-arrow-down.svg" alt="">
                     </div>
-                    <div class="progress" ng-show="file.inProgress">
+                    <div class="custom-svg-icon blue-tick" ng-show="file.uploaded">
+                        <img src="svgs/blue-tick.svg" alt="">
+                    </div>
+                    <div class="progress" ng-show="file.inProgress && !file.uploaded">
                         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{file.progress}}">
                         </div>
                     </div>
+                    <i class="fa fa-exclamation-circle" ng-show="file.error" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{file.errMessage}}"></i>
                 </div>
                 <!-- Upload All Files -->
-                <div class="img img-upload-all" ng-if="vm.filesToUpload.length>1 && vm.showAllUploadButton" ng-click="vm.addFilesToUploadQueue()">
+                <div class="img img-upload-all" ng-if="vm.filesToUpload.length>1 && vm.showAllUploadButtonForDevice && vm.uploadCategory=='device'" ng-click="vm.addFilesToUploadQueue()">
+                    <div class="custom-svg-icon">
+                        <img src="svgs/gray-arrow-down.svg" alt="">
+                    </div>
+                    <div class="add-all-photos">Add All Photos</div>
+                </div>
+                <div class="img img-upload-all" ng-if="vm.filesToUpload.length>1 && vm.showAllUploadButtonForSocial && vm.uploadCategory!='device'" ng-click="vm.addFilesToUploadQueue()">
                     <div class="custom-svg-icon">
                         <img src="svgs/gray-arrow-down.svg" alt="">
                     </div>

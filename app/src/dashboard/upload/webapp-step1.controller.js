@@ -12,7 +12,7 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl(API_URL, $timeout, $localStorage, Upload, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, alertFactory, $rootScope){
+  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, $rootScope, uploadFactory){
 
     var vm = this;
 
@@ -52,13 +52,20 @@
       }
     };
     // files to upload
-    vm.showAllUploadButton = true;
-    vm.filesToUpload = [];              // Stack
-    vm.uploadQueue = new Queue();       // Queue
+    uploadFactory.removeFiles('device');
+    vm.filesToUpload = uploadFactory._data.deviceFiles;              // by default its device files
+    // for device
+    vm.showAllUploadButtonForDevice = true;
+    vm.filesUploadedCountForDevice = 0;
+    // for social
+    vm.showAllUploadButtonForSocial = true;
+    vm.filesUploadedCountForSocial = 0;
+    //
     vm.uploadInProgress = false;
     vm.showAlbumOrPhotos = true;
     // uploaded files count for single category
-    vm.filesUploadedCount = 0;
+
+    console.log('vm.filesToUpload: ',vm.filesToUpload);
 
     /*
      * Functions
@@ -69,9 +76,7 @@
     vm.chooseAlbum = chooseAlbum;
     vm.selectFiles = selectFiles;
     vm.addFilesToUploadQueue = addFilesToUploadQueue;
-    vm.uploadFile = uploadFile;
     vm.deletePhoto = deletePhoto;
-    //vm.manipulateDOM = manipulateDOM;
     vm.socialDisconnect = socialDisconnect;
 
 
@@ -97,9 +102,9 @@
       // hide albums and photos at first
       vm.showAlbumOrPhotos = false;
       // update file upload count
-      vm.filesUploadedCount = 0;
-      // empty all data
-      vm.filesToUpload = [];
+      //vm.filesUploadedCount = 0;
+      // empty all data - update-> don't discard upload files
+      //vm.filesToUpload = [];
       // update url
       updateHref();
       // all login to false
@@ -113,8 +118,12 @@
       switch(uploadCategory){
         case 'device':
           vm.showAlbumOrPhotos = true;
+          vm.filesToUpload = uploadFactory._data.deviceFiles;
           break;
         case 'facebook':
+          uploadFactory.removeFiles(uploadCategory);
+          vm.filesToUpload = uploadFactory._data.socialFiles;
+          vm.filesUploadedCountForSocial = 0;
           // clear controller's internal data
           vm.fb = {
             albums: [],
@@ -129,6 +138,9 @@
           }
           break;
         case 'instagram':
+          uploadFactory.removeFiles(uploadCategory);
+          vm.filesToUpload = uploadFactory._data.socialFiles;
+          vm.filesUploadedCountForSocial = 0;
           // clear controller's internal data
           vm.instagram = {
             photos: {
@@ -233,11 +245,12 @@
           // resp = { data: [], paging:{} }
           console.log(resp);
           resp.data.forEach(function(elem, index){
-            vm.filesToUpload.push(elem);
+            //vm.filesToUpload.push(elem);
+            uploadFactory.addFile(elem, vm.uploadCategory);
           });
           vm.fb.albums.photosPagination = resp.paging;
           if(resp.data.length>1){
-            vm.showAllUploadButton = true;
+            vm.showAllUploadButtonForSocial = true;
           }
           bindLoadMoreSocialPhotosScroll();
         })
@@ -262,11 +275,12 @@
         .then(function(resp){
           console.log(resp);
           resp.data.forEach(function(elem, index){
-            vm.filesToUpload.push(elem);
+            //vm.filesToUpload.push(elem);
+            uploadFactory.addFile(elem, vm.uploadCategory);
           });
           vm.instagram.photos.pagination = resp.pagination;
           if(resp.data.length>1){
-            vm.showAllUploadButton = true;
+            vm.showAllUploadButtonForSocial = true;
           }
           bindLoadMoreSocialPhotosScroll();
         })
@@ -284,11 +298,11 @@
           changeUploadCategory('device');
         }
         for(var i=0;i<files.length;i++){
-          vm.filesToUpload.push(files[i]);
+          uploadFactory.addFile(files[i], vm.uploadCategory);
         }
-        if(files.length>1 || vm.filesToUpload.length-1>vm.filesUploadedCount){
+        if(files.length>1 || vm.filesToUpload.length-1>vm.filesUploadedCountForDevice){
           console.log("> 1");
-          vm.showAllUploadButton = true;
+          vm.showAllUploadButtonForDevice = true;
         }
       }
     }
@@ -296,12 +310,16 @@
     // add files to upload queue
     function addFilesToUploadQueue(index){
       // if single file
-      console.log("um tryna add mayn");
       if(index>=0 && !vm.filesToUpload[index].inProgress && !vm.filesToUpload[index].uploaded){
         vm.filesToUpload[index].inProgress = true;
         vm.filesToUpload[index].position = index;
-        // push to queue
-        vm.uploadQueue.enqueue(vm.filesToUpload[index]);
+        vm.filesToUpload[index].category = vm.uploadCategory;
+        //push to queue
+        uploadFactory.uploadFile(index, vm.uploadCategory, function(success, file){
+          if(success){
+            callback(file);
+          }
+        });
         console.log("added file to queue: ",vm.filesToUpload[index]);
       }
       // if all files
@@ -309,128 +327,50 @@
         vm.showAllUploadButton = false;
         // set inprogress for the upload bar
         for(var k=0;k<vm.filesToUpload.length;k++){
-          // if file is not uploaded yet
-          if(!vm.filesToUpload[k].uploaded && !vm.filesToUpload[k].inProgress){
-            vm.filesToUpload[k].inProgress = true;
-            vm.filesToUpload[k].position = k;
-            // push to queue
-            vm.uploadQueue.enqueue(vm.filesToUpload[k]);
-            console.log("added file to queue: ",vm.filesToUpload[k]);
-          }
+          (function(){
+            // if file is not uploaded yet
+            if(!vm.filesToUpload[k].uploaded && !vm.filesToUpload[k].inProgress){
+              vm.filesToUpload[k].inProgress = true;
+              vm.filesToUpload[k].position = k;
+              vm.filesToUpload[k].category = vm.uploadCategory;
+              // push to queue
+              //vm.uploadQueue.enqueue(vm.filesToUpload[k]);
+              uploadFactory.uploadFile(k, vm.uploadCategory, function(success, file){
+                if(success){
+                  callback(file);
+                }
+              });
+              console.log("added file to queue: ",vm.filesToUpload[k]);
+            }
+          }());
         }
       }
-      // initiate the transfer
-      if(vm.uploadInProgress){
-        // already initiated
-        console.log("upload already in progress");
-      }
-      else{
-        // initiating the transfer
-        console.log("starting the upload");
-        vm.uploadInProgress = true;
-        vm.uploadFile();
-      }
-    }
 
-    // upload single file from queue
-    function uploadFile(){
-
-      var file;
-      // see if queue is not empty
-      if(!vm.uploadQueue.isEmpty()){
-        // get the first element in queue
-        file = vm.uploadQueue.peek();
-      }
-
-      // uploading files
-      console.log("uploading file from Queue: ",file);
-      // added here only for progress :/
-      if (file) {
-        // set url on the basis of uploadCategory
-        var url;
-        switch(vm.uploadCategory){
-          case 'device':
-            url = API_URL+'/photos/upload/device';
-            break;
-          case 'facebook':
-            url = API_URL+'/photos/upload/social';
-            break;
-          case 'instagram':
-            url = API_URL+'/photos/upload/social';
-            break;
-        }
-        Upload.upload({
-          method: 'POST',
-          url: url,
-          data: {
-            files: [file]
-          },
-          headers: {
-            'Content-Type': 'application/json',
-            'token': 'Bearer {'+ $localStorage.token +'}'
-          }
-        }).then(function (response) {
-          if(response){
-            // set uploaded
-            vm.filesToUpload[file.position].uploaded = true;
-            // update uploaded file count for a single category
-            vm.filesUploadedCount++;
-            // loop it, but its length will always be zero
-            for(var i=0;i<response.data.data.photos.length;i++){
-              // update myPhotos
-              console.log("pushing to photos: ",response.data.data.photos[i]);
-              // vm.myPhotos.push(response.data.data.photos[i]);
-              // save photo in photoFactotry
-              photosFactory.addPhotoToLocal(response.data.data.photos[i]);
-            }
-            // remove from queue
-            vm.uploadQueue.dequeue();
-            // showAllUploadButton
-            if(vm.filesToUpload.length-1 <= vm.filesUploadedCount){
-              vm.showAllUploadButton = false;
-              console.log("< 1");
-            }
-            else{
-              console.log("> 1");
-              vm.showAllUploadButton = true;
-            }
-            // see if queue is not empty, call it self
-            if(!vm.uploadQueue.isEmpty()){
-              vm.uploadFile();
-            }
-            else{
-              vm.uploadInProgress = false;
-            }
-          }
-        }, function (response) {
-          console.log("UPLOAD ERROR: ", response);
-          alertFactory.error(null, "Unable to upload this image, select a different image");
-          // set uploaded and inProgress to false
-          vm.filesToUpload[file.position].uploaded = false;
-          vm.filesToUpload[file.position].inProgress = false;
-          vm.filesToUpload[file.position].progress = 0;
-          // remove from queue
-          vm.uploadQueue.dequeue();
-          // showAllUploadButton
-          if(vm.filesToUpload.length-1 <= vm.filesUploadedCount){
-            vm.showAllUploadButton = false;
+      function callback(file){
+        if(file.category == 'device'){
+          vm.filesUploadedCountForDevice++;
+          // update showAllUploadButton
+          if(vm.filesToUpload.length-1 <= vm.filesUploadedCountForDevice){
+            vm.showAllUploadButtonForDevice = false;
             console.log("< 1");
           }
           else{
             console.log("> 1");
-            vm.showAllUploadButton = true;
+            vm.showAllUploadButtonForDevice = true;
           }
-          // see if queue is not empty, call it self
-          if(!vm.uploadQueue.isEmpty()){
-            vm.uploadFile();
+        }
+        else{
+          vm.filesUploadedCountForSocial++;
+          // update showAllUploadButton
+          if(vm.filesToUpload.length-1 <= vm.filesUploadedCountForSocial){
+            vm.showAllUploadButtonForSocial = false;
+            console.log("< 1");
           }
           else{
-            vm.uploadInProgress = false;
+            console.log("> 1");
+            vm.showAllUploadButtonForSocial= true;
           }
-        }, function (evt) {
-          // set progress for the upload bar
-          vm.filesToUpload[file.position].progress = parseInt(100.0 * evt.loaded / evt.total).toString() + "%";
-        });
+        }
       }
 
     }
