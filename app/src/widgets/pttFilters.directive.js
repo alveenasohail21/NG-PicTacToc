@@ -22,10 +22,6 @@
 
     // would be get from server, only active filters will be shown
 
-    // var filters = ['vintage', 'lomo', 'clarity', 'sinCity', 'sunrise', 'crossProcess', 'orangePeel',
-    //   'love', 'grungy', 'jarques', 'pinhole', 'oldBoot', 'glowingSun', 'hazyDays', 'herMajesty',
-    //   'nostalgia', 'hemingway', 'concentrate', 'normal'];
-
     var filters =[
       { name: 'vintage', selected: false },
       { name: 'lomo', selected: false },
@@ -46,7 +42,7 @@
       { name: 'hemingway', selected: false },
       { name: 'concentrate', selected: false },
       { name: 'normal', selected: false }
-      ];
+    ];
     // {name: 'vintage', selected: false}
     var activeFilterIndex = null;
 
@@ -69,12 +65,12 @@
       function init(){
         // TODO: Fetch filters from server
       }
-        // setup filters
+      // setup filters
       function setupFilters(){
         if(filters){
           console.log("RUNNING FILTERS SETUP: ");
           scope.filters = filters;
-            applyFilters();
+          applyFilters();
         }
         else{
           console.log("NO FILTERS, NO SETUP");
@@ -117,10 +113,13 @@
 
       function selectedFilter(filter, index) {
         // remove old selected filter
-        if(activeFilterIndex && activeFilterIndex>=0){
+        console.log(index);
+        // class will be applied automatically
+
+        if(activeFilterIndex!=undefined && activeFilterIndex>=0){
+          console.log("active filter: "+activeFilterIndex);
           scope.filters[activeFilterIndex].selected = false;
         }
-        // class will be applied automatically
         if(index == activeFilterIndex){
           scope.filters[index].selected = false;
           scope.onSelect({filter: 'normal'});
@@ -130,11 +129,14 @@
           scope.filters[index].selected = true;
           scope.onSelect({filter: filter.name});
         }
+
+
+
+
       }
 
       // call initializer
       init();
-
     }
   }
 

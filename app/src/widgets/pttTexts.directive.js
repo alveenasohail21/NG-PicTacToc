@@ -25,22 +25,26 @@
       {
         name: 'MyriadPro_SemiBold',
         url: '/fonts/Myriad_Pro/MYRIADPRO-SEMIBOLD.OTF',
-        isActive: true
+        isActive: true,
+        selected: false
       },
       {
         name: 'MyriadPro_CondIt',
         url: '/fonts/Myriad_Pro/MYRIADPRO-CONDIT.OTF',
-        isActive: true
+        isActive: true,
+        selected: false
       },
       {
         name: 'Kelvitca_Nobis',
         url: '/fonts/Kelvetica Nobis.otf',
-        isActive: true
+        isActive: true,
+        selected: false
       },
       {
         name: 'OpenSans_LightItalic',
         url: '/fonts/Open_Sans/OpenSans-LightItalic.ttf',
-        isActive: true
+        isActive: true,
+        selected: false
       }
     ];
 
@@ -56,6 +60,8 @@
     /////////////////////
 
     function link(scope, elem, attrs){
+
+      scope.selectedText=selectedText;
 
       // Initializer
       function init(){
@@ -96,9 +102,15 @@
 
       // pagination
 
+      function selectedText(text, index) {
+        scope.texts[index].selected = true;
+        scope.onSelect({text: text});
+      }
+      
 
       // call initializer
       init();
+      
 
     }
 
