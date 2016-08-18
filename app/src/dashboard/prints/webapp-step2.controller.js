@@ -115,6 +115,9 @@
       // Load more my photos
       loadMoreMyPhotos();
 
+      // Load original images of some photos
+      photosFactory.loadOriginalImages();
+
       // Tooltip
       $(function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -324,12 +327,14 @@
       vm.showCamanImg = false;
       $('canvas#caman-canvas').remove();
       // get photo now
-      photosFactory.getSelectedPhoto(id).then(function(resp){
+      photosFactory.getSelectedPhoto(id, index).then(function(resp){
         // save image data
         vm.selectedPhoto = {
           thumbnail: vm.myPhotos[index],
           original: resp
         };
+
+        console.log('vm.selectedPhoto: ', vm.selectedPhoto);
         // remove caman id to reset caman
         $('#caman-canvas').removeAttr('data-caman-id');
         // this will add caman img tag in DOM - its angular baby :P

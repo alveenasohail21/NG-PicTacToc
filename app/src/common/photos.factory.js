@@ -16,8 +16,14 @@
       photos: [],
       totalCount: 0
     };
-    $rootScope.imageConstraints={
+    var originalPhotosContainer = [];
+    $rootScope.imageConstraints= {
       maxSize: '5MB'
+    };
+    var defaultQueryParams = {
+      from: 0,
+      size: 12,
+      dimension: '260x260'
     };
 
     /* Return Functions */
@@ -33,6 +39,7 @@
       sendEditedImage:sendEditedImage,
       addPhotoToLocal: addPhotoToLocal,
       removePhotosFromLocal: removePhotosFromLocal,
+      loadOriginalImages: loadOriginalImages,
       _data: _data
     };
 
@@ -59,11 +66,7 @@
 
     function getPhotos(queryParams) {
       var deffered = $q.defer();
-      var data = queryParams || {
-          from: 0,
-          size: 12,
-          dimension: '260x260'
-        };
+      var data = queryParams || defaultQueryParams;
       restFactory.photos.getPhotos(data)
         .then(function(resp){
           if(resp.success){
@@ -112,24 +115,57 @@
     }
 
     //get a photo selected by user in original size in step 2
-    function getSelectedPhoto(id) {
+    function getSelectedPhoto(id, index) {
       var deferred = $q.defer();
+      var isPresentInContainer = false;
       $('.global-loader').css('display', 'block');
-      restFactory.photos.getSelectedPhoto(id).then(function(resp){
-        if(resp.success){
-          if('imageBase64' in resp.data){
-            resp.data.base64 = resp.data.imageBase64;
-            delete resp.data.imageBase64;
+      for(var i=0; i<originalPhotosContainer.length; i++){
+        console.log(i);
+        if(originalPhotosContainer[i].id == id){
+          deferred.resolve(originalPhotosContainer[i]);
+          $('.global-loader').css('display', 'none');
+          isPresentInContainer = true;
+          break;
+        }
+      }
+      if(!isPresentInContainer){
+        restFactory.photos.getSelectedPhoto(id).then(function(resp){
+          if(resp.success){
+            if('imageBase64' in resp.data){
+              resp.data.base64 = resp.data.imageBase64;
+              delete resp.data.imageBase64;
+            }
+            deferred.resolve(resp.data);
           }
-          deferred.resolve(resp.data);
-        }
-        else{
-          alertFactory.error(null, resp.message);
-          deferred.reject(resp);
-        }
-        $('.global-loader').css('display', 'none');
-      });
+          else{
+            alertFactory.error(null, resp.message);
+            deferred.reject(resp);
+          }
+          $('.global-loader').css('display', 'none');
+        });
+      }
       return deferred.promise;
+    }
+
+    function loadOriginalImages(){
+      originalPhotosContainer = [];
+      for(var i=0; i<_data.photos.length && i<defaultQueryParams.size; i++){
+        (function(){
+          var index = i;
+          restFactory.photos.getSelectedPhoto(_data.photos[index].id).then(function(resp){
+            if(resp.success){
+              if('imageBase64' in resp.data){
+                resp.data.base64 = resp.data.imageBase64;
+                delete resp.data.imageBase64;
+              }
+              originalPhotosContainer.push(resp.data);
+            }
+            else{
+              //alertFactory.error(null, resp.message);
+            }
+          });
+        }());
+      }
     }
 
     function sendEditedImage(id, configs) {
