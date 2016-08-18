@@ -13,3 +13,4 @@
     //.constant('API_URL','http://pictaktoeapi-dev.ap-northeast-2.elasticbeanstalk.com');
 
 }());
+

@@ -21,7 +21,7 @@
   function pttFilters($timeout){
 
     // would be get from server, only active filters will be shown
-
+    // normal is always on last
     var filters =[
       { name: 'vintage', selected: false },
       { name: 'lomo', selected: false },
@@ -113,9 +113,7 @@
 
       function selectedFilter(filter, index) {
         // remove old selected filter
-        console.log(index);
         // class will be applied automatically
-
         if(activeFilterIndex!=undefined && activeFilterIndex>=0){
           console.log("active filter: "+activeFilterIndex);
           scope.filters[activeFilterIndex].selected = false;
@@ -123,6 +121,8 @@
         if(index == activeFilterIndex){
           scope.filters[index].selected = false;
           scope.onSelect({filter: 'normal'});
+          scope.filters[scope.filters.length-1].selected = true;
+          activeFilterIndex = scope.filters.length-1;
         }
         else{
           activeFilterIndex = index;
