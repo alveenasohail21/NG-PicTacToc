@@ -452,13 +452,14 @@
 
     function loadMoreMyPhotos(){
       if(vm.myPhotosTotalCount > vm.myPhotos.length){
+        console.log("******** Loading More Photos ********", vm.myPhotosTotalCount, vm.myPhotos.length);
         // load new photos
         vm.myPhotosPagination.from += 12;
         photosFactory.getPhotos(vm.myPhotosPagination)
           .then(function(resp){
             console.log("new photos length: ", resp.photos.length);
             resp['photos'].forEach(function(elem, index){
-              vm.myPhotos.push(elem);
+              //vm.myPhotos.push(elem);
             });
             if(vm.myPhotosTotalCount >= vm.myPhotos.length){
               console.log("all photos are loaded");

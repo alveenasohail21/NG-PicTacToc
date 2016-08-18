@@ -306,7 +306,7 @@
           .then(function (resp) {
             console.log("new photos length: ", resp.photos.length);
             resp['photos'].forEach(function (elem, index) {
-              vm.myPhotos.push(elem);
+              //vm.myPhotos.push(elem);
             });
             if (vm.myPhotosTotalCount > vm.myPhotos.length) {
               // call it self
