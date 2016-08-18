@@ -135,6 +135,7 @@
               resp.data.base64 = resp.data.imageBase64;
               delete resp.data.imageBase64;
             }
+            originalPhotosContainer.push(resp.data);
             deferred.resolve(resp.data);
           }
           else{
