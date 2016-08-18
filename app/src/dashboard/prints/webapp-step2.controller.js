@@ -23,7 +23,7 @@
     vm.myPhotosPagination = {
       from: 0,
       size: 12,
-      dimension: '100x100'
+      dimension: '260x260'
     };
     vm.activeSidemenuItem = null;
 

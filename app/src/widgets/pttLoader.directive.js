@@ -54,10 +54,10 @@
           // keep aspect ratio and put image in center
           console.log("ELEM: ", elem, elem[0].naturalWidth, elem[0].naturalHeight);
           if(elem[0].naturalWidth > elem[0].naturalHeight){
-            $(elem).css('width', '100%');
+            $(elem).css('height', '100%');
           }
           else{
-            $(elem).css('height', '100%');
+            $(elem).css('width', '100%');
           }
           //console.log('ELEM WIDTH HEIGHT: ', elem.width(), elem.height());
           //$(elem).css({

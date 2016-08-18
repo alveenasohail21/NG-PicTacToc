@@ -59,7 +59,7 @@
       var data = queryParams || {
           from: 0,
           size: 12,
-          dimension: '100x100'
+          dimension: '260x260'
         };
       restFactory.photos.getPhotos(data)
         .then(function(resp){
