@@ -129,10 +129,6 @@
           scope.filters[index].selected = true;
           scope.onSelect({filter: filter.name});
         }
-
-
-
-
       }
 
       // call initializer

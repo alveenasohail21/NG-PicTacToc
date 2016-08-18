@@ -12,7 +12,7 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, $rootScope, uploadFactory){
+  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, $rootScope, uploadFactory, alertFactory){
 
     var vm = this;
 
@@ -271,6 +271,7 @@
         console.log("no next image");
         return;
       }
+
       pttInstagram.getPhotos(nextCursor)
         .then(function(resp){
           console.log(resp);
@@ -290,8 +291,21 @@
     /************************************* FILE UPLOADING STUFF *************************************/
 
     // Select files and add to local variable
-    function selectFiles(files) {
-      console.log("file selected: ", files);
+
+    function checkFileErrors(invalidFiles){
+      $.each(invalidFiles, function(index, value){
+        switch (value.$error){
+          case 'maxSize':
+            alertFactory.error(null, "You can upload an image upto size "+ $rootScope.imageConstraints.maxSize);
+            break;
+        }
+      });
+    }
+
+    function selectFiles(files, invalidFiles) {
+      // console.log(files, invalidFiles);
+      checkFileErrors(invalidFiles);
+      // return;
       if(files.length>0){
         // first update category
         if(vm.uploadCategory!='device'){
@@ -310,6 +324,7 @@
     // add files to upload queue
     function addFilesToUploadQueue(index){
       // if single file
+      console.log("I am here");
       if(index>=0 && !vm.filesToUpload[index].inProgress && !vm.filesToUpload[index].uploaded){
         vm.filesToUpload[index].inProgress = true;
         vm.filesToUpload[index].position = index;

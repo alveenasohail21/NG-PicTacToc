@@ -46,7 +46,6 @@
       $rootScope.alert.title = title || 'Error: ';
       $rootScope.alert.message = message;
       $rootScope.alert.show = true;
-      console.log("showing alert");
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '1');
       });

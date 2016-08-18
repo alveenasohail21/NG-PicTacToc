@@ -10,11 +10,14 @@
     .module('app.common')
     .factory('photosFactory', photosFactory);
 
-  function photosFactory($q, restFactory, alertFactory){
+  function photosFactory($rootScope, $q, restFactory, alertFactory){
 
     var _data = {
       photos: [],
       totalCount: 0
+    };
+    $rootScope.imageConstraints={
+      maxSize: '5MB'
     };
 
     /* Return Functions */

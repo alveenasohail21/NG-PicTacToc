@@ -92,7 +92,7 @@ Content : Start
                     <div class="description">
                         <div class="title">Drag & Drop</div>
                         <div class="details">or
-                            <a class="cursor-pointer" ngf-select="vm.selectFiles($files)" multiple accept="image/*">browse</a>
+                            <a class="cursor-pointer" ngf-select="vm.selectFiles($files, $invalidFiles)" ngf-max-size="{{$root.imageConstraints.maxSize}}" multiple accept="image/*">browse</a>
                             your photo files</div>
                     </div>
                 </span>
@@ -146,7 +146,7 @@ Content : Start
             <!-- Only for photos -->
             <div class="uploaded-images animate-if " ng-if="vm.showAlbumOrPhotos">
                 <div class="img" ng-repeat="file in vm.filesToUpload"
-                     ng-click="(!file.inProgress)?vm.addFilesToUploadQueue($index):null" ng-if="!file.uploaded || vm.uploadCategory!='device'">
+                     ng-click="(!file.inProgress) ? vm.addFilesToUploadQueue($index) : null" ng-if="!file.uploaded || vm.uploadCategory!='device'">
                     <!-- For device -->
                     <img ngf-thumbnail="file" alt="" ng-if="vm.uploadCategory=='device'">
                     <!-- For facebook, instagram, google, flickr photos -->
@@ -210,7 +210,7 @@ Content : Start
         step=1
         on-delete="vm.deletePhoto(id, index)"
         on-select=""
-        on-select-files="vm.selectFiles(files)"
+        on-select-files="vm.selectFiles(files, invalidFiles)"
         on-toggle-expand-view=""
         on-get-select-photo=""
 >
