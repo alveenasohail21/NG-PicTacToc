@@ -217,6 +217,9 @@ Content : Start : Step 2
                                 <img src="svgs/gray-flip-v.svg" alt="">
                             </div>
                         </div>
+                        <div ng-show="vm.showTextEditor">
+                            <ptt-text-editor selected-object="vm.selectedObject"></ptt-text-editor>
+                        </div>
                         <div class="editor">
                             <!-- Canvas -->
                             <canvas id="canvas" ng-show="vm.readyToDisplay"></canvas>
