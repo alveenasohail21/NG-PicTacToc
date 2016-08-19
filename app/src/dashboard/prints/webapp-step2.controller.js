@@ -19,6 +19,7 @@
     /* Variables */
     vm.myPhotos = photosFactory._data.photos;
     vm.myPhotosTotalCount = photosFactory._data.totalCount;
+    var defaultSelectedPhotoIndex = 0;
 
     vm.myPhotosPagination = {
       from: 0,
@@ -55,6 +56,7 @@
     // fabric canvas
     var fabricCanvas = new fabric.Canvas('canvas');
     fabricCanvas.renderOnAddRemove = false;
+    fabricCanvas.perPixelTargetFind = true;
     // fabric objects setting
     var fabricObjSettings = {
       borderColor: 'white',
@@ -96,6 +98,7 @@
     vm.rotateAntiClockwise = rotateAntiClockwise;
     vm.deleteSelectedObject = deleteSelectedObject;
     vm.copySelectedObject = copySelectedObject;
+    vm.applyBorder = applyBorder;
     //Expand view methods
     vm.deletePhoto = deletePhoto;
     vm.copyPhoto = copyPhoto;
@@ -167,6 +170,9 @@
         // update image studio .element css
         updateImageEditorSize(null, true);
       });
+
+      // select the 0th index photo by default
+      getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
 
     }
 
@@ -274,10 +280,10 @@
       scaleFactor = updateValue/element.original.width;
       console.log("--- FACTOR SCALE ---", scaleFactor);
       if(scallingFirstTime){
-        fabricCanvas.setZoom((scaleFactor*scaleConstant));
+        //fabricCanvas.setZoom((scaleFactor*scaleConstant));
       }
       else{
-        fabricCanvas.setZoom(fabricCanvas.getZoom() + (scaleFactor*scaleConstant));
+        //fabricCanvas.setZoom(fabricCanvas.getZoom() + (scaleFactor*scaleConstant));
       }
       console.log("CURRENT ZOOM: ", fabricCanvas.getZoom());
       //fabricCanvas.setDimensions({
@@ -357,6 +363,17 @@
           }
           canvasBkgImg.instance.center();
           canvasBkgImg.instance.setCoords();
+          canvasBkgImg.instance.lockMovementY = false;
+          canvasBkgImg.instance.lockMovementX = false;
+          canvasBkgImg.instance.hasControls = false;
+          if(canvasImage.naturalWidth > canvasImage.naturalHeight){
+            canvasBkgImg.instance.scaleToHeight(fabricCanvas.getHeight());
+            canvasBkgImg.instance.lockMovementY = true;
+          }
+          else{
+            canvasBkgImg.instance.scaleToWidth(fabricCanvas.getWidth());
+            canvasBkgImg.instance.lockMovementX = true;
+          }
           fabricCanvas.renderAll();
           fabricCanvas.setActiveObject(canvasBkgImg.instance);
         };
@@ -541,6 +558,17 @@
       }
     }
 
+    function applyBorder(){
+      var fabricCanvasToJSON = fabricCanvas.toJSON();
+      console.log(fabricCanvasToJSON);
+      fabricCanvas.clear();
+      setTimeout(function(){
+        fabricCanvas.loadFromJSON(fabricCanvasToJSON, function(){
+          fabricCanvas.renderAll();
+        });
+      }, 2000);
+    }
+
     /************************************* FABRICJS FUNCTIONS *************************************/
     function bindEventsOnFabric(){
       fabricCanvas.on("object:removed", function(e){
@@ -552,7 +580,7 @@
             break;
         }
       });
-
+      var goodtop, goodleft, boundingObject;
       fabricCanvas.on({
         'mouse:down': function(e) {
           if (e.target) {
@@ -578,6 +606,44 @@
         },
         'object:modified': function(e) {
           e.target.opacity = 1;
+          var obj = e.target;
+          var bounds = obj.getBoundingRect();
+          console.log(obj, bounds, fabricCanvas);
+          // moving horizontally
+          if(!obj.lockMovementX){
+            if(bounds.left > 0){
+              console.log("inside left bound");
+              obj.left = fabricCanvas.getWidth();
+              obj.setCoords();
+            }
+            else if((bounds.width + bounds.left) < fabricCanvas.getWidth()){
+              console.log("inside right bound");
+              obj.left = goodleft;
+              obj.setCoords();
+            }
+            else{
+              goodleft = obj.left;
+            }
+          }
+          // moving vertically
+          else if(!obj.lockMovementY){
+            //if(bounds.left > 0){
+            //  console.log("inside left bound");
+            //  obj.left = fabricCanvas.getWidth();
+            //  obj.setCoords();
+            //}
+            //else if((bounds.width + bounds.left) < fabricCanvas.getWidth()){
+            //  console.log("inside right bound");
+            //  obj.left = goodleft;
+            //  obj.setCoords();
+            //}
+            //else{
+            //  goodleft = obj.left;
+            //}
+          }
+        },
+        'object:moving': function(e) {
+
         }
       });
 

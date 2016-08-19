@@ -12,7 +12,7 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, $rootScope, uploadFactory, alertFactory){
+  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, $rootScope, uploadFactory, alertFactory, $state){
 
     var vm = this;
 
@@ -78,6 +78,7 @@
     vm.addFilesToUploadQueue = addFilesToUploadQueue;
     vm.deletePhoto = deletePhoto;
     vm.socialDisconnect = socialDisconnect;
+    vm.nextStep = nextStep;
 
 
     /*
@@ -470,6 +471,17 @@
           })
       }
 
+    }
+
+    /***************/
+    function nextStep(stateName){
+      console.log(stateName);
+      if(vm.myPhotos.length<$rootScope.imageConstraints.minPhotoForProduct){
+        alertFactory.warning(null, "You need to have at least 5 photos in order to proceed");
+      }
+      else{
+        $state.go(stateName);
+      }
     }
 
 

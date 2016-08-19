@@ -18,7 +18,7 @@
     .directive('pttPhotoStrip', pttPhotoStrip);
 
   /* @ngInject */
-  function pttPhotoStrip($timeout, uploadSliderConfig, $rootScope){
+  function pttPhotoStrip($timeout, uploadSliderConfig, $rootScope, $state, alertFactory){
 
     var sliderHtml;
     var availableSliders = ['step1-lightSlider', 'step2-lightSlider'];
@@ -82,6 +82,11 @@
 
       // watch any change in photos
       scope.$watch('photos', function(newValue, oldValue){
+        if(scope.photos.length < $rootScope.imageConstraints.minPhotoForProduct && $state.current!='Dashboard.Prints.Design'){
+          console.log("< 5 photos");
+          alertFactory.warning(null, "You need to have at least 5 photos in order to proceed");
+          $state.go('^.Upload',{reload: true});
+        }
         console.log("LIGHT SLIDER WATCH EXECUTED: ", newValue, oldValue);
         if(sliderHtml){
           console.log("REFRESHING LIGHT SLIDER");

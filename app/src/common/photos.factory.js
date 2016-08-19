@@ -17,9 +17,12 @@
       totalCount: 0
     };
     var originalPhotosContainer = [];
+
     $rootScope.imageConstraints= {
-      maxSize: '5MB'
+      maxSize: '5MB',
+      minPhotoForProduct: 5
     };
+
     var defaultQueryParams = {
       from: 0,
       size: 12,

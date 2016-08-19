@@ -33,7 +33,7 @@
                     <hr ng-if="$root.stateUrl=='/upload'">
                     <hr class="hover-hr">
                 </div>
-                <div class="step step-2" ng-class="{'active': $root.stateUrl=='/design'}" ui-sref="{{$root.app.productState + '.Design'}}">
+                <div class="step step-2" ng-class="{'active': $root.stateUrl=='/design'}" ng-click="vm.nextStep($root.app.productState + '.Design')">
                     <div class="custom-svg-icon gray-pencil" ng-if="$root.stateUrl!='/design'">
                         <!--<object class="" type="image/svg+xml" data="svgs/gray-pencil.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/gray-pencil.svg">
@@ -71,7 +71,7 @@
 
             <div class="nav navbar-nav navbar-right">
                 <div>
-                    <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateUrl=='/upload'" ui-sref="{{$root.app.productState + '.Design'}}">
+                    <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateUrl=='/upload'" ng-class="{'btn-disabled': vm.myPhotos.length < $root.imageConstraints.minPhotoForProduct}" ng-click="vm.nextStep($root.app.productState + '.Design')">
                         <span class="btn-text">Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>

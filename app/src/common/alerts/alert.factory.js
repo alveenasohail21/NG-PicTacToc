@@ -25,7 +25,8 @@
     /* Return Functions */
     return {
       success: success,
-      error: error
+      error: error,
+      warning: warning
     };
 
 
@@ -38,7 +39,7 @@
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '1');
       });
-      removeAlert(8000);
+      removeAlert(5000);
     }
 
     function error(title, message) {
@@ -49,7 +50,7 @@
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '1');
       });
-      removeAlert(8000);
+      removeAlert(5000);
     }
     function warning(title, message) {
       $rootScope.alert.class = 'alert-warning';
@@ -59,12 +60,12 @@
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '1');
       });
-      removeAlert(8000);
+      removeAlert(5000);
     }
     function removeAlert(time){
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '0');
-      }, time-1000);
+      }, time-500);
       $timeout(function(){
         $rootScope.alert.show = false;
         $rootScope.alert.class = '';
