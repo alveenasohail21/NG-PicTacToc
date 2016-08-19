@@ -438,3 +438,22 @@ Key Frmaes
     transform: rotate(360deg);
   }
 }
+
+/*ALERTS*/
+
+.alert-dismissible{
+  position:fixed;
+  top:10px; right:10px;
+  z-index: 99999999;
+  opacity: 0;
+  transition: opacity 0.4s
+}
+.alert-warning{
+  border-top: 5px solid #8a6d3b;
+}
+.alert-danger{
+  border-top: 5px solid #a94442;
+}
+.alert-success{
+  border-top: 5px solid #3c763d;
+}

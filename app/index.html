@@ -31,7 +31,7 @@
 <div ui-view class="view-animate" style="height: 100%;"></div>
 
 <!-- Alert Message -->
-<div class="alert alert-dismissible" ng-class="$root.alert.class" role="alert" ng-if="$root.alert.show" style="position:fixed; top:10px; right:10px; z-index: 99999999; opacity: 0; transition: opacity 0.4s">
+<div class="alert alert-dismissible" ng-class="$root.alert.class" role="alert" ng-if="$root.alert.show">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>{{$root.alert.title}}</strong> {{$root.alert.message}}
 </div>

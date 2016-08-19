@@ -51,7 +51,16 @@
       });
       removeAlert(8000);
     }
-
+    function warning(title, message) {
+      $rootScope.alert.class = 'alert-warning';
+      $rootScope.alert.title = title || 'Warning: ';
+      $rootScope.alert.message = message;
+      $rootScope.alert.show = true;
+      $timeout(function(){
+        $('.alert.alert-dismissible').css('opacity', '1');
+      });
+      removeAlert(8000);
+    }
     function removeAlert(time){
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '0');
