@@ -616,6 +616,7 @@
             switch(obj.id){
               case canvasBkgImg.id:
                 backgroundImageBoundaryCheck(obj);
+                fabricCanvas.deactivateAll();
                 break;
               default:
                 break;
