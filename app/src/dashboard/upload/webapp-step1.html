@@ -77,7 +77,7 @@ Content : Start
         -->
         <div class="right-div sub-content">
 
-            <div class="jumbotron">
+            <div class="jumbotron" ngf-drag-over-class="'dragover'" ngf-drop="vm.selectFiles($files, $invalidFiles)" ngf-multiple="true" ngf-max-size="{{$root.imageConstraints.maxSize}}">
                 <!-- Connected as -->
                 <span ng-if="vm.uploadCategory!='device' && (vm.fbLogin || vm.instagramLogin || vm.flickrLogin || vm.googleLogin)" class="">
                     <!--<img src="images/profile_icon.png" alt="">-->
@@ -89,7 +89,7 @@ Content : Start
                 </span>
                 <!-- Device Drag & Drop -->
                 <span ng-if="vm.uploadCategory=='device'" class="device">
-                    <div class="description">
+                    <div class="description drop-box">
                         <div class="title">Drag & Drop</div>
                         <div class="details">or
                             <a class="cursor-pointer" ngf-select="vm.selectFiles($files, $invalidFiles)" ngf-max-size="{{$root.imageConstraints.maxSize}}" multiple accept="image/*">browse</a>
@@ -144,7 +144,7 @@ Content : Start
             </div>
 
             <!-- Only for photos -->
-            <div class="uploaded-images animate-if " ng-if="vm.showAlbumOrPhotos">
+            <div class="uploaded-images animate-if " ng-if="vm.showAlbumOrPhotos" ngf-drag-over-class="'dragover'" ngf-drop="vm.selectFiles($files, $invalidFiles)" ngf-multiple="true" ngf-max-size="{{$root.imageConstraints.maxSize}}">
                 <div class="img" ng-repeat="file in vm.filesToUpload"
                      ng-click="(!file.inProgress) ? vm.addFilesToUploadQueue($index) : null" ng-if="!file.uploaded || vm.uploadCategory!='device'">
                     <!-- For device -->
