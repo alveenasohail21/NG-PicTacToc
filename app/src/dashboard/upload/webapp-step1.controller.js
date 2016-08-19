@@ -61,7 +61,7 @@
     vm.showAllUploadButtonForSocial = true;
     vm.filesUploadedCountForSocial = 0;
     //
-    vm.uploadInProgress = false;
+    vm.noOfFilesUploading = 0;
     vm.showAlbumOrPhotos = true;
     // uploaded files count for single category
 
@@ -330,8 +330,10 @@
         vm.filesToUpload[index].inProgress = true;
         vm.filesToUpload[index].position = index;
         vm.filesToUpload[index].category = vm.uploadCategory;
+        vm.noOfFilesUploading++;
         //push to queue
         uploadFactory.uploadFile(index, vm.uploadCategory, function(success, file){
+          vm.noOfFilesUploading--;
           if(success){
             callback(file);
           }
@@ -349,9 +351,11 @@
               vm.filesToUpload[k].inProgress = true;
               vm.filesToUpload[k].position = k;
               vm.filesToUpload[k].category = vm.uploadCategory;
+              vm.noOfFilesUploading++;
               // push to queue
               //vm.uploadQueue.enqueue(vm.filesToUpload[k]);
               uploadFactory.uploadFile(k, vm.uploadCategory, function(success, file){
+                vm.noOfFilesUploading--;
                 if(success){
                   callback(file);
                 }
@@ -478,6 +482,9 @@
       console.log(stateName);
       if(vm.myPhotos.length<$rootScope.imageConstraints.minPhotoForProduct){
         alertFactory.warning(null, "You need to have at least 5 photos in order to proceed");
+      }
+      else if(vm.noOfFilesUploading>0){
+        alertFactory.warning(null, "Please wait for the upload to finish");
       }
       else{
         $state.go(stateName);

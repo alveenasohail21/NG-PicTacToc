@@ -580,7 +580,6 @@
             break;
         }
       });
-      var goodtop, goodleft, boundingObject;
       fabricCanvas.on({
         'mouse:down': function(e) {
           if (e.target) {
@@ -589,63 +588,76 @@
           }
         },
         'mouse:up': function(e) {
-          if (e.target) {
-            e.target.opacity = 1;
-            //fabricCanvas.discardActiveObject();
-            //fabricCanvas.deactivateAll();
+          var obj = e.target;
+          if (obj) {
+            obj.opacity = 1;
+            switch(obj.id){
+              case canvasBkgImg.id:
+                fabricCanvas.sendToBack(obj);
+                fabricCanvas.deactivateAll();
+                break;
+              default:
+                console.log("Obj index: ", fabricCanvas.getObjects());
+                var newIndex = fabricCanvas.getObjects().length;
+                fabricCanvas.moveTo(obj, newIndex);
+                fabricCanvas.setActiveObject(obj);
+                break;
+            }
             fabricCanvas.renderAll();
-            //var index = fabricCanvas.getObjects().indexOf(e.target);
-            //e.target.remove();
-            //fabricCanvas.moveTo(e.target, index);
-            fabricCanvas.setActiveObject(e.target);
-
           }
         },
         'object:moved': function(e) {
           e.target.opacity = 0.5;
         },
         'object:modified': function(e) {
-          e.target.opacity = 1;
           var obj = e.target;
-          var bounds = obj.getBoundingRect();
-          console.log(obj, bounds, fabricCanvas);
-          // moving horizontally
-          if(!obj.lockMovementX){
-            if(bounds.left > 0){
-              console.log("inside left bound");
-              obj.left = fabricCanvas.getWidth();
-              obj.setCoords();
+          if (obj) {
+            obj.opacity = 1;
+            switch(obj.id){
+              case canvasBkgImg.id:
+                backgroundImageBoundaryCheck(obj);
+                break;
+              default:
+                break;
             }
-            else if((bounds.width + bounds.left) < fabricCanvas.getWidth()){
-              console.log("inside right bound");
-              obj.left = goodleft;
-              obj.setCoords();
-            }
-            else{
-              goodleft = obj.left;
-            }
-          }
-          // moving vertically
-          else if(!obj.lockMovementY){
-            //if(bounds.left > 0){
-            //  console.log("inside left bound");
-            //  obj.left = fabricCanvas.getWidth();
-            //  obj.setCoords();
-            //}
-            //else if((bounds.width + bounds.left) < fabricCanvas.getWidth()){
-            //  console.log("inside right bound");
-            //  obj.left = goodleft;
-            //  obj.setCoords();
-            //}
-            //else{
-            //  goodleft = obj.left;
-            //}
+            fabricCanvas.renderAll();
           }
         },
         'object:moving': function(e) {
 
         }
       });
+
+      // Background Image Boundary Check and Position Update
+      function backgroundImageBoundaryCheck(obj){
+        var bounds = obj.getBoundingRect();
+        // moving horizontally
+        if(!obj.lockMovementX){
+          if(bounds.left > 0){
+            console.log("inside left bound");
+            obj.left = bounds.width/2;
+            obj.setCoords();
+          }
+          else if((bounds.width + bounds.left) < fabricCanvas.getWidth()){
+            console.log("inside right bound");
+            obj.left = fabricCanvas.getWidth() - bounds.width/2;
+            obj.setCoords();
+          }
+        }
+        // moving vertically
+        else if(!obj.lockMovementY){
+          if(bounds.top > 0){
+            console.log("inside top bound");
+            obj.top = bounds.height/2;
+            obj.setCoords();
+          }
+          else if((bounds.height + bounds.top) < fabricCanvas.getHeight()){
+            console.log("inside bottom bound");
+            obj.top = fabricCanvas.getHeight() - bounds.height/2;
+            obj.setCoords();
+          }
+        }
+      }
 
     }
 

@@ -71,7 +71,7 @@
 
             <div class="nav navbar-nav navbar-right">
                 <div>
-                    <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateUrl=='/upload'" ng-class="{'btn-disabled': vm.myPhotos.length < $root.imageConstraints.minPhotoForProduct}" ng-click="vm.nextStep($root.app.productState + '.Design')">
+                    <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateUrl=='/upload'" ng-class="{'btn-disabled': ((vm.myPhotos.length < $root.imageConstraints.minPhotoForProduct) || (vm.noOfFilesUploading>0))}" ng-click="vm.nextStep($root.app.productState + '.Design')">
                         <span class="btn-text">Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
