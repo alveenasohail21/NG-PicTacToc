@@ -1,0 +1,57 @@
+<style>
+    .text-editor-wrapper{
+        background-color: white;
+        padding: 0px 25px;
+        border-radius: 16px;
+        display: inline-flex;
+    }
+    .text-editor-wrapper .btn-delete{
+        background-color: white;
+    }
+    .text-editor-wrapper .btn-delete img{
+        height: 25px;
+    }
+    .text-editor-wrapper .color-picker{
+        position: relative !important;
+        top: 0 !important;
+        right: 0 !important;
+        padding:0 !important;
+    }
+    .color-picker>.ptt-dropmenu>button{
+        padding: 0 !important;
+        margin: 10px 0;
+    }
+    .text-editor-wrapper .size-picker{
+        border: none;
+    }
+    .vertical-partition{
+        border-right:1px solid lightgrey;
+        margin: 6px 25px;
+    }
+
+</style>
+
+<div class="text-editor-wrapper text-center">
+    <input type="number" class="size-picker" ng-model="object.size" min="10" max="32">
+    <div class="vertical-partition"></div>
+    <div id="ptt-content-wrapper-2">
+        <div class="action-icons-3 color-picker">
+            <div class="ptt-dropmenu dropdown">
+                <button id="dLabel2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="ptt-dropdown-color-3"></div>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu ptt-colors" aria-labelledby="dLabel2">
+                    <li class="">
+                        <div class="ptt-dropdown-color-2"></div>
+                    </li>
+                    <li class="">
+                        <div class="ptt-dropdown-color-3"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="vertical-partition"></div>
+    <button type="button" class="btn btn-delete"><img src="svgs/gray-delete.svg" alt=""></button>
+</div>

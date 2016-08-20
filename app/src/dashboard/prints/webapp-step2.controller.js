@@ -581,6 +581,23 @@
         })
       }
     }
+    
+    fabricCanvas.on('mouse:down', function(options) {
+      if(options.target) {
+        vm.showTextEditor=true;
+        console.log(vm.showTextEditor);
+        vm.selectedObject=options.target.type;
+        console.log('an object was clicked! ', options.target.type);
+      }
+    });
+    fabricCanvas.on('before:selection:cleared', function(options) {
+      if(options.target) {
+        vm.showTextEditor=false;
+        console.log(vm.showTextEditor);
+        vm.selectedObject=options.target.type;
+        console.log('an object was deselected! ', options.target.type);
+      }
+    });
 
     /************************************* LEFT TOOLBAR FUNCTIONS *************************************/
     function flipHorizontal(){
