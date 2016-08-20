@@ -25,7 +25,7 @@
     var filters =[
       { name: 'vintage', selected: false },
       { name: 'lomo', selected: false },
-      { name: 'clarity', selected: false },
+      //{ name: 'clarity', selected: false },
       { name: 'sinCity', selected: false },
       { name: 'sunrise', selected: false },
       { name: 'crossProcess', selected: false },
@@ -36,11 +36,11 @@
       { name: 'pinhole', selected: false },
       { name: 'oldBoot', selected: false },
       { name: 'glowingSun', selected: false },
-      { name: 'hazyDays', selected: false },
+      //{ name: 'hazyDays', selected: false },
       { name: 'herMajesty', selected: false },
       { name: 'nostalgia', selected: false },
       { name: 'hemingway', selected: false },
-      { name: 'concentrate', selected: false },
+      //{ name: 'concentrate', selected: false },
       { name: 'normal', selected: false }
     ];
     // {name: 'vintage', selected: false}

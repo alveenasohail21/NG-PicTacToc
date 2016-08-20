@@ -310,6 +310,57 @@ body.app{
       border: 3px solid #65e0e4 !important;
     }
   }
+
+  .text-editor-parent{
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.8s;
+    .text-editor-wrapper{
+      background-color: rgb(244, 247, 249);
+      padding: 0px 25px;
+      border-radius: 16px;
+      display: inline-flex;
+      height: 48px;
+    }
+    .text-editor-wrapper .btn-delete{
+      background-color:  rgb(244, 247, 249);
+    }
+    .text-editor-wrapper .btn-delete img{
+      height: 25px;
+    }
+    .text-editor-wrapper .color-picker{
+      position: relative !important;
+      top: 0 !important;
+      right: 0 !important;
+      padding:0 !important;
+    }
+    .color-picker>.ptt-dropmenu>button{
+      padding: 0 !important;
+      margin: 10px 0;
+      background-color: rgb(244, 247, 249);
+    }
+    .text-editor-wrapper .size-picker{
+      border: none;
+      background: rgb(244, 247, 249);
+      font-size: 22px;
+      color: #59626a;
+      width: 51px;
+    }
+    .vertical-partition{
+      //border-right: 1px solid rgb(89, 98, 106);
+      border-right: 1px solid lightgrey;
+      margin: 6px 25px;
+    }
+    .dropdown-menu{
+      margin-left: -15px;
+      top: 34px !important;
+      background-color: rgb(244, 247, 249);
+    }
+  }
+
+
   /* Action Icons */
 
   .action-icons-3{

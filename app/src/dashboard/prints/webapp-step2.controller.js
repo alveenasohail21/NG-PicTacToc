@@ -84,6 +84,10 @@
     vm.readyToDisplay = true;
     // layout sections - default is no layout
     var layoutSectionsObj = [];
+    // vm.selectedObject
+    vm.selectedObject = {};
+    vm.updateTextEditor = true;
+
 
 
     /* Function Assignment */
@@ -113,7 +117,9 @@
     vm.applyText = applyText;
     // layouts
     vm.applyLayout = applyLayout;
-
+    // Customizer
+    vm.updateTextSize = updateTextSize;
+    vm.updateTextColor = updateTextColor;
 
 
     /* Initializer */
@@ -361,6 +367,7 @@
               console.log('vm.selectedPhoto: ', vm.selectedPhoto);
               // save index
               canvasBkgImg.photoIndex = index;
+              canvasBkgImg.active = true;
               // save image data
               vm.selectedPhoto = {
                 thumbnail: vm.myPhotos[index],
@@ -467,12 +474,22 @@
 
     //delete photo
     function deletePhoto(id, index){
-      photosFactory.deletePhoto(id, index);
+      if(index == canvasBkgImg.photoIndex){
+        deleteCanvas();
+      }
+      else{
+        photosFactory.deletePhoto(id, index);
+      }
     }
 
     //copy photo
     function copyPhoto(id, index){
-      photosFactory.copyPhoto(id, index);
+      if(index == canvasBkgImg.photoIndex){
+        copyCanvas();
+      }
+      else{
+        photosFactory.copyPhoto(id, index);
+      }
     }
 
     /************************************* FILTERS *************************************/
@@ -582,23 +599,6 @@
       }
     }
     
-    fabricCanvas.on('mouse:down', function(options) {
-      if(options.target) {
-        vm.showTextEditor=true;
-        console.log(vm.showTextEditor);
-        vm.selectedObject=options.target.type;
-        console.log('an object was clicked! ', options.target.type);
-      }
-    });
-    fabricCanvas.on('before:selection:cleared', function(options) {
-      if(options.target) {
-        vm.showTextEditor=false;
-        console.log(vm.showTextEditor);
-        vm.selectedObject=options.target.type;
-        console.log('an object was deselected! ', options.target.type);
-      }
-    });
-
     /************************************* LEFT TOOLBAR FUNCTIONS *************************************/
     function flipHorizontal(){
       var object = fabricCanvas.getActiveObject();
@@ -633,6 +633,7 @@
     function deleteSelectedObject(){
       var selectedElem = fabricCanvas.getActiveObject();
       if(selectedElem!=null){
+        hideObjectCustomizer();
         selectedElem.remove();
         fabricCanvas.renderAll();
       }
@@ -709,7 +710,6 @@
         'mouse:down': function(e) {
           if (e.target) {
             e.target.opacity = 0.5;
-            fabricCanvas.renderAll();
           }
         },
         'mouse:up': function(e) {
@@ -728,6 +728,16 @@
                 fabricCanvas.setActiveObject(obj);
                 break;
             }
+            fabricCanvas.renderAll();
+          }
+        },
+        'selection:cleared': function(e){
+          hideObjectCustomizer();
+        },
+        'object:selected': function(e){
+          if(e.target){
+            vm.selectedObject = e.target;
+            objectCustomizer(vm.selectedObject);
             fabricCanvas.renderAll();
           }
         },
@@ -750,7 +760,8 @@
           }
         },
         'object:moving': function(e) {
-
+          vm.selectedObject = e.target;
+          objectCustomizer(vm.selectedObject);
         }
       });
 
@@ -786,6 +797,98 @@
       }
 
     }
+
+    /************************************* OBJECT CUSTOMIZER *************************************/
+
+    function objectCustomizer(obj){
+      console.log("Customize Object: ",obj);
+      // capture control
+      var customizerControl = $('.text-editor-parent');
+      // weather to open or not
+      switch(obj.type){
+        case 'i-text':
+          console.log("opening customizer");
+          // show necessary control
+          customizerControl.find('.size-picker').css('display', 'block');
+          customizerControl.find('.ptt-dropmenu').css('display', 'block');
+          customizerControl.find('.vertical-partition').css('display', 'block');
+          // show control
+          customizerControl.css({
+            'visibility': 'visible',
+            'opacity': 1
+          });
+          // update size picker
+          customizerControl.find('.size-picker').val(obj.getFontSize());
+          // update color
+          customizerControl.find('.ptt-dropdown-color-3').css('background-color', obj.fill);
+          break;
+        case 'image':
+          // its sticker
+          if(obj.id != canvasBkgImg.id){
+            console.log("hide unnecessary control");
+            // hide unnecessary control
+            customizerControl.find('.size-picker').css('display', 'none');
+            customizerControl.find('.ptt-dropmenu').css('display', 'none');
+            customizerControl.find('.vertical-partition').css('display', 'none');
+            console.log("opening customizer");
+            // show control
+            customizerControl.css({
+              'visibility': 'visible',
+              'opacity': 1
+            });
+          }
+          else{
+            customizerControl.css({
+              'visibility': 'hidden',
+              'opacity': 0
+            });
+          }
+          break;
+        default:
+          customizerControl.css({
+            'visibility': 'hidden',
+            'opacity': 0
+          });
+          break;
+      }
+      // position customizer control
+      customizerControl.css('left', obj.left - customizerControl.width()/2);
+      customizerControl.css('top', obj.top - (obj.height/2) - 48 - 52 );
+
+    }
+
+    function hideObjectCustomizer(){
+      // capture control
+      var customizerControl = $('.text-editor-parent');
+      // hide
+      customizerControl.css({
+        'visibility': 'hidden',
+        'opacity': 0
+      });
+    }
+
+    function updateTextSize(){
+      // capture control
+      var customizerControl = $('.text-editor-parent');
+      var sizePickerValue = customizerControl.find('.size-picker').val();
+      vm.selectedObject.setFontSize(sizePickerValue);
+      fabricCanvas.renderAll();
+    }
+
+    function updateTextColor(elemIndex){
+      // capture control
+      var customizerControl = $('.text-editor-parent');
+      var currentColorLi = customizerControl.find('.ptt-dropdown-color-3');
+      var list = customizerControl.find('.ptt-dropdown-color-2');
+      var selectedColor = $(list[elemIndex]).css('background-color');
+      console.log("update color", selectedColor);
+      vm.selectedObject.setColor(selectedColor);
+      fabricCanvas.renderAll();
+      // switch color
+      $(currentColorLi).css('background-color', selectedColor);
+    }
+
+
 
     /* Initializer Call */
     init();

@@ -1,57 +1,50 @@
-<style>
-    .text-editor-wrapper{
-        background-color: white;
-        padding: 0px 25px;
-        border-radius: 16px;
-        display: inline-flex;
-    }
-    .text-editor-wrapper .btn-delete{
-        background-color: white;
-    }
-    .text-editor-wrapper .btn-delete img{
-        height: 25px;
-    }
-    .text-editor-wrapper .color-picker{
-        position: relative !important;
-        top: 0 !important;
-        right: 0 !important;
-        padding:0 !important;
-    }
-    .color-picker>.ptt-dropmenu>button{
-        padding: 0 !important;
-        margin: 10px 0;
-    }
-    .text-editor-wrapper .size-picker{
-        border: none;
-    }
-    .vertical-partition{
-        border-right:1px solid lightgrey;
-        margin: 6px 25px;
-    }
-
-</style>
-
-<div class="text-editor-wrapper text-center">
-    <input type="number" class="size-picker" ng-model="object.size" min="10" max="32">
-    <div class="vertical-partition"></div>
-    <div id="ptt-content-wrapper-2">
-        <div class="action-icons-3 color-picker">
-            <div class="ptt-dropmenu dropdown">
-                <button id="dLabel2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <div class="ptt-dropdown-color-3"></div>
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu ptt-colors" aria-labelledby="dLabel2">
-                    <li class="">
-                        <div class="ptt-dropdown-color-2"></div>
-                    </li>
-                    <li class="">
-                        <div class="ptt-dropdown-color-3"></div>
-                    </li>
-                </ul>
+<div class="text-editor-parent">
+    <div class="text-editor-wrapper text-center">
+        <input type="number" class="size-picker" ng-model="object.size" min="10" max="100" ng-change="vm.updateTextSize()">
+        <div class="vertical-partition"></div>
+        <div id="ptt-content-wrapper-2">
+            <div class="action-icons-3 color-picker">
+                <div class="ptt-dropmenu dropdown">
+                    <button id="dLabel2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="ptt-dropdown-color-3" style="background-color: #ffffff"></div>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu ptt-colors" aria-labelledby="dLabel2">
+                        <li  ng-click="vm.updateTextColor(0)">
+                            <div class="ptt-dropdown-color-2" style="background-color: #969ba0;"></div>
+                        </li>
+                        <li ng-click="vm.updateTextColor(1)">
+                            <div class="ptt-dropdown-color-2"  style="background-color: #353b42;"></div>
+                        </li>
+                        <!--<li class="" ng-click="vm.updateTextColor()">-->
+                            <!--<div class="ptt-dropdown-color-2" style="background-color: #f4f7f9;"></div>-->
+                        <!--</li>-->
+                        <li class="" ng-click="vm.updateTextColor(2)">
+                            <div class="ptt-dropdown-color-2" style="background-color: cadetblue;"></div>
+                        </li>
+                        <li class="" ng-click="vm.updateTextColor(3)">
+                            <div class="ptt-dropdown-color-2" style="background-color: red;"></div>
+                        </li>
+                        <li class="" ng-click="vm.updateTextColor(4)">
+                            <div class="ptt-dropdown-color-2" style="background-color: limegreen;"></div>
+                        </li>
+                        <li class="" ng-click="vm.updateTextColor(5)">
+                            <div class="ptt-dropdown-color-2" style="background-color: steelblue;"></div>
+                        </li>
+                        <li class="" ng-click="vm.updateTextColor(6)">
+                            <div class="ptt-dropdown-color-2" style="background-color: yellow;"></div>
+                        </li>
+                        <li class="" ng-click="vm.updateTextColor(7)">
+                            <div class="ptt-dropdown-color-2" style="background-color: white;"></div>
+                        </li>
+                        <li class="" ng-click="vm.updateTextColor(8)">
+                            <div class="ptt-dropdown-color-2" style="background-color: #65e0e4;"></div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+        <div class="vertical-partition"></div>
+        <button type="button" class="btn btn-delete" ng-click="vm.deleteSelectedObject();"><img src="svgs/gray-delete.svg" alt=""></button>
     </div>
-    <div class="vertical-partition"></div>
-    <button type="button" class="btn btn-delete"><img src="svgs/gray-delete.svg" alt=""></button>
 </div>

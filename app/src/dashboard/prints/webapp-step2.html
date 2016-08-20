@@ -217,9 +217,10 @@ Content : Start : Step 2
                                 <img src="svgs/gray-flip-v.svg" alt="">
                             </div>
                         </div>
-                        <div ng-show="vm.showTextEditor">
-                            <ptt-text-editor selected-object="vm.selectedObject"></ptt-text-editor>
-                        </div>
+
+                        <!--<ptt-text-editor class="text-editor-parent" selected-object="vm.selectedObject" update-directive="vm.updateTextEditor"></ptt-text-editor>-->
+                        <ng-include src="'src/dashboard/layouts/textEditor.html'"></ng-include>
+
                         <div class="editor">
                             <!-- Canvas -->
                             <canvas id="canvas" ng-show="vm.readyToDisplay"></canvas>
@@ -298,8 +299,8 @@ Content : Start : Step 2 B
                     <div class="img-container">
                     <img class="upl-img" ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl:photo.base64}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
                     <div class="expand-icons">
-                        <span class="copy" ng-click="vm.copyCanvas()"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin" ng-click="vm.deleteCanvas()" ><img src="svgs/white-delete.svg" alt=""></span>
+                        <span class="copy" ng-click="vm.copyPhoto(photo.id, $index)"><img src="images/white-copy.png" alt=""></span>
+                        <span class="dustbin" ng-click="vm.deletePhoto(photo.id, $index)" ><img src="svgs/white-delete.svg" alt=""></span>
                         <!--<span class="dustbin"><object data="svgs/white-delete.svg" alt="" type="image/svg+xml"></object></span>-->
                     </div>
                     </div>
