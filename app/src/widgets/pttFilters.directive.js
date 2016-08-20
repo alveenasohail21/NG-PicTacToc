@@ -70,7 +70,16 @@
         if(filters){
           console.log("RUNNING FILTERS SETUP: ");
           scope.filters = filters;
-          applyFilters();
+          scope.filters.forEach(function(obj){
+            obj.selected = false;
+          });
+          // by default normal is applied
+          scope.filters[scope.filters.length-1].selected = true;
+          activeFilterIndex = scope.filters.length-1;
+          //
+          $timeout(function(){
+            applyFilters();
+          }, 200);
         }
         else{
           console.log("NO FILTERS, NO SETUP");
@@ -84,7 +93,7 @@
           scope.filters = [];
           $timeout(function(){
             setupFilters();
-          }, 200);
+          }, 1000);
         }
       }, true);
 

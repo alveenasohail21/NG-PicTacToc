@@ -75,7 +75,8 @@
     var canvasBkgImg = {
       instance: null,
       active: false,
-      id: null
+      id: null,
+      photoIndex: null
     };
     var scallingFirstTime = true;
     var scaleFactor;
@@ -99,6 +100,8 @@
     vm.deleteSelectedObject = deleteSelectedObject;
     vm.copySelectedObject = copySelectedObject;
     vm.applyBorder = applyBorder;
+    vm.copyCanvas = copyCanvas;
+    vm.deleteCanvas = deleteCanvas;
     //Expand view methods
     vm.deletePhoto = deletePhoto;
     vm.copyPhoto = copyPhoto;
@@ -330,55 +333,121 @@
       // close sidemenu if open
       vm.closeSidemenu();
       // remove caman canvas
-      vm.showCamanImg = false;
-      $('canvas#caman-canvas').remove();
-      // get photo now
-      photosFactory.getSelectedPhoto(id, index).then(function(resp){
-        // save image data
-        vm.selectedPhoto = {
-          thumbnail: vm.myPhotos[index],
-          original: resp
-        };
-
-        console.log('vm.selectedPhoto: ', vm.selectedPhoto);
-        // remove caman id to reset caman
-        $('#caman-canvas').removeAttr('data-caman-id');
-        // this will add caman img tag in DOM - its angular baby :P
-        vm.showCamanImg = true;
-        // load image in controller
-        canvasImage.src = vm.selectedPhoto.original.base64;
-        canvasImage.onload = function() {
-          if(!canvasBkgImg.active){
-            canvasBkgImg.id = (new Date().getTime() / 1000);
-            canvasBkgImg.instance = new fabric.Image(canvasImage, {
-              id: canvasBkgImg.id,
-              renderOnAddRemove: false
-            });
-            canvasBkgImg.active = true;
-            canvasBkgImg.instance.set(fabricObjSettings);
-            fabricCanvas.add(canvasBkgImg.instance);
-          }
-          else{
-            canvasBkgImg.instance.setElement(canvasImage);
-          }
-          canvasBkgImg.instance.center();
-          canvasBkgImg.instance.setCoords();
-          canvasBkgImg.instance.lockMovementY = false;
-          canvasBkgImg.instance.lockMovementX = false;
-          canvasBkgImg.instance.hasControls = false;
-          if(canvasImage.naturalWidth > canvasImage.naturalHeight){
-            canvasBkgImg.instance.scaleToHeight(fabricCanvas.getHeight());
-            canvasBkgImg.instance.lockMovementY = true;
-          }
-          else{
-            canvasBkgImg.instance.scaleToWidth(fabricCanvas.getWidth());
-            canvasBkgImg.instance.lockMovementX = true;
-          }
-          fabricCanvas.renderAll();
-          fabricCanvas.setActiveObject(canvasBkgImg.instance);
-        };
-      }, function(err){
+      $('#caman-canvas').remove();
+      // selected image
+      vm.myPhotos.forEach(function(photo){
+        photo.selected = false;
       });
+      vm.myPhotos[index].selected = true;
+      // if canvas was active
+      if(canvasBkgImg.active){
+        fabricCanvas.deactivateAll();
+        // save the already active image with settings
+        vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
+        vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
+        vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
+        // clear canvas
+        fabricCanvas.clear();
+        // render all
+        fabricCanvas.renderAll();
+      }
+
+        // get photo now
+        photosFactory.getSelectedPhoto(id, index).then(function(resp){
+          // the new selected image has JSON data
+          if(vm.myPhotos[index].canvasJSON ){
+            fabricCanvas.loadFromJSON(vm.myPhotos[index].canvasJSON , function(){
+              console.log("LOADED FROM JSON");
+              console.log('vm.selectedPhoto: ', vm.selectedPhoto);
+              // save index
+              canvasBkgImg.photoIndex = index;
+              // save image data
+              vm.selectedPhoto = {
+                thumbnail: vm.myPhotos[index],
+                original: resp
+              };
+              // caman image for filter
+              canvasImage.src = vm.selectedPhoto.original.base64;
+              canvasImage.onload = function(){
+                $(canvasImage).css('z-index', '-10');
+                $(canvasImage).attr('id', 'caman-canvas');
+                $('.editor').append(canvasImage);
+              };
+              // fabric settings
+              var objects = fabricCanvas.getObjects();
+              objects.forEach(function(obj){
+                obj.set(fabricObjSettings);
+              });
+              // background img settings
+              objects[0].set({
+                id: vm.myPhotos[index].canvasImgId
+              });
+              canvasBkgImg.id = vm.myPhotos[index].canvasImgId;
+              // position
+              //objects[0].center();
+              objects[0].setCoords();
+              // locks
+              objects[0].lockMovementY = false;
+              objects[0].lockMovementX = false;
+              objects[0].hasControls = false;
+              if(objects[0].width > objects[0].height){
+                objects[0].scaleToHeight(fabricCanvas.getHeight());
+                objects[0].lockMovementY = true;
+              }
+              else{
+                objects[0].scaleToWidth(fabricCanvas.getWidth());
+                objects[0].lockMovementX = true;
+              }
+              // render All
+              fabricCanvas.renderAll();
+            })
+          }
+          else{
+            // save image data
+            vm.selectedPhoto = {
+              thumbnail: vm.myPhotos[index],
+              original: resp
+            };
+            console.log('vm.selectedPhoto: ', vm.selectedPhoto);
+            // load image in controller
+            canvasImage.src = vm.selectedPhoto.original.base64;
+            canvasImage.onload = function() {
+              // caman image for filter
+              $(canvasImage).css('z-index', '-10');
+              $(canvasImage).attr('id', 'caman-canvas');
+              $('.editor').append(canvasImage);
+              // settings
+              canvasBkgImg.id = (new Date().getTime() / 1000);
+              canvasBkgImg.instance = new fabric.Image(canvasImage, {
+                id: canvasBkgImg.id,
+                renderOnAddRemove: false
+              });
+              canvasBkgImg.active = true;
+              canvasBkgImg.photoIndex = index;
+              canvasBkgImg.instance.set(fabricObjSettings);
+              // add to canvas
+              fabricCanvas.add(canvasBkgImg.instance);
+              // position
+              canvasBkgImg.instance.center();
+              canvasBkgImg.instance.setCoords();
+              // locks
+              canvasBkgImg.instance.lockMovementY = false;
+              canvasBkgImg.instance.lockMovementX = false;
+              canvasBkgImg.instance.hasControls = false;
+              if(canvasImage.naturalWidth > canvasImage.naturalHeight){
+                canvasBkgImg.instance.scaleToHeight(fabricCanvas.getHeight());
+                canvasBkgImg.instance.lockMovementY = true;
+              }
+              else{
+                canvasBkgImg.instance.scaleToWidth(fabricCanvas.getWidth());
+                canvasBkgImg.instance.lockMovementX = true;
+              }
+              fabricCanvas.renderAll();
+              fabricCanvas.setActiveObject(canvasBkgImg.instance);
+            };
+          }
+        }, function(err){
+        });
     }
 
     //send edited image to the server
@@ -428,9 +497,18 @@
         this.render(function(){
           // destroy cropper and set it for filtered image
           vm.selectedPhoto.filteredImage = this.toBase64();
-          canvasImage.src = this.toBase64();
-          canvasImage.onload = function() {
-            canvasBkgImg.instance.setElement(canvasImage);
+          var img = new Image();
+          img.src = this.toBase64();
+          img.onload = function() {
+            // if fabric is loaded from JSON
+            if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
+              var fabricImgObj = fabricCanvas.getObjects()[0];
+              fabricImgObj.setElement(img);
+            }
+            // else
+            else{
+              canvasBkgImg.instance.setElement(img);
+            }
             fabricCanvas.renderAll();
           };
         });
@@ -564,9 +642,39 @@
       fabricCanvas.clear();
       setTimeout(function(){
         fabricCanvas.loadFromJSON(fabricCanvasToJSON, function(){
+          var objects = fabricCanvas.getObjects();
+          objects.forEach(function(obj){
+            obj.set(fabricObjSettings);
+          });
           fabricCanvas.renderAll();
         });
       }, 2000);
+    }
+
+    function copyCanvas(){
+      fabricCanvas.deactivateAll();
+      // save the already active image with settings
+      vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
+      vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
+      vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
+      // create a copy in vm.myPhotos
+      var copiedObj = angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]);
+      copiedObj.selected = false;
+      vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, copiedObj);
+    }
+
+    function deleteCanvas(){
+      // remove current selected photo with all canvas settings
+      photosFactory.deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id, canvasBkgImg.photoIndex)
+        .then(function(resp){
+          if(resp.success){
+            canvasBkgImg.active = false;
+            fabricCanvas.clear();
+            // load default photo
+            // select the 0th index photo by default
+            getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+          }
+        })
     }
 
     /************************************* FABRICJS FUNCTIONS *************************************/

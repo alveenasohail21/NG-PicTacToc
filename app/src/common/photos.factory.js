@@ -54,6 +54,7 @@
 
     function addPhotoToLocal(photo){
       if(photo){
+        $('.ptt-lightSlider').css('opacity', 0);
         _data.photos.push(photo);
       }
     }
@@ -104,6 +105,7 @@
       restFactory.photos.deletePhoto(id)
         .then(function(resp){
           if(resp.success){
+            $('.ptt-lightSlider').css('opacity', 0);
             _data.photos.splice(index, 1);
             _data.totalCount--;
             alertFactory.success(null , resp.message);
