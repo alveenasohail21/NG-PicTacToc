@@ -14,7 +14,10 @@
         <li ng-repeat="photo in photos track by $index">
             <div class="backdrop"></div>
             <img ng-src="{{photo.base64}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
-            <img ng-click="onDelete({id: photo.id, index: $index})" class="white-cross" src="images/white-cross.png" alt="X">
+            <img ng-click="(photo.deleting)?null:onDelete({id: photo.id, index: $index})"
+                 class="white-cross" ng-class="{'delete-loader': photo.deleting}"
+                 src="{{(photo.deleting)?'svgs/ptt-loader.svg':'images/white-cross.png'}}"
+                 alt="X">
         </li>
         <!--ng-if="showUploadImage"-->
         <li class="cursor-pointer add-new-image" ngf-select="onSelectFiles({files: $files, invalidFiles: $invalidFiles})" ngf-max-size="{{$root.imageConstraints.maxSize}}" multiple accept="image/*" >

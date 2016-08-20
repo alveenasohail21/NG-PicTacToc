@@ -376,6 +376,18 @@ body.app {
       perspective: 1000px;
     }
   }
+  // delete-loader
+  img.delete-loader{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    animation: loader 0.82s cubic-bezier(.36,.07,.19,.97) infinite;
+    transform: rotate(360deg);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
 
 
 

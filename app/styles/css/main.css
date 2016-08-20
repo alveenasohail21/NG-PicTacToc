@@ -339,7 +339,19 @@ body.app .collapse-loader img {
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 385, ../partials/base/_global.scss */
+/* line 380, ../partials/base/_global.scss */
+body.app img.delete-loader {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  animation: loader 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+  transform: rotate(360deg);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 397, ../partials/base/_global.scss */
 body.app .modal-backdrop {
   background-color: #cbced0;
   opacity: 0.71;
@@ -349,17 +361,17 @@ body.app .modal-backdrop {
 /*
 Scrollbar
 */
-/* line 396, ../partials/base/_global.scss */
+/* line 408, ../partials/base/_global.scss */
 *::-webkit-scrollbar {
   width: 10px;
 }
 
-/* line 400, ../partials/base/_global.scss */
+/* line 412, ../partials/base/_global.scss */
 *::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 10px 10px 10px rgba(255, 255, 255, 0.8);
 }
 
-/* line 404, ../partials/base/_global.scss */
+/* line 416, ../partials/base/_global.scss */
 *::-webkit-scrollbar-thumb {
   background-color: #f0f2f2;
   border-radius: 10px;
@@ -391,7 +403,7 @@ Key Frmaes
   }
 }
 /*ALERTS*/
-/* line 444, ../partials/base/_global.scss */
+/* line 456, ../partials/base/_global.scss */
 .alert-dismissible {
   position: fixed;
   top: 10px;
@@ -401,17 +413,17 @@ Key Frmaes
   transition: opacity 0.4s;
 }
 
-/* line 451, ../partials/base/_global.scss */
+/* line 463, ../partials/base/_global.scss */
 .alert-warning {
   border-top: 5px solid #8a6d3b;
 }
 
-/* line 454, ../partials/base/_global.scss */
+/* line 466, ../partials/base/_global.scss */
 .alert-danger {
   border-top: 5px solid #a94442;
 }
 
-/* line 457, ../partials/base/_global.scss */
+/* line 469, ../partials/base/_global.scss */
 .alert-success {
   border-top: 5px solid #3c763d;
 }

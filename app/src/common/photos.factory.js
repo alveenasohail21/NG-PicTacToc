@@ -101,7 +101,10 @@
     //delete selected photo in step 1
     function deletePhoto(id, index) {
       var deferred = $q.defer();
+      // Prints step 2
       $('.collapse-loader').css('display', 'block');
+      // Prints step 1
+      _data.photos[index].deleting = true;
       restFactory.photos.deletePhoto(id)
         .then(function(resp){
           if(resp.success){
