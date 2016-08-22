@@ -185,6 +185,15 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "app.common.user",
+      "shortName": "app.common.user",
+      "type": "service",
+      "moduleName": "app.common",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app common description placeholder service user"
+    },
+    {
+      "section": "api",
       "id": "app.core",
       "shortName": "app.core",
       "type": "overview",
@@ -295,6 +304,15 @@ NG_DOCS={
       "section": "api",
       "id": "app.dashboard.directive:lightSlider",
       "shortName": "lightSlider",
+      "type": "directive",
+      "moduleName": "app.dashboard",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app dashboard description directive object placeholder test true"
+    },
+    {
+      "section": "api",
+      "id": "app.dashboard.directive:pttTextEditor",
+      "shortName": "pttTextEditor",
       "type": "directive",
       "moduleName": "app.dashboard",
       "shortDescription": "&lt; description placeholder &gt;",

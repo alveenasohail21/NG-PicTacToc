@@ -358,103 +358,103 @@
         fabricCanvas.renderAll();
       }
 
-        // get photo now
-        photosFactory.getSelectedPhoto(id, index).then(function(resp){
-          // the new selected image has JSON data
-          if(vm.myPhotos[index].canvasJSON ){
-            fabricCanvas.loadFromJSON(vm.myPhotos[index].canvasJSON , function(){
-              console.log("LOADED FROM JSON");
-              console.log('vm.selectedPhoto: ', vm.selectedPhoto);
-              // save index
-              canvasBkgImg.photoIndex = index;
-              canvasBkgImg.active = true;
-              // save image data
-              vm.selectedPhoto = {
-                thumbnail: vm.myPhotos[index],
-                original: resp
-              };
-              // caman image for filter
-              canvasImage.src = vm.selectedPhoto.original.base64;
-              canvasImage.onload = function(){
-                $(canvasImage).css('z-index', '-10');
-                $(canvasImage).attr('id', 'caman-canvas');
-                $('.editor').append(canvasImage);
-              };
-              // fabric settings
-              var objects = fabricCanvas.getObjects();
-              objects.forEach(function(obj){
-                obj.set(fabricObjSettings);
-              });
-              // background img settings
-              objects[0].set({
-                id: vm.myPhotos[index].canvasImgId
-              });
-              canvasBkgImg.id = vm.myPhotos[index].canvasImgId;
-              // position
-              //objects[0].center();
-              objects[0].setCoords();
-              // locks
-              objects[0].lockMovementY = false;
-              objects[0].lockMovementX = false;
-              objects[0].hasControls = false;
-              if(objects[0].width > objects[0].height){
-                objects[0].scaleToHeight(fabricCanvas.getHeight());
-                objects[0].lockMovementY = true;
-              }
-              else{
-                objects[0].scaleToWidth(fabricCanvas.getWidth());
-                objects[0].lockMovementX = true;
-              }
-              // render All
-              fabricCanvas.renderAll();
-            })
-          }
-          else{
+      // get photo now
+      photosFactory.getSelectedPhoto(id, index).then(function(resp){
+        // the new selected image has JSON data
+        if(vm.myPhotos[index].canvasJSON ){
+          fabricCanvas.loadFromJSON(vm.myPhotos[index].canvasJSON , function(){
+            console.log("LOADED FROM JSON");
+            console.log('vm.selectedPhoto: ', vm.selectedPhoto);
+            // save index
+            canvasBkgImg.photoIndex = index;
+            canvasBkgImg.active = true;
             // save image data
             vm.selectedPhoto = {
               thumbnail: vm.myPhotos[index],
               original: resp
             };
-            console.log('vm.selectedPhoto: ', vm.selectedPhoto);
-            // load image in controller
+            // caman image for filter
             canvasImage.src = vm.selectedPhoto.original.base64;
-            canvasImage.onload = function() {
-              // caman image for filter
+            canvasImage.onload = function(){
               $(canvasImage).css('z-index', '-10');
               $(canvasImage).attr('id', 'caman-canvas');
               $('.editor').append(canvasImage);
-              // settings
-              canvasBkgImg.id = (new Date().getTime() / 1000);
-              canvasBkgImg.instance = new fabric.Image(canvasImage, {
-                id: canvasBkgImg.id,
-                renderOnAddRemove: false
-              });
-              canvasBkgImg.active = true;
-              canvasBkgImg.photoIndex = index;
-              canvasBkgImg.instance.set(fabricObjSettings);
-              // add to canvas
-              fabricCanvas.add(canvasBkgImg.instance);
-              // position
-              canvasBkgImg.instance.center();
-              canvasBkgImg.instance.setCoords();
-              // locks
-              canvasBkgImg.instance.lockMovementY = false;
-              canvasBkgImg.instance.lockMovementX = false;
-              canvasBkgImg.instance.hasControls = false;
-              if(canvasImage.naturalWidth > canvasImage.naturalHeight){
-                canvasBkgImg.instance.scaleToHeight(fabricCanvas.getHeight());
-                canvasBkgImg.instance.lockMovementY = true;
-              }
-              else{
-                canvasBkgImg.instance.scaleToWidth(fabricCanvas.getWidth());
-                canvasBkgImg.instance.lockMovementX = true;
-              }
-              fabricCanvas.renderAll();
-              fabricCanvas.setActiveObject(canvasBkgImg.instance);
             };
-          }
-        }, function(err){
-        });
+            // fabric settings
+            var objects = fabricCanvas.getObjects();
+            objects.forEach(function(obj){
+              obj.set(fabricObjSettings);
+            });
+            // background img settings
+            objects[0].set({
+              id: vm.myPhotos[index].canvasImgId
+            });
+            canvasBkgImg.id = vm.myPhotos[index].canvasImgId;
+            // position
+            //objects[0].center();
+            objects[0].setCoords();
+            // locks
+            objects[0].lockMovementY = false;
+            objects[0].lockMovementX = false;
+            objects[0].hasControls = false;
+            if(objects[0].width > objects[0].height){
+              objects[0].scaleToHeight(fabricCanvas.getHeight());
+              objects[0].lockMovementY = true;
+            }
+            else{
+              objects[0].scaleToWidth(fabricCanvas.getWidth());
+              objects[0].lockMovementX = true;
+            }
+            // render All
+            fabricCanvas.renderAll();
+          })
+        }
+        else{
+          // save image data
+          vm.selectedPhoto = {
+            thumbnail: vm.myPhotos[index],
+            original: resp
+          };
+          console.log('vm.selectedPhoto: ', vm.selectedPhoto);
+          // load image in controller
+          canvasImage.src = vm.selectedPhoto.original.base64;
+          canvasImage.onload = function() {
+            // caman image for filter
+            $(canvasImage).css('z-index', '-10');
+            $(canvasImage).attr('id', 'caman-canvas');
+            $('.editor').append(canvasImage);
+            // settings
+            canvasBkgImg.id = (new Date().getTime() / 1000);
+            canvasBkgImg.instance = new fabric.Image(canvasImage, {
+              id: canvasBkgImg.id,
+              renderOnAddRemove: false
+            });
+            canvasBkgImg.active = true;
+            canvasBkgImg.photoIndex = index;
+            canvasBkgImg.instance.set(fabricObjSettings);
+            // add to canvas
+            fabricCanvas.add(canvasBkgImg.instance);
+            // position
+            canvasBkgImg.instance.center();
+            canvasBkgImg.instance.setCoords();
+            // locks
+            canvasBkgImg.instance.lockMovementY = false;
+            canvasBkgImg.instance.lockMovementX = false;
+            canvasBkgImg.instance.hasControls = false;
+            if(canvasImage.naturalWidth > canvasImage.naturalHeight){
+              canvasBkgImg.instance.scaleToHeight(fabricCanvas.getHeight());
+              canvasBkgImg.instance.lockMovementY = true;
+            }
+            else{
+              canvasBkgImg.instance.scaleToWidth(fabricCanvas.getWidth());
+              canvasBkgImg.instance.lockMovementX = true;
+            }
+            fabricCanvas.renderAll();
+            fabricCanvas.setActiveObject(canvasBkgImg.instance);
+          };
+        }
+      }, function(err){
+      });
     }
 
     //send edited image to the server
@@ -598,34 +598,66 @@
         })
       }
     }
-    
+
     /************************************* LEFT TOOLBAR FUNCTIONS *************************************/
     function flipHorizontal(){
       var object = fabricCanvas.getActiveObject();
+      if(!object){
+        // select the background image
+        object = fabricCanvas.getObjects()[0];
+      }
       object.flipX = object.flipX ? false : true;
       fabricCanvas.renderAll();
     }
 
     function flipVertical(){
       var object = fabricCanvas.getActiveObject();
+      if(!object){
+        // select the background image
+        object = fabricCanvas.getObjects()[0];
+      }
       object.flipY = object.flipY ? false : true;
       fabricCanvas.renderAll();
     }
 
     function rotateClockwise(){
       var object= fabricCanvas.getActiveObject();
+      var isBkgImg = false;
+      if(!object){
+        // select the background image
+        object = fabricCanvas.getObjects()[0];
+        isBkgImg = true;
+        object.center();
+      }
       object.animate('angle', object.angle+(-90), {
         //easing: fabric.util.ease.easeOutBounce,
-        onChange: fabricCanvas.renderAll.bind(fabricCanvas)
+        onChange: fabricCanvas.renderAll.bind(fabricCanvas),
+        onComplete: function(){
+          if(isBkgImg){
+            fixBackgroundScalingAndLocking(object);
+          }
+        }
       });
       object.setCoords();
     }
 
     function rotateAntiClockwise(){
       var object= fabricCanvas.getActiveObject();
+      var isBkgImg = false;
+      if(!object){
+        // select the background image
+        object = fabricCanvas.getObjects()[0];
+        isBkgImg = true;
+        object.center();
+      }
       object.animate('angle', object.angle+(90), {
         //easing: fabric.util.ease.easeOutBounce,
-        onChange: fabricCanvas.renderAll.bind(fabricCanvas)
+        onChange: fabricCanvas.renderAll.bind(fabricCanvas),
+        onComplete: function(){
+          if(isBkgImg){
+            fixBackgroundScalingAndLocking(object);
+          }
+        }
       });
       object.setCoords();
     }
@@ -693,6 +725,33 @@
             getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
           }
         })
+    }
+
+    function fixBackgroundScalingAndLocking(object, reverse){
+      console.log("reversing locks");
+      if(object.lockMovementX){
+        console.log("lockMovementY");
+        object.lockMovementX = false;
+        object.lockMovementY = true;
+      }
+      else if(object.lockMovementY){
+        console.log("lockMovementX");
+        object.lockMovementX = true;
+        object.lockMovementY = false;
+      }
+      // position
+      object.setCoords();
+      // locks
+      //object.lockMovementY = false;
+      //object.lockMovementX = false;
+      //if(object.width > object.height){
+      //  object.scaleToHeight(fabricCanvas.getHeight());
+      //  object.lockMovementY = true;
+      //}
+      //else{
+      //  object.scaleToWidth(fabricCanvas.getWidth());
+      //  object.lockMovementX = true;
+      //}
     }
 
     /************************************* FABRICJS FUNCTIONS *************************************/
