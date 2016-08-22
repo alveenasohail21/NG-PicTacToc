@@ -947,8 +947,39 @@
       $(currentColorLi).css('background-color', selectedColor);
     }
 
+    /************************************* KEYBOARD SHORTCUTS*************************************/
 
+    function animateObject(parameter, shiftFlag, ctrlFlag, subtractFlag){
+      //animation work fired by keyboard shortcuts
+      var animationValue=10;
+      animationValue+=shiftFlag ? 40 : 0;
+      animationValue+=ctrlFlag ? 90 : 0;
+      var value=subtractFlag ? '-='+animationValue : '+='+animationValue;
+      fabricCanvas.getActiveObject().animate(parameter, value, { onChange: fabricCanvas.renderAll.bind(fabricCanvas) });
+    }
 
+    $(window).keydown(function(e) {
+      //keyboard shortcuts
+      if(fabricCanvas.getActiveObject()){
+        switch (e.keyCode) {
+          case 46: // delete
+            deleteSelectedObject();
+            break;
+          case 37: // right
+            animateObject('left', e.shiftKey, e.ctrlKey, true);
+            break;
+          case 38: // up
+            animateObject('top', e.shiftKey, e.ctrlKey, true);
+            break;
+          case 39: // left
+            animateObject('left', e.shiftKey, e.ctrlKey, false);
+            break;
+          case 40: // down
+            animateObject('top', e.shiftKey, e.ctrlKey, false);
+            break;
+        }
+      }
+    });
     /* Initializer Call */
     init();
   }
