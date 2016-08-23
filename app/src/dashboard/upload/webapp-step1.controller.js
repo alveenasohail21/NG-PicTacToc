@@ -303,10 +303,14 @@
       });
     }
 
+
     function selectFiles(files, invalidFiles) {
       // console.log(files, invalidFiles);
+
       checkFileErrors(invalidFiles);
       // return;
+
+      console.log(invalidFiles);
       if(files.length>0){
         // first update category
         if(vm.uploadCategory!='device'){
@@ -314,6 +318,7 @@
         }
         for(var i=0;i<files.length;i++){
           uploadFactory.addFile(files[i], vm.uploadCategory);
+          addFilesToUploadQueue(i);
         }
         if(files.length>1 || vm.filesToUpload.length-1>vm.filesUploadedCountForDevice){
           console.log("> 1");
@@ -325,7 +330,7 @@
     // add files to upload queue
     function addFilesToUploadQueue(index){
       // if single file
-      console.log("I am here");
+
       if(index>=0 && !vm.filesToUpload[index].inProgress && !vm.filesToUpload[index].uploaded){
         vm.filesToUpload[index].inProgress = true;
         vm.filesToUpload[index].position = index;
