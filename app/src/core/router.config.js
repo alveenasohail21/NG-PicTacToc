@@ -108,7 +108,7 @@
         // The user is not authenticated and is going to a public state
         if(publicStates.indexOf('Login')>=0 && $rootScope.reload){
           event.preventDefault();
-          window.location.reload();
+          window.location = window.location.origin;
         }
         return;
       }
