@@ -87,6 +87,10 @@
     // vm.selectedObject
     vm.selectedObject = {};
     vm.updateTextEditor = true;
+    // text is editing
+    var textInEdtitingMode = false;
+    // animation in progress
+    var isActionPerformable = true;
 
 
 
@@ -173,6 +177,8 @@
         fabricCanvas.selectionColor = 'rgba(101,224,228,0.5)';
         fabricCanvas.selectionBorderColor = 'white';
         fabricCanvas.selectionLineWidth = 1;
+        // disable group selection
+        fabricCanvas.selection = false;
         fabricCanvas.renderAll();
         // bind fabricjs events
         bindEventsOnFabric();
@@ -356,6 +362,7 @@
         fabricCanvas.clear();
         // render all
         fabricCanvas.renderAll();
+        console.log("SAVED CANVAS JSON: ",vm.myPhotos[canvasBkgImg.photoIndex]);
       }
 
       // get photo now
@@ -398,15 +405,30 @@
             objects[0].lockMovementX = false;
             objects[0].hasControls = false;
             if(objects[0].width > objects[0].height){
-              objects[0].scaleToHeight(fabricCanvas.getHeight());
-              objects[0].lockMovementY = true;
+              // if image was rotated to 90, -90, -270 or 270 before, then do the opposite
+              if(objects[0].angle == 90 || objects[0].angle == 270 || objects[0].angle == -90 || objects[0].angle == -270){
+                objects[0].scaleToWidth(fabricCanvas.getWidth());
+                objects[0].lockMovementX = true;
+              }
+              else{
+                objects[0].scaleToHeight(fabricCanvas.getHeight());
+                objects[0].lockMovementY = true;
+              }
             }
             else{
-              objects[0].scaleToWidth(fabricCanvas.getWidth());
-              objects[0].lockMovementX = true;
+              // if image was rotated to 90, -90, -270 or 270 before, then do the opposite
+              if(objects[0].angle == 90 || objects[0].angle == 270 || objects[0].angle == -90 || objects[0].angle == -270){
+                objects[0].scaleToHeight(fabricCanvas.getHeight());
+                objects[0].lockMovementY = true;
+              }
+              else{
+                objects[0].scaleToWidth(fabricCanvas.getWidth());
+                objects[0].lockMovementX = true;
+              }
             }
             // render All
             fabricCanvas.renderAll();
+            fabricCanvas.deactivateAll();
           })
         }
         else{
@@ -450,7 +472,7 @@
               canvasBkgImg.instance.lockMovementX = true;
             }
             fabricCanvas.renderAll();
-            fabricCanvas.setActiveObject(canvasBkgImg.instance);
+            fabricCanvas.deactivateAll();
           };
         }
       }, function(err){
@@ -561,6 +583,7 @@
           id: (new Date().getTime() / 1000),
           fontFamily: text.name
         });
+        fabricText.editingBorderColor = '#65e0e4';
         fabricText.setColor('white');
         //fabricText.enterEditing();
         //fabricText.hiddenTextarea.focus();
@@ -621,6 +644,10 @@
     }
 
     function rotateClockwise(){
+      console.log("rotating clockwise");
+      if(!isActionPerformable){
+        return;
+      }
       var object= fabricCanvas.getActiveObject();
       var isBkgImg = false;
       if(!object){
@@ -629,10 +656,20 @@
         isBkgImg = true;
         object.center();
       }
+      var movement = {
+        x: object.lockMovementX,
+        y: object.lockMovementY
+      };
+      isActionPerformable = false;
+      object.lockMovementX = true;
+      object.lockMovementY = true;
       object.animate('angle', object.angle+(-90), {
         //easing: fabric.util.ease.easeOutBounce,
         onChange: fabricCanvas.renderAll.bind(fabricCanvas),
         onComplete: function(){
+          isActionPerformable = true;
+          object.lockMovementX = movement.x;
+          object.lockMovementY = movement.y;
           if(isBkgImg){
             fixBackgroundScalingAndLocking(object);
           }
@@ -642,6 +679,9 @@
     }
 
     function rotateAntiClockwise(){
+      if(!isActionPerformable){
+        return;
+      }
       var object= fabricCanvas.getActiveObject();
       var isBkgImg = false;
       if(!object){
@@ -650,10 +690,20 @@
         isBkgImg = true;
         object.center();
       }
+      var movement = {
+        x: object.lockMovementX,
+        y: object.lockMovementY
+      };
+      isActionPerformable = false;
+      object.lockMovementX = true;
+      object.lockMovementY = true;
       object.animate('angle', object.angle+(90), {
         //easing: fabric.util.ease.easeOutBounce,
         onChange: fabricCanvas.renderAll.bind(fabricCanvas),
         onComplete: function(){
+          isActionPerformable = true;
+          object.lockMovementX = movement.x;
+          object.lockMovementY = movement.y;
           if(isBkgImg){
             fixBackgroundScalingAndLocking(object);
           }
@@ -687,18 +737,6 @@
     }
 
     function applyBorder(){
-      var fabricCanvasToJSON = fabricCanvas.toJSON();
-      console.log(fabricCanvasToJSON);
-      fabricCanvas.clear();
-      setTimeout(function(){
-        fabricCanvas.loadFromJSON(fabricCanvasToJSON, function(){
-          var objects = fabricCanvas.getObjects();
-          objects.forEach(function(obj){
-            obj.set(fabricObjSettings);
-          });
-          fabricCanvas.renderAll();
-        });
-      }, 2000);
     }
 
     function copyCanvas(){
@@ -768,11 +806,22 @@
       fabricCanvas.on({
         'mouse:down': function(e) {
           if (e.target) {
+            if('isEditing' in e.target && e.target.isEditing){
+              // set it to true
+              textInEdtitingMode = true;
+              console.log("Editing mode is ON, returning");
+              return;
+            }
+            textInEdtitingMode = false;
             e.target.opacity = 0.5;
           }
         },
         'mouse:up': function(e) {
           var obj = e.target;
+          if(textInEdtitingMode){
+            console.log("Editing mode is ON, returning");
+            return;
+          }
           if (obj) {
             obj.opacity = 1;
             switch(obj.id){
@@ -794,6 +843,10 @@
           hideObjectCustomizer();
         },
         'object:selected': function(e){
+          if(textInEdtitingMode){
+            console.log("Editing mode is ON, returning");
+            return;
+          }
           if(e.target){
             vm.selectedObject = e.target;
             objectCustomizer(vm.selectedObject);
@@ -827,31 +880,56 @@
       // Background Image Boundary Check and Position Update
       function backgroundImageBoundaryCheck(obj){
         var bounds = obj.getBoundingRect();
+        var keyPair = {
+          key: null,
+          value: null
+        };
+        var movement = {
+          x: obj.lockMovementX,
+          y: obj.lockMovementY
+        };
         // moving horizontally
         if(!obj.lockMovementX){
           if(bounds.left > 0){
             console.log("inside left bound");
-            obj.left = bounds.width/2;
-            obj.setCoords();
+            keyPair.key = 'left';
+            keyPair.value = bounds.width/2;
           }
           else if((bounds.width + bounds.left) < fabricCanvas.getWidth()){
             console.log("inside right bound");
-            obj.left = fabricCanvas.getWidth() - bounds.width/2;
-            obj.setCoords();
+            keyPair.key = 'left';
+            keyPair.value = fabricCanvas.getWidth() - bounds.width/2;
           }
         }
         // moving vertically
         else if(!obj.lockMovementY){
           if(bounds.top > 0){
             console.log("inside top bound");
-            obj.top = bounds.height/2;
-            obj.setCoords();
+            keyPair.key = 'top';
+            keyPair.value = bounds.height/2;
           }
           else if((bounds.height + bounds.top) < fabricCanvas.getHeight()){
             console.log("inside bottom bound");
-            obj.top = fabricCanvas.getHeight() - bounds.height/2;
-            obj.setCoords();
+            keyPair.key = 'top';
+            keyPair.value = fabricCanvas.getHeight() - bounds.height/2;
           }
+        }
+        if(keyPair.key){ // key.value could be 0 - lol :D
+          console.log("Animating to ", keyPair.key, keyPair.value);
+          isActionPerformable = false;
+          obj.lockMovementX = true;
+          obj.lockMovementY = true;
+          obj.animate(keyPair.key, keyPair.value, {
+            //easing: fabric.util.ease.easeOutBounce,
+            onChange: fabricCanvas.renderAll.bind(fabricCanvas),
+            onComplete: function(){
+              console.log("done");
+              isActionPerformable = true;
+              obj.lockMovementX = movement.x;
+              obj.lockMovementY = movement.y;
+            }
+          });
+          obj.setCoords();
         }
       }
 
@@ -911,9 +989,12 @@
           break;
       }
       // position customizer control
+      var customizerTop = obj.top - (obj.height/2) - parseInt(customizerControl.css('height').replace('px', '')) - 52;
+      if(customizerTop-10 <= 0 ){
+        customizerTop = obj.top + (obj.height/2) + 10;
+      }
       customizerControl.css('left', obj.left - customizerControl.width()/2);
-      customizerControl.css('top', obj.top - (obj.height/2) - 48 - 52 );
-
+      customizerControl.css('top', customizerTop);
     }
 
     function hideObjectCustomizer(){

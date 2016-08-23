@@ -219,9 +219,10 @@ Content : Start : Step 2
                         </div>
 
                         <!--<ptt-text-editor class="text-editor-parent" selected-object="vm.selectedObject" update-directive="vm.updateTextEditor"></ptt-text-editor>-->
-                        <ng-include src="'src/dashboard/layouts/textEditor.html'"></ng-include>
 
                         <div class="editor">
+                            <!-- Customizer Toolbar -->
+                            <ng-include src="'src/dashboard/layouts/textEditor.html'"></ng-include>
                             <!-- Canvas -->
                             <canvas id="canvas" ng-show="vm.readyToDisplay"></canvas>
                             <!-- Hidden Image For Filter -->
