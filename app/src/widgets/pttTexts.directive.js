@@ -103,7 +103,7 @@
       // pagination
 
       function selectedText(text, index) {
-        scope.texts[index].selected = true;
+        //scope.texts[index].selected = true;
         scope.onSelect({text: text});
       }
       

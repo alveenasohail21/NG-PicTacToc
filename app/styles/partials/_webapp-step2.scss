@@ -269,7 +269,7 @@ body.app{
   .ptt-sidebar-content-2.sidemenu-texts{
     padding: 15px 0 0 12px;
     div.text{
-      transition: 1s;
+      transition: opacity 1s;
       opacity: 0;
       margin: 9px 6px 0 0;
       position: relative;
@@ -300,6 +300,10 @@ body.app{
         font-style: italic;
       }
     }
+    div.text:focus, div.text:active{
+      border: 2px solid #65e0e4;
+      margin: 5px 2px 0 0;
+    }
     div.sample{
       margin: 5px
     }
@@ -315,7 +319,7 @@ body.app{
       width: 100%;
     }
     div.text-selected{
-      border: 3px solid #65e0e4 !important;
+      border: 2px solid #65e0e4;
     }
   }
 

@@ -20,7 +20,7 @@
 
     $rootScope.imageConstraints= {
       maxSize: '5MB',
-      minPhotoForProduct: 5
+      minPhotoForProduct: 1
     };
 
     var defaultQueryParams = {

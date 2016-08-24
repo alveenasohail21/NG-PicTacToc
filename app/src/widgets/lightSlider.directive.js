@@ -85,8 +85,8 @@
       // watch any change in photos
       scope.$watch('photos', function(newValue, oldValue){
         if(scope.photos.length < $rootScope.imageConstraints.minPhotoForProduct && $state.current.name!='Dashboard.Prints.Design'){
-          console.log("< 5 photos");
-          alertFactory.warning(null, "You need to have at least 5 photos in order to proceed");
+          console.log("< "+ $rootScope.imageConstraints.minPhotoForProduct +" photos");
+          alertFactory.warning(null, "You need to have at least "+ $rootScope.imageConstraints.minPhotoForProduct +" photo[s] in order to proceed");
           $state.go('^.Upload',{reload: true});
         }
         console.log("LIGHT SLIDER WATCH EXECUTED: ", newValue, oldValue);
