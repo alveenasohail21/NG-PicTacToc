@@ -123,7 +123,7 @@ Content : Start
                 </div>
                 <!-- Flickr Login Button -->
                 <div ng-if="!vm.flickrLogin && vm.uploadCategory=='flickr'" class="login-div flickr-login-div">
-                    <button ng-if="!vm.socialLoader['flickr']" class="btn flickr-login" ng-click="vm.socialLogin('flickr')">
+                    <button ng-if="!vm.socialLoader['flickr']" class="btn flickr-login" ng-click="vm.socialLogin('flickr')" disabled="true">
                         <i class="fa fa-flickr" aria-hidden="true"></i>
                         <span class="text">
                             <strong>Login</strong>
@@ -135,7 +135,7 @@ Content : Start
                 </div>
                 <!-- Google Login Button -->
                 <div ng-if="!vm.googleLogin && vm.uploadCategory=='google'" class="login-div google-login-div">
-                    <button ng-if="!vm.socialLoader['google']" class="btn google-login" ng-click="vm.socialLogin('google')">
+                    <button ng-if="!vm.socialLoader['google']" class="btn google-login" ng-click="vm.socialLogin('google')" disabled="true">
                         <i class="fa fa-google" aria-hidden="true"></i>
                         <span class="text">
                             <strong>Login</strong>

@@ -110,11 +110,11 @@
             if(!userFactory.getUserFromLocal()){
               console.log("User signup through social provider");
               console.log(resp.data.data);
-              Restangular.setDefaultHeaders({'token': 'Bearer {'+ $localStorage.token +'}'});
+              Restangular.setDefaultHeaders({'token': 'Bearer {'+ resp.data.token +'}'});
               userFactory.createUserInLocal(resp.data.data);
               $timeout(function(){
                 $state.go('Dashboard');
-              },1500);
+              },2500);
             }
             // user linked social platform
             else{
