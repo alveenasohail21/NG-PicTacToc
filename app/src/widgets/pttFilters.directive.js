@@ -126,7 +126,6 @@
       }
 
       function disableLoader(filter){
-        console.log("IN DIRECTIVE: ", filter);
         scope.$apply(function(){
           scope.filters[activeFilterIndex].showLoader = false;
         })
@@ -137,13 +136,11 @@
         // class will be applied automatically
         if(activeFilterIndex!=undefined && activeFilterIndex>=0){
           scope.filters[activeFilterIndex].selected = false;
-          // add new loader
           scope.filters[activeFilterIndex].showLoader = false;
         }
         if(index == activeFilterIndex){
           scope.filters[index].selected = false;
-          // add new loader
-          scope.filters[activeFilterIndex].showLoader = true;
+          scope.filters[index].showLoader = false;
           scope.onSelect({filter: 'normal', cb: disableLoader});
           scope.filters[scope.filters.length-1].selected = true;
           activeFilterIndex = scope.filters.length-1;
@@ -151,7 +148,6 @@
         else{
           activeFilterIndex = index;
           scope.filters[index].selected = true;
-          // add new loader
           scope.filters[activeFilterIndex].showLoader = true;
           scope.onSelect({filter: filter.name, cb: disableLoader});
         }
