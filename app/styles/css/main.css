@@ -351,7 +351,25 @@ body.app img.delete-loader {
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 397, ../partials/base/_global.scss */
+/* line 392, ../partials/base/_global.scss */
+body.app img.social-loader {
+  margin: 0 !important;
+  animation: loader 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+  transform: rotate(360deg);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 400, ../partials/base/_global.scss */
+body.app img.filter-loader {
+  margin: -70px 0 0 -75px !important;
+  width: 60px !important;
+  background: none !important;
+  animation: loader 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+  transform: rotate(360deg);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* line 414, ../partials/base/_global.scss */
 body.app .modal-backdrop {
   background-color: #cbced0;
   opacity: 0.71;
@@ -361,17 +379,17 @@ body.app .modal-backdrop {
 /*
 Scrollbar
 */
-/* line 408, ../partials/base/_global.scss */
+/* line 425, ../partials/base/_global.scss */
 *::-webkit-scrollbar {
   width: 10px;
 }
 
-/* line 412, ../partials/base/_global.scss */
+/* line 429, ../partials/base/_global.scss */
 *::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 10px 10px 10px rgba(255, 255, 255, 0.8);
 }
 
-/* line 416, ../partials/base/_global.scss */
+/* line 433, ../partials/base/_global.scss */
 *::-webkit-scrollbar-thumb {
   background-color: #f0f2f2;
   border-radius: 10px;
@@ -403,7 +421,7 @@ Key Frmaes
   }
 }
 /*ALERTS*/
-/* line 456, ../partials/base/_global.scss */
+/* line 473, ../partials/base/_global.scss */
 .alert-dismissible {
   position: fixed;
   top: 10px;
@@ -413,17 +431,17 @@ Key Frmaes
   transition: opacity 0.4s;
 }
 
-/* line 463, ../partials/base/_global.scss */
+/* line 480, ../partials/base/_global.scss */
 .alert-warning {
   border-top: 5px solid #8a6d3b;
 }
 
-/* line 466, ../partials/base/_global.scss */
+/* line 483, ../partials/base/_global.scss */
 .alert-danger {
   border-top: 5px solid #a94442;
 }
 
-/* line 469, ../partials/base/_global.scss */
+/* line 486, ../partials/base/_global.scss */
 .alert-success {
   border-top: 5px solid #3c763d;
 }
@@ -1647,17 +1665,27 @@ body.app .step1 .uploaded-images div.img .custom-svg-icon {
 body.app .step1 .uploaded-images div.img .custom-svg-icon img {
   height: 100%;
 }
-/* line 193, ../partials/_webapp-step1.scss */
+/* line 194, ../partials/_webapp-step1.scss */
+body.app .step1 .uploaded-images div.img .abort-uploading {
+  width: 60px;
+  height: 40px;
+  background: none !important;
+  top: 20px !important;
+  display: block;
+  margin-left: 20px !important;
+  border: none !important;
+}
+/* line 204, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .custom-svg-icon.blue-tick {
   opacity: 1;
 }
-/* line 195, ../partials/_webapp-step1.scss */
+/* line 206, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .custom-svg-icon.blue-tick img {
   height: 100%;
   padding: 4px 3px;
   transform: rotate(12deg);
 }
-/* line 201, ../partials/_webapp-step1.scss */
+/* line 212, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .fa-exclamation-circle {
   position: absolute;
   right: 4px;
@@ -1665,14 +1693,14 @@ body.app .step1 .uploaded-images div.img .fa-exclamation-circle {
   color: rgba(255, 32, 32, 0.8);
   font-size: 22px;
 }
-/* line 211, ../partials/_webapp-step1.scss */
+/* line 222, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img.img-upload-all .img-container {
   border-style: dashed;
   border-radius: 12px;
   border-color: #e0e5ea;
   background-color: #f4f7f9;
 }
-/* line 217, ../partials/_webapp-step1.scss */
+/* line 228, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img.img-upload-all .add-all-photos {
   font-family: Font_Open_Sans_Semibold;
   color: #59626a;
@@ -1682,11 +1710,11 @@ body.app .step1 .uploaded-images div.img.img-upload-all .add-all-photos {
   width: 100%;
   font-size: 15px;
 }
-/* line 227, ../partials/_webapp-step1.scss */
+/* line 238, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img:hover .custom-svg-icon {
   opacity: 1;
 }
-/* line 230, ../partials/_webapp-step1.scss */
+/* line 241, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img.add-all-photos {
   border-width: 1.119px;
   border-color: #e0e5ea;
@@ -1694,26 +1722,26 @@ body.app .step1 .uploaded-images div.img.add-all-photos {
   border-radius: 12px;
   background-color: #f4f7f9;
 }
-/* line 242, ../partials/_webapp-step1.scss */
+/* line 253, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons {
   height: 100%;
 }
-/* line 244, ../partials/_webapp-step1.scss */
+/* line 255, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon {
   height: 20%;
   text-align: center;
   cursor: pointer;
   margin-bottom: 3px;
 }
-/* line 250, ../partials/_webapp-step1.scss */
+/* line 261, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .custom-svg-icon {
   position: relative;
 }
-/* line 252, ../partials/_webapp-step1.scss */
+/* line 263, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .custom-svg-icon img, body.app .step1 .upload-icons .upload-icon .custom-svg-icon object {
   width: 32%;
 }
-/* line 255, ../partials/_webapp-step1.scss */
+/* line 266, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .custom-svg-icon .object-backdrop {
   position: absolute;
   top: 0;
@@ -1722,7 +1750,7 @@ body.app .step1 .upload-icons .upload-icon .custom-svg-icon .object-backdrop {
   height: 100%;
   background: transparent;
 }
-/* line 264, ../partials/_webapp-step1.scss */
+/* line 275, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .title {
   font-family: Font_Open_Sans_Semibold;
   color: #59626a;
@@ -1731,33 +1759,33 @@ body.app .step1 .upload-icons .upload-icon .title {
   word-spacing: 0px;
   font-size: 13px;
 }
-/* line 274, ../partials/_webapp-step1.scss */
+/* line 285, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon.active .title {
   color: #65e0e4;
 }
-/* line 278, ../partials/_webapp-step1.scss */
+/* line 289, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon:last-child {
   margin-bottom: 0;
 }
-/* line 286, ../partials/_webapp-step1.scss */
+/* line 297, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums {
   overflow: hidden;
   height: calc(100% - 123px - 20px);
   overflow-y: auto;
   margin-top: 20px;
 }
-/* line 291, ../partials/_webapp-step1.scss */
+/* line 302, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row {
   height: auto;
 }
-/* line 293, ../partials/_webapp-step1.scss */
+/* line 304, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 {
   margin: 0;
   padding: 0;
   padding-top: 50px;
   min-height: 220px;
 }
-/* line 298, ../partials/_webapp-step1.scss */
+/* line 309, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 p {
   margin: 0;
   bottom: 0;
@@ -1768,7 +1796,7 @@ body.app .step1 .fb-albums .row .col-sm-4 p {
   font-family: Font_Open_Sans_Bold;
   margin-bottom: -5px;
 }
-/* line 308, ../partials/_webapp-step1.scss */
+/* line 319, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square {
   width: 134px;
   height: 134px;
@@ -1783,27 +1811,27 @@ body.app .step1 .fb-albums .row .col-sm-4 div.square {
   left: 50%;
   margin-left: -69px;
 }
-/* line 326, ../partials/_webapp-step1.scss */
+/* line 337, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(1) {
   transform: rotate(-19deg);
 }
-/* line 329, ../partials/_webapp-step1.scss */
+/* line 340, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(2) {
   transform: rotate(-15deg);
 }
-/* line 332, ../partials/_webapp-step1.scss */
+/* line 343, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(3) {
   transform: rotate(-10deg);
 }
-/* line 339, ../partials/_webapp-step1.scss */
+/* line 350, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(1) {
   transform: rotate(0deg);
 }
-/* line 342, ../partials/_webapp-step1.scss */
+/* line 353, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(2) {
   transform: rotate(0deg);
 }
-/* line 345, ../partials/_webapp-step1.scss */
+/* line 356, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(3) {
   transform: rotate(0deg);
 }

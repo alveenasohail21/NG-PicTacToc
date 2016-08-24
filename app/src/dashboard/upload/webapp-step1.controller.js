@@ -26,9 +26,10 @@
      * */
 
     console.log("DATA FROM FACTORY: ", photosFactory._data.photos);
-
+    vm.socialLoader = authFactory.socialLoader;
     vm.myPhotos = photosFactory._data.photos;
     vm.myPhotosTotalCount = photosFactory._data.totalCount;
+
 
     vm.myPhotosPagination = {
       from: 0,
@@ -63,6 +64,7 @@
     //
     vm.noOfFilesUploading = 0;
     vm.showAlbumOrPhotos = true;
+
     // uploaded files count for single category
 
     console.log('vm.filesToUpload: ',vm.filesToUpload);
@@ -79,6 +81,7 @@
     vm.deletePhoto = deletePhoto;
     vm.socialDisconnect = socialDisconnect;
     vm.nextStep = nextStep;
+    vm.abortUploading=abortUploading;
 
 
     /*
@@ -171,13 +174,14 @@
 
     // social login
     function socialLogin(platform){
-      authFactory.socialAuthenticate(platform)
-        .then(function(resp) {
-          if (resp) {
-            // linked social account
-            changeUploadCategory(platform);
-          }
-        });
+      authFactory.loadLoader(platform);
+      console.log("at controller: ", vm.socialLoader);
+      authFactory.socialAuthenticate(platform).then(function(resp) {
+        if (resp) {
+          // linked social account
+          changeUploadCategory(platform);
+        }
+      });
     }
 
     //disconnect social login
@@ -318,7 +322,7 @@
         }
         for(var i=0;i<files.length;i++){
           uploadFactory.addFile(files[i], vm.uploadCategory);
-          addFilesToUploadQueue(i);
+          // addFilesToUploadQueue(i);
         }
         if(files.length>1 || vm.filesToUpload.length-1>vm.filesUploadedCountForDevice){
           console.log("> 1");
@@ -496,6 +500,9 @@
       }
     }
 
+    function abortUploading(file){
+      uploadFactory.abortUploading();
+    }
 
     /*
      * Call Constructor

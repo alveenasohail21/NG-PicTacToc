@@ -90,10 +90,15 @@
       scope.$watch('thumbnail', function(newValue, oldValue){
         console.log("FILTERS WATCH EXECUTED: ", newValue, oldValue);
         if(scope.thumbnail && 'base64' in scope.thumbnail){
-          scope.filters = [];
-          $timeout(function(){
-            setupFilters();
-          }, 1000);
+          // scope.filters = [];
+          if(!newValue.applyingFilter){
+            $timeout(function(){
+              setupFilters();
+            }, 1000);
+          }
+          else{
+
+          }
         }
       }, true);
 
@@ -139,6 +144,7 @@
           scope.onSelect({filter: filter.name});
         }
       }
+      console.log(scope.thumbnail.applyingFilter);
 
       // call initializer
       init();

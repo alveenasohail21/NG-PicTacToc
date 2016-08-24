@@ -18,7 +18,8 @@
       // social list
       socialFiles: []
     };
-
+    var upload;
+    var canceller=$q.defer();
     /* Return Functions */
     return {
       getFiles: getFiles,
@@ -26,6 +27,7 @@
       removeFiles: removeFiles,
       removeFile: removeFile,
       uploadFile: uploadFile,
+      abortUploading: abortUploading,
       _data: _data
     };
 
@@ -47,12 +49,12 @@
 
     function removeFiles(category){
       console.log("removing files from upload factory  ****************");
-        if(category == 'device'){
-          _data.deviceFiles = [];
-        }
-        else{
-          _data.socialFiles = [];
-        }
+      if(category == 'device'){
+        _data.deviceFiles = [];
+      }
+      else{
+        _data.socialFiles = [];
+      }
       console.log("REMOVED FROM FACTORY", _data);
     }
 
@@ -61,7 +63,6 @@
       _data.splice(index, 1);
       console.log("REMOVED FROM FACTORY", _data);
     }
-
     function uploadFile(index, uploadCategory, callback){
       // set url on the basis of uploadCategory
       var url;
@@ -72,6 +73,7 @@
           file = _data.deviceFiles[index];
           break;
         case 'facebook':
+
         case 'instagram':
           url = API_URL + '/photos/upload/social';
           file = _data.socialFiles[index];
@@ -81,8 +83,8 @@
       console.log("uploading file from upload Factory: ", _data.deviceFiles[index]);
       // added here only for progress :/
       if (file) {
-
-        Upload.upload({
+        canceller.resolve();
+        upload=Upload.upload({
           method: 'POST',
           url: url,
           data: {
@@ -93,7 +95,6 @@
             'token': 'Bearer {' + $localStorage.token + '}'
           }
         }).then(success, error, progress);
-
       }
 
       function success(response){
@@ -111,7 +112,6 @@
           if(callback){
             callback(true, file);
           }
-
         }
       }
 
@@ -134,9 +134,12 @@
       function progress(evt){
         // set progress for the upload bar
         file.progress = parseInt(100.0 * evt.loaded / evt.total).toString() + "%";
+        // evt.abort();
       }
 
     }
-
+    function abortUploading(){
+      console.log(upload);
+    }
   }
 }());

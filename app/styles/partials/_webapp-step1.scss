@@ -190,6 +190,17 @@ body.app{
             height: 100%;
           }
         }
+
+        .abort-uploading{
+          width: 60px;
+          height: 40px;
+          background: none !important;
+          top: 20px !important;
+          display: block;
+          margin-left: 20px !important;
+          border: none !important;
+        }
+
         .custom-svg-icon.blue-tick{
           opacity: 1;
           img{

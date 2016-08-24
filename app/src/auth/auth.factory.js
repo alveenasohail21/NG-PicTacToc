@@ -11,7 +11,13 @@
     .factory('authFactory', authFactory);
 
   function authFactory($q, alertFactory, $auth, userFactory, $localStorage, $state, $timeout, Restangular, restFactory, $rootScope){
-
+    // var socialLoader={
+    //   facebook: false,
+    //   google: false,
+    //   flickr: false,
+    //   instagram: false
+    // };
+    var socialLoader=[];
     /* Return Functions */
     return {
       login: login,
@@ -19,7 +25,9 @@
       socialAuthenticate: socialAuthenticate,
       logout: logout,
       forgotEmailSend: forgotEmailSend,
-      socialDisconnect: socialDisconnect
+      socialDisconnect: socialDisconnect,
+      socialLoader: socialLoader,
+      loadLoader: loadLoader
     };
 
     /* Define Fuctions */
@@ -76,8 +84,11 @@
         });
       return defer.promise;
     }
-
+    function loadLoader(provider){
+      socialLoader[provider]=true;
+    }
     function socialAuthenticate(provider){
+      console.log("At factory", socialLoader);
       console.log("auth factory social authenticate provider: ", provider);
       var defer = $q.defer();
       //console.log($auth.getToken().slice(1, $auth.getToken().length-1));
@@ -119,12 +130,15 @@
             }
           }
           else{
-            alertFactory.error(null,resp.data.message);
+            alertFactory.error(null, resp.data.message);
           }
           defer.resolve(resp);
         }, function(err){
+          socialLoader[provider]=false;
           defer.reject(err);
         });
+      socialLoader[provider]=false;
+
       return defer.promise;
     }
 
