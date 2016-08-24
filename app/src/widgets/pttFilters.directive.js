@@ -107,6 +107,9 @@
         for(var i=0; i<filters.length; i++){
           (function(){
             var filterToApply = filters[i].name;
+            if($('.sidemenu-filters img#'+filterToApply).length <= 0 ){
+              return;
+            }
             Caman('.sidemenu-filters img#'+filterToApply, function () {
               var that = this;
               //that.revert(true);

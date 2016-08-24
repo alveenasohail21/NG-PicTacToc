@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="height: 100% !important; min-height: 100% !important;">
 
             <div class="steps">
-                <div class="step step-1" ng-class="{'active': $root.stateUrl=='/upload'}" ui-sref="{{$root.app.productState + '.Upload'}}">
+                <div class="step step-1" ng-class="{'active': $root.stateUrl=='/upload'}" ng-click="vm.goToState($root.app.productState + '.Upload')">
                     <div class="custom-svg-icon gray-camera" ng-if="$root.stateUrl!='/upload'">
                         <!--<object class="" type="image/svg+xml" data="svgs/gray-camera.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/gray-camera.svg">

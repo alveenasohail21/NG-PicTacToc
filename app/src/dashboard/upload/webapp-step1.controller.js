@@ -490,7 +490,7 @@
     function nextStep(stateName){
       console.log(stateName);
       if(vm.myPhotos.length<$rootScope.imageConstraints.minPhotoForProduct){
-        alertFactory.warning(null, "You need to have at least 5 photos in order to proceed");
+        alertFactory.warning(null, "You need to have at least "+$rootScope.imageConstraints.minPhotoForProduct+" photos in order to proceed");
       }
       else if(vm.noOfFilesUploading>0){
         alertFactory.warning(null, "Please wait for the upload to finish");

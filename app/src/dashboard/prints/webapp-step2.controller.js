@@ -123,6 +123,8 @@
     // Customizer
     vm.updateTextSize = updateTextSize;
     vm.updateTextColor = updateTextColor;
+    // nextstep
+    vm.goToState = goToState;
 
 
     /* Initializer */
@@ -191,6 +193,13 @@
     }
 
     function toggleSidemenu(template){
+      // if addMorePhotos
+      if(template == 'addMorePhotos'){
+        saveCanvasState();
+        $state.go('^.Upload');
+        return;
+      }
+
       // if opening
       if(!$("#ptt-wrapper-2").hasClass("toggled")){
         console.log("opening");
@@ -1065,7 +1074,35 @@
         }
       }
     });
+
+    /***************/
+    function goToState(stateName){
+      saveCanvasState();
+      // go to state
+      console.log(stateName);
+      if(stateName.indexOf('Upload')>=0){
+        console.log("going");
+        $state.go('^.Upload');
+      }
+      else{
+        $state.go(stateName);
+      }
+    }
+
+    function saveCanvasState(){
+      fabricCanvas.deactivateAll();
+      // save the already active image with settings
+      vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
+      vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
+      vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
+      // clear canvas
+      //fabricCanvas.clear();
+      // hide customizer
+      hideObjectCustomizer();
+    }
+
     /* Initializer Call */
+
     init();
   }
 
