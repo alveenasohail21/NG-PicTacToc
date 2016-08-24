@@ -19,6 +19,7 @@
       show: false,
       class: "alert-success"
     };
+    var defaultTimeout = 8000; // 8 seconds
 
     $rootScope.alert = alert;
 
@@ -31,7 +32,7 @@
 
 
     /* Define Fuctions */
-    function success(title, message) {
+    function success(title, message, leaveOpen) {
       $rootScope.alert.class = 'alert-success';
       $rootScope.alert.title = title || 'Success: ';
       $rootScope.alert.message = message;
@@ -39,10 +40,11 @@
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '1');
       });
-      removeAlert(5000);
+      if(!leaveOpen)
+        removeAlert(defaultTimeout);
     }
 
-    function error(title, message) {
+    function error(title, message, leaveOpen) {
       $rootScope.alert.class = 'alert-danger';
       $rootScope.alert.title = title || 'Error: ';
       $rootScope.alert.message = message;
@@ -50,9 +52,10 @@
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '1');
       });
-      removeAlert(5000);
+      if(!leaveOpen)
+        removeAlert(defaultTimeout);
     }
-    function warning(title, message) {
+    function warning(title, message, leaveOpen) {
       $rootScope.alert.class = 'alert-warning';
       $rootScope.alert.title = title || 'Warning: ';
       $rootScope.alert.message = message;
@@ -60,7 +63,8 @@
       $timeout(function(){
         $('.alert.alert-dismissible').css('opacity', '1');
       });
-      removeAlert(5000);
+      if(!leaveOpen)
+        removeAlert(defaultTimeout);
     }
     function removeAlert(time){
       $timeout(function(){
