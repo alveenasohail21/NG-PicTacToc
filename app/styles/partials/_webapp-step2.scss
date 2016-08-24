@@ -200,7 +200,8 @@ body.app{
       display: inline-block;
       text-align: center;
       padding: 13px 3px 0;
-      img, canvas{
+      position: relative;
+      img:not(.filter-loader), canvas{
         cursor: pointer;
         width: 75px;
         height: 75px;
@@ -208,7 +209,7 @@ body.app{
         border-radius: 10px;
         margin: 0 3px;
       }
-      img:hover{
+      img:not(.filter-loader):hover{
         transform: scale3d(1.1, 1.1, 1);
       }
       canvas:hover{
@@ -221,6 +222,13 @@ body.app{
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
+      }
+      .filter-loader{
+        visibility: hidden;
+        border: none;
+      }
+      .filter-loader-show{
+        visibility: visible;
       }
     }
 

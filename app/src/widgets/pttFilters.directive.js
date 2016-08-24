@@ -60,6 +60,7 @@
     function link(scope, elem, attrs){
 
       scope.selectedFilter = selectedFilter;
+      scope.showFilterLoader=[];
 
       // Initializer
       function init(){
@@ -91,15 +92,14 @@
         console.log("FILTERS WATCH EXECUTED: ", newValue, oldValue);
         if(scope.thumbnail && 'base64' in scope.thumbnail){
           // scope.filters = [];
-          if(!newValue.applyingFilter){
-            $timeout(function(){
-              setupFilters();
-            }, 1000);
-          }
-          else{
-
-          }
+          $timeout(function(){
+            setupFilters();
+          }, 1000);
         }
+      }, true);
+
+      scope.$watch('showFilterLoader', function(newValue, oldValue){
+        console.log("value changed");
       }, true);
 
       // apply filters
@@ -125,26 +125,37 @@
         }
       }
 
+      function disableLoader(filter){
+        console.log("IN DIRECTIVE: ", filter);
+        scope.$apply(function(){
+          scope.filters[activeFilterIndex].showLoader = false;
+        })
+      }
+
       function selectedFilter(filter, index) {
         // remove old selected filter
         // class will be applied automatically
         if(activeFilterIndex!=undefined && activeFilterIndex>=0){
-          console.log("active filter: "+activeFilterIndex);
           scope.filters[activeFilterIndex].selected = false;
+          // add new loader
+          scope.filters[activeFilterIndex].showLoader = false;
         }
         if(index == activeFilterIndex){
           scope.filters[index].selected = false;
-          scope.onSelect({filter: 'normal'});
+          // add new loader
+          scope.filters[activeFilterIndex].showLoader = true;
+          scope.onSelect({filter: 'normal', cb: disableLoader});
           scope.filters[scope.filters.length-1].selected = true;
           activeFilterIndex = scope.filters.length-1;
         }
         else{
           activeFilterIndex = index;
           scope.filters[index].selected = true;
-          scope.onSelect({filter: filter.name});
+          // add new loader
+          scope.filters[activeFilterIndex].showLoader = true;
+          scope.onSelect({filter: filter.name, cb: disableLoader});
         }
       }
-      console.log(scope.thumbnail.applyingFilter);
 
       // call initializer
       init();

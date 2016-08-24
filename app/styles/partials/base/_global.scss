@@ -398,13 +398,13 @@ body.app {
   }
 
   img.filter-loader{
-    margin: -70px 0 0 -75px !important;
-    width: 60px !important;
-    background: none !important;
+    position: absolute;
+    width: 20px;
+    top: 50%;
+    margin-top: -10px;
+    left: 50%;
+    margin-left: -10px;
     animation: loader 0.82s cubic-bezier(.36,.07,.19,.97) infinite;
-    transform: rotate(360deg);
-    backface-visibility: hidden;
-    perspective: 1000px;
   }
 
 

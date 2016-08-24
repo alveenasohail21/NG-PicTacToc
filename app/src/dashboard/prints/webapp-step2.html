@@ -12,7 +12,6 @@ Content : Start : Step 2
 -->
 <span class="step2-main">
 <div class="ptt-content" id="ptt-wrapper">
-
     <!-- Main Sidebar : Start -->
     <div id="ptt-sidebar-wrapper">
         <!-- Action Icons 2 : Start -->
@@ -88,7 +87,7 @@ Content : Start : Step 2
             <!-- Sub Sidebar : Start -->
             <div id="ptt-sidebar-wrapper-2">
                 <!--<span ng-include="vm.sideMenuTemplate" ng-if="vm.activeSidemenuItem == 'layouts'"></span>-->
-                <ptt-filters thumbnail="vm.selectedPhoto.thumbnail" on-select="vm.applyFilter(filter)"  ng-show="vm.activeSidemenuItem == 'filters'"></ptt-filters>
+                <ptt-filters thumbnail="vm.selectedPhoto.thumbnail" on-select="vm.applyFilter(filter, cb)"  ng-show="vm.activeSidemenuItem == 'filters'"></ptt-filters>
                 <ptt-stickers on-select="vm.applySticker(sticker)" ng-show="vm.activeSidemenuItem == 'stickers'"></ptt-stickers>
                 <ptt-texts on-select="vm.applyText(text)" ng-show="vm.activeSidemenuItem == 'texts'"></ptt-texts>
                 <ptt-layouts on-select="vm.applyLayout(layout)" ng-show="vm.activeSidemenuItem == 'layouts'"></ptt-layouts>

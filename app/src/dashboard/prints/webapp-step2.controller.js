@@ -93,7 +93,6 @@
     var isActionPerformable = true;
 
 
-
     /* Function Assignment */
     vm.toggleSidemenu = toggleSidemenu;
     vm.closeSidemenu = closeSidemenu;
@@ -520,7 +519,7 @@
     /************************************* FILTERS *************************************/
 
     // apply filter
-    function applyFilter(filter){
+    function applyFilter(filter, cb){
 
       console.log("FILTER TO APPLY: ", filter);
       // add new filter
@@ -537,10 +536,6 @@
             this[filter]();
             break;
         }
-
-
-        vm.selectedPhoto.thumbnail.applyingFilter=true;
-
         this.render(function(){
           // destroy cropper and set it for filtered image
           vm.selectedPhoto.filteredImage = this.toBase64();
@@ -548,7 +543,6 @@
           img.src = this.toBase64();
           img.onload = function() {
             // if fabric is loaded from JSON
-
             if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
               var fabricImgObj = fabricCanvas.getObjects()[0];
               fabricImgObj.setElement(img);
@@ -557,8 +551,8 @@
             else{
               canvasBkgImg.instance.setElement(img);
             }
+            cb();
             fabricCanvas.renderAll();
-            vm.selectedPhoto.thumbnail.applyingFilter=false;
           };
         });
       });
