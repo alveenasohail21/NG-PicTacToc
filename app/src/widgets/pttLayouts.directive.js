@@ -286,12 +286,12 @@
       // setup text
       function setupLayouts(){
         if(layouts.length>0){
-          console.log("RUNNING LAYOUTS SETUP: ");
+          // console.log("RUNNING LAYOUTS SETUP: ");
           scope.layouts = layouts;
           loadLayouts();
         }
         else{
-          console.log("NO LAYOUT, NO SETUP");
+          // console.log("NO LAYOUT, NO SETUP");
         }
       }
 
@@ -300,7 +300,7 @@
         for(var i=0; i<scope.layouts.length; i++){
           (function(){
             var layoutsToLoad = scope.layouts[i];
-            console.log("LOADING LAYOUTS: ", layoutsToLoad);
+            // console.log("LOADING LAYOUTS: ", layoutsToLoad);
 
           }());
         }

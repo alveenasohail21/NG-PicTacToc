@@ -52,14 +52,14 @@
 
         if(scope.keepAspectRatio){
           // keep aspect ratio and put image in center
-          console.log("ELEM: ", elem, elem[0].naturalWidth, elem[0].naturalHeight);
+          // console.log("ELEM: ", elem, elem[0].naturalWidth, elem[0].naturalHeight);
           if(elem[0].naturalWidth > elem[0].naturalHeight){
             $(elem).css('height', '100%');
           }
           else{
             $(elem).css('width', '100%');
           }
-          //console.log('ELEM WIDTH HEIGHT: ', elem.width(), elem.height());
+          //// console.log('ELEM WIDTH HEIGHT: ', elem.width(), elem.height());
           //$(elem).css({
           //  position: 'absolute',
           //  top: '50%',

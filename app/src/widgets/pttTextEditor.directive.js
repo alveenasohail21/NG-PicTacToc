@@ -57,8 +57,8 @@
 
       // watch any change in selectedObject
       scope.$watch('updateDirective', function(newValue, oldValue){
-        console.log("TEXT EDITOR WATCH EXECUTED: ", newValue, oldValue);
-        console.log(scope.selectedObject);
+        // console.log("TEXT EDITOR WATCH EXECUTED: ", newValue, oldValue);
+        // console.log(scope.selectedObject);
         //customizer.css('left', scope.selectedObject.left);
       });
 

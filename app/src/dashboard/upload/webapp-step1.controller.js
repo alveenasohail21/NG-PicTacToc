@@ -25,7 +25,7 @@
      * Variables
      * */
 
-    console.log("DATA FROM FACTORY: ", photosFactory._data.photos);
+    // console.log("DATA FROM FACTORY: ", photosFactory._data.photos);
     vm.socialLoader = authFactory.socialLoader;
     vm.myPhotos = photosFactory._data.photos;
     vm.myPhotosTotalCount = photosFactory._data.totalCount;
@@ -67,7 +67,7 @@
 
     // uploaded files count for single category
 
-    console.log('vm.filesToUpload: ',vm.filesToUpload);
+    // console.log('vm.filesToUpload: ',vm.filesToUpload);
 
     /*
      * Functions
@@ -89,8 +89,8 @@
      * */
 
     function init(){
-      console.log(vm.showAlbumOrPhotos);
-      console.log(vm.uploadCategory);
+      // console.log(vm.showAlbumOrPhotos);
+      // console.log(vm.uploadCategory);
       manipulateDOM();
       loadMoreMyPhotos();
       if(location.href.indexOf('?platform=')!=-1){
@@ -175,7 +175,7 @@
     // social login
     function socialLogin(platform){
       authFactory.loadLoader(platform);
-      console.log("at controller: ", vm.socialLoader);
+      // console.log("at controller: ", vm.socialLoader);
       authFactory.socialAuthenticate(platform).then(function(resp) {
         if (resp) {
           // linked social account
@@ -239,16 +239,16 @@
       // if getNext is true, pass the paging cursor
       if(getNext && vm.fb.albums.photosPagination.next){
         nextCursor = vm.fb.albums.photosPagination.next;
-        console.log("next photos paging: ", vm.fb.albums.photosPagination.next);
+        // console.log("next photos paging: ", vm.fb.albums.photosPagination.next);
       }
       else if(vm.fb.albums.photosPagination && !('next' in vm.fb.albums.photosPagination)){
-        console.log("no next image");
+        // console.log("no next image");
         return;
       }
       pttFBFactory.getAlbumPhotos(vm.fb.albums[index].id, index, nextCursor)
         .then(function(resp){
           // resp = { data: [], paging:{} }
-          console.log(resp);
+          // console.log(resp);
           resp.data.forEach(function(elem, index){
             //vm.filesToUpload.push(elem);
             uploadFactory.addFile(elem, vm.uploadCategory);
@@ -270,16 +270,16 @@
       // if getNext is true, pass the paging cursor
       if(getNext && vm.instagram.photos.pagination.next_url){
         nextCursor = vm.instagram.photos.pagination.next_url;
-        console.log("next photos paging: ", vm.instagram.photos.pagination.next_url);
+        // console.log("next photos paging: ", vm.instagram.photos.pagination.next_url);
       }
       else if(vm.instagram.photos.pagination && !('next_url' in vm.instagram.photos.pagination)){
-        console.log("no next image");
+        // console.log("no next image");
         return;
       }
 
       pttInstagram.getPhotos(nextCursor)
         .then(function(resp){
-          console.log(resp);
+          // console.log(resp);
           resp.data.forEach(function(elem, index){
             //vm.filesToUpload.push(elem);
             uploadFactory.addFile(elem, vm.uploadCategory);
@@ -309,12 +309,12 @@
 
 
     function selectFiles(files, invalidFiles) {
-      // console.log(files, invalidFiles);
+      // // console.log(files, invalidFiles);
 
       checkFileErrors(invalidFiles);
       // return;
 
-      console.log(invalidFiles);
+      // console.log(invalidFiles);
       if(files.length>0){
         // first update category
         if(vm.uploadCategory!='device'){
@@ -325,7 +325,7 @@
           // addFilesToUploadQueue(i);
         }
         if(files.length>1 || vm.filesToUpload.length-1>vm.filesUploadedCountForDevice){
-          console.log("> 1");
+          // console.log("> 1");
           vm.showAllUploadButtonForDevice = true;
         }
       }
@@ -347,7 +347,7 @@
             callback(file);
           }
         });
-        console.log("added file to queue: ",vm.filesToUpload[index]);
+        // console.log("added file to queue: ",vm.filesToUpload[index]);
       }
       // if all files
       else{
@@ -369,7 +369,7 @@
                   callback(file);
                 }
               });
-              console.log("added file to queue: ",vm.filesToUpload[k]);
+              // console.log("added file to queue: ",vm.filesToUpload[k]);
             }
           }());
         }
@@ -381,10 +381,10 @@
           // update showAllUploadButton
           if(vm.filesToUpload.length-1 <= vm.filesUploadedCountForDevice){
             vm.showAllUploadButtonForDevice = false;
-            console.log("< 1");
+            // console.log("< 1");
           }
           else{
-            console.log("> 1");
+            // console.log("> 1");
             vm.showAllUploadButtonForDevice = true;
           }
         }
@@ -393,10 +393,10 @@
           // update showAllUploadButton
           if(vm.filesToUpload.length-1 <= vm.filesUploadedCountForSocial){
             vm.showAllUploadButtonForSocial = false;
-            console.log("< 1");
+            // console.log("< 1");
           }
           else{
-            console.log("> 1");
+            // console.log("> 1");
             vm.showAllUploadButtonForSocial= true;
           }
         }
@@ -406,18 +406,18 @@
 
     function bindLoadMoreSocialPhotosScroll(){
       var uploadImagesDiv = angular.element('div.uploaded-images');
-      //console.log(uploadImagesDiv);
+      //// console.log(uploadImagesDiv);
       uploadImagesDiv.off('scroll');
       uploadImagesDiv.scroll(function(){
         var offset = 50;
         var uploadImagesDivHeight = uploadImagesDiv.height();
         var scrollBottom = uploadImagesDiv.scrollTop() + uploadImagesDivHeight;
         var uploadImageDivScrollHeight = uploadImagesDiv[0].scrollHeight;
-        //console.log("scrollBottom: ",Math.floor(scrollBottom));
-        //console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
-        //console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
+        //// console.log("scrollBottom: ",Math.floor(scrollBottom));
+        //// console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
+        //// console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
         if(scrollBottom == uploadImageDivScrollHeight){
-          console.log("fetching more images");
+          // console.log("fetching more images");
           switch(vm.uploadCategory){
             case 'facebook':
               chooseAlbum(vm.fb.currentAlbumIndex, true);
@@ -432,7 +432,7 @@
 
     function bindLoadMoreFBAlbumsScroll(){
       var uploadImagesDiv = angular.element('div.fb-albums');
-      console.log(uploadImagesDiv);
+      // console.log(uploadImagesDiv);
       uploadImagesDiv.off('scroll');
       uploadImagesDiv.scroll(function(){
         var offset = 50;
@@ -440,7 +440,7 @@
         var scrollBottom = uploadImagesDiv.scrollTop() + uploadImagesDivHeight;
         var uploadImageDivScrollHeight = uploadImagesDiv[0].scrollHeight;
         if(scrollBottom == uploadImageDivScrollHeight){
-          console.log("fetching more albums");
+          // console.log("fetching more albums");
           getFBAlbums('next');
         }
       });
@@ -466,17 +466,17 @@
 
     function loadMoreMyPhotos(){
       if(vm.myPhotosTotalCount > vm.myPhotos.length){
-        console.log("******** Loading More Photos ********", vm.myPhotosTotalCount, vm.myPhotos.length);
+        // console.log("******** Loading More Photos ********", vm.myPhotosTotalCount, vm.myPhotos.length);
         // load new photos
         vm.myPhotosPagination.from += 12;
         photosFactory.getPhotos(vm.myPhotosPagination)
           .then(function(resp){
-            console.log("new photos length: ", resp.photos.length);
+            // console.log("new photos length: ", resp.photos.length);
             resp['photos'].forEach(function(elem, index){
               //vm.myPhotos.push(elem);
             });
             if(vm.myPhotosTotalCount >= vm.myPhotos.length){
-              console.log("all photos are loaded");
+              // console.log("all photos are loaded");
             }
             else{
               loadMoreMyPhotos();
@@ -488,7 +488,7 @@
 
     /***************/
     function nextStep(stateName){
-      console.log(stateName);
+      // console.log(stateName);
       if(vm.myPhotos.length<$rootScope.imageConstraints.minPhotoForProduct){
         alertFactory.warning(null, "You need to have at least "+$rootScope.imageConstraints.minPhotoForProduct+" photos in order to proceed");
       }

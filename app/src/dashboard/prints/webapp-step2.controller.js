@@ -155,7 +155,7 @@
       //    }
       //    zoomSliderPrevValue = data.value;
       //    fabricCanvas.zoomToPoint( point, data.value);
-      //    console.log("fabricCanvas.getZoom(): ", fabricCanvas.getZoom());
+      //    //console.log("fabricCanvas.getZoom(): ", fabricCanvas.getZoom());
       //    fabricCanvas.renderAll();
       //  }
       //});
@@ -202,7 +202,7 @@
 
       // if opening
       if(!$("#ptt-wrapper-2").hasClass("toggled")){
-        console.log("opening");
+        //console.log("opening");
         vm.sideMenuTemplate = 'src/dashboard/sidemenu/'+template+'.html';
         $rootScope.$emit('sidemenuToggles', {
           previousTemplate: vm.activeSidemenuItem,
@@ -223,7 +223,7 @@
         }
         // closing
         else{
-          console.log("closing");
+          //console.log("closing");
           $rootScope.$emit('sidemenuToggles', {
             previousTemplate: vm.activeSidemenuItem,
             currentTemplate: null
@@ -264,7 +264,7 @@
     $(window).resize(updateImageEditorSize);
 
     function updateImageEditorSize(event, runningFirstTime){
-      //console.log("resizing :)");
+      ////console.log("resizing :)");
       var imageStudio = {
         height: $("#image-studio").height(),
         width: $("#image-studio").width()
@@ -280,17 +280,17 @@
       if(imageStudio.height < imageStudio.width){
         // new width = (new height)/(original height / original width)
         updateValue = (imageStudio.height)/(element.original.height/element.original.width);
-        //console.log("height is small");
+        ////console.log("height is small");
       }
       // else if image studio width is small
       else if(imageStudio.width < imageStudio.height){
         // new height = (original height / original width) x (new width)
         updateValue = (element.original.height/element.original.width) * (imageStudio.width);
-        //console.log("width is small");
+        ////console.log("width is small");
       }
 
       // update css
-      //console.log("change height and width to: ", updateValue);
+      ////console.log("change height and width to: ", updateValue);
       $("#image-studio .element").width(updateValue);
       $("#image-studio .element").height(updateValue);
       $("#image-studio .element").css({
@@ -301,14 +301,14 @@
       // set zoom and dimensions of canvas
       // got from canvas test
       scaleFactor = updateValue/element.original.width;
-      console.log("--- FACTOR SCALE ---", scaleFactor);
+      //console.log("--- FACTOR SCALE ---", scaleFactor);
       if(scallingFirstTime){
         //fabricCanvas.setZoom((scaleFactor*scaleConstant));
       }
       else{
         //fabricCanvas.setZoom(fabricCanvas.getZoom() + (scaleFactor*scaleConstant));
       }
-      console.log("CURRENT ZOOM: ", fabricCanvas.getZoom());
+      //console.log("CURRENT ZOOM: ", fabricCanvas.getZoom());
       //fabricCanvas.setDimensions({
       //  width: updateValue,
       //  height: updateValue
@@ -333,7 +333,7 @@
         vm.myPhotosPagination.from += 12;
         photosFactory.getPhotos(vm.myPhotosPagination)
           .then(function (resp) {
-            console.log("new photos length: ", resp.photos.length);
+            //console.log("new photos length: ", resp.photos.length);
             resp['photos'].forEach(function (elem, index) {
               //vm.myPhotos.push(elem);
             });
@@ -342,7 +342,7 @@
               loadMoreMyPhotos();
             }
             else {
-              console.log("all photos are loaded");
+              //console.log("all photos are loaded");
             }
           });
       }
@@ -370,7 +370,7 @@
         fabricCanvas.clear();
         // render all
         fabricCanvas.renderAll();
-        console.log("SAVED CANVAS JSON: ",vm.myPhotos[canvasBkgImg.photoIndex]);
+        //console.log("SAVED CANVAS JSON: ",vm.myPhotos[canvasBkgImg.photoIndex]);
       }
 
       // get photo now
@@ -378,8 +378,8 @@
         // the new selected image has JSON data
         if(vm.myPhotos[index].canvasJSON ){
           fabricCanvas.loadFromJSON(vm.myPhotos[index].canvasJSON , function(){
-            console.log("LOADED FROM JSON");
-            console.log('vm.selectedPhoto: ', vm.selectedPhoto);
+            //console.log("LOADED FROM JSON");
+            //console.log('vm.selectedPhoto: ', vm.selectedPhoto);
             // save index
             canvasBkgImg.photoIndex = index;
             canvasBkgImg.active = true;
@@ -448,7 +448,7 @@
           };
           vm.selectedPhoto.thumbnail.applyingFilter=false;
 
-          console.log('vm.selectedPhoto: ', vm.selectedPhoto);
+          //console.log('vm.selectedPhoto: ', vm.selectedPhoto);
           // load image in controller
           canvasImage.src = vm.selectedPhoto.original.base64;
           canvasImage.onload = function() {
@@ -530,7 +530,7 @@
     // apply filter
     function applyFilter(filter, cb){
 
-      console.log("FILTER TO APPLY: ", filter);
+      //console.log("FILTER TO APPLY: ", filter);
       // add new filter
       vm.selectedPhoto.filter = filter;
       // apply filter
@@ -590,7 +590,7 @@
     /************************************* TEXTS *************************************/
 
     function applyText(text){
-      console.log(text);
+      //console.log(text);
       if(text.url && text.isActive){
         var fabricText = new fabric.IText('Add Heading', {
           id: (new Date().getTime() / 1000),
@@ -612,7 +612,7 @@
     /************************************* LAYOUTS *************************************/
 
     function applyLayout(layout){
-      console.log(layout);
+      //console.log(layout);
       var layoutCloned = angular.copy(layout);
       if(layoutCloned.data.length>0){
         // remove all previous layouts from canvas
@@ -657,7 +657,7 @@
     }
 
     function rotateClockwise(){
-      console.log("rotating clockwise");
+      //console.log("rotating clockwise");
       if(!isActionPerformable){
         return;
       }
@@ -737,7 +737,7 @@
     function copySelectedObject(){
       var selectedElem = fabricCanvas.getActiveObject();
       if(selectedElem!=null){
-        console.log("running COPY");
+        //console.log("running COPY");
         var clonedObj = fabric.util.object.clone(selectedElem);
         clonedObj.set("top", clonedObj.top+10);
         clonedObj.set("left", clonedObj.left+10);
@@ -779,14 +779,14 @@
     }
 
     function fixBackgroundScalingAndLocking(object, reverse){
-      console.log("reversing locks");
+      //console.log("reversing locks");
       if(object.lockMovementX){
-        console.log("lockMovementY");
+        //console.log("lockMovementY");
         object.lockMovementX = false;
         object.lockMovementY = true;
       }
       else if(object.lockMovementY){
-        console.log("lockMovementX");
+        //console.log("lockMovementX");
         object.lockMovementX = true;
         object.lockMovementY = false;
       }
@@ -822,7 +822,7 @@
             if('isEditing' in e.target && e.target.isEditing){
               // set it to true
               textInEdtitingMode = true;
-              console.log("Editing mode is ON, returning");
+              //console.log("Editing mode is ON, returning");
               return;
             }
             textInEdtitingMode = false;
@@ -832,7 +832,7 @@
         'mouse:up': function(e) {
           var obj = e.target;
           if(textInEdtitingMode){
-            console.log("Editing mode is ON, returning");
+            //console.log("Editing mode is ON, returning");
             return;
           }
           if (obj) {
@@ -843,7 +843,7 @@
                 fabricCanvas.deactivateAll();
                 break;
               default:
-                console.log("Obj index: ", fabricCanvas.getObjects());
+                //console.log("Obj index: ", fabricCanvas.getObjects());
                 var newIndex = fabricCanvas.getObjects().length;
                 fabricCanvas.moveTo(obj, newIndex);
                 fabricCanvas.setActiveObject(obj);
@@ -857,7 +857,7 @@
         },
         'object:selected': function(e){
           if(textInEdtitingMode){
-            console.log("Editing mode is ON, returning");
+            //console.log("Editing mode is ON, returning");
             return;
           }
           if(e.target){
@@ -904,12 +904,12 @@
         // moving horizontally
         if(!obj.lockMovementX){
           if(bounds.left > 0){
-            console.log("inside left bound");
+            //console.log("inside left bound");
             keyPair.key = 'left';
             keyPair.value = bounds.width/2;
           }
           else if((bounds.width + bounds.left) < fabricCanvas.getWidth()){
-            console.log("inside right bound");
+            //console.log("inside right bound");
             keyPair.key = 'left';
             keyPair.value = fabricCanvas.getWidth() - bounds.width/2;
           }
@@ -917,18 +917,18 @@
         // moving vertically
         else if(!obj.lockMovementY){
           if(bounds.top > 0){
-            console.log("inside top bound");
+            //console.log("inside top bound");
             keyPair.key = 'top';
             keyPair.value = bounds.height/2;
           }
           else if((bounds.height + bounds.top) < fabricCanvas.getHeight()){
-            console.log("inside bottom bound");
+            //console.log("inside bottom bound");
             keyPair.key = 'top';
             keyPair.value = fabricCanvas.getHeight() - bounds.height/2;
           }
         }
         if(keyPair.key){ // key.value could be 0 - lol :D
-          console.log("Animating to ", keyPair.key, keyPair.value);
+          //console.log("Animating to ", keyPair.key, keyPair.value);
           isActionPerformable = false;
           obj.lockMovementX = true;
           obj.lockMovementY = true;
@@ -936,7 +936,7 @@
             //easing: fabric.util.ease.easeOutBounce,
             onChange: fabricCanvas.renderAll.bind(fabricCanvas),
             onComplete: function(){
-              console.log("done");
+              //console.log("done");
               isActionPerformable = true;
               obj.lockMovementX = movement.x;
               obj.lockMovementY = movement.y;
@@ -951,13 +951,13 @@
     /************************************* OBJECT CUSTOMIZER *************************************/
 
     function objectCustomizer(obj){
-      console.log("Customize Object: ",obj);
+      //console.log("Customize Object: ",obj);
       // capture control
       var customizerControl = $('.text-editor-parent');
       // weather to open or not
       switch(obj.type){
         case 'i-text':
-          console.log("opening customizer");
+          //console.log("opening customizer");
           // show necessary control
           customizerControl.find('.size-picker').css('display', 'block');
           customizerControl.find('.ptt-dropmenu').css('display', 'block');
@@ -975,12 +975,12 @@
         case 'image':
           // its sticker
           if(obj.id != canvasBkgImg.id){
-            console.log("hide unnecessary control");
+            //console.log("hide unnecessary control");
             // hide unnecessary control
             customizerControl.find('.size-picker').css('display', 'none');
             customizerControl.find('.ptt-dropmenu').css('display', 'none');
             customizerControl.find('.vertical-partition').css('display', 'none');
-            console.log("opening customizer");
+            //console.log("opening customizer");
             // show control
             customizerControl.css({
               'visibility': 'visible',
@@ -1034,7 +1034,7 @@
       var currentColorLi = customizerControl.find('.ptt-dropdown-color-3');
       var list = customizerControl.find('.ptt-dropdown-color-2');
       var selectedColor = $(list[elemIndex]).css('background-color');
-      console.log("update color", selectedColor);
+      //console.log("update color", selectedColor);
       vm.selectedObject.setColor(selectedColor);
       fabricCanvas.renderAll();
       // switch color
@@ -1066,7 +1066,7 @@
 
     $(window).keydown(function(e) {
       var key = window.event?window.event.keyCode:e.keyCode;
-      console.log(e);
+      //console.log(e);
       //keyboard shortcuts
       if(fabricCanvas.getActiveObject()){
         switch (key) {
@@ -1093,9 +1093,9 @@
     function goToState(stateName){
       saveCanvasState();
       // go to state
-      console.log(stateName);
+      //console.log(stateName);
       if(stateName.indexOf('Upload')>=0){
-        console.log("going");
+        //console.log("going");
         $state.go('^.Upload');
       }
       else{

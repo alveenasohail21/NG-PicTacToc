@@ -69,7 +69,7 @@
       // setup filters
       function setupFilters(){
         if(filters){
-          console.log("RUNNING FILTERS SETUP: ");
+          // console.log("RUNNING FILTERS SETUP: ");
           scope.filters = filters;
           scope.filters.forEach(function(obj){
             obj.selected = false;
@@ -83,13 +83,13 @@
           }, 200);
         }
         else{
-          console.log("NO FILTERS, NO SETUP");
+          // console.log("NO FILTERS, NO SETUP");
         }
       }
 
       // watch any change in photos
       scope.$watch('thumbnail', function(newValue, oldValue){
-        console.log("FILTERS WATCH EXECUTED: ", newValue, oldValue);
+        // console.log("FILTERS WATCH EXECUTED: ", newValue, oldValue);
         if(scope.thumbnail && 'base64' in scope.thumbnail){
           // scope.filters = [];
           $timeout(function(){
@@ -99,7 +99,7 @@
       }, true);
 
       scope.$watch('showFilterLoader', function(newValue, oldValue){
-        console.log("value changed");
+        // console.log("value changed");
       }, true);
 
       // apply filters
@@ -113,7 +113,7 @@
             Caman('.sidemenu-filters img#'+filterToApply, function () {
               var that = this;
               //that.revert(true);
-              console.log("APPLYING FILTER: ",filterToApply);
+              // console.log("APPLYING FILTER: ",filterToApply);
               switch(filterToApply){
                 case'normal':
                   // do nothing

@@ -72,12 +72,12 @@
       // setup text
       function setupTexts(){
         if(texts.length>0){
-          console.log("RUNNING TEXTS SETUP: ");
+          // console.log("RUNNING TEXTS SETUP: ");
           scope.texts = texts;
           loadTexts();
         }
         else{
-          console.log("NO TEXT, NO SETUP");
+          // console.log("NO TEXT, NO SETUP");
         }
       }
 
@@ -86,7 +86,7 @@
         for(var i=0; i<scope.texts.length; i++){
           (function(){
             var textToLoad = scope.texts[i];
-            console.log("LOADING TEXTS AS CSS: ",textToLoad);
+            // console.log("LOADING TEXTS AS CSS: ",textToLoad);
             $("head").prepend("<style type=\"text/css\">" +
               "@font-face {\n" +
               "\tfont-family: \""+ textToLoad.name +"\";\n" +

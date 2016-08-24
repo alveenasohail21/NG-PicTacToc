@@ -70,12 +70,12 @@
       // setup stickers
       function setupFilters(){
         if(stickers.length>0){
-          console.log("RUNNING STICKERS SETUP: ");
+          // console.log("RUNNING STICKERS SETUP: ");
           scope.stickers = stickers;
           loadStickers();
         }
         else{
-          console.log("NO STICKER, NO SETUP");
+          // console.log("NO STICKER, NO SETUP");
         }
       }
 
@@ -84,7 +84,7 @@
         for(var i=0; i<scope.stickers.length; i++){
           (function(){
             var stickerToLoad = scope.stickers[i];
-            console.log("LOADING STICKER: ",stickerToLoad);
+            // console.log("LOADING STICKER: ",stickerToLoad);
               var img = new Image();
               img.src = stickerToLoad;
           }());

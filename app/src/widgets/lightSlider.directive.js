@@ -62,7 +62,7 @@
 
       // setup slider
       function setupSlider(){
-        console.log("RUNNING LIGHT SLIDER SETUP: ", sliderId);
+        // console.log("RUNNING LIGHT SLIDER SETUP: ", sliderId);
         sliderHtml = $(sliderId).lightSlider(uploadSliderConfig);
 
         $('.ptt-lightSlider' + sliderClass + ' .custom-svg-icon.left-arrow').off('click');
@@ -70,12 +70,12 @@
 
         $('.ptt-lightSlider' + sliderClass + ' .custom-svg-icon.left-arrow').click(function(){
           sliderHtml.goToPrevSlide();
-          console.log("CURRENT SLIDE: ", sliderHtml.getCurrentSlideCount());
+          // console.log("CURRENT SLIDE: ", sliderHtml.getCurrentSlideCount());
         });
 
         $('.ptt-lightSlider' + sliderClass + ' .custom-svg-icon.right-arrow').click(function(){
           sliderHtml.goToNextSlide();
-          console.log("CURRENT SLIDE: ", sliderHtml.getCurrentSlideCount());
+          // console.log("CURRENT SLIDE: ", sliderHtml.getCurrentSlideCount());
         });
 
         $('.ptt-lightSlider').css('opacity', 1);
@@ -85,22 +85,22 @@
       // watch any change in photos
       scope.$watch('photos', function(newValue, oldValue){
         if(scope.photos.length < $rootScope.imageConstraints.minPhotoForProduct && $state.current.name!='Dashboard.Prints.Design'){
-          console.log("< "+ $rootScope.imageConstraints.minPhotoForProduct +" photos");
+          // console.log("< "+ $rootScope.imageConstraints.minPhotoForProduct +" photos");
           alertFactory.warning(null, "You need to have at least "+ $rootScope.imageConstraints.minPhotoForProduct +" photo[s] in order to proceed");
           $state.go('^.Upload',{reload: true});
         }
-        console.log("LIGHT SLIDER WATCH EXECUTED: ", newValue, oldValue);
+        // console.log("LIGHT SLIDER WATCH EXECUTED: ", newValue, oldValue);
         if(sliderHtml && newValue.length != oldValue.length){
           var addition = (newValue.length - oldValue.length) == 1;
           var deletion = (newValue.length - oldValue.length) == -1;
 
-          console.log("REFRESHING LIGHT SLIDER");
+          // console.log("REFRESHING LIGHT SLIDER");
           setupSlider();
 
           // Prints Step 1
           if($state.current.name == 'Dashboard.Prints.Upload'){
             if(addition){
-              console.log("STEP 1 - Addition");
+              // console.log("STEP 1 - Addition");
               $timeout(function(){
                 for(var i=sliderHtml.getCurrentSlideCount(); i<scope.photos.length;i++){
                   sliderHtml.goToNextSlide();
@@ -108,18 +108,18 @@
               },200)
             }
             else if(deletion){
-              console.log("STEP 1 - Deletion");
+              // console.log("STEP 1 - Deletion");
               // TODO
             }
           }
           // Prints Step 2
           else if($state.current.name == 'Dashboard.Prints.Design'){
             if(addition){
-              console.log("STEP 2 - Addition");
+              // console.log("STEP 2 - Addition");
               // TODO
             }
             else if(deletion){
-              console.log("STEP 2 - Deletion");
+              // console.log("STEP 2 - Deletion");
               // TODO
             }
           }
@@ -130,7 +130,7 @@
       // logout
       $rootScope.$on('logout', function(event, args){
         scope.photos = [];
-        console.log("REMOVED FROM DIRECTIVE", scope.photos);
+        // console.log("REMOVED FROM DIRECTIVE", scope.photos);
       });
 
       // call initializer

@@ -8,7 +8,7 @@
   var DEFINED_MARGIN = 10;
 
   $( window ).resize(function() {
-    console.log("Current window width = " + $(window).width());
+    // console.log("Current window width = " + $(window).width());
 
     $('#gallery-container').snapGallery({
       minWidth: DEFINED_MIN_WIDTH,
@@ -31,7 +31,7 @@
     DEFINED_MARGIN = settings.margin;
 
     var containerWidth = this.outerWidth();
-    console.log("containerWidth = " + containerWidth);
+    // console.log("containerWidth = " + containerWidth);
 
     this.css("box-sizing", "border-box").children("*").css("box-sizing", "border-box");
 
@@ -45,17 +45,17 @@
     });
 
     var currentCols = settings.maxCols + 1;
-    console.log("currentCols = " + currentCols);
+    // console.log("currentCols = " + currentCols);
 
     do {
       currentCols = currentCols - 1;
-      console.log("currentCols = " + currentCols);
+      // console.log("currentCols = " + currentCols);
       var imgWidth = (containerWidth / currentCols) - (settings.margin * ( (currentCols - 1) / currentCols));
-      console.log("imgWidth = " + imgWidth);
+      // console.log("imgWidth = " + imgWidth);
     } while ((imgWidth < settings.minWidth) && (currentCols > 1));
 
-    console.log("currentCols = " + currentCols);
-    console.log("imgWidth = " + imgWidth);
+    // console.log("currentCols = " + currentCols);
+    // console.log("imgWidth = " + imgWidth);
 
     var topTracker = [];
 
@@ -63,7 +63,7 @@
       topTracker.push(0);
     }
 
-    console.log("topTracker = " + topTracker);
+    // console.log("topTracker = " + topTracker);
 
     this.children("li").css({
       'display': 'inline-block',
@@ -83,7 +83,7 @@
 
 
     this.children("li").each(function (index) {
-      console.log( "index = " + index);
+      // console.log( "index = " + index);
       var colNumber = index % currentCols;
 
       $(this).css({
@@ -92,13 +92,13 @@
       });
 
       topTracker[colNumber] = topTracker[colNumber] + $(this).height() + settings.margin;
-      console.log("topTracker[" + colNumber + "] = " + topTracker[colNumber]);
+      // console.log("topTracker[" + colNumber + "] = " + topTracker[colNumber]);
       $(this).removeClass();
       $(this).addClass("col" + colNumber);
     });
 
     var containerHeight = Math.max.apply(Math, topTracker);
-    console.log("containerHeight = " + containerHeight);
+    // console.log("containerHeight = " + containerHeight);
 
     this.css("height", containerHeight - settings.margin);
 
