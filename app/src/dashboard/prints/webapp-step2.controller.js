@@ -1044,18 +1044,32 @@
     /************************************* KEYBOARD SHORTCUTS*************************************/
 
     function animateObject(parameter, shiftFlag, ctrlFlag, subtractFlag){
-      //animation work fired by keyboard shortcuts
-      var animationValue=10;
-      animationValue+=shiftFlag ? 40 : 0;
-      animationValue+=ctrlFlag ? 90 : 0;
-      var value=subtractFlag ? '-='+animationValue : '+='+animationValue;
-      fabricCanvas.getActiveObject().animate(parameter, value, { onChange: fabricCanvas.renderAll.bind(fabricCanvas) });
+      var obj = fabricCanvas.getActiveObject();
+      // Movement
+      if(!shiftFlag){
+        var animationValue = 1;
+        animationValue+=ctrlFlag ? 20 : 0;
+        var value = (subtractFlag)?(animationValue*-1):animationValue;
+        obj.set(parameter, obj.get(parameter) + value);
+      }
+      // Rotation
+      else if(shiftFlag){
+        var animateValue = 10;
+        var value = null;
+        if(parameter == 'left' && !subtractFlag) value = animateValue;
+        else if(parameter == 'left' && subtractFlag) value = animateValue*-1;
+        if(value) obj.set('angle', obj.get('angle') + value);
+      }
+      fabricCanvas.renderAll();
+      objectCustomizer(obj);
     }
 
     $(window).keydown(function(e) {
+      var key = window.event?window.event.keyCode:e.keyCode;
+      console.log(e);
       //keyboard shortcuts
       if(fabricCanvas.getActiveObject()){
-        switch (e.keyCode) {
+        switch (key) {
           case 46: // delete
             deleteSelectedObject();
             break;
