@@ -322,7 +322,7 @@
         }
         for(var i=0;i<files.length;i++){
           uploadFactory.addFile(files[i], vm.uploadCategory);
-          // addFilesToUploadQueue(i);
+          addFilesToUploadQueue(i);
         }
         if(files.length>1 || vm.filesToUpload.length-1>vm.filesUploadedCountForDevice){
           // console.log("> 1");
