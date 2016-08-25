@@ -96,10 +96,14 @@ Content : Start
                             your photo files
                         </div>
                     </div>
-                </span>
-                <!-- Facebook Login Button -->
-                <div ng-if="!vm.fbLogin && vm.uploadCategory=='facebook'" class="login-div fb-login-div">
-                    <button ng-if="!vm.socialLoader['facebook']" class="btn fb-login" ng-click="vm.socialLogin('facebook')">
+              </span>
+              <!-- social loader -->
+              <img src="svgs/ptt-loader.svg" id="loader-social" class="social-loader" alt="Loading..">
+
+              <!-- Facebook Login Button -->
+
+              <div ng-if="!vm.fbLogin && vm.uploadCategory=='facebook'" class="login-div fb-login-div">
+                    <button class="btn fb-login" ng-click="vm.socialLogin('facebook')">
                         <i class="fa fa-facebook-official" aria-hidden="true"></i>
                         <span class="text">
                             <strong>Login</strong>
@@ -107,11 +111,10 @@ Content : Start
                             <strong>Facebook</strong>
                         </span>
                     </button>
-                    <img ng-if="vm.socialLoader['facebook']" src="svgs/ptt-loader.svg" class="social-loader"  alt="X">
-                </div>
+              </div>
                 <!-- Instagram Login Button -->
                 <div ng-if="!vm.instagramLogin && vm.uploadCategory=='instagram'" class="login-div instagram-login-div">
-                    <button ng-if="!vm.socialLoader['instagram']" class="btn instagram-login" ng-click="vm.socialLogin('instagram')">
+                    <button class="btn instagram-login" ng-click="vm.socialLogin('instagram')">
                         <i class="fa fa-instagram" aria-hidden="true"></i>
                         <span class="text">
                             <strong>Login</strong>
@@ -119,11 +122,11 @@ Content : Start
                             <strong>Instagram</strong>
                         </span>
                     </button>
-                    <img ng-if="vm.socialLoader['instagram']" src="svgs/ptt-loader.svg" class="social-loader"  alt="X">
+
                 </div>
                 <!-- Flickr Login Button -->
                 <div ng-if="!vm.flickrLogin && vm.uploadCategory=='flickr'" class="login-div flickr-login-div">
-                    <button ng-if="!vm.socialLoader['flickr']" class="btn flickr-login" ng-click="vm.socialLogin('flickr')" disabled="true">
+                    <button class="btn flickr-login" ng-click="vm.socialLogin('flickr')" disabled="true">
                         <i class="fa fa-flickr" aria-hidden="true"></i>
                         <span class="text">
                             <strong>Login</strong>
@@ -131,11 +134,11 @@ Content : Start
                             <strong>Flickr</strong>
                         </span>
                     </button>
-                    <img ng-if="vm.socialLoader['flickr']" src="svgs/ptt-loader.svg" class="social-loader"  alt="X">
+
                 </div>
                 <!-- Google Login Button -->
                 <div ng-if="!vm.googleLogin && vm.uploadCategory=='google'" class="login-div google-login-div">
-                    <button ng-if="!vm.socialLoader['google']" class="btn google-login" ng-click="vm.socialLogin('google')" disabled="true">
+                    <button class="btn google-login" ng-click="vm.socialLogin('google')" disabled="true">
                         <i class="fa fa-google" aria-hidden="true"></i>
                         <span class="text">
                             <strong>Login</strong>
@@ -143,7 +146,7 @@ Content : Start
                             <strong>Google Photos</strong>
                         </span>
                     </button>
-                    <img ng-if="vm.socialLoader['google']" src="svgs/ptt-loader.svg" class="social-loader"  alt="X">
+                    <img src="svgs/ptt-loader.svg" class="social-loader"  alt="X">
                 </div>
             </div>
 

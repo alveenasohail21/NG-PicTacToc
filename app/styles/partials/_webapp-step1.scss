@@ -6,6 +6,20 @@ body.app{
   .step1{
     //margin: 18px 19%;
     //padding: 0 8px;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    img{
+      -moz-user-drag: none;
+      -webkit-user-drag: none;
+      -ms-user-drag: none;
+      user-drag: none;
+    }
+
+
+
     background-color: $body-bkg-color;
     position: absolute;
     width: 100%;

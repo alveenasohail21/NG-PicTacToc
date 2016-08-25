@@ -395,6 +395,7 @@ body.app {
     transform: rotate(360deg);
     backface-visibility: hidden;
     perspective: 1000px;
+    display: none;
   }
 
   img.filter-loader{
