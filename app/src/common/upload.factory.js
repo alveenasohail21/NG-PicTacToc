@@ -18,6 +18,7 @@
       // social list
       socialFiles: []
     };
+    var uploads=[];
     var uploadObject="";
     // var canceler=[];
     /* Return Functions */
@@ -82,7 +83,6 @@
       // console.log("uploading file from upload Factory: ", _data.deviceFiles[index]);
       // added here only for progress :/
       if (file) {
-        // canceler[index]=$q.defer();
         uploadObject=Upload.upload({
           method: 'POST',
           url: url,
@@ -94,7 +94,9 @@
             'Content-Type': 'application/json',
             'token': 'Bearer {' + $localStorage.token + '}'
           }
-        }).then(success, error, progress);
+        });
+        uploads[index]=uploadObject;
+        uploadObject.then(success, error, progress);
       }
       function success(response){
         if(response){
@@ -135,11 +137,11 @@
     }
 
     function abortUploading(index){
-      console.log("trigger delete here");
-      // abort upload in progress
-      // uploadObject.abort();
-      // canceler[index].resolve();
-      // canceler[index]=$q.defer();
+      console.log("trigger delete here: ", _data.deviceFiles);
+      _data.deviceFiles.splice(index, 1);
+      uploads[index].abort();
+
+
     }
   }
 }());
