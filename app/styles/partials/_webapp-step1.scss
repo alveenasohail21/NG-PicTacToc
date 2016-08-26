@@ -167,6 +167,9 @@ body.app{
           margin: 0 auto;
           height: 100%;
           position: relative;
+          .abort-uploading{
+            height: 30px;
+          }
         }
         .progress{
           position: absolute;

@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('uploadFactory', uploadFactory);
 
-  function uploadFactory(API_URL, $q, alertFactory, Upload, $localStorage, photosFactory){
+  function uploadFactory(API_URL, $q, alertFactory, Upload, $localStorage, photosFactory, $rootScope){
 
     var _data = {
       // device list
@@ -18,8 +18,8 @@
       // social list
       socialFiles: []
     };
-    var upload;
-    var canceller=$q.defer();
+    var uploadObject="";
+    // var canceler=[];
     /* Return Functions */
     return {
       getFiles: getFiles,
@@ -48,20 +48,20 @@
     }
 
     function removeFiles(category){
-      console.log("removing files from upload factory  ****************");
+      // console.log("removing files from upload factory  ****************");
       if(category == 'device'){
         _data.deviceFiles = [];
       }
       else{
         _data.socialFiles = [];
       }
-      console.log("REMOVED FROM FACTORY", _data);
+      // console.log("REMOVED FROM FACTORY", _data);
     }
 
     function removeFile(index){
-      console.log("removing file from upload factory  ****************");
+      // console.log("removing file from upload factory  ****************");
       _data.splice(index, 1);
-      console.log("REMOVED FROM FACTORY", _data);
+      // console.log("REMOVED FROM FACTORY", _data);
     }
     function uploadFile(index, uploadCategory, callback){
       // set url on the basis of uploadCategory
@@ -73,30 +73,29 @@
           file = _data.deviceFiles[index];
           break;
         case 'facebook':
-
         case 'instagram':
           url = API_URL + '/photos/upload/social';
           file = _data.socialFiles[index];
           break;
       }
       // uploading files
-      console.log("uploading file from upload Factory: ", _data.deviceFiles[index]);
+      // console.log("uploading file from upload Factory: ", _data.deviceFiles[index]);
       // added here only for progress :/
       if (file) {
-        canceller.resolve();
-        upload=Upload.upload({
+        // canceler[index]=$q.defer();
+        uploadObject=Upload.upload({
           method: 'POST',
           url: url,
           data: {
             files: [file]
           },
+          // timeout: canceler[index].promise,
           headers: {
             'Content-Type': 'application/json',
             'token': 'Bearer {' + $localStorage.token + '}'
           }
         }).then(success, error, progress);
       }
-
       function success(response){
         if(response){
           // set uploaded
@@ -104,11 +103,10 @@
           // loop it, but its length will always be zero
           for(var i=0;i<response.data.data.photos.length;i++){
             // update myPhotos
-            console.log("pushing to photos: ",response.data.data.photos[i]);
+            // console.log("pushing to photos: ",response.data.data.photos[i]);
             // save photo in photoFactotry
             photosFactory.addPhotoToLocal(response.data.data.photos[i]);
           }
-
           if(callback){
             callback(true, file);
           }
@@ -130,16 +128,18 @@
         }
 
       }
-
       function progress(evt){
         // set progress for the upload bar
         file.progress = parseInt(100.0 * evt.loaded / evt.total).toString() + "%";
-        // evt.abort();
       }
-
     }
-    function abortUploading(){
-      console.log(upload);
+
+    function abortUploading(index){
+      console.log("trigger delete here");
+      // abort upload in progress
+      // uploadObject.abort();
+      // canceler[index].resolve();
+      // canceler[index]=$q.defer();
     }
   }
 }());

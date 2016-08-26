@@ -90,7 +90,7 @@
     function socialAuthenticate(provider){
       $('#loader-social').css("display", "inline");
       $('.login-div').css("display", "none");
-      console.log("i am here");
+
       console.log("auth factory social authenticate provider: ", provider);
       var defer = $q.defer();
       //console.log($auth.getToken().slice(1, $auth.getToken().length-1));
