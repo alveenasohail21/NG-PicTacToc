@@ -12,7 +12,7 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl(photosFactory, cropperFactory, $rootScope, $state, mediaFactory){
+  function webappStep2Ctrl(photosFactory, cropperFactory, $rootScope, $state, mediaFactory, $timeout){
 
     var vm = this;
 
@@ -42,11 +42,18 @@
       current:{
         height: $("#image-studio .element").height(),
         width: $("#image-studio .element").width()
+      },
+      previous: {
+        height: null,
+        width: null
       }
     };
     // zoom slider
     var zoomSlider;
-    var zoomSliderPrevValue = 0;
+    var originalScale = {
+      x: 0,
+      y: 0
+    };
     // canvas
     //var canvas = document.getElementById('canvas');
     //var ctx = canvas.getContext('2d');
@@ -144,21 +151,18 @@
       zoomSlider = $("#ex4").slider({
         reversed : true
       });
-      //zoomSlider.on('slide', function(data) {
-      //  if(data.value >= 1 && data.value <= 2){
-      //    var point = new fabric.Point(fabricCanvas.getWidth()/2, fabricCanvas.getHeight()/2);
-      //    if((data.value - zoomSliderPrevValue) > 0){
-      //
-      //    }
-      //    else{
-      //      data.value = data.value*-1;
-      //    }
-      //    zoomSliderPrevValue = data.value;
-      //    fabricCanvas.zoomToPoint( point, data.value);
-      //    //console.log("fabricCanvas.getZoom(): ", fabricCanvas.getZoom());
-      //    fabricCanvas.renderAll();
-      //  }
-      //});
+      zoomSlider.on('slide', function(data){
+        //console.log(data.value);
+        var bkgImg = fabricCanvas.getObjects()[0];
+        bkgImg.setScaleX(originalScale.x*data.value);
+        bkgImg.setScaleY(originalScale.y*data.value);
+        bkgImg.setCoords();
+        fabricCanvas.renderAll();
+        $timeout(function(){
+          // to hold on the check till unknown operation finishes
+          backgroundImageBoundaryCheck(bkgImg);
+        }, 500);
+      });
 
       /* Action Icon 3 DropMenu */
       $('.action-icons-3 .ptt-dropmenu').on('show.bs.dropdown', function () {
@@ -317,6 +321,9 @@
       fabricCanvas.setHeight(updateValue);
       fabricCanvas.renderAll();
 
+      element.previous.height = updateValue;
+      element.previous.width = updateValue;
+
     }
 
     /************************************* MANIPULATE DOM *************************************/
@@ -365,12 +372,16 @@
         // save the already active image with settings
         vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
         vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
+        vm.myPhotos[canvasBkgImg.photoIndex].canvasImgZoomValue = zoomSlider.slider('getValue');
+        vm.myPhotos[canvasBkgImg.photoIndex].canvasImgOrignalScaleValue = originalScale;
         vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
         // clear canvas
         fabricCanvas.clear();
         // render all
         fabricCanvas.renderAll();
         //console.log("SAVED CANVAS JSON: ",vm.myPhotos[canvasBkgImg.photoIndex]);
+        // reset zoom slider
+        resetZoomSettings();
       }
 
       // get photo now
@@ -410,31 +421,14 @@
             //objects[0].center();
             objects[0].setCoords();
             // locks
-            objects[0].lockMovementY = false;
-            objects[0].lockMovementX = false;
+            //objects[0].lockMovementY = false;
+            //objects[0].lockMovementX = false;
             objects[0].hasControls = false;
-            if(objects[0].width > objects[0].height){
-              // if image was rotated to 90, -90, -270 or 270 before, then do the opposite
-              if(objects[0].angle == 90 || objects[0].angle == 270 || objects[0].angle == -90 || objects[0].angle == -270){
-                objects[0].scaleToWidth(fabricCanvas.getWidth());
-                objects[0].lockMovementX = true;
-              }
-              else{
-                objects[0].scaleToHeight(fabricCanvas.getHeight());
-                objects[0].lockMovementY = true;
-              }
-            }
-            else{
-              // if image was rotated to 90, -90, -270 or 270 before, then do the opposite
-              if(objects[0].angle == 90 || objects[0].angle == 270 || objects[0].angle == -90 || objects[0].angle == -270){
-                objects[0].scaleToHeight(fabricCanvas.getHeight());
-                objects[0].lockMovementY = true;
-              }
-              else{
-                objects[0].scaleToWidth(fabricCanvas.getWidth());
-                objects[0].lockMovementX = true;
-              }
-            }
+            resetZoomSettings({
+              zoomValue: vm.myPhotos[index].canvasImgZoomValue,
+              scaleX: vm.myPhotos[index].canvasImgOrignalScaleValue.x,
+              scaleY: vm.myPhotos[index].canvasImgOrignalScaleValue.y
+            });
             // render All
             fabricCanvas.renderAll();
             fabricCanvas.deactivateAll();
@@ -471,17 +465,19 @@
             canvasBkgImg.instance.center();
             canvasBkgImg.instance.setCoords();
             // locks
-            canvasBkgImg.instance.lockMovementY = false;
-            canvasBkgImg.instance.lockMovementX = false;
+            //canvasBkgImg.instance.lockMovementY = false;
+            //canvasBkgImg.instance.lockMovementX = false;
             canvasBkgImg.instance.hasControls = false;
             if(canvasImage.naturalWidth > canvasImage.naturalHeight){
               canvasBkgImg.instance.scaleToHeight(fabricCanvas.getHeight());
-              canvasBkgImg.instance.lockMovementY = true;
+              //canvasBkgImg.instance.lockMovementY = true;
             }
             else{
               canvasBkgImg.instance.scaleToWidth(fabricCanvas.getWidth());
-              canvasBkgImg.instance.lockMovementX = true;
+              //canvasBkgImg.instance.lockMovementX = true;
             }
+            originalScale.x = canvasBkgImg.instance.getScaleX();
+            originalScale.y = canvasBkgImg.instance.getScaleY();
             fabricCanvas.renderAll();
             fabricCanvas.deactivateAll();
           };
@@ -669,20 +665,20 @@
         isBkgImg = true;
         object.center();
       }
-      var movement = {
-        x: object.lockMovementX,
-        y: object.lockMovementY
-      };
+      //var movement = {
+      //  x: object.lockMovementX,
+      //  y: object.lockMovementY
+      //};
       isActionPerformable = false;
-      object.lockMovementX = true;
-      object.lockMovementY = true;
+      //object.lockMovementX = true;
+      //object.lockMovementY = true;
       object.animate('angle', object.angle+(-90), {
         //easing: fabric.util.ease.easeOutBounce,
         onChange: fabricCanvas.renderAll.bind(fabricCanvas),
         onComplete: function(){
           isActionPerformable = true;
-          object.lockMovementX = movement.x;
-          object.lockMovementY = movement.y;
+          //object.lockMovementX = movement.x;
+          //object.lockMovementY = movement.y;
           if(isBkgImg){
             fixBackgroundScalingAndLocking(object);
           }
@@ -703,20 +699,20 @@
         isBkgImg = true;
         object.center();
       }
-      var movement = {
-        x: object.lockMovementX,
-        y: object.lockMovementY
-      };
+      //var movement = {
+      //  x: object.lockMovementX,
+      //  y: object.lockMovementY
+      //};
       isActionPerformable = false;
-      object.lockMovementX = true;
-      object.lockMovementY = true;
+      //object.lockMovementX = true;
+      //object.lockMovementY = true;
       object.animate('angle', object.angle+(90), {
         //easing: fabric.util.ease.easeOutBounce,
         onChange: fabricCanvas.renderAll.bind(fabricCanvas),
         onComplete: function(){
           isActionPerformable = true;
-          object.lockMovementX = movement.x;
-          object.lockMovementY = movement.y;
+          //object.lockMovementX = movement.x;
+          //object.lockMovementY = movement.y;
           if(isBkgImg){
             fixBackgroundScalingAndLocking(object);
           }
@@ -750,6 +746,7 @@
     }
 
     function applyBorder(){
+      console.log(fabricCanvas.getZoom());
     }
 
     function copyCanvas(){
@@ -780,16 +777,16 @@
 
     function fixBackgroundScalingAndLocking(object, reverse){
       //console.log("reversing locks");
-      if(object.lockMovementX){
-        //console.log("lockMovementY");
-        object.lockMovementX = false;
-        object.lockMovementY = true;
-      }
-      else if(object.lockMovementY){
-        //console.log("lockMovementX");
-        object.lockMovementX = true;
-        object.lockMovementY = false;
-      }
+      //if(object.lockMovementX){
+      //  //console.log("lockMovementY");
+      //  object.lockMovementX = false;
+      //  object.lockMovementY = true;
+      //}
+      //else if(object.lockMovementY){
+      //  //console.log("lockMovementX");
+      //  object.lockMovementX = true;
+      //  object.lockMovementY = false;
+      //}
       // position
       object.setCoords();
       // locks
@@ -890,49 +887,56 @@
         }
       });
 
-      // Background Image Boundary Check and Position Update
-      function backgroundImageBoundaryCheck(obj){
-        var bounds = obj.getBoundingRect();
-        var keyPair = {
-          key: null,
-          value: null
-        };
-        var movement = {
-          x: obj.lockMovementX,
-          y: obj.lockMovementY
-        };
-        // moving horizontally
-        if(!obj.lockMovementX){
-          if(bounds.left > 0){
-            //console.log("inside left bound");
-            keyPair.key = 'left';
-            keyPair.value = bounds.width/2;
-          }
-          else if((bounds.width + bounds.left) < fabricCanvas.getWidth()){
-            //console.log("inside right bound");
-            keyPair.key = 'left';
-            keyPair.value = fabricCanvas.getWidth() - bounds.width/2;
-          }
+    }
+
+    // Background Image Boundary Check and Position Update
+    function backgroundImageBoundaryCheck(obj){
+      var bounds = obj.getBoundingRect();
+      var keyPair = {
+        key: null,
+        value: null
+      };
+      var movement = {
+        x: obj.lockMovementX,
+        y: obj.lockMovementY
+      };
+
+      // moving horizontally
+      if(!movement.x){
+        if(bounds.left > 0){
+          //console.log("inside left bound");
+          keyPair.key = 'left';
+          keyPair.value = (bounds.width/fabricCanvas.getZoom())/2;
         }
-        // moving vertically
-        else if(!obj.lockMovementY){
-          if(bounds.top > 0){
-            //console.log("inside top bound");
-            keyPair.key = 'top';
-            keyPair.value = bounds.height/2;
-          }
-          else if((bounds.height + bounds.top) < fabricCanvas.getHeight()){
-            //console.log("inside bottom bound");
-            keyPair.key = 'top';
-            keyPair.value = fabricCanvas.getHeight() - bounds.height/2;
-          }
+        else if((bounds.width + bounds.left) < fabricCanvas.getWidth()){
+          //console.log("inside right bound");
+          keyPair.key = 'left';
+          keyPair.value = (fabricCanvas.getWidth() - bounds.width/2)/fabricCanvas.getZoom();
         }
-        if(keyPair.key){ // key.value could be 0 - lol :D
+        setInBound(keyPair.key, keyPair.value);
+      }
+      // moving vertically
+      if(!movement.y){
+        if(bounds.top > 0){
+          //console.log("inside top bound");
+          keyPair.key = 'top';
+          keyPair.value = (bounds.height/fabricCanvas.getZoom())/2;
+        }
+        else if((bounds.height + bounds.top) < fabricCanvas.getHeight()){
+          //console.log("inside bottom bound");
+          keyPair.key = 'top';
+          keyPair.value = (fabricCanvas.getHeight() - bounds.height/2)/fabricCanvas.getZoom();
+        }
+        setInBound(keyPair.key, keyPair.value);
+      }
+
+      function setInBound(key, value){
+        if(key){ // key.value could be 0 - lol :D
           //console.log("Animating to ", keyPair.key, keyPair.value);
           isActionPerformable = false;
           obj.lockMovementX = true;
           obj.lockMovementY = true;
-          obj.animate(keyPair.key, keyPair.value, {
+          obj.animate(key, value, {
             //easing: fabric.util.ease.easeOutBounce,
             onChange: fabricCanvas.renderAll.bind(fabricCanvas),
             onComplete: function(){
@@ -1109,11 +1113,31 @@
       vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
       vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
       vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
+      vm.myPhotos[canvasBkgImg.photoIndex].canvasImgZoomValue = zoomSlider.slider('getValue');
+      vm.myPhotos[canvasBkgImg.photoIndex].canvasImgOrignalScaleValue = originalScale;
       // clear canvas
       //fabricCanvas.clear();
       // hide customizer
       hideObjectCustomizer();
     }
+
+    /************************************* ZOOM *************************************/
+    function resetZoomSettings(data){
+      var values = data || {
+          zoomValue : 1,
+          scaleX: 0,
+          scaleY: 0
+        };
+      console.log("Resetting Image Zoom: ", values);
+      // reset zoom slider
+      zoomSlider.slider('setValue', values.zoomValue);
+      // reset originalScale
+      originalScale = {
+        x: values.scaleX,
+        y: values.scaleY
+      };
+    }
+
 
     /* Initializer Call */
 
