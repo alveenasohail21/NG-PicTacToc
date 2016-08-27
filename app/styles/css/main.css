@@ -491,7 +491,7 @@ body.app .navbar .container-fluid {
 body.app .navbar .ptt-btn-blue {
   padding: 10px 21px;
 }
-/* line 43, ../partials/_header.scss */
+/* line 44, ../partials/_header.scss */
 body.app .navbar .steps {
   width: calc(100% - 59.3%);
   height: 100%;
@@ -500,7 +500,7 @@ body.app .navbar .steps {
   display: flex;
   padding: 18px 0;
 }
-/* line 50, ../partials/_header.scss */
+/* line 51, ../partials/_header.scss */
 body.app .navbar .steps .step {
   width: 33.33%;
   height: 100%;
@@ -511,7 +511,7 @@ body.app .navbar .steps .step {
   text-align: left;
   cursor: pointer;
 }
-/* line 59, ../partials/_header.scss */
+/* line 60, ../partials/_header.scss */
 body.app .navbar .steps .step .custom-svg-icon {
   height: 100%;
   width: 44px;
@@ -522,57 +522,57 @@ body.app .navbar .steps .step .custom-svg-icon {
   background-color: #f4f7f9;
   padding: 7px;
 }
-/* line 68, ../partials/_header.scss */
+/* line 69, ../partials/_header.scss */
 body.app .navbar .steps .step .custom-svg-icon object, body.app .navbar .steps .step .custom-svg-icon img {
   height: 100%;
   width: 100%;
 }
-/* line 74, ../partials/_header.scss */
+/* line 75, ../partials/_header.scss */
 body.app .navbar .steps .step .custom-svg-icon.gray-pencil object, body.app .navbar .steps .step .custom-svg-icon.gray-pencil img {
   transform: rotate(-45deg);
 }
-/* line 78, ../partials/_header.scss */
+/* line 79, ../partials/_header.scss */
 body.app .navbar .steps .step .custom-svg-icon.blue-pencil {
   padding: 4px 0 4px 11px;
 }
-/* line 80, ../partials/_header.scss */
+/* line 81, ../partials/_header.scss */
 body.app .navbar .steps .step .custom-svg-icon.blue-pencil object, body.app .navbar .steps .step .custom-svg-icon.blue-pencil img {
   width: 20px;
   transform: rotate(-45deg);
   padding: 2px;
 }
-/* line 91, ../partials/_header.scss */
+/* line 92, ../partials/_header.scss */
 body.app .navbar .steps .step .custom-svg-icon.gray-tick {
   padding: 8px;
 }
-/* line 93, ../partials/_header.scss */
+/* line 94, ../partials/_header.scss */
 body.app .navbar .steps .step .custom-svg-icon.gray-tick object, body.app .navbar .steps .step .custom-svg-icon.gray-tick img {
   padding: 3px;
   transform: rotate(12deg);
 }
-/* line 98, ../partials/_header.scss */
+/* line 99, ../partials/_header.scss */
 body.app .navbar .steps .step .custom-svg-icon.blue-tick {
   padding: 8px;
 }
-/* line 100, ../partials/_header.scss */
+/* line 101, ../partials/_header.scss */
 body.app .navbar .steps .step .custom-svg-icon.blue-tick object, body.app .navbar .steps .step .custom-svg-icon.blue-tick img {
   padding: 3px;
   transform: rotate(12deg);
 }
-/* line 105, ../partials/_header.scss */
+/* line 106, ../partials/_header.scss */
 body.app .navbar .steps .step .description {
   padding-left: 8px;
 }
-/* line 107, ../partials/_header.scss */
+/* line 108, ../partials/_header.scss */
 body.app .navbar .steps .step .description div {
   font-family: Font_Myriad_Pro_Bold;
 }
-/* line 110, ../partials/_header.scss */
+/* line 111, ../partials/_header.scss */
 body.app .navbar .steps .step .description span {
   font-family: Font_Myriad_Pro_Regular;
   font-size: 18px;
 }
-/* line 115, ../partials/_header.scss */
+/* line 116, ../partials/_header.scss */
 body.app .navbar .steps .step hr {
   position: absolute;
   bottom: 0;
@@ -580,11 +580,11 @@ body.app .navbar .steps .step hr {
   background-color: #65e0e4;
   height: 2px;
 }
-/* line 124, ../partials/_header.scss */
+/* line 125, ../partials/_header.scss */
 body.app .navbar .steps .step.active .description div {
   color: #65e0e4;
 }
-/* line 127, ../partials/_header.scss */
+/* line 128, ../partials/_header.scss */
 body.app .navbar .steps .step.active .custom-svg-icon {
   border-style: solid;
   border-width: 1px;
@@ -592,68 +592,68 @@ body.app .navbar .steps .step.active .custom-svg-icon {
   border-radius: 50%;
   background-color: white;
 }
-/* line 135, ../partials/_header.scss */
+/* line 136, ../partials/_header.scss */
 body.app .navbar .steps .step-1 {
   padding-left: 23px;
 }
-/* line 137, ../partials/_header.scss */
+/* line 138, ../partials/_header.scss */
 body.app .navbar .steps .step-1 hr {
   left: 30px;
   width: 135px;
 }
-/* line 142, ../partials/_header.scss */
+/* line 143, ../partials/_header.scss */
 body.app .navbar .steps .step-2 {
   padding-left: 5px;
 }
-/* line 144, ../partials/_header.scss */
+/* line 145, ../partials/_header.scss */
 body.app .navbar .steps .step-2 hr {
   left: 13px;
   width: 160px;
 }
-/* line 149, ../partials/_header.scss */
+/* line 150, ../partials/_header.scss */
 body.app .navbar .steps .step-3 {
   padding-left: 14px;
 }
-/* line 151, ../partials/_header.scss */
+/* line 152, ../partials/_header.scss */
 body.app .navbar .steps .step-3 hr {
   left: 25px;
   width: 148px;
 }
-/* line 156, ../partials/_header.scss */
+/* line 157, ../partials/_header.scss */
 body.app .navbar .steps .hover-hr {
   opacity: 0;
   transition: opacity 0.8s;
 }
-/* line 160, ../partials/_header.scss */
+/* line 161, ../partials/_header.scss */
 body.app .navbar .steps .step-1:hover .hover-hr {
   opacity: 1;
 }
-/* line 163, ../partials/_header.scss */
+/* line 164, ../partials/_header.scss */
 body.app .navbar .steps .step-2:hover .hover-hr {
   opacity: 1;
 }
-/* line 166, ../partials/_header.scss */
+/* line 167, ../partials/_header.scss */
 body.app .navbar .steps .step-3:hover .hover-hr {
   opacity: 1;
 }
-/* line 206, ../partials/_header.scss */
+/* line 207, ../partials/_header.scss */
 body.app .navbar .navbar-right {
   width: 29.65%;
   height: 100%;
   padding: 18px 16px;
   margin: 0 !important;
 }
-/* line 211, ../partials/_header.scss */
+/* line 212, ../partials/_header.scss */
 body.app .navbar .navbar-right div {
   height: 100%;
   float: right;
   margin-left: 8.12%;
 }
-/* line 217, ../partials/_header.scss */
+/* line 218, ../partials/_header.scss */
 body.app .navbar .navbar-right div:nth-child(1) {
   width: 36.957%;
 }
-/* line 219, ../partials/_header.scss */
+/* line 220, ../partials/_header.scss */
 body.app .navbar .navbar-right div:nth-child(1) span.btn {
   width: 100%;
   height: 100%;
@@ -668,7 +668,7 @@ body.app .navbar .navbar-right div:nth-child(1) span.btn {
   font-weight: bolder;
   /* letter-spacing: 0.5px; */
 }
-/* line 236, ../partials/_header.scss */
+/* line 237, ../partials/_header.scss */
 body.app .navbar .navbar-right div:nth-child(2) img {
   border-style: solid;
   border-width: 1px;
@@ -677,7 +677,7 @@ body.app .navbar .navbar-right div:nth-child(2) img {
   background-color: #f4f7f9;
   height: 100%;
 }
-/* line 246, ../partials/_header.scss */
+/* line 247, ../partials/_header.scss */
 body.app .navbar .navbar-right div:nth-child(3) {
   border-style: solid;
   border-width: 1px;
@@ -686,34 +686,34 @@ body.app .navbar .navbar-right div:nth-child(3) {
   background-color: #f4f7f9;
   padding: 9px;
 }
-/* line 256, ../partials/_header.scss */
+/* line 257, ../partials/_header.scss */
 body.app .navbar .navbar-right div.gray-cart object, body.app .navbar .navbar-right div.gray-cart img {
   height: 100%;
 }
-/* line 262, ../partials/_header.scss */
+/* line 263, ../partials/_header.scss */
 body.app .navbar-header {
   width: 29.65%;
   height: 100%;
   padding: 18px 16px;
   text-align: left;
 }
-/* line 268, ../partials/_header.scss */
+/* line 269, ../partials/_header.scss */
 body.app a.navbar-brand {
   padding: 0;
   float: none;
   height: auto;
   margin: 0 !important;
 }
-/* line 273, ../partials/_header.scss */
+/* line 274, ../partials/_header.scss */
 body.app a.navbar-brand img {
   width: 216px;
   padding-left: 1%;
 }
-/* line 278, ../partials/_header.scss */
+/* line 279, ../partials/_header.scss */
 body.app .navbar-collapse {
   padding: 0;
 }
-/* line 281, ../partials/_header.scss */
+/* line 282, ../partials/_header.scss */
 body.app .btn-disabled {
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
@@ -1659,7 +1659,11 @@ body.app .step1 .uploaded-images div.img .img-container {
   height: 100%;
   position: relative;
 }
-/* line 171, ../partials/_webapp-step1.scss */
+/* line 170, ../partials/_webapp-step1.scss */
+body.app .step1 .uploaded-images div.img .img-container .abort-uploading {
+  height: 30px;
+}
+/* line 174, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .progress {
   position: absolute;
   width: 108px;
@@ -1669,12 +1673,12 @@ body.app .step1 .uploaded-images div.img .progress {
   margin-left: -54px;
   background: #ffffff;
 }
-/* line 180, ../partials/_webapp-step1.scss */
+/* line 183, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .progress-bar {
   background: #65e0e4;
   min-width: 0;
 }
-/* line 184, ../partials/_webapp-step1.scss */
+/* line 187, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .custom-svg-icon {
   position: absolute;
   width: 46px;
@@ -1695,11 +1699,11 @@ body.app .step1 .uploaded-images div.img .custom-svg-icon {
   opacity: 1;
   transition: opacity 0.8s;
 }
-/* line 203, ../partials/_webapp-step1.scss */
+/* line 206, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .custom-svg-icon img {
   height: 100%;
 }
-/* line 208, ../partials/_webapp-step1.scss */
+/* line 211, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .abort-uploading {
   width: 60px;
   height: 40px;
@@ -1709,17 +1713,17 @@ body.app .step1 .uploaded-images div.img .abort-uploading {
   margin-left: 20px !important;
   border: none !important;
 }
-/* line 218, ../partials/_webapp-step1.scss */
+/* line 221, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .custom-svg-icon.blue-tick {
   opacity: 1;
 }
-/* line 220, ../partials/_webapp-step1.scss */
+/* line 223, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .custom-svg-icon.blue-tick img {
   height: 100%;
   padding: 4px 3px;
   transform: rotate(12deg);
 }
-/* line 226, ../partials/_webapp-step1.scss */
+/* line 229, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .fa-exclamation-circle {
   position: absolute;
   right: 4px;
@@ -1727,14 +1731,14 @@ body.app .step1 .uploaded-images div.img .fa-exclamation-circle {
   color: rgba(255, 32, 32, 0.8);
   font-size: 22px;
 }
-/* line 236, ../partials/_webapp-step1.scss */
+/* line 239, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img.img-upload-all .img-container {
   border-style: dashed;
   border-radius: 12px;
   border-color: #e0e5ea;
   background-color: #f4f7f9;
 }
-/* line 242, ../partials/_webapp-step1.scss */
+/* line 245, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img.img-upload-all .add-all-photos {
   font-family: Font_Open_Sans_Semibold;
   color: #59626a;
@@ -1744,11 +1748,11 @@ body.app .step1 .uploaded-images div.img.img-upload-all .add-all-photos {
   width: 100%;
   font-size: 15px;
 }
-/* line 252, ../partials/_webapp-step1.scss */
+/* line 255, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img:hover .custom-svg-icon {
   opacity: 1;
 }
-/* line 255, ../partials/_webapp-step1.scss */
+/* line 258, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img.add-all-photos {
   border-width: 1.119px;
   border-color: #e0e5ea;
@@ -1756,26 +1760,26 @@ body.app .step1 .uploaded-images div.img.add-all-photos {
   border-radius: 12px;
   background-color: #f4f7f9;
 }
-/* line 267, ../partials/_webapp-step1.scss */
+/* line 270, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons {
   height: 100%;
 }
-/* line 269, ../partials/_webapp-step1.scss */
+/* line 272, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon {
   height: 20%;
   text-align: center;
   cursor: pointer;
   margin-bottom: 3px;
 }
-/* line 275, ../partials/_webapp-step1.scss */
+/* line 278, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .custom-svg-icon {
   position: relative;
 }
-/* line 277, ../partials/_webapp-step1.scss */
+/* line 280, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .custom-svg-icon img, body.app .step1 .upload-icons .upload-icon .custom-svg-icon object {
   width: 32%;
 }
-/* line 280, ../partials/_webapp-step1.scss */
+/* line 283, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .custom-svg-icon .object-backdrop {
   position: absolute;
   top: 0;
@@ -1784,7 +1788,7 @@ body.app .step1 .upload-icons .upload-icon .custom-svg-icon .object-backdrop {
   height: 100%;
   background: transparent;
 }
-/* line 289, ../partials/_webapp-step1.scss */
+/* line 292, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .title {
   font-family: Font_Open_Sans_Semibold;
   color: #59626a;
@@ -1793,33 +1797,33 @@ body.app .step1 .upload-icons .upload-icon .title {
   word-spacing: 0px;
   font-size: 13px;
 }
-/* line 299, ../partials/_webapp-step1.scss */
+/* line 302, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon.active .title {
   color: #65e0e4;
 }
-/* line 303, ../partials/_webapp-step1.scss */
+/* line 306, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon:last-child {
   margin-bottom: 0;
 }
-/* line 311, ../partials/_webapp-step1.scss */
+/* line 314, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums {
   overflow: hidden;
   height: calc(100% - 123px - 20px);
   overflow-y: auto;
   margin-top: 20px;
 }
-/* line 316, ../partials/_webapp-step1.scss */
+/* line 319, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row {
   height: auto;
 }
-/* line 318, ../partials/_webapp-step1.scss */
+/* line 321, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 {
   margin: 0;
   padding: 0;
   padding-top: 50px;
   min-height: 220px;
 }
-/* line 323, ../partials/_webapp-step1.scss */
+/* line 326, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 p {
   margin: 0;
   bottom: 0;
@@ -1830,7 +1834,7 @@ body.app .step1 .fb-albums .row .col-sm-4 p {
   font-family: Font_Open_Sans_Bold;
   margin-bottom: -5px;
 }
-/* line 333, ../partials/_webapp-step1.scss */
+/* line 336, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square {
   width: 134px;
   height: 134px;
@@ -1845,27 +1849,27 @@ body.app .step1 .fb-albums .row .col-sm-4 div.square {
   left: 50%;
   margin-left: -69px;
 }
-/* line 351, ../partials/_webapp-step1.scss */
+/* line 354, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(1) {
   transform: rotate(-19deg);
 }
-/* line 354, ../partials/_webapp-step1.scss */
+/* line 357, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(2) {
   transform: rotate(-15deg);
 }
-/* line 357, ../partials/_webapp-step1.scss */
+/* line 360, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(3) {
   transform: rotate(-10deg);
 }
-/* line 364, ../partials/_webapp-step1.scss */
+/* line 367, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(1) {
   transform: rotate(0deg);
 }
-/* line 367, ../partials/_webapp-step1.scss */
+/* line 370, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(2) {
   transform: rotate(0deg);
 }
-/* line 370, ../partials/_webapp-step1.scss */
+/* line 373, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(3) {
   transform: rotate(0deg);
 }

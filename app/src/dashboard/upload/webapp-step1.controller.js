@@ -500,8 +500,8 @@
       }
     }
 
-    function abortUploading(file){
-      uploadFactory.abortUploading();
+    function abortUploading(index){
+      uploadFactory.abortUploading(index);
     }
 
     /*
