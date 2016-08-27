@@ -60,12 +60,12 @@
     }
 
     function removePhotosFromLocal(){
-      console.log("removing local factory data ****************");
+      // console.log("removing local factory data ****************");
       _data = {
         photos: [],
         totalCount: 0
       };
-      console.log("REMOVED FROM FACTORY", _data);
+      // console.log("REMOVED FROM FACTORY", _data);
     }
 
     function getPhotos(queryParams) {
@@ -78,7 +78,7 @@
             resp.data['photos'].forEach(function(elem, index){
               _data.photos.push(angular.copy(elem));
             });
-            console.log("DATA IN FACTORY AFTER FETCHING", _data);
+            // console.log("DATA IN FACTORY AFTER FETCHING", _data);
             _data.totalCount = resp.data['totalCount'];
             deffered.resolve(resp.data);
           }
@@ -128,7 +128,7 @@
       var isPresentInContainer = false;
       $('.global-loader').css('display', 'block');
       for(var i=0; i<originalPhotosContainer.length; i++){
-        console.log(i);
+        // console.log(i);
         if(originalPhotosContainer[i].id == id){
           deferred.resolve(originalPhotosContainer[i]);
           $('.global-loader').css('display', 'none');
@@ -249,7 +249,7 @@
 
     function mapPhotos(photos){
       var arr = [];
-      console.log(photos);
+      // console.log(photos);
       for(var key in photos){
         arr.push(photos[key]);
       }

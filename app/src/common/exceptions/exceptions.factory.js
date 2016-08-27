@@ -29,9 +29,18 @@
       },
       // response error
       responseError: function responseError(rejection) {
-        var errMsg = rejection.data.message || "There's something wrong, we are figuring it out.";
+        console.log(rejection);
+        if(rejection.data){
+          var errMsg = rejection.data.message || "There's something wrong, we are figuring it out.";
+        }
+        else{
+          var errMsg = "There's something wrong, we are figuring it out.";
+        }
         $log.error("HTTP INTERCEPTOR: RESPONSE ERROR");
-        alertFactory.error(null, errMsg);
+        // -1 is file upload is canceled by user
+        if(rejection.status != -1){
+          alertFactory.error(null, errMsg);
+        }
         return $q.reject(rejection);
       }
     };

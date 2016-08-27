@@ -76,12 +76,12 @@
           resolve: {
             r_photos: function(photosFactory){
               if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
-                console.log("Local PHOTOS");
+                // console.log("Local PHOTOS");
                 return photosFactory.getLocalPhotosIfPresent();
               }
               else{
                 $('.global-loader').css('display', 'block');
-                console.log("Fetching PHOTOS");
+                // console.log("Fetching PHOTOS");
                 return photosFactory.getPhotos().then(function(resp){
                   $('.global-loader').css('display', 'none');
                   return resp;
@@ -151,10 +151,10 @@
               return null;
               // TODO: Update the configs for Edit API
               if($stateParams.id!=null && $stateParams.configs!=null){
-                console.log("INSIDE IF");
+                // console.log("INSIDE IF");
                 return photosFactory.sendEditedImage($stateParams.id, $stateParams.configs)
                   .then(function(resp){
-                    console.log("r_editedPhoto: ", resp);
+                    // console.log("r_editedPhoto: ", resp);
                     return resp.data;
                   });
               }

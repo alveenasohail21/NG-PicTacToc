@@ -82,7 +82,7 @@
       // initializer
       function init(){
         $(document).ready(function() {
-          console.log("LOADING ASSETS");
+          console.log("Assets: Loading");
           loadImagesAndSvgs();
           loadFonts();
           //stopDebug();

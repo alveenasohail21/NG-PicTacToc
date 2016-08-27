@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('uploadFactory', uploadFactory);
 
-  function uploadFactory(API_URL, $q, alertFactory, Upload, $localStorage, photosFactory, $rootScope){
+  function uploadFactory(API_URL, Upload, $localStorage, photosFactory, restFactory){
 
     var _data = {
       // device list
@@ -18,8 +18,7 @@
       // social list
       socialFiles: []
     };
-    var uploads=[];
-    var uploadObject="";
+    var uploadObjects = [];
     // var canceler=[];
     /* Return Functions */
     return {
@@ -83,7 +82,7 @@
       // console.log("uploading file from upload Factory: ", _data.deviceFiles[index]);
       // added here only for progress :/
       if (file) {
-        uploadObject=Upload.upload({
+        var upload = Upload.upload({
           method: 'POST',
           url: url,
           data: {
@@ -95,20 +94,37 @@
             'token': 'Bearer {' + $localStorage.token + '}'
           }
         });
-        uploads[index]=uploadObject;
-        uploadObject.then(success, error, progress);
+        // push into uploadObjects, in case user wants to cancel
+        uploadObjects.push({
+          photoIndex: index,
+          uploadObj: upload
+        });
+        // callbacks
+        upload.then(success, error, progress);
       }
       function success(response){
+        console.log("Uploaded");
         if(response){
-          // set uploaded
-          file.uploaded = true;
-          // loop it, but its length will always be zero
-          for(var i=0;i<response.data.data.photos.length;i++){
-            // update myPhotos
-            // console.log("pushing to photos: ",response.data.data.photos[i]);
-            // save photo in photoFactotry
-            photosFactory.addPhotoToLocal(response.data.data.photos[i]);
+          // if it was a social upload and file was canceled at upload time
+          if(file.uploadCanceled){
+            // delete the uploaded file
+            restFactory.photos.deletePhoto(response.data.data.photos[0].id);
           }
+          else{
+            // set uploaded
+            file.uploaded = true;
+            // loop it, but its length will always be zero
+            for(var i=0;i<response.data.data.photos.length;i++){
+              // update myPhotos
+              // console.log("pushing to photos: ",response.data.data.photos[i]);
+              // save photo in photoFactotry
+              photosFactory.addPhotoToLocal(response.data.data.photos[i]);
+            }
+            // if error message was generated earlier
+            file.error = false;
+            file.errMessage = "";
+          }
+          // callback
           if(callback){
             callback(true, file);
           }
@@ -117,13 +133,13 @@
 
       function error(response){
         console.log("UPLOAD ERROR: ", response);
-        alertFactory.error(null, "Unable to upload this photo, select a different photo");
+        //alertFactory.error(null, "Unable to upload this photo, select a different photo");
         // set uploaded and inProgress to false
         file.uploaded = false;
         file.inProgress = false;
         file.progress = 0;
         file.error = true;
-        file.errMessage = "Unable to upload this photo, select a different photo";
+        file.errMessage = "Unable to upload this photo";
 
         if(callback){
           callback(false, file);
@@ -136,12 +152,37 @@
       }
     }
 
-    function abortUploading(index){
-      console.log("trigger delete here: ", _data.deviceFiles);
-      _data.deviceFiles.splice(index, 1);
-      uploads[index].abort();
+    function abortUploading(index, uploadCategory){
+      console.log(index, uploadCategory);
+      console.log(uploadObjects);
 
+      // ** There is a 80% chance that the social image is already uploaded
+      // ** because for social image we are passing urls not the whole image
+      // ** so we need to delete that social image manually
+      // ** but for device we can cancel/abort the upload
 
+      // remove if device
+      if(uploadCategory == 'device'){
+        for(var i=0; i<uploadObjects.length; i++){
+          if(uploadObjects[i].photoIndex == index){
+            console.log("Canceling",uploadObjects[i].uploadObj);
+            // abort
+            uploadObjects[i].uploadObj.abort();
+            // remove the uploadObj as well
+            uploadObjects.splice(i, 1);
+            break;
+          }
+        }
+        _data.deviceFiles.splice(index, 1);
+      }
+      // just set default flags and uploadCanceled flag
+      else if(uploadCategory != 'device'){
+        var file = _data.socialFiles[index];
+        file.uploaded = false;
+        file.inProgress = false;
+        file.progress = 0;
+        file.uploadCanceled = true;
+      }
     }
   }
 }());

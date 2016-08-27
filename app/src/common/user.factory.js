@@ -86,7 +86,7 @@
       var deffered = $q.defer();
       restFactory.users.activeSocialProfiles()
         .then(function(resp){
-          console.log(resp);
+          // console.log(resp);
           if(resp.success){
             // if no social profile
             if(!resp.data){
@@ -123,7 +123,7 @@
         $rootScope.user.socialName = '';
         $rootScope.user.activeSocialProfiles.splice(index, 1);
       }
-      console.log("Active Social Profiles Update: ",$rootScope.user.activeSocialProfiles);
+      // console.log("Active Social Profiles Update: ",$rootScope.user.activeSocialProfiles);
     }
 
     // get socialDetails

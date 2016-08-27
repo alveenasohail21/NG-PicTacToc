@@ -80,11 +80,11 @@
     function isAuthenticated(){
       // if not authenticated, authenticate first and get access_token
       if(!authResponse){
-        console.log("not authenticated");
+        // console.log("not authenticated");
         return false;
       }
       else if(isTokenExpire()){
-        console.log("token is expired");
+        // console.log("token is expired");
         return false;
       }
       else{
@@ -94,27 +94,27 @@
 
     function isTokenExpire(){
       var diff = ((requestTimeInSecond+authResponse.expiresIn) - requestTimeInSecond);
-      console.log("Diff>exp: ", diff>authResponse.expiresIn);
+      // console.log("Diff>exp: ", diff>authResponse.expiresIn);
       return (diff>authResponse.expiresIn);
     }
 
     function login(){
       var deffered = $q.defer();
       requestTimeInSecond = (new Date()).getSeconds();
-      console.log(requestTimeInSecond);
+      // console.log(requestTimeInSecond);
       FB.login(function(response) {
-        console.log("Login Resposne: ",response);
+        // console.log("Login Resposne: ",response);
         if (response.status === 'connected') {
-          console.log("connected");
+          // console.log("connected");
           // Logged into your app and Facebook.
           authResponse = response.authResponse;
           deffered.resolve(response);
         } else if (response.status === 'not_authorized') {
-          console.log("not_authorized");
+          // console.log("not_authorized");
           // The person is logged into Facebook, but not your app.
           deffered.reject('Something is wrong');
         } else {
-          console.log("not logged in");
+          // console.log("not logged in");
           // The person is not logged into Facebook, so we're not sure if
           // they are logged into this app or not.
           deffered.reject('Something is wrong');
@@ -132,14 +132,14 @@
       if(!authResponse){
         restFactory.users.socialDetails({platform: 'facebook'})
           .then(function(resp){
-            console.log(resp);
+            // console.log(resp);
             if(resp.success){
-              console.log("Social DETAILS: ", resp.data);
+              // console.log("Social DETAILS: ", resp.data);
               $rootScope.user.socialName = resp.data.social_name;
               saveAuth(resp.data);
             }
             if(albums.data.length>0 && !cursor){
-              console.log("albums present");
+              // console.log("albums present");
               deffered.resolve(albums.data);
             }
             else{
@@ -149,18 +149,18 @@
       }
       // if authenticated and token is not expired, get albums
       else{
-        console.log("Setting Facebook details on rootscope");
+        // console.log("Setting Facebook details on rootscope");
         $rootScope.user.socialName = authResponse.social_name;
         $rootScope.user.socialPicture = authResponse.picture;
 
         if(albums.data.length>0 && !cursor){
-          console.log("albums present");
+          // console.log("albums present");
           deffered.resolve(albums.data);
         }
         else{
           // check if all albums are downloaded
           if(albums.pagination.end){
-            console.log("no more album");
+            // console.log("no more album");
             deffered.resolve([]);
           }
           else{
@@ -182,7 +182,7 @@
             url = graphAPIversion + '/'+ authResponse.social_id+ "/albums";
             break;
         }
-        console.log(url);
+        // console.log(url);
         FB.api(url, 'GET',
           {
             access_token: authResponse.access_token,
@@ -190,7 +190,7 @@
             fields: 'name,source,picture,count'
           },
           function (response) {
-            console.log("Albums Response: ", response);
+            // console.log("Albums Response: ", response);
             if (response && !response.error) {
               // save paging
               if(response.paging.next){
@@ -254,14 +254,14 @@
         if(pagingCursor != null){
           url = pagingCursor;
         }
-        console.log(url);
+        // console.log(url);
         FB.api(url, 'GET',
           {
             access_token: authResponse.access_token,
             fields: 'images,link,name,from,picture,height,width,source'
           },
           function (response) {
-            console.log("Album Photos Response: ", response);
+            // console.log("Album Photos Response: ", response);
             if (response && !response.error) {
               // resolve
               response.data.forEach(function(elem, index){

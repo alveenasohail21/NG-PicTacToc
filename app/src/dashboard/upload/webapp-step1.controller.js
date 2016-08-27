@@ -501,7 +501,7 @@
     }
 
     function abortUploading(index){
-      uploadFactory.abortUploading(index);
+      uploadFactory.abortUploading(index, vm.uploadCategory);
     }
 
     /*

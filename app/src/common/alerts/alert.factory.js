@@ -20,6 +20,7 @@
       class: "alert-success"
     };
     var defaultTimeout = 8000; // 8 seconds
+    var timeoutIds = [];
 
     $rootScope.alert = alert;
 
@@ -33,6 +34,10 @@
 
     /* Define Fuctions */
     function success(title, message, leaveOpen) {
+      // if already opened remove immediately
+      if($rootScope.alert.show){
+        removeAlert(0, true);
+      }
       $rootScope.alert.class = 'alert-success';
       $rootScope.alert.title = title || 'Success: ';
       $rootScope.alert.message = message;
@@ -45,6 +50,10 @@
     }
 
     function error(title, message, leaveOpen) {
+      // if already opened remove immediately
+      if($rootScope.alert.show){
+        removeAlert(0, true);
+      }
       $rootScope.alert.class = 'alert-danger';
       $rootScope.alert.title = title || 'Error: ';
       $rootScope.alert.message = message;
@@ -56,6 +65,10 @@
         removeAlert(defaultTimeout);
     }
     function warning(title, message, leaveOpen) {
+      // if already opened remove immediately
+      if($rootScope.alert.show){
+        removeAlert(0, true);
+      }
       $rootScope.alert.class = 'alert-warning';
       $rootScope.alert.title = title || 'Warning: ';
       $rootScope.alert.message = message;
@@ -66,14 +79,29 @@
       if(!leaveOpen)
         removeAlert(defaultTimeout);
     }
-    function removeAlert(time){
-      $timeout(function(){
+    function removeAlert(time, removeNow){
+      if(removeNow){
         $('.alert.alert-dismissible').css('opacity', '0');
-      }, time-500);
-      $timeout(function(){
         $rootScope.alert.show = false;
         $rootScope.alert.class = '';
-      }, time)
+        // clear timeouts
+        timeoutIds.forEach(function(timeoutId){
+          $timeout.cancel(timeoutId);
+        });
+      }
+      else{
+        timeoutIds = [];
+        var tId;
+        tId = $timeout(function(){
+          $('.alert.alert-dismissible').css('opacity', '0');
+        }, time-500);
+        timeoutIds.push(tId);
+        tId = $timeout(function(){
+          $rootScope.alert.show = false;
+          $rootScope.alert.class = '';
+        }, time);
+        timeoutIds.push(tId);
+      }
     }
 
   }

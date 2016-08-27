@@ -1697,33 +1697,38 @@ body.app .step1 .uploaded-images div.img .custom-svg-icon {
   padding: 8px;
   background-color: white;
   opacity: 1;
-  transition: opacity 0.8s;
 }
-/* line 206, ../partials/_webapp-step1.scss */
+/* line 205, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .custom-svg-icon img {
   height: 100%;
 }
-/* line 211, ../partials/_webapp-step1.scss */
+/* line 210, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .abort-uploading {
-  width: 60px;
-  height: 40px;
-  background: none !important;
-  top: 20px !important;
-  display: block;
-  margin-left: 20px !important;
-  border: none !important;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 4px;
+  z-index: 3;
+  cursor: pointer;
+  left: 50%;
+  margin-top: 0;
+  margin-left: 44px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
 }
-/* line 221, ../partials/_webapp-step1.scss */
+/* line 226, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .custom-svg-icon.blue-tick {
   opacity: 1;
 }
-/* line 223, ../partials/_webapp-step1.scss */
+/* line 228, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .custom-svg-icon.blue-tick img {
   height: 100%;
   padding: 4px 3px;
   transform: rotate(12deg);
 }
-/* line 229, ../partials/_webapp-step1.scss */
+/* line 234, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img .fa-exclamation-circle {
   position: absolute;
   right: 4px;
@@ -1731,14 +1736,14 @@ body.app .step1 .uploaded-images div.img .fa-exclamation-circle {
   color: rgba(255, 32, 32, 0.8);
   font-size: 22px;
 }
-/* line 239, ../partials/_webapp-step1.scss */
+/* line 244, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img.img-upload-all .img-container {
   border-style: dashed;
   border-radius: 12px;
   border-color: #e0e5ea;
   background-color: #f4f7f9;
 }
-/* line 245, ../partials/_webapp-step1.scss */
+/* line 250, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img.img-upload-all .add-all-photos {
   font-family: Font_Open_Sans_Semibold;
   color: #59626a;
@@ -1748,11 +1753,11 @@ body.app .step1 .uploaded-images div.img.img-upload-all .add-all-photos {
   width: 100%;
   font-size: 15px;
 }
-/* line 255, ../partials/_webapp-step1.scss */
+/* line 260, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img:hover .custom-svg-icon {
   opacity: 1;
 }
-/* line 258, ../partials/_webapp-step1.scss */
+/* line 263, ../partials/_webapp-step1.scss */
 body.app .step1 .uploaded-images div.img.add-all-photos {
   border-width: 1.119px;
   border-color: #e0e5ea;
@@ -1760,26 +1765,26 @@ body.app .step1 .uploaded-images div.img.add-all-photos {
   border-radius: 12px;
   background-color: #f4f7f9;
 }
-/* line 270, ../partials/_webapp-step1.scss */
+/* line 275, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons {
   height: 100%;
 }
-/* line 272, ../partials/_webapp-step1.scss */
+/* line 277, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon {
   height: 20%;
   text-align: center;
   cursor: pointer;
   margin-bottom: 3px;
 }
-/* line 278, ../partials/_webapp-step1.scss */
+/* line 283, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .custom-svg-icon {
   position: relative;
 }
-/* line 280, ../partials/_webapp-step1.scss */
+/* line 285, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .custom-svg-icon img, body.app .step1 .upload-icons .upload-icon .custom-svg-icon object {
   width: 32%;
 }
-/* line 283, ../partials/_webapp-step1.scss */
+/* line 288, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .custom-svg-icon .object-backdrop {
   position: absolute;
   top: 0;
@@ -1788,7 +1793,7 @@ body.app .step1 .upload-icons .upload-icon .custom-svg-icon .object-backdrop {
   height: 100%;
   background: transparent;
 }
-/* line 292, ../partials/_webapp-step1.scss */
+/* line 297, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon .title {
   font-family: Font_Open_Sans_Semibold;
   color: #59626a;
@@ -1797,33 +1802,33 @@ body.app .step1 .upload-icons .upload-icon .title {
   word-spacing: 0px;
   font-size: 13px;
 }
-/* line 302, ../partials/_webapp-step1.scss */
+/* line 307, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon.active .title {
   color: #65e0e4;
 }
-/* line 306, ../partials/_webapp-step1.scss */
+/* line 311, ../partials/_webapp-step1.scss */
 body.app .step1 .upload-icons .upload-icon:last-child {
   margin-bottom: 0;
 }
-/* line 314, ../partials/_webapp-step1.scss */
+/* line 319, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums {
   overflow: hidden;
   height: calc(100% - 123px - 20px);
   overflow-y: auto;
   margin-top: 20px;
 }
-/* line 319, ../partials/_webapp-step1.scss */
+/* line 324, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row {
   height: auto;
 }
-/* line 321, ../partials/_webapp-step1.scss */
+/* line 326, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 {
   margin: 0;
   padding: 0;
   padding-top: 50px;
   min-height: 220px;
 }
-/* line 326, ../partials/_webapp-step1.scss */
+/* line 331, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 p {
   margin: 0;
   bottom: 0;
@@ -1834,7 +1839,7 @@ body.app .step1 .fb-albums .row .col-sm-4 p {
   font-family: Font_Open_Sans_Bold;
   margin-bottom: -5px;
 }
-/* line 336, ../partials/_webapp-step1.scss */
+/* line 341, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square {
   width: 134px;
   height: 134px;
@@ -1849,27 +1854,27 @@ body.app .step1 .fb-albums .row .col-sm-4 div.square {
   left: 50%;
   margin-left: -69px;
 }
-/* line 354, ../partials/_webapp-step1.scss */
+/* line 359, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(1) {
   transform: rotate(-19deg);
 }
-/* line 357, ../partials/_webapp-step1.scss */
+/* line 362, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(2) {
   transform: rotate(-15deg);
 }
-/* line 360, ../partials/_webapp-step1.scss */
+/* line 365, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row .col-sm-4 div.square:nth-child(3) {
   transform: rotate(-10deg);
 }
-/* line 367, ../partials/_webapp-step1.scss */
+/* line 372, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(1) {
   transform: rotate(0deg);
 }
-/* line 370, ../partials/_webapp-step1.scss */
+/* line 375, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(2) {
   transform: rotate(0deg);
 }
-/* line 373, ../partials/_webapp-step1.scss */
+/* line 378, ../partials/_webapp-step1.scss */
 body.app .step1 .fb-albums .row div.col-sm-4:hover div.square:nth-child(3) {
   transform: rotate(0deg);
 }
