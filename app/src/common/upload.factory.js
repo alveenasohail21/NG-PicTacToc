@@ -103,7 +103,7 @@
         upload.then(success, error, progress);
       }
       function success(response){
-        console.log("Uploaded");
+        //console.log("Uploaded");
         if(response){
           // if it was a social upload and file was canceled at upload time
           if(file.uploadCanceled){
@@ -132,7 +132,7 @@
       }
 
       function error(response){
-        console.log("UPLOAD ERROR: ", response);
+        //console.log("UPLOAD ERROR: ", response);
         //alertFactory.error(null, "Unable to upload this photo, select a different photo");
         // set uploaded and inProgress to false
         file.uploaded = false;
@@ -153,8 +153,8 @@
     }
 
     function abortUploading(index, uploadCategory){
-      console.log(index, uploadCategory);
-      console.log(uploadObjects);
+      //console.log(index, uploadCategory);
+      //console.log(uploadObjects);
 
       // ** There is a 80% chance that the social image is already uploaded
       // ** because for social image we are passing urls not the whole image
@@ -165,7 +165,7 @@
       if(uploadCategory == 'device'){
         for(var i=0; i<uploadObjects.length; i++){
           if(uploadObjects[i].photoIndex == index){
-            console.log("Canceling",uploadObjects[i].uploadObj);
+            //console.log("Canceling",uploadObjects[i].uploadObj);
             // abort
             uploadObjects[i].uploadObj.abort();
             // remove the uploadObj as well

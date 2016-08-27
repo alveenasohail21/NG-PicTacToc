@@ -4,7 +4,7 @@
   <!--<p>{{filter}}</p>-->
   <!--</div>-->
   <div class="filter" ng-repeat="filter in filters" ng-click="selectedFilter(filter, $index)" ng-class="{'filter-selected': filter.selected}">
-    <img ng-if="thumbnail" id="{{filter.name}}" src="{{thumbnail.base64}}"  alt="">
+    <!--<img ng-if="thumbnail" id="{{filter.name}}" src="{{thumbnail.base64}}"  alt="">-->
     <p>{{filter.name}}</p>
     <img src="svgs/ptt-loader.svg" class="filter-loader" ng-class="{'filter-loader-show': filter.showLoader}" alt="">
   </div>

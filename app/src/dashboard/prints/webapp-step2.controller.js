@@ -394,18 +394,18 @@
             // save index
             canvasBkgImg.photoIndex = index;
             canvasBkgImg.active = true;
-            // save image data
-            vm.selectedPhoto = {
-              thumbnail: vm.myPhotos[index],
-              original: resp
-            };
-            vm.selectedPhoto.thumbnail.applyingFilter=false;
             // caman image for filter
-            canvasImage.src = vm.selectedPhoto.original.base64;
+            canvasImage.src = resp.base64;
             canvasImage.onload = function(){
               $(canvasImage).css('z-index', '-10');
               $(canvasImage).attr('id', 'caman-canvas');
               $('.editor').append(canvasImage);
+              // save image data & filter widget will update filters
+              vm.selectedPhoto = {
+                thumbnail: vm.myPhotos[index],
+                original: resp
+              };
+              vm.selectedPhoto.thumbnail.applyingFilter=false;
             };
             // fabric settings
             var objects = fabricCanvas.getObjects();
@@ -435,21 +435,20 @@
           })
         }
         else{
-          // save image data
-          vm.selectedPhoto = {
-            thumbnail: vm.myPhotos[index],
-            original: resp
-          };
-          vm.selectedPhoto.thumbnail.applyingFilter=false;
-
           //console.log('vm.selectedPhoto: ', vm.selectedPhoto);
           // load image in controller
-          canvasImage.src = vm.selectedPhoto.original.base64;
+          canvasImage.src = resp.base64;
           canvasImage.onload = function() {
             // caman image for filter
             $(canvasImage).css('z-index', '-10');
             $(canvasImage).attr('id', 'caman-canvas');
             $('.editor').append(canvasImage);
+            // save image data & filter widget will update filters
+            vm.selectedPhoto = {
+              thumbnail: vm.myPhotos[index],
+              original: resp
+            };
+            vm.selectedPhoto.thumbnail.applyingFilter=false;
             // settings
             canvasBkgImg.id = (new Date().getTime() / 1000);
             canvasBkgImg.instance = new fabric.Image(canvasImage, {
@@ -608,6 +607,8 @@
     /************************************* LAYOUTS *************************************/
 
     function applyLayout(layout){
+      // not functional right now
+      return;
       //console.log(layout);
       var layoutCloned = angular.copy(layout);
       if(layoutCloned.data.length>0){
@@ -1128,7 +1129,7 @@
           scaleX: 0,
           scaleY: 0
         };
-      console.log("Resetting Image Zoom: ", values);
+      //console.log("Resetting Image Zoom: ", values);
       // reset zoom slider
       zoomSlider.slider('setValue', values.zoomValue);
       // reset originalScale

@@ -60,7 +60,6 @@
     function link(scope, elem, attrs){
 
       scope.selectedFilter = selectedFilter;
-      scope.showFilterLoader=[];
 
       // Initializer
       function init(){
@@ -71,16 +70,22 @@
         if(filters){
           // console.log("RUNNING FILTERS SETUP: ");
           scope.filters = filters;
-          scope.filters.forEach(function(obj){
+          scope.filters.forEach(function(obj, index){
             obj.selected = false;
+            // remove old filter canvas (all)
+            $('canvas#'+obj.name).remove();
+            // add img tag
+            var img = new Image();
+            img.src = scope.thumbnail.base64;
+            img.onload = function() {
+              $(img).attr('id', obj.name);
+              $($('.sidemenu-filters .filter')[index]).prepend(img);
+            }
           });
           // by default normal is applied
           scope.filters[scope.filters.length-1].selected = true;
           activeFilterIndex = scope.filters.length-1;
-          //
-          $timeout(function(){
             applyFilters();
-          }, 200);
         }
         else{
           // console.log("NO FILTERS, NO SETUP");
@@ -92,14 +97,8 @@
         // console.log("FILTERS WATCH EXECUTED: ", newValue, oldValue);
         if(scope.thumbnail && 'base64' in scope.thumbnail){
           // scope.filters = [];
-          $timeout(function(){
-            setupFilters();
-          }, 1000);
+          setupFilters();
         }
-      }, true);
-
-      scope.$watch('showFilterLoader', function(newValue, oldValue){
-        // console.log("value changed");
       }, true);
 
       // apply filters
@@ -107,9 +106,9 @@
         for(var i=0; i<filters.length; i++){
           (function(){
             var filterToApply = filters[i].name;
-            if($('.sidemenu-filters img#'+filterToApply).length <= 0 ){
-              return;
-            }
+            //if($('.sidemenu-filters img#'+filterToApply).length <= 0 ){
+            //  return;
+            //}
             Caman('.sidemenu-filters img#'+filterToApply, function () {
               var that = this;
               //that.revert(true);

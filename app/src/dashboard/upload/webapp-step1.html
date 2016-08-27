@@ -163,7 +163,6 @@ Content : Start
                         <!-- For facebook, instagram, google, flickr photos -->
                         <img src="{{file.thumbnail}}" alt=""  ptt-loader="loader-fb-photo" keep-aspect-ratio="true" ng-if="vm.uploadCategory!='device'">
                         <!-- Upload arrow -->
-                        {{(!file.uploaded || vm.uploadCategory!='device') && !file.inProgress}}
                         <div class="custom-svg-icon" ng-show="(!file.uploaded || vm.uploadCategory!='device') && !file.inProgress">
                             <img src="svgs/gray-arrow-down.svg" alt="">
                         </div>
