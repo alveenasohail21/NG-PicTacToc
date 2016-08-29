@@ -267,13 +267,16 @@
     function getInstagramPhotos(getNext){
       vm.showAlbumOrPhotos = true;
       var nextCursor = null;
+      console.log("show me next url: ", vm.instagram.photos.pagination);
+
       // if getNext is true, pass the paging cursor
       if(getNext && vm.instagram.photos.pagination.next_url){
         nextCursor = vm.instagram.photos.pagination.next_url;
-        // console.log("next photos paging: ", vm.instagram.photos.pagination.next_url);
+        console.log("next photos paging: ", vm.instagram.photos.pagination.next_url);
       }
       else if(vm.instagram.photos.pagination && !('next_url' in vm.instagram.photos.pagination)){
-        // console.log("no next image");
+        console.log("no next image");
+        console.log("show me next url: ", vm.instagram.photos.pagination);
         return;
       }
 
