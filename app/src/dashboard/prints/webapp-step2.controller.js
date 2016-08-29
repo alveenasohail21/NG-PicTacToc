@@ -151,11 +151,11 @@
       zoomSlider = $("#ex4").slider({
         reversed : true
       });
-      zoomSlider.on('slide', function(data){
+      zoomSlider.on('change', function(data){
         //console.log(data.value);
         var bkgImg = fabricCanvas.getObjects()[0];
-        bkgImg.setScaleX(originalScale.x*data.value);
-        bkgImg.setScaleY(originalScale.y*data.value);
+        bkgImg.setScaleX(originalScale.x*data.value.newValue);
+        bkgImg.setScaleY(originalScale.y*data.value.newValue);
         bkgImg.setCoords();
         fabricCanvas.renderAll();
         $timeout(function(){
