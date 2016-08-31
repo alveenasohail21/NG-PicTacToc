@@ -14,7 +14,7 @@ Font Families
   font-family: Font_Myriad_Pro_Regular;
   src: url(/fonts/Myriad_Pro/MYRIADPRO-REGULAR.OTF);
 }
-/* line 47, ../partials/base/_global.scss */
+/* line 73, ../partials/base/_global.scss */
 .font-myriad-regular {
   font-family: Font_Myriad_Pro_Regular;
 }
@@ -23,7 +23,7 @@ Font Families
   font-family: Font_Myriad_Pro_Bold;
   src: url(/fonts/Myriad_Pro/MYRIADPRO-BOLD.OTF);
 }
-/* line 54, ../partials/base/_global.scss */
+/* line 80, ../partials/base/_global.scss */
 .font-myriad-bold {
   font-family: Font_Myriad_Pro_Bold;
 }
@@ -32,7 +32,7 @@ Font Families
   font-family: Font_Open_Sans_Semibold;
   src: url(/fonts/Open_Sans/OpenSans-Semibold.ttf);
 }
-/* line 61, ../partials/base/_global.scss */
+/* line 87, ../partials/base/_global.scss */
 .font-opensans-semibold {
   font-family: Font_Open_Sans_Semibold;
 }
@@ -41,7 +41,7 @@ Font Families
   font-family: Font_Open_Sans_Regular;
   src: url(/fonts/Open_Sans/OpenSans-Regular.ttf);
 }
-/* line 68, ../partials/base/_global.scss */
+/* line 94, ../partials/base/_global.scss */
 .font-opensans-regular {
   font-family: Font_Open_Sans_Regular;
 }
@@ -50,12 +50,12 @@ Font Families
   font-family: Font_Open_Sans_Bold;
   src: url(/fonts/Open_Sans/OpenSans-Bold.ttf);
 }
-/* line 75, ../partials/base/_global.scss */
+/* line 101, ../partials/base/_global.scss */
 .font-opensans-bold {
   font-family: Font_Open_Sans_Bold;
 }
 
-/* line 79, ../partials/base/_global.scss */
+/* line 105, ../partials/base/_global.scss */
 html {
   height: 100%;
   min-height: 100%;
@@ -65,7 +65,7 @@ html {
   overflow: hidden;
 }
 
-/* line 87, ../partials/base/_global.scss */
+/* line 113, ../partials/base/_global.scss */
 body.app {
   position: relative;
   overflow: hidden;
@@ -80,7 +80,7 @@ body.app {
   min-width: 1440px;
 }
 
-/* line 103, ../partials/base/_global.scss */
+/* line 129, ../partials/base/_global.scss */
 body.app {
   /*
   Buttons
@@ -112,100 +112,100 @@ body.app {
   Modals
   */
 }
-/* line 107, ../partials/base/_global.scss */
+/* line 133, ../partials/base/_global.scss */
 body.app button:hover, body.app button:focus, body.app button:active {
   outline: none !important;
 }
-/* line 110, ../partials/base/_global.scss */
+/* line 136, ../partials/base/_global.scss */
 body.app .ptt-btn-blue {
   color: white;
   font-weight: bold;
   background-color: #65e0e4;
 }
-/* line 115, ../partials/base/_global.scss */
+/* line 141, ../partials/base/_global.scss */
 body.app .ptt-btn-blue:hover, body.app .ptt-btn-blue:focus, body.app .ptt-btn-blue:active {
   color: rgba(255, 255, 255, 0.8);
 }
-/* line 118, ../partials/base/_global.scss */
+/* line 144, ../partials/base/_global.scss */
 body.app .ptt-btn-white {
   color: #65e0e4;
   font-weight: bold;
   background-color: white;
 }
-/* line 123, ../partials/base/_global.scss */
+/* line 149, ../partials/base/_global.scss */
 body.app .ptt-btn-white:hover, body.app .ptt-btn-white:focus, body.app .ptt-btn-white:active {
   color: #969ba0;
 }
-/* line 126, ../partials/base/_global.scss */
+/* line 152, ../partials/base/_global.scss */
 body.app .ptt-uppercase {
   text-transform: uppercase;
 }
-/* line 129, ../partials/base/_global.scss */
+/* line 155, ../partials/base/_global.scss */
 body.app .ppt-lowercase {
   text-transform: lowercase;
 }
-/* line 132, ../partials/base/_global.scss */
+/* line 158, ../partials/base/_global.scss */
 body.app .ptt-caps {
   text-transform: capitalize;
 }
-/* line 139, ../partials/base/_global.scss */
+/* line 165, ../partials/base/_global.scss */
 body.app .tooltip-inner {
   background-color: #9a9fa4;
   color: white;
 }
-/* line 143, ../partials/base/_global.scss */
+/* line 169, ../partials/base/_global.scss */
 body.app .tooltip-arrow {
   border-left-color: #9a9fa4 !important;
 }
-/* line 150, ../partials/base/_global.scss */
+/* line 176, ../partials/base/_global.scss */
 body.app .cursor-pointer {
   cursor: pointer;
 }
-/* line 153, ../partials/base/_global.scss */
+/* line 179, ../partials/base/_global.scss */
 body.app .cursor-initial {
   cursor: initial;
 }
-/* line 160, ../partials/base/_global.scss */
+/* line 186, ../partials/base/_global.scss */
 body.app a {
   text-decoration: none;
   color: #65e0e4;
 }
-/* line 164, ../partials/base/_global.scss */
+/* line 190, ../partials/base/_global.scss */
 body.app a:hover, body.app a:focus, body.app a:active {
   text-decoration: none;
   color: #969ba0;
 }
-/* line 173, ../partials/base/_global.scss */
+/* line 199, ../partials/base/_global.scss */
 body.app .visibility-visible {
   visibility: visible !important;
 }
-/* line 176, ../partials/base/_global.scss */
+/* line 202, ../partials/base/_global.scss */
 body.app .visibility-hidden {
   visibility: hidden !important;
 }
-/* line 183, ../partials/base/_global.scss */
+/* line 209, ../partials/base/_global.scss */
 body.app .opacity-1 {
   opacity: 1 !important;
 }
-/* line 186, ../partials/base/_global.scss */
+/* line 212, ../partials/base/_global.scss */
 body.app .opacity-0 {
   opacity: 0 !important;
 }
-/* line 194, ../partials/base/_global.scss */
+/* line 220, ../partials/base/_global.scss */
 body.app .animate-if.ng-enter, body.app .animate-if.ng-leave {
   transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
 }
-/* line 198, ../partials/base/_global.scss */
+/* line 224, ../partials/base/_global.scss */
 body.app .animate-if.ng-enter,
 body.app .animate-if.ng-leave.ng-leave-active {
   opacity: 0;
 }
-/* line 203, ../partials/base/_global.scss */
+/* line 229, ../partials/base/_global.scss */
 body.app .animate-if.ng-leave,
 body.app .animate-if.ng-enter.ng-enter-active {
   opacity: 1;
 }
-/* line 208, ../partials/base/_global.scss */
+/* line 234, ../partials/base/_global.scss */
 body.app .dropdown .dropdown-menu {
   -webkit-transition: all 0.8s;
   -moz-transition: all 0.8s;
@@ -217,12 +217,12 @@ body.app .dropdown .dropdown-menu {
   overflow: hidden;
   opacity: 0;
 }
-/* line 221, ../partials/base/_global.scss */
+/* line 247, ../partials/base/_global.scss */
 body.app .dropdown.open .dropdown-menu {
   max-height: 300px;
   opacity: 1;
 }
-/* line 226, ../partials/base/_global.scss */
+/* line 252, ../partials/base/_global.scss */
 body.app .dropup .dropdown-menu {
   -webkit-transition: all 0.8s;
   -moz-transition: all 0.8s;
@@ -234,39 +234,39 @@ body.app .dropup .dropdown-menu {
   overflow: hidden;
   opacity: 0;
 }
-/* line 239, ../partials/base/_global.scss */
+/* line 265, ../partials/base/_global.scss */
 body.app .dropup.open .dropdown-menu {
   max-height: 300px;
   opacity: 1;
 }
-/* line 273, ../partials/base/_global.scss */
+/* line 299, ../partials/base/_global.scss */
 body.app .view-animate.ng-enter, body.app .view-animate.ng-leave {
   transition: opacity 1s;
 }
-/* line 276, ../partials/base/_global.scss */
+/* line 302, ../partials/base/_global.scss */
 body.app .view-animate.ng-enter {
   opacity: 1;
 }
-/* line 279, ../partials/base/_global.scss */
+/* line 305, ../partials/base/_global.scss */
 body.app .view-animate.ng-enter.ng-enter-active {
   opacity: 1;
 }
-/* line 282, ../partials/base/_global.scss */
+/* line 308, ../partials/base/_global.scss */
 body.app .view-animate.ng-leave.ng-leave-active {
   opacity: 0;
 }
-/* line 291, ../partials/base/_global.scss */
+/* line 317, ../partials/base/_global.scss */
 body.app .blur-5px {
   -webkit-filter: blur(5px);
 }
-/* line 296, ../partials/base/_global.scss */
+/* line 322, ../partials/base/_global.scss */
 body.app .ptt-loader {
   position: absolute;
   height: 100%;
   width: 100%;
   z-index: 2;
 }
-/* line 304, ../partials/base/_global.scss */
+/* line 330, ../partials/base/_global.scss */
 body.app .ptt-loader img {
   /* height: 10%; */
   width: 10%;
@@ -280,20 +280,20 @@ body.app .ptt-loader img {
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 319, ../partials/base/_global.scss */
+/* line 345, ../partials/base/_global.scss */
 body.app .ptt-loader img.loader-fb-album {
   width: 30px;
   margin-left: -15px;
   margin-top: -15px;
 }
-/* line 325, ../partials/base/_global.scss */
+/* line 351, ../partials/base/_global.scss */
 body.app .ptt-loader img.loader-fb-photo {
   width: 30px;
   height: 30px !important;
   margin-left: -15px;
   margin-top: -15px;
 }
-/* line 333, ../partials/base/_global.scss */
+/* line 359, ../partials/base/_global.scss */
 body.app .global-loader {
   position: fixed;
   top: 0;
@@ -302,7 +302,7 @@ body.app .global-loader {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.71);
 }
-/* line 341, ../partials/base/_global.scss */
+/* line 367, ../partials/base/_global.scss */
 body.app .global-loader img {
   position: absolute;
   width: 100px;
@@ -316,7 +316,7 @@ body.app .global-loader img {
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 357, ../partials/base/_global.scss */
+/* line 383, ../partials/base/_global.scss */
 body.app .collapse-loader {
   position: absolute;
   top: 0;
@@ -325,7 +325,7 @@ body.app .collapse-loader {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.71);
 }
-/* line 365, ../partials/base/_global.scss */
+/* line 391, ../partials/base/_global.scss */
 body.app .collapse-loader img {
   position: absolute;
   width: 100px;
@@ -339,7 +339,7 @@ body.app .collapse-loader img {
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 380, ../partials/base/_global.scss */
+/* line 406, ../partials/base/_global.scss */
 body.app img.delete-loader {
   width: 20px;
   height: 20px;
@@ -351,7 +351,7 @@ body.app img.delete-loader {
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 392, ../partials/base/_global.scss */
+/* line 418, ../partials/base/_global.scss */
 body.app img.social-loader {
   margin: 0 !important;
   animation: loader 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
@@ -360,7 +360,7 @@ body.app img.social-loader {
   perspective: 1000px;
   display: none;
 }
-/* line 401, ../partials/base/_global.scss */
+/* line 427, ../partials/base/_global.scss */
 body.app img.filter-loader {
   position: absolute;
   width: 20px;
@@ -370,7 +370,7 @@ body.app img.filter-loader {
   margin-left: -10px;
   animation: loader 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
 }
-/* line 415, ../partials/base/_global.scss */
+/* line 441, ../partials/base/_global.scss */
 body.app .modal-backdrop {
   background-color: #cbced0;
   opacity: 0.71;
@@ -380,17 +380,17 @@ body.app .modal-backdrop {
 /*
 Scrollbar
 */
-/* line 426, ../partials/base/_global.scss */
+/* line 452, ../partials/base/_global.scss */
 *::-webkit-scrollbar {
   width: 10px;
 }
 
-/* line 430, ../partials/base/_global.scss */
+/* line 456, ../partials/base/_global.scss */
 *::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 10px 10px 10px rgba(255, 255, 255, 0.8);
 }
 
-/* line 434, ../partials/base/_global.scss */
+/* line 460, ../partials/base/_global.scss */
 *::-webkit-scrollbar-thumb {
   background-color: #f0f2f2;
   border-radius: 10px;
@@ -422,7 +422,7 @@ Key Frmaes
   }
 }
 /*ALERTS*/
-/* line 474, ../partials/base/_global.scss */
+/* line 500, ../partials/base/_global.scss */
 .alert-dismissible {
   position: fixed;
   top: 10px;
@@ -432,17 +432,17 @@ Key Frmaes
   transition: opacity 0.4s;
 }
 
-/* line 481, ../partials/base/_global.scss */
+/* line 507, ../partials/base/_global.scss */
 .alert-warning {
   border-top: 5px solid #8a6d3b;
 }
 
-/* line 484, ../partials/base/_global.scss */
+/* line 510, ../partials/base/_global.scss */
 .alert-danger {
   border-top: 5px solid #a94442;
 }
 
-/* line 487, ../partials/base/_global.scss */
+/* line 513, ../partials/base/_global.scss */
 .alert-success {
   border-top: 5px solid #3c763d;
 }
@@ -983,7 +983,7 @@ body.app .action-icons-3 .ptt-dropmenu .dropdown-menu {
   padding-left: 19px;
 }
 /* line 29, ../partials/others/_app-others.scss */
-body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-2, body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-3 {
+body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-1, body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-2, body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-3 {
   width: 20px;
   height: 20px;
   display: inline-block;
@@ -994,37 +994,40 @@ body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-2, body.app .action-i
   margin-right: 6px;
 }
 /* line 39, ../partials/others/_app-others.scss */
-body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-1 {
+body.app .action-icons-3 .ptt-dropmenu #ptt-dropdown-color {
   width: 21px;
   height: 21px;
   display: inline-block;
   border-radius: 100%;
   margin-top: 4px;
-  background-color: #f4f7f9;
   margin-left: -5px;
   margin-right: 2px;
 }
-/* line 51, ../partials/others/_app-others.scss */
+/* line 49, ../partials/others/_app-others.scss */
+body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-1 {
+  background-color: #f4f7f9;
+}
+/* line 52, ../partials/others/_app-others.scss */
 body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-2 {
   background-color: #969ba0;
 }
-/* line 54, ../partials/others/_app-others.scss */
+/* line 55, ../partials/others/_app-others.scss */
 body.app .action-icons-3 .ptt-dropmenu .ptt-dropdown-color-3 {
   background-color: #353b42;
 }
-/* line 57, ../partials/others/_app-others.scss */
+/* line 58, ../partials/others/_app-others.scss */
 body.app .action-icons-3 .ptt-dropmenu .caret {
   margin-top: -12px;
   margin-left: 2px;
   margin-right: -4px;
 }
-/* line 63, ../partials/others/_app-others.scss */
+/* line 64, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu {
   cursor: pointer;
   display: inline-block;
   border-radius: 100%;
 }
-/* line 67, ../partials/others/_app-others.scss */
+/* line 68, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu button {
   border: none;
   background: white;
@@ -1032,13 +1035,13 @@ body.app .action-icons-4 .ptt-dropmenu button {
   padding: 7px 15px;
   color: #59626a;
 }
-/* line 74, ../partials/others/_app-others.scss */
+/* line 75, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .caret {
   position: relative;
   margin-top: -4px;
   margin-right: 2px;
 }
-/* line 79, ../partials/others/_app-others.scss */
+/* line 80, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu {
   border: none;
   width: 170px;
@@ -1050,58 +1053,58 @@ body.app .action-icons-4 .ptt-dropmenu .dropdown-menu {
   background-color: white;
   box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
 }
-/* line 91, ../partials/others/_app-others.scss */
+/* line 92, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-size {
   position: absolute;
   right: 23px;
 }
-/* line 94, ../partials/others/_app-others.scss */
+/* line 95, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-size p {
   font-family: Font_Open_Sans_Semibold;
   color: #59626a;
   margin: 0;
   font-size: 12px;
 }
-/* line 100, ../partials/others/_app-others.scss */
+/* line 101, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-size p:hover {
   border-radius: 50%;
   background-color: #65e0e4;
   color: white;
 }
-/* line 106, ../partials/others/_app-others.scss */
+/* line 107, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box {
   background-color: #d8dce0;
   color: #59626a;
   font-family: Font_Open_Sans_Semibold;
   position: relative;
 }
-/* line 111, ../partials/others/_app-others.scss */
+/* line 112, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box img {
   position: absolute;
   width: 20px;
   transition: 0.4s;
   visibility: hidden;
 }
-/* line 118, ../partials/others/_app-others.scss */
+/* line 119, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-border {
   padding: 2px;
 }
-/* line 121, ../partials/others/_app-others.scss */
+/* line 122, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-border:hover {
   border-style: solid;
   border-width: 1px;
   border-color: #65e0e4;
   padding: 1px;
 }
-/* line 127, ../partials/others/_app-others.scss */
+/* line 128, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .box-border:hover img {
   visibility: visible;
 }
-/* line 130, ../partials/others/_app-others.scss */
+/* line 131, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge {
   display: flex;
 }
-/* line 132, ../partials/others/_app-others.scss */
+/* line 133, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box {
   width: 87px;
   height: 65px;
@@ -1109,38 +1112,38 @@ body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box {
   padding-top: 23px;
   font-size: 11px;
 }
-/* line 138, ../partials/others/_app-others.scss */
+/* line 139, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box img.left-arrow {
   top: 13px;
   left: 24px;
 }
-/* line 142, ../partials/others/_app-others.scss */
+/* line 143, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box img.right-arrow {
   bottom: 13px;
   right: 24px;
 }
-/* line 147, ../partials/others/_app-others.scss */
+/* line 148, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box-border:hover .box > img.left-arrow {
   transform: translate3d(-24px, -13px, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 152, ../partials/others/_app-others.scss */
+/* line 153, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box-border:hover .box > img.right-arrow {
   transform: translate3d(24px, 13px, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 157, ../partials/others/_app-others.scss */
+/* line 158, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .enlarge .box-size {
   padding-top: 8px;
 }
-/* line 161, ../partials/others/_app-others.scss */
+/* line 162, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular {
   display: flex;
   padding-top: 11px;
 }
-/* line 164, ../partials/others/_app-others.scss */
+/* line 165, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box {
   width: 80px;
   height: 58px;
@@ -1148,38 +1151,38 @@ body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box {
   padding-top: 21px;
   font-size: 10px;
 }
-/* line 170, ../partials/others/_app-others.scss */
+/* line 171, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box img.left-arrow {
   top: 13px;
   left: 23px;
 }
-/* line 174, ../partials/others/_app-others.scss */
+/* line 175, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box img.right-arrow {
   bottom: 13px;
   right: 23px;
 }
-/* line 179, ../partials/others/_app-others.scss */
+/* line 180, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box-border:hover .box > img.left-arrow {
   transform: translate3d(-23px, -13px, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 184, ../partials/others/_app-others.scss */
+/* line 185, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box-border:hover .box > img.right-arrow {
   transform: translate3d(23px, 13px, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 189, ../partials/others/_app-others.scss */
+/* line 190, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .regular .box-size {
   padding-top: 3px;
 }
-/* line 193, ../partials/others/_app-others.scss */
+/* line 194, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square {
   display: flex;
   padding-top: 10px;
 }
-/* line 196, ../partials/others/_app-others.scss */
+/* line 197, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box {
   width: 64px;
   height: 64px;
@@ -1187,39 +1190,39 @@ body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box {
   padding-top: 23px;
   font-size: 11px;
 }
-/* line 202, ../partials/others/_app-others.scss */
+/* line 203, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box img.left-arrow {
   top: 13px;
   left: 13px;
 }
-/* line 206, ../partials/others/_app-others.scss */
+/* line 207, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box img.right-arrow {
   bottom: 13px;
   right: 13px;
 }
-/* line 211, ../partials/others/_app-others.scss */
+/* line 212, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box-border:hover .box > img.left-arrow {
   transform: translate3d(-13px, -13px, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 216, ../partials/others/_app-others.scss */
+/* line 217, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box-border:hover .box > img.right-arrow {
   transform: translate3d(13px, 13px, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 221, ../partials/others/_app-others.scss */
+/* line 222, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .ptt-dropmenu .dropdown-menu .square .box-size {
   padding-top: 6px;
 }
-/* line 227, ../partials/others/_app-others.scss */
+/* line 228, ../partials/others/_app-others.scss */
 body.app .action-icons-5 .ptt-dropmenu {
   cursor: pointer;
   display: inline-block;
   border-radius: 100%;
 }
-/* line 231, ../partials/others/_app-others.scss */
+/* line 232, ../partials/others/_app-others.scss */
 body.app .action-icons-5 .ptt-dropmenu button {
   border: none;
   background: white;
@@ -1227,7 +1230,7 @@ body.app .action-icons-5 .ptt-dropmenu button {
   padding: 7px 15px 7px 18px;
   letter-spacing: -0.2px;
 }
-/* line 243, ../partials/others/_app-others.scss */
+/* line 244, ../partials/others/_app-others.scss */
 body.app .action-icons {
   opacity: 0.5;
   position: absolute;
@@ -1235,7 +1238,7 @@ body.app .action-icons {
   left: 50%;
   margin-left: -309px;
 }
-/* line 249, ../partials/others/_app-others.scss */
+/* line 250, ../partials/others/_app-others.scss */
 body.app .action-icons .action-icon {
   background-color: #ffffff;
   display: flex;
@@ -1249,26 +1252,26 @@ body.app .action-icons .action-icon {
   background-position: center;
   background-size: 16px;
 }
-/* line 263, ../partials/others/_app-others.scss */
+/* line 264, ../partials/others/_app-others.scss */
 body.app .action-icons:hover {
   opacity: 1;
 }
-/* line 266, ../partials/others/_app-others.scss */
+/* line 267, ../partials/others/_app-others.scss */
 body.app .action-icons-2 {
   padding: 0 12px;
 }
-/* line 268, ../partials/others/_app-others.scss */
+/* line 269, ../partials/others/_app-others.scss */
 body.app .action-icons-2 .action-icon {
   text-align: center;
   cursor: pointer;
   height: 90px;
 }
-/* line 272, ../partials/others/_app-others.scss */
+/* line 273, ../partials/others/_app-others.scss */
 body.app .action-icons-2 .action-icon .title {
   color: #59626a;
   font-family: Font_Open_Sans_Semibold;
 }
-/* line 279, ../partials/others/_app-others.scss */
+/* line 280, ../partials/others/_app-others.scss */
 body.app .action-icons-3 .action-icon {
   background-color: #ffffff;
   display: inline-block;
@@ -1282,13 +1285,13 @@ body.app .action-icons-3 .action-icon {
   background-position: center;
   background-size: 16px;
 }
-/* line 294, ../partials/others/_app-others.scss */
+/* line 295, ../partials/others/_app-others.scss */
 body.app .action-icons-4 {
   position: absolute;
   bottom: 0px;
   right: 20px;
 }
-/* line 298, ../partials/others/_app-others.scss */
+/* line 299, ../partials/others/_app-others.scss */
 body.app .action-icons-4 .action-icon {
   background-color: #ffffff;
   display: inline-block;
@@ -1302,179 +1305,179 @@ body.app .action-icons-4 .action-icon {
   background-position: center;
   background-size: 16px;
 }
-/* line 317, ../partials/others/_app-others.scss */
+/* line 318, ../partials/others/_app-others.scss */
 body.app .action-question {
   background: url(/images/icon_question.png);
 }
-/* line 320, ../partials/others/_app-others.scss */
+/* line 321, ../partials/others/_app-others.scss */
 body.app .action-flip-h {
   background: url(/images/flip_horizontal_icon.png);
 }
-/* line 323, ../partials/others/_app-others.scss */
+/* line 324, ../partials/others/_app-others.scss */
 body.app .action-flip-v {
   background: url(/images/flip_vertical_icon.png);
 }
-/* line 326, ../partials/others/_app-others.scss */
+/* line 327, ../partials/others/_app-others.scss */
 body.app .action-rotate-h {
   background: url(/images/rotate_horizontal_icon.png);
 }
-/* line 329, ../partials/others/_app-others.scss */
+/* line 330, ../partials/others/_app-others.scss */
 body.app .action-rotate-v {
   background: url(/images/rotate_vertical_icon.png);
 }
-/* line 332, ../partials/others/_app-others.scss */
+/* line 333, ../partials/others/_app-others.scss */
 body.app .action-layout {
   margin-top: 18px;
   height: 67px !important;
   padding-top: 5px;
 }
-/* line 336, ../partials/others/_app-others.scss */
+/* line 337, ../partials/others/_app-others.scss */
 body.app .action-layout .gray-layout {
   margin-bottom: 6px;
 }
-/* line 339, ../partials/others/_app-others.scss */
+/* line 340, ../partials/others/_app-others.scss */
 body.app .action-layout img, body.app .action-layout object {
   width: 41px;
 }
-/* line 343, ../partials/others/_app-others.scss */
+/* line 344, ../partials/others/_app-others.scss */
 body.app .action-layout.active {
   border-radius: 12px;
   background-color: #f4f7f9;
 }
-/* line 346, ../partials/others/_app-others.scss */
+/* line 347, ../partials/others/_app-others.scss */
 body.app .action-layout.active .title {
   color: #65e0e4;
 }
-/* line 350, ../partials/others/_app-others.scss */
+/* line 351, ../partials/others/_app-others.scss */
 body.app .action-filter {
   margin-top: 20px;
   height: 67px !important;
   padding-top: 5px;
 }
-/* line 354, ../partials/others/_app-others.scss */
+/* line 355, ../partials/others/_app-others.scss */
 body.app .action-filter .gray-filter {
   margin-bottom: 6px;
 }
-/* line 357, ../partials/others/_app-others.scss */
+/* line 358, ../partials/others/_app-others.scss */
 body.app .action-filter img, body.app .action-filter object {
   width: 42px;
 }
-/* line 361, ../partials/others/_app-others.scss */
+/* line 362, ../partials/others/_app-others.scss */
 body.app .action-filter.active {
   border-radius: 12px;
   background-color: #f4f7f9;
 }
-/* line 364, ../partials/others/_app-others.scss */
+/* line 365, ../partials/others/_app-others.scss */
 body.app .action-filter.active .title {
   color: #65e0e4;
 }
-/* line 368, ../partials/others/_app-others.scss */
+/* line 369, ../partials/others/_app-others.scss */
 body.app .action-text {
   margin-top: 20px;
   padding-top: 5px;
   height: 67px !important;
 }
-/* line 372, ../partials/others/_app-others.scss */
+/* line 373, ../partials/others/_app-others.scss */
 body.app .action-text .gray-text {
   line-height: 0;
 }
-/* line 375, ../partials/others/_app-others.scss */
+/* line 376, ../partials/others/_app-others.scss */
 body.app .action-text img, body.app .action-text object {
   width: 37px;
 }
-/* line 379, ../partials/others/_app-others.scss */
+/* line 380, ../partials/others/_app-others.scss */
 body.app .action-text.active {
   border-radius: 12px;
   background-color: #f4f7f9;
 }
-/* line 382, ../partials/others/_app-others.scss */
+/* line 383, ../partials/others/_app-others.scss */
 body.app .action-text.active .title {
   color: #65e0e4;
 }
-/* line 386, ../partials/others/_app-others.scss */
+/* line 387, ../partials/others/_app-others.scss */
 body.app .action-stickers {
   position: relative;
   margin-top: 12px;
   height: 72px !important;
   padding-top: 40px;
 }
-/* line 391, ../partials/others/_app-others.scss */
+/* line 392, ../partials/others/_app-others.scss */
 body.app .action-stickers .gray-sticker {
   padding-left: 17px;
   margin-bottom: 6px;
 }
-/* line 395, ../partials/others/_app-others.scss */
+/* line 396, ../partials/others/_app-others.scss */
 body.app .action-stickers img, body.app .action-stickers object {
   position: absolute;
   left: 15px;
   top: -20px;
   width: 64px;
 }
-/* line 403, ../partials/others/_app-others.scss */
+/* line 404, ../partials/others/_app-others.scss */
 body.app .action-stickers.active {
   border-radius: 12px;
   background-color: #f4f7f9;
 }
-/* line 406, ../partials/others/_app-others.scss */
+/* line 407, ../partials/others/_app-others.scss */
 body.app .action-stickers.active .title {
   color: #65e0e4;
 }
-/* line 410, ../partials/others/_app-others.scss */
+/* line 411, ../partials/others/_app-others.scss */
 body.app .action-add-photos {
   margin-top: 15px;
   padding-top: 5px;
   height: 80px !important;
 }
-/* line 414, ../partials/others/_app-others.scss */
+/* line 415, ../partials/others/_app-others.scss */
 body.app .action-add-photos .gray-photos {
   margin-bottom: 2px;
 }
-/* line 417, ../partials/others/_app-others.scss */
+/* line 418, ../partials/others/_app-others.scss */
 body.app .action-add-photos img, body.app .action-add-photos object {
   width: 39px;
 }
-/* line 421, ../partials/others/_app-others.scss */
+/* line 422, ../partials/others/_app-others.scss */
 body.app .action-fb {
   background: url(/images/fb_icon.png);
   background-size: 20px !important;
 }
-/* line 425, ../partials/others/_app-others.scss */
+/* line 426, ../partials/others/_app-others.scss */
 body.app .action-copy {
   background: url(/images/copy_icon.png);
 }
-/* line 428, ../partials/others/_app-others.scss */
+/* line 429, ../partials/others/_app-others.scss */
 body.app .action-dustbin {
   background: url(/images/dustbin_icon.png);
 }
-/* line 431, ../partials/others/_app-others.scss */
+/* line 432, ../partials/others/_app-others.scss */
 body.app .action-border-a {
   background: url(/images/border_a_icon.png);
 }
-/* line 434, ../partials/others/_app-others.scss */
+/* line 435, ../partials/others/_app-others.scss */
 body.app .action-border-b {
   background: url(/images/border_b_icon.png);
 }
-/* line 437, ../partials/others/_app-others.scss */
+/* line 438, ../partials/others/_app-others.scss */
 body.app .action-border-ab {
   background: url(/images/border_ab_icon.png);
 }
-/* line 440, ../partials/others/_app-others.scss */
+/* line 441, ../partials/others/_app-others.scss */
 body.app .action-border-ab-color-a {
   background: url(/images/border_ab_color_a_icon.png);
 }
-/* line 443, ../partials/others/_app-others.scss */
+/* line 444, ../partials/others/_app-others.scss */
 body.app .action-border-ab-color-b {
   background: url(/images/border_ab_color_b_icon.png);
 }
-/* line 447, ../partials/others/_app-others.scss */
+/* line 448, ../partials/others/_app-others.scss */
 body.app .opacity-0 {
   opacity: 0;
 }
-/* line 451, ../partials/others/_app-others.scss */
+/* line 452, ../partials/others/_app-others.scss */
 body.app .opacity-1 {
   opacity: 1;
 }
-/* line 455, ../partials/others/_app-others.scss */
+/* line 456, ../partials/others/_app-others.scss */
 body.app .top-80px {
   top: 80px !important;
 }
@@ -1886,7 +1889,68 @@ body.app {
 body.app .box-size {
   text-align: center;
 }
-/* line 6, ../partials/_webapp-step2.scss */
+/* line 8, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-2-bg {
+  background-color: #6c6c6c !important;
+  color: #ECEDEE !important;
+}
+/* line 11, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-2-bg .custom-svg-icon, body.app .ptt-dropdown-color-2-bg button, body.app .ptt-dropdown-color-2-bg ul, body.app .ptt-dropdown-color-2-bg p {
+  color: #ECEDEE !important;
+  background-color: #747B82 !important;
+}
+/* line 15, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-2-bg .slider-track-high {
+  background-color: #C6C9CC !important;
+}
+/* line 18, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-2-bg .slider-selection {
+  background-color: #868C91 !important;
+}
+/* line 21, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-2-bg .slider-handle {
+  border-color: #C6C9CC !important;
+  background-color: #868C91 !important;
+}
+/* line 25, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-2-bg .box {
+  color: #ECEDEE !important;
+  background-color: #8F9398 !important;
+}
+/* line 30, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-3-bg {
+  background-color: #282828 !important;
+  color: #E4E5E6 !important;
+}
+/* line 33, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-3-bg .custom-svg-icon, body.app .ptt-dropdown-color-3-bg button, body.app .ptt-dropdown-color-3-bg ul, body.app .ptt-dropdown-color-3-bg p {
+  color: #E4E5E6 !important;
+  background-color: #242931 !important;
+}
+/* line 37, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-3-bg .slider-handle {
+  border-color: #909397 !important;
+  background-color: #2D3239 !important;
+}
+/* line 42, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-3-bg .slider-track-high {
+  background-color: #909397 !important;
+}
+/* line 45, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-3-bg .slider-selection {
+  background-color: #2D3239 !important;
+}
+/* line 48, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-3-bg .slider-handle {
+  border-color: #909397 !important;
+  background-color: #2D3239 !important;
+}
+/* line 52, ../partials/_webapp-step2.scss */
+body.app .ptt-dropdown-color-3-bg .box {
+  color: #E4E5E6 !important;
+  background-color: #909397 !important;
+}
+/* line 60, ../partials/_webapp-step2.scss */
 body.app .box-size p {
   padding: 2px;
   border-radius: 10px;
@@ -1896,19 +1960,19 @@ body.app .box-size p {
   font-size: 10px !important;
   margin: 3px !important;
 }
-/* line 15, ../partials/_webapp-step2.scss */
+/* line 69, ../partials/_webapp-step2.scss */
 body.app .box-size p:hover {
   padding: 2px;
 }
-/* line 18, ../partials/_webapp-step2.scss */
+/* line 72, ../partials/_webapp-step2.scss */
 body.app .ptt-colors {
   padding-left: 15px !important;
 }
-/* line 23, ../partials/_webapp-step2.scss */
+/* line 77, ../partials/_webapp-step2.scss */
 body.app .step2-main {
   transition: opacity 0.6s;
 }
-/* line 37, ../partials/_webapp-step2.scss */
+/* line 91, ../partials/_webapp-step2.scss */
 body.app #ptt-wrapper {
   padding-left: 90px;
   background-color: #f4f7f9;
@@ -1917,12 +1981,12 @@ body.app #ptt-wrapper {
   height: calc(100% - 80px - 166px);
   top: 80px;
 }
-/* line 45, ../partials/_webapp-step2.scss */
+/* line 99, ../partials/_webapp-step2.scss */
 body.app #ptt-wrapper #menu-toggle {
   color: white;
   text-decoration: none;
 }
-/* line 50, ../partials/_webapp-step2.scss */
+/* line 104, ../partials/_webapp-step2.scss */
 body.app #ptt-sidebar-wrapper {
   width: 90px;
   background: #ffffff;
@@ -1942,30 +2006,30 @@ body.app #ptt-sidebar-wrapper {
   box-shadow: 0px 7px 10px 0px rgba(239, 243, 246, 0.9);
   /*-- photoshop style sidebar : end --*/
 }
-/* line 71, ../partials/_webapp-step2.scss */
+/* line 125, ../partials/_webapp-step2.scss */
 body.app #ptt-content-wrapper {
   overflow-y: auto;
   height: 100%;
   position: relative;
 }
-/* line 76, ../partials/_webapp-step2.scss */
+/* line 130, ../partials/_webapp-step2.scss */
 body.app #ptt-content-wrapper-2 {
   height: 100%;
   position: relative;
 }
-/* line 79, ../partials/_webapp-step2.scss */
+/* line 133, ../partials/_webapp-step2.scss */
 body.app #ptt-content-wrapper-2 .container-fluid {
   height: 100%;
 }
-/* line 81, ../partials/_webapp-step2.scss */
+/* line 135, ../partials/_webapp-step2.scss */
 body.app #ptt-content-wrapper-2 .container-fluid .row {
   height: 100%;
 }
-/* line 83, ../partials/_webapp-step2.scss */
+/* line 137, ../partials/_webapp-step2.scss */
 body.app #ptt-content-wrapper-2 .container-fluid .row .carousel {
   height: 100%;
 }
-/* line 92, ../partials/_webapp-step2.scss */
+/* line 146, ../partials/_webapp-step2.scss */
 body.app #ptt-wrapper-2 {
   padding-left: 0;
   color: black;
@@ -1975,11 +2039,11 @@ body.app #ptt-wrapper-2 {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
-/* line 103, ../partials/_webapp-step2.scss */
+/* line 157, ../partials/_webapp-step2.scss */
 body.app #ptt-wrapper-2.toggled {
   padding-left: 295px;
 }
-/* line 107, ../partials/_webapp-step2.scss */
+/* line 161, ../partials/_webapp-step2.scss */
 body.app #ptt-sidebar-wrapper-2 {
   z-index: 2;
   position: absolute;
@@ -1992,7 +2056,7 @@ body.app #ptt-sidebar-wrapper-2 {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
-/* line 120, ../partials/_webapp-step2.scss */
+/* line 174, ../partials/_webapp-step2.scss */
 body.app #ptt-sidebar-wrapper-2 button {
   position: absolute;
   right: 5px;
@@ -2003,26 +2067,26 @@ body.app #ptt-sidebar-wrapper-2 button {
   border: none;
   border-radius: 4px;
 }
-/* line 129, ../partials/_webapp-step2.scss */
+/* line 183, ../partials/_webapp-step2.scss */
 body.app #ptt-sidebar-wrapper-2 button i {
   color: #969ba0;
 }
-/* line 135, ../partials/_webapp-step2.scss */
+/* line 189, ../partials/_webapp-step2.scss */
 body.app #ptt-wrapper-2.toggled #ptt-sidebar-wrapper-2 {
   width: 325px;
 }
-/* line 139, ../partials/_webapp-step2.scss */
+/* line 193, ../partials/_webapp-step2.scss */
 body.app #page-content-wrapper {
   width: 100%;
   position: absolute;
   padding: 15px;
 }
-/* line 145, ../partials/_webapp-step2.scss */
+/* line 199, ../partials/_webapp-step2.scss */
 body.app #ptt-wrapper-2.toggled #page-content-wrapper {
   position: absolute;
   margin-right: -250px;
 }
-/* line 152, ../partials/_webapp-step2.scss */
+/* line 206, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2 {
   position: absolute;
   top: 0;
@@ -2037,11 +2101,11 @@ body.app .ptt-sidebar-content-2 {
   box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
   /*-- photoshop style sidebar : end --*/
 }
-/* line 167, ../partials/_webapp-step2.scss */
+/* line 221, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-layouts {
   padding: 5px 26px;
 }
-/* line 170, ../partials/_webapp-step2.scss */
+/* line 224, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-layouts .empty-images {
   display: inline-block;
   width: 111px;
@@ -2056,20 +2120,20 @@ body.app .ptt-sidebar-content-2.sidemenu-layouts .empty-images {
   border-radius: 5px;
   background-color: #f4f7f9;
 }
-/* line 183, ../partials/_webapp-step2.scss */
+/* line 237, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-layouts .empty-images img {
   transition: 1s;
   opacity: 0;
   width: 100%;
   height: 100%;
 }
-/* line 192, ../partials/_webapp-step2.scss */
+/* line 246, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-filters {
   text-align: left;
   padding-top: 8px;
   padding-left: 16px;
 }
-/* line 196, ../partials/_webapp-step2.scss */
+/* line 250, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-filters div.filter {
   transition: 1s;
   opacity: 0;
@@ -2079,7 +2143,7 @@ body.app .ptt-sidebar-content-2.sidemenu-filters div.filter {
   padding: 13px 3px 0;
   position: relative;
 }
-/* line 204, ../partials/_webapp-step2.scss */
+/* line 258, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-filters div.filter img:not(.filter-loader), body.app .ptt-sidebar-content-2.sidemenu-filters div.filter canvas {
   cursor: pointer;
   width: 75px;
@@ -2088,15 +2152,15 @@ body.app .ptt-sidebar-content-2.sidemenu-filters div.filter img:not(.filter-load
   border-radius: 10px;
   margin: 0 3px;
 }
-/* line 212, ../partials/_webapp-step2.scss */
+/* line 266, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-filters div.filter img:not(.filter-loader):hover {
   transform: scale3d(1.1, 1.1, 1);
 }
-/* line 215, ../partials/_webapp-step2.scss */
+/* line 269, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-filters div.filter canvas:hover {
   transform: scale3d(1.1, 1.1, 1);
 }
-/* line 218, ../partials/_webapp-step2.scss */
+/* line 272, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-filters div.filter p {
   font-family: Font_Open_Sans_Semibold;
   margin-bottom: 0;
@@ -2105,53 +2169,53 @@ body.app .ptt-sidebar-content-2.sidemenu-filters div.filter p {
   overflow: hidden;
   white-space: nowrap;
 }
-/* line 226, ../partials/_webapp-step2.scss */
+/* line 280, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-filters div.filter .filter-loader {
   visibility: hidden;
   border: none;
 }
-/* line 230, ../partials/_webapp-step2.scss */
+/* line 284, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-filters div.filter .filter-loader-show {
   visibility: visible;
 }
-/* line 236, ../partials/_webapp-step2.scss */
+/* line 290, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-filters div.filter-selected img, body.app .ptt-sidebar-content-2.sidemenu-filters div.filter-selected canvas {
   border: 3px solid #65e0e4;
 }
-/* line 239, ../partials/_webapp-step2.scss */
+/* line 293, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-filters div.filter-selected p {
   color: #65e0e4;
 }
-/* line 245, ../partials/_webapp-step2.scss */
+/* line 299, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-stickers {
   padding: 10px 15px;
 }
-/* line 247, ../partials/_webapp-step2.scss */
+/* line 301, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-stickers #gallery-container {
   transition: 1s;
   opacity: 0;
 }
-/* line 251, ../partials/_webapp-step2.scss */
+/* line 305, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-stickers ul {
   height: 100% !important;
 }
-/* line 255, ../partials/_webapp-step2.scss */
+/* line 309, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-stickers ul li {
   cursor: pointer;
   padding: 2px 10px;
 }
-/* line 258, ../partials/_webapp-step2.scss */
+/* line 312, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-stickers ul li img:hover {
   animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
-/* line 269, ../partials/_webapp-step2.scss */
+/* line 323, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts {
   padding: 15px 0 0 12px;
 }
-/* line 271, ../partials/_webapp-step2.scss */
+/* line 325, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.text {
   transition: opacity 1s;
   opacity: 0;
@@ -2166,56 +2230,56 @@ body.app .ptt-sidebar-content-2.sidemenu-texts div.text {
   display: inline-block;
   color: #59626a;
 }
-/* line 284, ../partials/_webapp-step2.scss */
+/* line 338, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.text .text1 {
   font-family: Font_Myriad_Pro_Regular;
 }
-/* line 287, ../partials/_webapp-step2.scss */
+/* line 341, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.text .text2 {
   font-family: Font_Open_Sans_Semibold;
 }
-/* line 290, ../partials/_webapp-step2.scss */
+/* line 344, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.text .text3 {
   font-family: "Goudy Old Style";
 }
-/* line 293, ../partials/_webapp-step2.scss */
+/* line 347, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.text .text4 {
   font-family: Helvetica;
 }
-/* line 296, ../partials/_webapp-step2.scss */
+/* line 350, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.text .bold {
   font-weight: bold;
 }
-/* line 299, ../partials/_webapp-step2.scss */
+/* line 353, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.text .italic {
   font-style: italic;
 }
-/* line 303, ../partials/_webapp-step2.scss */
+/* line 357, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.text:focus, body.app .ptt-sidebar-content-2.sidemenu-texts div.text:active {
   border: 2px solid #65e0e4;
   margin: 5px 2px 0 0;
 }
-/* line 307, ../partials/_webapp-step2.scss */
+/* line 361, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.sample {
   margin: 5px;
 }
-/* line 310, ../partials/_webapp-step2.scss */
+/* line 364, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.showcase {
   text-overflow: clip;
   overflow: hidden;
   font-size: 200%;
 }
-/* line 315, ../partials/_webapp-step2.scss */
+/* line 369, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.type {
   position: absolute;
   bottom: 0;
   width: 100%;
 }
-/* line 321, ../partials/_webapp-step2.scss */
+/* line 375, ../partials/_webapp-step2.scss */
 body.app .ptt-sidebar-content-2.sidemenu-texts div.text-selected {
   border: 2px solid #65e0e4;
 }
-/* line 326, ../partials/_webapp-step2.scss */
+/* line 380, ../partials/_webapp-step2.scss */
 body.app .text-editor-parent {
   position: absolute;
   z-index: 1;
@@ -2223,7 +2287,7 @@ body.app .text-editor-parent {
   opacity: 0;
   transition: opacity 0.8s;
 }
-/* line 332, ../partials/_webapp-step2.scss */
+/* line 386, ../partials/_webapp-step2.scss */
 body.app .text-editor-parent .text-editor-wrapper {
   background-color: #f4f7f9;
   padding: 0px 25px;
@@ -2231,28 +2295,28 @@ body.app .text-editor-parent .text-editor-wrapper {
   display: inline-flex;
   height: 48px;
 }
-/* line 339, ../partials/_webapp-step2.scss */
+/* line 393, ../partials/_webapp-step2.scss */
 body.app .text-editor-parent .text-editor-wrapper .btn-delete {
   background-color: #f4f7f9;
 }
-/* line 342, ../partials/_webapp-step2.scss */
+/* line 396, ../partials/_webapp-step2.scss */
 body.app .text-editor-parent .text-editor-wrapper .btn-delete img {
   height: 25px;
 }
-/* line 345, ../partials/_webapp-step2.scss */
+/* line 399, ../partials/_webapp-step2.scss */
 body.app .text-editor-parent .text-editor-wrapper .color-picker {
   position: relative !important;
   top: 0 !important;
   right: 0 !important;
   padding: 0 !important;
 }
-/* line 351, ../partials/_webapp-step2.scss */
+/* line 405, ../partials/_webapp-step2.scss */
 body.app .text-editor-parent .color-picker > .ptt-dropmenu > button {
   padding: 0 !important;
   margin: 10px 0;
   background-color: #f4f7f9;
 }
-/* line 356, ../partials/_webapp-step2.scss */
+/* line 410, ../partials/_webapp-step2.scss */
 body.app .text-editor-parent .text-editor-wrapper .size-picker {
   border: none;
   background: #f4f7f9;
@@ -2260,18 +2324,18 @@ body.app .text-editor-parent .text-editor-wrapper .size-picker {
   color: #59626a;
   width: 51px;
 }
-/* line 363, ../partials/_webapp-step2.scss */
+/* line 417, ../partials/_webapp-step2.scss */
 body.app .text-editor-parent .vertical-partition {
   border-right: 1px solid lightgrey;
   margin: 6px 25px;
 }
-/* line 368, ../partials/_webapp-step2.scss */
+/* line 422, ../partials/_webapp-step2.scss */
 body.app .text-editor-parent .dropdown-menu {
   margin-left: -15px;
   top: 34px !important;
   background-color: #f4f7f9;
 }
-/* line 378, ../partials/_webapp-step2.scss */
+/* line 432, ../partials/_webapp-step2.scss */
 body.app .action-icons-3 {
   position: absolute;
   top: 16px;
@@ -2279,7 +2343,7 @@ body.app .action-icons-3 {
   display: inline-flex;
   z-index: 2;
 }
-/* line 384, ../partials/_webapp-step2.scss */
+/* line 438, ../partials/_webapp-step2.scss */
 body.app .action-icons-3 .custom-svg-icon {
   border-radius: 50%;
   background-color: white;
@@ -2290,15 +2354,15 @@ body.app .action-icons-3 .custom-svg-icon {
   margin-right: 13px;
   cursor: pointer;
 }
-/* line 394, ../partials/_webapp-step2.scss */
+/* line 448, ../partials/_webapp-step2.scss */
 body.app .action-icons-3 .custom-svg-icon.gray-share-white-bkg {
   padding: 3px 2px;
 }
-/* line 397, ../partials/_webapp-step2.scss */
+/* line 451, ../partials/_webapp-step2.scss */
 body.app .action-icons-3 .gray-question object, body.app .action-icons-3 .gray-question img, body.app .action-icons-3 .gray-share-white-bkg object, body.app .action-icons-3 .gray-share-white-bkg img {
   height: 100%;
 }
-/* line 402, ../partials/_webapp-step2.scss */
+/* line 456, ../partials/_webapp-step2.scss */
 body.app .action-icons-4 {
   position: absolute;
   bottom: 14px;
@@ -2307,7 +2371,7 @@ body.app .action-icons-4 {
   font-family: Font_Open_Sans_Semibold;
   z-index: 2;
 }
-/* line 409, ../partials/_webapp-step2.scss */
+/* line 463, ../partials/_webapp-step2.scss */
 body.app .action-icons-4 .custom-svg-icon {
   border-radius: 50%;
   background-color: white;
@@ -2318,15 +2382,15 @@ body.app .action-icons-4 .custom-svg-icon {
   margin-right: 9px;
   cursor: pointer;
 }
-/* line 419, ../partials/_webapp-step2.scss */
+/* line 473, ../partials/_webapp-step2.scss */
 body.app .action-icons-4 .custom-svg-icon.gray-delete {
   padding: 8px 11px;
 }
-/* line 422, ../partials/_webapp-step2.scss */
+/* line 476, ../partials/_webapp-step2.scss */
 body.app .action-icons-4 .gray-copy object, body.app .action-icons-4 .gray-copy img, body.app .action-icons-4 .gray-delete object, body.app .action-icons-4 .gray-delete img {
   height: 100%;
 }
-/* line 427, ../partials/_webapp-step2.scss */
+/* line 481, ../partials/_webapp-step2.scss */
 body.app .action-icons-5 {
   font-family: Font_Open_Sans_Semibold;
   position: absolute;
@@ -2334,17 +2398,17 @@ body.app .action-icons-5 {
   left: 15px;
   z-index: 2;
 }
-/* line 433, ../partials/_webapp-step2.scss */
+/* line 487, ../partials/_webapp-step2.scss */
 body.app .action-icons-5 .caret {
   position: relative;
   margin-top: -4px;
   margin-left: 1px;
 }
-/* line 438, ../partials/_webapp-step2.scss */
+/* line 492, ../partials/_webapp-step2.scss */
 body.app .action-icons-5 span.count {
   margin-left: 13px;
 }
-/* line 445, ../partials/_webapp-step2.scss */
+/* line 499, ../partials/_webapp-step2.scss */
 body.app div#image-studio {
   height: 100%;
   width: 100%;
@@ -2352,16 +2416,15 @@ body.app div#image-studio {
   padding: 2.65% 0;
   overflow-y: auto;
 }
-/* line 451, ../partials/_webapp-step2.scss */
+/* line 505, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar {
   position: absolute;
   left: -55px;
   top: 50%;
   margin-top: -111px;
 }
-/* line 456, ../partials/_webapp-step2.scss */
+/* line 510, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar .custom-svg-icon {
-  opacity: 0.6;
   transition: opacity 0.8s;
   cursor: pointer;
   border-radius: 50%;
@@ -2372,44 +2435,44 @@ body.app div#image-studio div.toolbar .custom-svg-icon {
   display: flex;
   margin-bottom: 11px;
 }
-/* line 467, ../partials/_webapp-step2.scss */
+/* line 521, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar .custom-svg-icon object, body.app div#image-studio div.toolbar .custom-svg-icon img {
   height: 100%;
 }
-/* line 471, ../partials/_webapp-step2.scss */
+/* line 525, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar .custom-svg-icon:hover {
   opacity: 1;
 }
-/* line 474, ../partials/_webapp-step2.scss */
+/* line 528, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar .custom-svg-icon.gray-border-none {
   padding: 9px 10px 9px;
 }
-/* line 477, ../partials/_webapp-step2.scss */
+/* line 531, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar .custom-svg-icon.gray-flip-v {
   padding: 7px 10px;
   transform: rotate(270deg);
 }
-/* line 481, ../partials/_webapp-step2.scss */
+/* line 535, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar .custom-svg-icon.gray-flip-h {
   padding: 7px 9px;
 }
-/* line 484, ../partials/_webapp-step2.scss */
+/* line 538, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-r {
   padding: 9px 8px;
 }
-/* line 486, ../partials/_webapp-step2.scss */
+/* line 540, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-r object, body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-r img {
   transform: rotate(180deg);
 }
-/* line 490, ../partials/_webapp-step2.scss */
+/* line 544, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-l {
   padding: 9px 9px;
 }
-/* line 492, ../partials/_webapp-step2.scss */
+/* line 546, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-l object, body.app div#image-studio div.toolbar .custom-svg-icon.gray-rotate-l img {
   transform: scaleY(-1) rotate(-90deg);
 }
-/* line 497, ../partials/_webapp-step2.scss */
+/* line 551, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.element {
   min-width: 240px;
   min-height: 240px;
@@ -2417,7 +2480,7 @@ body.app div#image-studio div.element {
   box-shadow: 0px 0px 10px 1px rgba(229, 229, 229, 0.9);
   position: relative;
 }
-/* line 509, ../partials/_webapp-step2.scss */
+/* line 563, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.zoomBar {
   position: absolute;
   height: 100%;
@@ -2426,32 +2489,32 @@ body.app div#image-studio div.zoomBar {
   padding: 19% 0;
   top: 0;
 }
-/* line 516, ../partials/_webapp-step2.scss */
+/* line 570, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.zoomBar .slider {
   transition: opacity 0.8s;
   opacity: 0.8;
   position: relative;
   height: 100%;
 }
-/* line 521, ../partials/_webapp-step2.scss */
+/* line 575, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.zoomBar .slider .slider-track {
   width: 6px;
 }
-/* line 524, ../partials/_webapp-step2.scss */
+/* line 578, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.zoomBar .slider .slider-selection {
   top: 0%;
   height: 15%;
   width: 6px;
   background: #d8dce0;
 }
-/* line 530, ../partials/_webapp-step2.scss */
+/* line 584, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.zoomBar .slider .slider-track-high {
   bottom: 0px;
   width: 6px;
   height: 85%;
   background: #ffffff;
 }
-/* line 536, ../partials/_webapp-step2.scss */
+/* line 590, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.zoomBar .slider .slider-handle {
   top: 15%;
   width: 10px;
@@ -2462,15 +2525,15 @@ body.app div#image-studio div.zoomBar .slider .slider-handle {
   background-color: #9a9fa4;
   background-image: none;
 }
-/* line 546, ../partials/_webapp-step2.scss */
+/* line 600, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.zoomBar .slider .tooltip {
   display: none;
 }
-/* line 550, ../partials/_webapp-step2.scss */
+/* line 604, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.zoomBar .slider:hover {
   opacity: 1;
 }
-/* line 554, ../partials/_webapp-step2.scss */
+/* line 608, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.editor {
   height: 100%;
   width: 100%;
@@ -2479,7 +2542,7 @@ body.app div#image-studio div.editor {
   transition: width,height 0.5s;
   position: relative;
 }
-/* line 574, ../partials/_webapp-step2.scss */
+/* line 628, ../partials/_webapp-step2.scss */
 body.app div#image-studio div.editor .cropper-view-box {
   outline: none;
 }

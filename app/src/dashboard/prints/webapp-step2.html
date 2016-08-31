@@ -60,27 +60,14 @@ Content : Start : Step 2
                 <span class="title">Photos</span>
             </div>
         </div>
-        <!-- Action Icons 2 : End -->
+      <!-- Action Icons 2 : End -->
     </div>
-    <!-- Main Sidebar : End -->
+  <!-- Main Sidebar : End -->
 
-    <!-- Page Content -->
+  <!-- Page Content -->
     <div id="ptt-content-wrapper">
 
-        <!-- Action Icons 5 : Start -->
-        <div class="action-icons-5">
-            <div class="ptt-dropmenu dropup">
-                <!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"-->
-                <button id="dLabel3" type="button" >
-                    All Pictures
-                    <span class="caret"></span>
-                </button>
-            </div>
-                  <span class="count">
-                    28 Photos
-                  </span>
-        </div>
-        <!-- Action Icons 5 : End -->
+      <!-- Action Icons 5 : End -->
 
         <div id="ptt-wrapper-2">
 
@@ -95,47 +82,69 @@ Content : Start : Step 2
                     <i class="glyphicon glyphicon-remove"></i>
                 </button>
             </div>
-            <!-- Sub Sidebar : End -->
+          <!-- Sub Sidebar : End -->
 
-            <!-- Page Content -->
+          <!-- Page Content -->
             <div id="ptt-content-wrapper-2">
+                      <!-- Action Icons 5 : Start -->
+        <div class="action-icons-5">
+            <div class="ptt-dropmenu dropup">
+                <!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"-->
+                <button id="dLabel3" type="button" >
+                    All Pictures
+                    <span class="caret"></span>
+                </button>
+            </div>
+                  <span class="count">
+                    28 Photos
+                  </span>
+        </div>
 
-                <!-- Action Icons 3 : Start -->
+
+              <!-- Action Icons 3 : Start -->
                 <div class="action-icons-3">
                     <div class="custom-svg-icon gray-question">
-                        <!--<object class="" type="image/svg+xml" data="svgs/gray-question.svg"></object>-->
-                        <img src="svgs/gray-question.svg" alt="">
+                        <!--<object class="" type="image/svg+xml" data="svgs/gray-question-3.svg"></object>-->
+                        <img src="svgs/gray-question-{{svgImage}}.svg" alt="">
                     </div>
                     <div class="custom-svg-icon gray-share-white-bkg">
                         <!--<object class="" type="image/svg+xml" data="svgs/gray-share-white-bkg.svg"></object>-->
-                        <!--<img src="svgs/gray-share-white-bkg.svg" alt="">-->
-                        <img src="images/gray-share.png" alt="">
-                    </div>
-                    <div class="ptt-dropmenu dropdown">
-                        <button id="dLabel2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="ptt-dropdown-color-1"></div>
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu ptt-colors" aria-labelledby="dLabel2">
-                            <li class="">
-                                <div class="ptt-dropdown-color-2"></div>
-                            </li>
-                            <li class="">
-                                <div class="ptt-dropdown-color-3"></div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Action Icons 3 : End -->
+                      <!--<img src="svgs/gray-share-white-bkg.svg" alt="">-->
+                      <!--<img src="images/gray-share-{{svgImage}}.svg" alt="">-->
+                      <img src="images/gray-share.png" alt="">
 
-                <!-- Action Icons 4 : Start -->
+                    </div>
+                  <theme-customizer>
+                    <div class="ptt-dropmenu dropdown" >
+                      <button id="dLabel2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div id="ptt-dropdown-color"></div>
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu ptt-colors" aria-labelledby="dLabel2">
+                        <li class="">
+                          <div ng-click="selectTheme(1)" class="ptt-dropdown-color-1"></div>
+                        </li>
+                        <li class="">
+                          <div ng-click="selectTheme(2)" class="ptt-dropdown-color-2"></div>
+                        </li>
+                        <li class="">
+                          <div ng-click="selectTheme(3)" class="ptt-dropdown-color-3"></div>
+                        </li>
+                      </ul>
+                    </div>
+                  </theme-customizer>
+                </div>
+              <!-- Action Icons 3 : End -->
+
+              <!-- Action Icons 4 : Start -->
                 <div class="action-icons-4">
                     <div ng-click="vm.copyCanvas()" class="custom-svg-icon gray-copy">
-                        <img src="images/gray-copy.png" alt="">
+                      <!--<img src="images/gray-copy-{{svgImage}}.svg" alt="">-->
+                      <img src="images/gray-copy.png" alt="">
                     </div>
                     <div ng-click="vm.deleteCanvas()" class="custom-svg-icon gray-delete">
-                        <!--<object class="" type="image/svg+xml" data="svgs/gray-delete.svg"></object>-->
-                        <img src="svgs/gray-delete.svg" alt="">
+                        <!--<object class="" type="image/svg+xml" data="svgs/gray-delete-1.svg"></object>-->
+                        <img src="svgs/gray-delete-{{svgImage}}.svg" alt="">
                     </div>
                     <div class="ptt-dropmenu dropup">
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.toggleDropdownVisibility('.action-icons-4 .ptt-dropmenu .dropdown-menu')">
@@ -188,43 +197,44 @@ Content : Start : Step 2
                         </ul>
                     </div>
                 </div>
-                <!-- Action Icons 4 : End -->
+              <!-- Action Icons 4 : End -->
 
-                <!-- Image Studio : Start -->
+              <!-- Image Studio : Start -->
                 <div id="image-studio">
 
                     <div class="element">
                         <div class="toolbar">
                             <div class="custom-svg-icon gray-border-none" ng-click="vm.applyBorder()">
-                                <!--<object data="svgs/gray-border-none.svg" type=""></object>-->
-                                <img src="svgs/gray-border-none.svg" alt="">
+                                <!--<object data="svgs/gray-border-none-1.svg" type=""></object>-->
+                                <img ng-src="svgs/gray-border-none-{{svgImage}}.svg" alt="">
                             </div>
                             <div ng-click="vm.rotateAntiClockwise()" class="custom-svg-icon gray-rotate-l">
                                 <!--<object data="svgs/gray-rotate-1.svg" type=""></object>-->
-                                <img src="svgs/gray-rotate-1.svg" alt="">
+                              <img ng-src="svgs/gray-rotate-{{svgImage}}.svg" alt="">
+                              <!--<img src="svgs/gray-rotate-1.svg" alt="">-->
                             </div>
                             <div ng-click="vm.rotateClockwise()" class="custom-svg-icon gray-rotate-r">
                                 <!--<object data="svgs/gray-rotate-1.svg" type=""></object>-->
-                                <img src="svgs/gray-rotate-1.svg" alt="">
+                                <img ng-src="svgs/gray-rotate-{{svgImage}}.svg" alt="">
                             </div>
                             <div ng-click="vm.flipHorizontal()" class="custom-svg-icon gray-flip-h">
-                                <!--<object data="svgs/gray-flip-h.svg" type=""></object>-->
-                                <img src="svgs/gray-flip-h.svg" alt="">
+                                <!--<object data="svgs/gray-flip-h-1.svg" type=""></object>-->
+                                <img ng-src="svgs/gray-flip-h-{{svgImage}}.svg" alt="">
                             </div>
                             <div ng-click="vm.flipVertical()" class="custom-svg-icon gray-flip-v">
-                                <!--<object data="svgs/gray-flip-v.svg" type=""></object>-->
-                                <img src="svgs/gray-flip-v.svg" alt="">
+                                <!--<object data="svgs/gray-flip-v-1.svg" type=""></object>-->
+                                <img ng-src="svgs/gray-flip-v-{{svgImage}}.svg" alt="">
                             </div>
                         </div>
 
-                        <!--<ptt-text-editor class="text-editor-parent" selected-object="vm.selectedObject" update-directive="vm.updateTextEditor"></ptt-text-editor>-->
+                      <!--<ptt-text-editor class="text-editor-parent" selected-object="vm.selectedObject" update-directive="vm.updateTextEditor"></ptt-text-editor>-->
 
                         <div class="editor">
                             <!-- Customizer Toolbar -->
                             <ng-include src="'src/dashboard/layouts/textEditor.html'"></ng-include>
-                            <!-- Canvas -->
+                          <!-- Canvas -->
                             <canvas id="canvas" ng-show="vm.readyToDisplay"></canvas>
-                            <!-- Hidden Image For Filter -->
+                          <!-- Hidden Image For Filter -->
                             <img id="caman-canvas" src="{{vm.selectedPhoto.original.base64}}" ng-if="vm.showCamanImg" style="z-index: -10;">
                         </div>
                         <div class="zoomBar">
@@ -232,39 +242,39 @@ Content : Start : Step 2
                         </div>
                     </div>
                 </div>
-                <!-- Image Studio : End -->
+              <!-- Image Studio : End -->
 
 
 
             </div>
-            <!-- /#page-content-wrapper -->
+          <!-- /#page-content-wrapper -->
 
         </div>
-        <!-- /#wrapper -->
+      <!-- /#wrapper -->
 
     </div>
 
-    <!-- /#page-content-wrapper -->
+  <!-- /#page-content-wrapper -->
 
 
 
 </div>
 
 
-<!-- Film Strip Thumbs : Start-->
-<!--<div ng-include="'src/dashboard/prints/lightSlider2.html'"></div>-->
+  <!-- Film Strip Thumbs : Start-->
+  <!--<div ng-include="'src/dashboard/prints/lightSlider2.html'"></div>-->
     <ptt-photo-strip
-            photos="vm.myPhotos"
-            show-upload-image=""
-            step=2
-            on-delete=""
-            on-select=""
-            on-select-files=""
-            on-toggle-expand-view="vm.toggleExpandView()"
-            on-get-select-photo="vm.getSelectPhoto(id, index)"
+      photos="vm.myPhotos"
+      show-upload-image=""
+      step=2
+      on-delete=""
+      on-select=""
+      on-select-files=""
+      on-toggle-expand-view="vm.toggleExpandView()"
+      on-get-select-photo="vm.getSelectPhoto(id, index)"
     >
     </ptt-photo-strip>
-<!-- Film Strip Thumbs : End-->
+  <!-- Film Strip Thumbs : End-->
 </span>
 
 <!--
@@ -276,39 +286,39 @@ Content : End : Step 2
 Content : Start : Step 2 B
 -->
 <div class="step2b">
-    <div class="row step2b-container">
+  <div class="row step2b-container">
 
-        <!-- Collapse Loader -->
-        <div class="collapse-loader" style="z-index: 99999999; display: none;">
-            <img src="svgs/ptt-loader.svg" alt="Loading...">
-        </div>
-
-        <!-- ui-sref="WebAppStep2" -->
-        <button class="collapse-btn" ng-click="vm.toggleExpandView()">
-            <!--<object data="svgs/gray-collapse.svg" type=""></object>-->
-            <!--<img src="svgs/gray-collapse.svg" alt="">-->
-            <img src="images/gray-collapse.png" alt="">
-            <span>Collapse</span>
-        </button>
-
-
-
-        <div class="padding-right-22px">
-            <div class="uploaded-images">
-                <div class="img" ng-repeat="photo in vm.myPhotos">
-                    <div class="img-container">
-                    <img class="upl-img" ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl:photo.base64}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
-                    <div class="expand-icons">
-                        <span class="copy" ng-click="vm.copyPhoto(photo.id, $index)"><img src="images/white-copy.png" alt=""></span>
-                        <span class="dustbin" ng-click="vm.deletePhoto(photo.id, $index)" ><img src="svgs/white-delete.svg" alt=""></span>
-                        <!--<span class="dustbin"><object data="svgs/white-delete.svg" alt="" type="image/svg+xml"></object></span>-->
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <!-- Collapse Loader -->
+    <div class="collapse-loader" style="z-index: 99999999; display: none;">
+      <img src="svgs/ptt-loader.svg" alt="Loading...">
     </div>
+
+    <!-- ui-sref="WebAppStep2" -->
+    <button class="collapse-btn" ng-click="vm.toggleExpandView()">
+      <!--<object data="svgs/gray-collapse.svg" type=""></object>-->
+      <!--<img src="svgs/gray-collapse.svg" alt="">-->
+      <img src="images/gray-collapse.png" alt="">
+      <span>Collapse</span>
+    </button>
+
+
+
+    <div class="padding-right-22px">
+      <div class="uploaded-images">
+        <div class="img" ng-repeat="photo in vm.myPhotos">
+          <div class="img-container">
+            <img class="upl-img" ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl:photo.base64}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
+            <div class="expand-icons">
+              <span class="copy" ng-click="vm.copyPhoto(photo.id, $index)"><img src="images/white-copy.png" alt=""></span>
+              <span class="dustbin" ng-click="vm.deletePhoto(photo.id, $index)" ><img src="svgs/white-delete.svg" alt=""></span>
+              <!--<span class="dustbin"><object data="svgs/white-delete.svg" alt="" type="image/svg+xml"></object></span>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!--
