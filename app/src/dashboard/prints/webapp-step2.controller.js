@@ -608,10 +608,11 @@
 
     function applyLayout(layout){
       // not functional right now
-      return;
+      //return;
       //console.log(layout);
       var layoutCloned = angular.copy(layout);
       if(layoutCloned.data.length>0){
+        fabricCanvas.clear();
         // remove all previous layouts from canvas
         layoutSectionsObj.forEach(function(elem, index){
           elem.remove();
@@ -626,10 +627,85 @@
           elem.width = fabricCanvas.getWidth()*elem.width;
           // add the clipping rect to canvas
           var clipRect = new fabric.Rect(elem);
+
+          clipRect.set({
+            clipFor: 'pug'+index,
+            alwaysBack: true
+          });
+
           layoutSectionsObj.push(clipRect);
           fabricCanvas.add(clipRect);
-        })
+
+          // add the plus icon to rectangle
+          var pugImg = new Image();
+          pugImg.onload = function (img){
+            (function(img, elem, index){
+              console.log(clipRect);
+              console.log(elem.top + elem.width/2 - 100/2);
+              console.log(elem.left + elem.height/2 - 100/2);
+              console.log('pug'+index);
+              var pug = new fabric.Image(pugImg, {
+                angle: 0,
+                width: 100,
+                height: 100,
+                left: elem.left + elem.width/2 - 100/2,
+                top: elem.top + elem.height/2 - 100/2,
+                scaleX: 1,
+                scaleY: 1,
+                clipName: 'pug'+index,
+                clipTo: function(ctx) {
+                  return _.bind(clipByName, pug)(ctx)
+                },
+                selectable: false,
+                hasControls: false,
+                hasBorders: false
+              });
+              fabricCanvas.add(pug);
+              fabricCanvas.renderAll();
+            }(img, elem, index));
+          };
+          pugImg.src = 'images/white-cross.png';
+
+        });
       }
+
+      function findByClipName(name) {
+        return _(fabricCanvas.getObjects()).where({
+          clipFor: name
+        }).first()
+      }
+
+      function clipByName(ctx) {
+        this.setCoords();
+        var clipRect = findByClipName(this.clipName);
+        var scaleXTo1 = (1 / this.scaleX);
+        var scaleYTo1 = (1 / this.scaleY);
+        ctx.save();
+
+        var ctxLeft = -( this.width / 2 ) + clipRect.strokeWidth;
+        var ctxTop = -( this.height / 2 ) + clipRect.strokeWidth;
+        var ctxWidth = clipRect.width - clipRect.strokeWidth;
+        var ctxHeight = clipRect.height - clipRect.strokeWidth;
+
+        ctx.translate( ctxLeft, ctxTop );
+        ctx.scale(scaleXTo1, scaleYTo1);
+        ctx.rotate(degToRad(this.angle * -1));
+
+        ctx.beginPath();
+        ctx.rect(
+          clipRect.left - this.oCoords.tl.x,
+          clipRect.top - this.oCoords.tl.y,
+          clipRect.width,
+          clipRect.height
+        );
+        ctx.closePath();
+        ctx.restore();
+      }
+
+      function degToRad(degrees) {
+        return degrees * (Math.PI / 180);
+      }
+
     }
 
     /************************************* LEFT TOOLBAR FUNCTIONS *************************************/
@@ -806,25 +882,32 @@
     /************************************* FABRICJS FUNCTIONS *************************************/
     function bindEventsOnFabric(){
       fabricCanvas.on("object:removed", function(e){
-        switch(e.target.id){
-          case canvasBkgImg.id:
-            canvasBkgImg.active = false;
-            break;
-          default:
-            break;
+        var obj = e.target;
+        if(obj){
+          switch(obj.id){
+            case canvasBkgImg.id:
+              canvasBkgImg.active = false;
+              break;
+            default:
+              break;
+          }
         }
       });
       fabricCanvas.on({
         'mouse:down': function(e) {
-          if (e.target) {
-            if('isEditing' in e.target && e.target.isEditing){
+          var obj = e.target;
+          if (obj) {
+            if(!obj.selectable){
+              return;
+            }
+            if('isEditing' in obj && obj.isEditing){
               // set it to true
               textInEdtitingMode = true;
               //console.log("Editing mode is ON, returning");
               return;
             }
             textInEdtitingMode = false;
-            e.target.opacity = 0.5;
+            obj.opacity = 0.5;
           }
         },
         'mouse:up': function(e) {
@@ -834,6 +917,9 @@
             return;
           }
           if (obj) {
+            if(!obj.selectable){
+              return;
+            }
             obj.opacity = 1;
             switch(obj.id){
               case canvasBkgImg.id:
@@ -841,35 +927,58 @@
                 fabricCanvas.deactivateAll();
                 break;
               default:
-                //console.log("Obj index: ", fabricCanvas.getObjects());
                 var newIndex = fabricCanvas.getObjects().length;
                 fabricCanvas.moveTo(obj, newIndex);
                 fabricCanvas.setActiveObject(obj);
                 break;
             }
+            // layout sections
+            if(obj.alwaysBack){
+              fabricCanvas.sendToBack(obj);
+              fabricCanvas.deactivateAll();
+            }
             fabricCanvas.renderAll();
           }
         },
         'selection:cleared': function(e){
-          hideObjectCustomizer();
+          var obj = e.target;
+          if(obj){
+            if(!obj.selectable){
+              return;
+            }
+            hideObjectCustomizer();
+          }
         },
         'object:selected': function(e){
+          var obj = e.target;
           if(textInEdtitingMode){
             //console.log("Editing mode is ON, returning");
             return;
           }
-          if(e.target){
-            vm.selectedObject = e.target;
+          if(obj){
+            if(!obj.selectable){
+              return;
+            }
+            vm.selectedObject = obj;
             objectCustomizer(vm.selectedObject);
             fabricCanvas.renderAll();
           }
         },
         'object:moved': function(e) {
-          e.target.opacity = 0.5;
+          var obj = e.target;
+          if(obj){
+            if(!obj.selectable){
+              return;
+            }
+            obj.opacity = 0.5;
+          }
         },
         'object:modified': function(e) {
           var obj = e.target;
           if (obj) {
+            if(!obj.selectable){
+              return;
+            }
             obj.opacity = 1;
             switch(obj.id){
               case canvasBkgImg.id:
@@ -883,8 +992,14 @@
           }
         },
         'object:moving': function(e) {
-          vm.selectedObject = e.target;
-          objectCustomizer(vm.selectedObject);
+          var obj = e.target;
+          if(obj){
+            if(!obj.selectable){
+              return;
+            }
+            vm.selectedObject = obj;
+            objectCustomizer(vm.selectedObject);
+          }
         }
       });
 
