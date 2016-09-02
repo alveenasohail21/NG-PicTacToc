@@ -55,7 +55,7 @@
         "svgs/blue-sticker.svg",
         "svgs/gray-photos.svg",
         "svgs/gray-question-3.svg",
-        "images/gray-share.png",
+        "images/gray-share-1.png",
         "images/gray-copy.png",
         "svgs/gray-delete-1.svg",
         "images/left-size-arrow.png",

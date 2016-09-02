@@ -8,7 +8,11 @@ body.app{
   .ptt-dropdown-color-2-bg {
     background-color: $theme-bkg-color-2 !important;
     color: $theme-text-color-2 !important;
+    .element{
+      box-shadow: none !important;
+    }
     .custom-svg-icon, button, ul, p{
+      box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1) !important;
       color: $theme-text-color-2 !important;
       background-color: $theme-btn-color-2 !important;
     }
@@ -30,7 +34,11 @@ body.app{
   .ptt-dropdown-color-3-bg{
     background-color: $theme-bkg-color-3 !important;
     color: $theme-text-color-3 !important;
+    .element{
+      box-shadow: none !important;
+    }
     .custom-svg-icon, button, ul, p{
+      box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1) !important;
       color: $theme-text-color-3 !important;
       background-color: $theme-btn-color-3 !important;
     }
@@ -447,6 +455,9 @@ body.app{
     }
     .custom-svg-icon.gray-share-white-bkg{
       padding: 3px 2px;
+      img{
+        padding: 6px;
+      }
     }
     .gray-question object, .gray-question img, .gray-share-white-bkg object, .gray-share-white-bkg img{
       height: 100%;

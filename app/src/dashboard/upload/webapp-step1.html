@@ -153,13 +153,15 @@ Content : Start
       <!-- Only for photos -->
       <div class="uploaded-images animate-if " ng-if="vm.showAlbumOrPhotos" ngf-drag-over-class="'dragover'" ngf-drop="vm.selectFiles($files, $invalidFiles)" ngf-multiple="true" ngf-max-size="{{$root.imageConstraints.maxSize}}">
         <div class="img" ng-repeat="file in vm.filesToUpload" ng-if="!file.uploaded || vm.uploadCategory!='device'">
-
+          <!-- Upload cancel -->
+          <div class="custom-svg-icon abort-uploading" ng-click="vm.abortUploading($index)" ng-show="file.inProgress && !file.uploaded">
+            <img src="svgs/pink-cross.svg" class="white-cross" alt="">
+          </div>
           <div class="img-container" ng-click="(!file.inProgress) ? vm.addFilesToUploadQueue($index) : null">
-            <!-- Upload cancel -->
 
-            <div class="custom-svg-icon abort-uploading" ng-click="vm.abortUploading($index)" ng-if="file.inProgress">
-              <img src="svgs/pink-cross.svg" class="white-cross" alt="">
-            </div>
+            <!--<div class="custom-svg-icon abort-uploading" ng-click="vm.abortUploading($index)" ng-if="file.inProgress">-->
+              <!--<img src="svgs/pink-cross.svg" class="white-cross" alt="">-->
+            <!--</div>-->
 
 
             <!-- For device -->
