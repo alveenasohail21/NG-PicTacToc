@@ -108,8 +108,8 @@
             //$localStorage.$reset();
             // user signup through social provider
             if(!userFactory.getUserFromLocal()){
-              console.log("User signup through social provider");
-              console.log(resp.data.data);
+              //console.log("User signup through social provider");
+              //console.log(resp.data.data);
               Restangular.setDefaultHeaders({'token': 'Bearer {'+ resp.data.token +'}'});
               userFactory.createUserInLocal(resp.data.data);
               $timeout(function(){
@@ -128,14 +128,14 @@
               console.log("Event emitted");
               $rootScope.$emit('socialAuthenticate', resp.data);
             }
-            // remove the loader-social from here
-            console.log("remove social loader");
+            // remove the loader-social
+            //console.log("remove social loader");
             $('#loader-social').css("display", "none");
             $('.login-div').css("display", "inline");
           }
           else{
-            // remove the loader-social from here
-            console.log("remove social loader");
+            // remove the loader-social
+            //console.log("remove social loader");
             $('#loader-social').css("display", "none");
             $('.login-div').css("display", "inline");
             alertFactory.error(null, resp.data.message);
