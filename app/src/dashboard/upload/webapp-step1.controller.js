@@ -347,10 +347,8 @@
       // if getNext is true, pass the paging cursor
       if(getNext && vm.google.albums.photosPagination.next){
         nextCursor = vm.google.albums.photosPagination.next;
-        console.log("next photos paging: ", vm.google.albums.photosPagination.next);
       }
       else if(vm.google.albums.photosPagination && vm.google.albums.photosPagination.next == null){
-        console.log("no next image");
         return;
       }
       pttGoogleFactory.getAlbumPhotos(vm.google.albums[index].gphoto$id.$t, index, nextCursor)

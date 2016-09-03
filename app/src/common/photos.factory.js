@@ -217,7 +217,6 @@
     }
 
     function mapSocialPhotos(photo, platform){
-      console.log('photo',photo);
       var photoObj = {
         original: '',
         thumbnail: '',

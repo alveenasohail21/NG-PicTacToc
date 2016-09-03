@@ -96,7 +96,6 @@
       //console.log($auth.getToken().slice(1, $auth.getToken().length-1));
       $auth.authenticate(provider, ($auth.isAuthenticated()?{'token':$localStorage.token}:{}))
         .then(function(resp){
-          console.log('this',resp);
           if(resp.data.success){
             alertFactory.success(null,resp.data.message);
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
@@ -105,7 +104,6 @@
             $localStorage.token = resp.data.token;
             $localStorage.savier = 'xyz';
             $timeout(function(){
-              console.log("SAVING TOKEN TO LOCAL STORAGE");
               $localStorage.token = resp.data.token;
               $localStorage.savier = 'xyz';
             }, 1000);
@@ -129,7 +127,6 @@
                 $rootScope.user['activeSocialProfiles'] = [provider];
               }
               // event with social data
-              console.log(resp.data);
               $rootScope.$emit('socialAuthenticate', resp.data);
             }
           }
@@ -181,7 +178,6 @@
     function socialDisconnect(platform) {
       var deferred = $q.defer();
       restFactory.auth.socialDisconnect(platform).then(function(resp){
-        console.log(resp);
         if(resp.success){
           userFactory.removeSocialProfile(platform);
           alertFactory.success(null,resp.message);
