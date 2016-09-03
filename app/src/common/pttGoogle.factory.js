@@ -44,11 +44,6 @@
 
     function saveAuth(data){
       authResponse = data;
-      if(!authResponse.picture){
-        console.log("pttGoogleFactory: Profile Pic");
-        // authResponse.picture = data.picture;
-        // $rootScope.user.socialPicture = authResponse.picture;
-      }
     }
 
     function disconnect(){
@@ -126,15 +121,16 @@
       return deffered.promise;
     }
 
-    function getAlbums(cursor){
+    function getAlbums(cursor,login){
       var deffered = $q.defer();
 
+      if(login){
+        authResponse = null;
+      }
       // if not authenticated, authenticate first and get access_token
-      if(!authResponse){
-        console.log('testing');
+      if(authResponse == null){
         restFactory.users.socialDetails({platform: platform})
           .then(function(resp){
-             console.log(resp);
             if(resp.success){
               $rootScope.user.socialName = resp.data.social_name;
               saveAuth(resp.data);
@@ -250,18 +246,18 @@
             // console.log("Album Photos Response: ", response);
             if (response && !response.error) {
               // resolve
-              console.log('response from factory',response.data);
               response.photos = [];
               response.data.feed.entry.forEach(function(elem, index){
                 response.photos[index] = photosFactory.mapSocialPhotos(elem, platform);
               });
-              console.log('responsez',response);
               deffered.resolve(response);
             }
             else{
               deffered.reject('Something is wrong');
             }
-          });
+          },function (err) {
+          deffered.reject('Something is wrong');
+        });
       }
 
       return deffered.promise;

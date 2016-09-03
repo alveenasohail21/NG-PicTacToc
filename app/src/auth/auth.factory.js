@@ -96,17 +96,19 @@
       //console.log($auth.getToken().slice(1, $auth.getToken().length-1));
       $auth.authenticate(provider, ($auth.isAuthenticated()?{'token':$localStorage.token}:{}))
         .then(function(resp){
-          console.log(resp);
+          console.log('this',resp);
           if(resp.data.success){
             alertFactory.success(null,resp.data.message);
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             $auth.removeToken();
             delete $localStorage.token;
+            $localStorage.token = resp.data.token;
+            $localStorage.savier = 'xyz';
             $timeout(function(){
               console.log("SAVING TOKEN TO LOCAL STORAGE");
               $localStorage.token = resp.data.token;
               $localStorage.savier = 'xyz';
-            }, 2000);
+            }, 1000);
             //$localStorage.$reset();
             // user signup through social provider
             if(!userFactory.getUserFromLocal()){

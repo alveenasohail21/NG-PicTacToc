@@ -109,7 +109,7 @@
     }
 
     // changing upload category
-    function changeUploadCategory(uploadCategory){
+    function changeUploadCategory(uploadCategory,login){
       vm.uploadCategory = uploadCategory;
       // hide albums and photos at first
       vm.showAlbumOrPhotos = false;
@@ -181,7 +181,7 @@
             // already linked google account
             vm.googleLogin = true;
             // get google albums
-            getGoogleAlbums();
+            getGoogleAlbums(null,login);
           }
       }
     }
@@ -204,7 +204,7 @@
       authFactory.socialAuthenticate(platform).then(function(resp) {
         if (resp) {
           // linked social account
-          changeUploadCategory(platform);
+          changeUploadCategory(platform,true);
         }
       });
     }
@@ -323,14 +323,15 @@
     /************************************* GOOGLE *************************************/
 
     // get google albums
-    function getGoogleAlbums(cursor){
-      console.log('called ');
-      pttGoogleFactory.getAlbums(cursor)
+    function getGoogleAlbums(cursor,login){
+      pttGoogleFactory.getAlbums(cursor,login)
         .then(function(resp){
-          console.log('resp ',resp);
           resp.feed.entry.forEach(function(elem, index){
             vm.google.albums.push(elem);
           });
+        },function (err) {
+         socialDisconnect('google');
+          alertFactory.error(null, "Your Session is Expired. Please login again");
         })
     }
 
@@ -352,10 +353,8 @@
         console.log("no next image");
         return;
       }
-      console.log('yo',vm.google.albums[index].gphoto$id.$t);
       pttGoogleFactory.getAlbumPhotos(vm.google.albums[index].gphoto$id.$t, index, nextCursor)
         .then(function(resp){
-          console.log('sd',resp);
           resp.photos.forEach(function(elem, index){
             //vm.filesToUpload.push(elem);
             uploadFactory.addFile(elem, vm.uploadCategory);
@@ -368,7 +367,10 @@
             vm.showAllUploadButtonForSocial = true;
           }
           bindLoadMoreSocialPhotosScroll();
-        })
+        },function (err) {
+          socialDisconnect('google');
+          alertFactory.error(null, "Your Session is Expired. Please login again");
+        });
     }
 
     /************************************* FILE UPLOADING STUFF *************************************/
