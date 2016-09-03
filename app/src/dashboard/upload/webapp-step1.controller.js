@@ -348,7 +348,7 @@
         nextCursor = vm.google.albums.photosPagination.next;
         console.log("next photos paging: ", vm.google.albums.photosPagination.next);
       }
-      else if(vm.google.albums.photosPagination && !('next' in vm.google.albums.photosPagination)){
+      else if(vm.google.albums.photosPagination && vm.google.albums.photosPagination.next == null){
         console.log("no next image");
         return;
       }
@@ -418,6 +418,7 @@
         vm.filesToUpload[index].position = index;
         vm.filesToUpload[index].category = vm.uploadCategory;
         vm.noOfFilesUploading++;
+        console.log('vm.filesToUpload[index]',vm.filesToUpload[index]);
         //push to queue
         uploadFactory.uploadFile(index, vm.uploadCategory, function(success, file){
           vm.noOfFilesUploading--;
@@ -494,9 +495,8 @@
         //// console.log("scrollBottom: ",Math.floor(scrollBottom));
         //// console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
         //// console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
-        if(scrollBottom == uploadImageDivScrollHeight){
+        if(scrollBottom >= uploadImageDivScrollHeight){
           // console.log("fetching more images");
-          console.log('event hit');
           switch(vm.uploadCategory){
             case 'facebook':
               chooseAlbum(vm.fb.currentAlbumIndex, true);

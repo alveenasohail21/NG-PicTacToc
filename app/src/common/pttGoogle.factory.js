@@ -198,6 +198,7 @@
         })
           .then(function(resp){
             authResponse.picture = resp.data.feed.gphoto$thumbnail.$t;
+            $rootScope.user.socialPicture = authResponse.picture;
             deffered.resolve(resp.data);
           },function (err) {
             deffered.reject('Something is wrong');

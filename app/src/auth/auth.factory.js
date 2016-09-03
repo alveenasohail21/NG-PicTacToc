@@ -127,8 +127,8 @@
                 $rootScope.user['activeSocialProfiles'] = [provider];
               }
               // event with social data
-              console.log(resp.data.data);
-              $rootScope.$emit('socialAuthenticate', resp.data.data);
+              console.log(resp.data);
+              $rootScope.$emit('socialAuthenticate', resp.data);
             }
           }
           else{
