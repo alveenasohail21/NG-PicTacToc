@@ -3,6 +3,68 @@ body.app{
     text-align: center;
   }
 
+// Different themes
+
+  .ptt-dropdown-color-2-bg {
+    background-color: $theme-bkg-color-2 !important;
+    color: $theme-text-color-2 !important;
+    .element{
+      box-shadow: none !important;
+    }
+    .custom-svg-icon, button, ul, p{
+      box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1) !important;
+      color: $theme-text-color-2 !important;
+      background-color: $theme-btn-color-2 !important;
+    }
+    .slider-track-high{
+      background-color: $theme-slider-high-2 !important;
+    }
+    .slider-selection{
+      background-color: $theme-slider-low-2 !important;
+    }
+    .slider-handle{
+      border-color: $theme-slider-high-2 !important;
+      background-color: $theme-slider-low-2 !important;
+    }
+    .box{
+      color: $theme-text-color-2 !important;
+      background-color: $theme-sizebox-2 !important;
+    }
+  }
+  .ptt-dropdown-color-3-bg{
+    background-color: $theme-bkg-color-3 !important;
+    color: $theme-text-color-3 !important;
+    .element{
+      box-shadow: none !important;
+    }
+    .custom-svg-icon, button, ul, p{
+      box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1) !important;
+      color: $theme-text-color-3 !important;
+      background-color: $theme-btn-color-3 !important;
+    }
+    .slider-handle{
+      border-color: $theme-slider-high-3 !important;
+      background-color: $theme-slider-low-3 !important;
+    }
+
+    .slider-track-high{
+      background-color: $theme-slider-high-3 !important;
+    }
+    .slider-selection{
+      background-color: $theme-slider-low-3 !important;
+    }
+    .slider-handle{
+      border-color: $theme-slider-high-3 !important;
+      background-color: $theme-slider-low-3 !important;
+    }
+    .box{
+      color: $theme-text-color-3 !important;
+      background-color: $theme-sizebox-3 !important;
+    }
+
+  }
+
+
   .box-size p{
     padding: 2px;
     border-radius: 10px;
@@ -393,6 +455,9 @@ body.app{
     }
     .custom-svg-icon.gray-share-white-bkg{
       padding: 3px 2px;
+      img{
+        padding: 6px;
+      }
     }
     .gray-question object, .gray-question img, .gray-share-white-bkg object, .gray-share-white-bkg img{
       height: 100%;
@@ -454,7 +519,7 @@ body.app{
       top: 50%;
       margin-top: -111px;
       .custom-svg-icon {
-        opacity: 0.6;
+        //opacity: 0.6;
         transition: opacity 0.8s;
         cursor: pointer;
         border-radius: 50%;

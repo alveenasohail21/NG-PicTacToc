@@ -167,9 +167,6 @@ body.app{
           margin: 0 auto;
           height: 100%;
           position: relative;
-          .abort-uploading{
-            height: 30px;
-          }
         }
         .progress{
           position: absolute;
@@ -208,19 +205,8 @@ body.app{
         }
 
         .abort-uploading{
-          position: absolute;
-          width: 15px;
-          height: 15px;
-          top: 4px;
-          z-index: 3;
-          cursor: pointer;
-          left: 50%;
-          margin-top: 0;
-          margin-left: 44px;
-          border: none;
-          border-radius: 0;
-          background: transparent;
-          padding: 0;
+          background: none !important;
+          border: none !important;
         }
 
         .custom-svg-icon.blue-tick{

@@ -74,6 +74,7 @@
           break;
         case 'facebook':
         case 'instagram':
+        case 'google' :
           url = API_URL + '/photos/upload/social';
           file = _data.socialFiles[index];
           break;

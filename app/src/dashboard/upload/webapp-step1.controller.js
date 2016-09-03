@@ -12,7 +12,7 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, $rootScope, uploadFactory, alertFactory, $state){
+  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, pttGoogleFactory, authFactory, userFactory, photosFactory, $rootScope, uploadFactory, alertFactory, $state){
 
     var vm = this;
 
@@ -52,6 +52,13 @@
         pagination: null
       }
     };
+    // google login confirm
+    vm.googleLogin = false;
+    // google data
+    vm.google = {
+      albums: [],
+      currentAlbumIndex: ''
+    };
     // files to upload
     uploadFactory.removeFiles('device');
     vm.filesToUpload = uploadFactory._data.deviceFiles;              // by default its device files
@@ -76,6 +83,7 @@
     vm.changeUploadCategory = changeUploadCategory;
     vm.socialLogin = socialLogin;
     vm.chooseAlbum = chooseAlbum;
+    vm.chooseGoogleAlbum = chooseGoogleAlbum;
     vm.selectFiles = selectFiles;
     vm.addFilesToUploadQueue = addFilesToUploadQueue;
     vm.deletePhoto = deletePhoto;
@@ -101,7 +109,7 @@
     }
 
     // changing upload category
-    function changeUploadCategory(uploadCategory){
+    function changeUploadCategory(uploadCategory,login){
       vm.uploadCategory = uploadCategory;
       // hide albums and photos at first
       vm.showAlbumOrPhotos = false;
@@ -151,12 +159,29 @@
               pagination: null
             }
           };
-          // check fb present
+          // check instagram present
           if(userFactory.activeSocialProfiles().indexOf(uploadCategory)>=0){
             // already linked instagram account
             vm.instagramLogin = true;
             // get instagram photos
             getInstagramPhotos();
+          }
+          break;
+        case 'google':
+          uploadFactory.removeFiles(uploadCategory);
+          vm.filesToUpload = uploadFactory._data.socialFiles;
+          vm.filesUploadedCountForSocial = 0;
+          // clear controller's internal data
+          vm.google = {
+            albums: [],
+            currentAlbumIndex: ''
+          };
+          // check google present
+          if(userFactory.activeSocialProfiles().indexOf(uploadCategory)>=0){
+            // already linked google account
+            vm.googleLogin = true;
+            // get google albums
+            getGoogleAlbums(null,login);
           }
       }
     }
@@ -179,7 +204,7 @@
       authFactory.socialAuthenticate(platform).then(function(resp) {
         if (resp) {
           // linked social account
-          changeUploadCategory(platform);
+          changeUploadCategory(platform,true);
         }
       });
     }
@@ -228,7 +253,7 @@
     }
 
     // selecting a facebook album
-    function chooseAlbum(index, getNext){
+    function chooseAlbum(index, getNext) {
       vm.showAlbumOrPhotos = true;
       vm.fb.currentAlbumIndex = index;
       var nextCursor = null;
@@ -267,13 +292,16 @@
     function getInstagramPhotos(getNext){
       vm.showAlbumOrPhotos = true;
       var nextCursor = null;
+      console.log("show me next url: ", vm.instagram.photos.pagination);
+
       // if getNext is true, pass the paging cursor
       if(getNext && vm.instagram.photos.pagination.next_url){
         nextCursor = vm.instagram.photos.pagination.next_url;
-        // console.log("next photos paging: ", vm.instagram.photos.pagination.next_url);
+        console.log("next photos paging: ", vm.instagram.photos.pagination.next_url);
       }
       else if(vm.instagram.photos.pagination && !('next_url' in vm.instagram.photos.pagination)){
-        // console.log("no next image");
+        console.log("no next image");
+        console.log("show me next url: ", vm.instagram.photos.pagination);
         return;
       }
 
@@ -292,6 +320,56 @@
         })
     }
 
+    /************************************* GOOGLE *************************************/
+
+    // get google albums
+    function getGoogleAlbums(cursor,login){
+      pttGoogleFactory.getAlbums(cursor,login)
+        .then(function(resp){
+          resp.feed.entry.forEach(function(elem, index){
+            vm.google.albums.push(elem);
+          });
+        },function (err) {
+         socialDisconnect('google');
+          alertFactory.error(null, "Your Session is Expired. Please login again");
+        })
+    }
+
+    // selecting a google album
+    function chooseGoogleAlbum(index, getNext){
+      vm.showAlbumOrPhotos = true;
+      vm.google.currentAlbumIndex = index;
+      var nextCursor = null;
+      // selecting a new album, remove pagination
+      if(!getNext){
+        vm.google.albums.photosPagination = null;
+      }
+      // if getNext is true, pass the paging cursor
+      if(getNext && vm.google.albums.photosPagination.next){
+        nextCursor = vm.google.albums.photosPagination.next;
+      }
+      else if(vm.google.albums.photosPagination && vm.google.albums.photosPagination.next == null){
+        return;
+      }
+      pttGoogleFactory.getAlbumPhotos(vm.google.albums[index].gphoto$id.$t, index, nextCursor)
+        .then(function(resp){
+          resp.photos.forEach(function(elem, index){
+            //vm.filesToUpload.push(elem);
+            uploadFactory.addFile(elem, vm.uploadCategory);
+          });
+          if(vm.google.albums.photosPagination == null ){
+            vm.google.albums.photosPagination = {};
+          }
+          vm.google.albums.photosPagination.next = resp.data.feed.link[resp.data.feed.link.length -1].rel == 'next' ? resp.data.feed.link[resp.data.feed.link.length -1].href : null ;
+          if(resp.photos.length>1){
+            vm.showAllUploadButtonForSocial = true;
+          }
+          bindLoadMoreSocialPhotosScroll();
+        },function (err) {
+          socialDisconnect('google');
+          alertFactory.error(null, "Your Session has Expired. Please login again");
+        });
+    }
 
     /************************************* FILE UPLOADING STUFF *************************************/
 
@@ -340,6 +418,7 @@
         vm.filesToUpload[index].position = index;
         vm.filesToUpload[index].category = vm.uploadCategory;
         vm.noOfFilesUploading++;
+        console.log('vm.filesToUpload[index]',vm.filesToUpload[index]);
         //push to queue
         uploadFactory.uploadFile(index, vm.uploadCategory, function(success, file){
           vm.noOfFilesUploading--;
@@ -416,7 +495,7 @@
         //// console.log("scrollBottom: ",Math.floor(scrollBottom));
         //// console.log("uploadImagesDiv height: ",uploadImagesDivHeight);
         //// console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
-        if(scrollBottom == uploadImageDivScrollHeight){
+        if(scrollBottom >= uploadImageDivScrollHeight){
           // console.log("fetching more images");
           switch(vm.uploadCategory){
             case 'facebook':
@@ -424,6 +503,9 @@
               break;
             case 'instagram':
               getInstagramPhotos(true);
+              break;
+            case 'google':
+              chooseGoogleAlbum(vm.google.currentAlbumIndex, true);
               break;
           }
         }
