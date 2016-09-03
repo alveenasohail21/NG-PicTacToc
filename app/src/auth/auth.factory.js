@@ -99,9 +99,8 @@
           if(resp.data.success){
             alertFactory.success(null,resp.data.message);
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
+            $auth.removeToken();
             delete $localStorage.token;
-            $localStorage.token = resp.data.token;
-            $localStorage.savier = 'xyz';
             $timeout(function(){
               $localStorage.token = resp.data.token;
               $localStorage.savier = 'xyz';
@@ -126,16 +125,22 @@
                 $rootScope.user['activeSocialProfiles'] = [provider];
               }
               // event with social data
+              console.log("Event emitted");
               $rootScope.$emit('socialAuthenticate', resp.data);
             }
+            // remove the loader-social from here
+            console.log("remove social loader");
+            $('#loader-social').css("display", "none");
+            $('.login-div').css("display", "inline");
           }
           else{
+            // remove the loader-social from here
+            console.log("remove social loader");
+            $('#loader-social').css("display", "none");
+            $('.login-div').css("display", "inline");
             alertFactory.error(null, resp.data.message);
           }
           defer.resolve(resp);
-          $('#loader-social').css("display", "none");
-          $('.login-div').css("display", "inline");
-
         }, function(err){
           defer.reject(err);
           $('#loader-social').css("display", "none");

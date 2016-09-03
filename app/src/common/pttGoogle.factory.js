@@ -125,6 +125,8 @@
       var deffered = $q.defer();
 
       if(login){
+        //console.log("login again WHY? I already have that information");
+        //console.log(authResponse);
         authResponse = null;
       }
       // if not authenticated, authenticate first and get access_token

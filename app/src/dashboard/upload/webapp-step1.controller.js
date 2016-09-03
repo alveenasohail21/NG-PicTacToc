@@ -361,13 +361,13 @@
             vm.google.albums.photosPagination = {};
           }
           vm.google.albums.photosPagination.next = resp.data.feed.link[resp.data.feed.link.length -1].rel == 'next' ? resp.data.feed.link[resp.data.feed.link.length -1].href : null ;
-          if(resp.data.length>1){
+          if(resp.photos.length>1){
             vm.showAllUploadButtonForSocial = true;
           }
           bindLoadMoreSocialPhotosScroll();
         },function (err) {
           socialDisconnect('google');
-          alertFactory.error(null, "Your Session is Expired. Please login again");
+          alertFactory.error(null, "Your Session has Expired. Please login again");
         });
     }
 
