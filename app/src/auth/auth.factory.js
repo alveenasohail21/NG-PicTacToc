@@ -99,14 +99,13 @@
           if(resp.data.success){
             alertFactory.success(null,resp.data.message);
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
-            $auth.removeToken();
             delete $localStorage.token;
             $localStorage.token = resp.data.token;
             $localStorage.savier = 'xyz';
             $timeout(function(){
               $localStorage.token = resp.data.token;
               $localStorage.savier = 'xyz';
-            }, 1000);
+            }, 2000);
             //$localStorage.$reset();
             // user signup through social provider
             if(!userFactory.getUserFromLocal()){
