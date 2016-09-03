@@ -12,7 +12,7 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, authFactory, userFactory, photosFactory, $rootScope, uploadFactory, alertFactory, $state){
+  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, pttGoogleFactory, authFactory, userFactory, photosFactory, $rootScope, uploadFactory, alertFactory, $state){
 
     var vm = this;
 
@@ -51,6 +51,13 @@
       photos: {
         pagination: null
       }
+    };
+    // google login confirm
+    vm.googleLogin = false;
+    // google data
+    vm.google = {
+      albums: [],
+      currentAlbumIndex: ''
     };
     // files to upload
     uploadFactory.removeFiles('device');
@@ -151,12 +158,30 @@
               pagination: null
             }
           };
-          // check fb present
+          // check instagram present
           if(userFactory.activeSocialProfiles().indexOf(uploadCategory)>=0){
             // already linked instagram account
             vm.instagramLogin = true;
             // get instagram photos
             getInstagramPhotos();
+          }
+          break;
+        case 'google':
+          uploadFactory.removeFiles(uploadCategory);
+          vm.filesToUpload = uploadFactory._data.socialFiles;
+          vm.filesUploadedCountForSocial = 0;
+          // clear controller's internal data
+          //vm.google = {
+          //  photos: {
+          //    pagination: null
+          //  }
+          //};
+          // check google present
+          if(userFactory.activeSocialProfiles().indexOf(uploadCategory)>=0){
+            // already linked google account
+            vm.googleLogin = true;
+            // get google albums
+            getGoogleAlbums();
           }
       }
     }
@@ -295,6 +320,52 @@
         })
     }
 
+    /************************************* GOOGLE *************************************/
+
+    // get google albums
+    function getGoogleAlbums(cursor){
+      pttGoogleFactory.getAlbums(cursor)
+        .then(function(resp){
+          resp.forEach(function(elem, index){
+            vm.google.albums.push(elem);
+          });
+          //vm.fb.albums = resp;
+        })
+    }
+
+    // selecting a google album
+    function chooseGoogleAlbum(index, getNext){
+      vm.showAlbumOrPhotos = true;
+      vm.google.currentAlbumIndex = index;
+      var nextCursor = null;
+      // selecting a new album, remove pagination
+      if(!getNext){
+        vm.google.albums.photosPagination = null;
+      }
+      // if getNext is true, pass the paging cursor
+      if(getNext && vm.google.albums.photosPagination.next){
+        nextCursor = vm.google.albums.photosPagination.next;
+         console.log("next photos paging: ", vm.google.albums.photosPagination.next);
+      }
+      else if(vm.google.albums.photosPagination && !('next' in vm.google.albums.photosPagination)){
+         console.log("no next image");
+        return;
+      }
+      pttFBFactory.getAlbumPhotos(vm.google.albums[index].id, index, nextCursor)
+        .then(function(resp){
+          // resp = { data: [], paging:{} }
+          // console.log(resp);
+          resp.data.forEach(function(elem, index){
+            //vm.filesToUpload.push(elem);
+            uploadFactory.addFile(elem, vm.uploadCategory);
+          });
+          vm.google.albums.photosPagination = resp.paging;
+          if(resp.data.length>1){
+            vm.showAllUploadButtonForSocial = true;
+          }
+          bindLoadMoreSocialPhotosScroll();
+        })
+    }
 
     /************************************* FILE UPLOADING STUFF *************************************/
 
@@ -427,6 +498,9 @@
               break;
             case 'instagram':
               getInstagramPhotos(true);
+              break;
+            case 'google':
+              chooseAlbum(vm.google.currentAlbumIndex, true);
               break;
           }
         }
