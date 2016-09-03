@@ -17,8 +17,6 @@
     var requestTimeInSecond;
     var googleAlbumUrl = "https://picasaweb.google.com/data/feed/api/user/default";
     var googlePhotoUrl = "https://picasaweb.google.com/data/feed/api/user/default/albumid/";
-    var graphAPIversion = "v2.6";
-    var facebookProfilePicUrl = "https://graph.facebook.com/user_id/picture?type=large";
     var albums = {
       data: [],
       pagination: {
@@ -48,9 +46,8 @@
       authResponse = data;
       if(!authResponse.picture){
         console.log("pttGoogleFactory: Profile Pic");
-        // TODO
-        //authResponse.picture = (facebookProfilePicUrl.replace('user_id', authResponse.social_id));
-        //$rootScope.user.socialPicture = authResponse.picture;
+        // authResponse.picture = data.picture;
+        // $rootScope.user.socialPicture = authResponse.picture;
       }
     }
 
@@ -134,11 +131,11 @@
 
       // if not authenticated, authenticate first and get access_token
       if(!authResponse){
+        console.log('testing');
         restFactory.users.socialDetails({platform: platform})
           .then(function(resp){
-            // console.log(resp);
+             console.log(resp);
             if(resp.success){
-              // console.log("Social DETAILS: ", resp.data);
               $rootScope.user.socialName = resp.data.social_name;
               saveAuth(resp.data);
             }
@@ -200,53 +197,11 @@
           headers : {'Content-Type': 'application/json'}
         })
           .then(function(resp){
-            console.log("Google response", resp);
+            authResponse.picture = resp.data.feed.gphoto$thumbnail.$t;
+            deffered.resolve(resp.data);
+          },function (err) {
+            deffered.reject('Something is wrong');
           });
-
-/*        FB.api(url, 'GET',
-          {
-            access_token: authResponse.access_token,
-            //limit: albums.pagination.limit,
-            fields: 'name,source,picture,count'
-          },
-          function (response) {
-            // console.log("Albums Response: ", response);
-            if (response && !response.error) {
-              // save paging
-              if(response.paging.next){
-                albums.pagination.next = response.paging.next;
-              }
-              if(response.paging.previous){
-                albums.pagination.previous = response.paging.previous;
-              }
-              // add received album length in from
-              //albums.pagination.from += response.data.length;
-              // see if no albums remaining
-              if(response.data.length < albums.pagination.limit){
-                albums.pagination.end = true;
-              }
-              deffered.resolve(response.data);
-              // get the album covers of each album
-              //response.data.forEach(function(elem, index, array){
-              //  getAlbumCover(elem.id)
-              //    .then(function(resp){
-              //      // add the image to elem
-              //      elem.cover_photo.url = resp.url;
-              //      // push elem to album
-              //      albums.data.push(elem);
-              //      // resolve on the last album
-              //      if(index == response.data.length-1){
-              //        // album with cover
-              //      }
-              //    });
-              //});
-            }
-            else{
-              alertFactory.error(null, "Unable to get Facebook photos, Please try later");
-              deffered.reject('Something is wrong');
-            }
-          }
-        );*/
       }
 
       return deffered.promise;
@@ -269,31 +224,43 @@
 
       function _getAlbumPhotos(){
         // if authenticated, get album cover
-        var url= graphAPIversion + '/'+ albumId + "/photos";
+        var url= googlePhotoUrl + albumId;
+        var defaultGooglePhotoStreamSize = 6;
+        var data = {
+          'start-index' : 1,
+          'access_token' :   authResponse.access_token,
+          'alt' : 'json',
+          'access': 'all',
+          'max-results' : defaultGooglePhotoStreamSize
+        };
         // if pagingCursor is present
         if(pagingCursor != null){
           url = pagingCursor;
+          data = {};
+          data.access_token =   authResponse.access_token;
         }
         // console.log(url);
-        FB.api(url, 'GET',
-          {
-            access_token: authResponse.access_token,
-            fields: 'images,link,name,from,picture,height,width,source'
-          },
-          function (response) {
+        $http({
+          method : 'GET',
+          url : url,
+          params    : data,
+          headers : {'Content-Type': 'application/json'}
+        }).then(function (response) {
             // console.log("Album Photos Response: ", response);
             if (response && !response.error) {
               // resolve
-              response.data.forEach(function(elem, index){
-                response.data[index] = photosFactory.mapSocialPhotos(elem, platform);
+              console.log('response from factory',response.data);
+              response.photos = [];
+              response.data.feed.entry.forEach(function(elem, index){
+                response.photos[index] = photosFactory.mapSocialPhotos(elem, platform);
               });
+              console.log('responsez',response);
               deffered.resolve(response);
             }
             else{
               deffered.reject('Something is wrong');
             }
-          }
-        );
+          });
       }
 
       return deffered.promise;

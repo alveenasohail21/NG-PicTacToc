@@ -83,6 +83,7 @@
     vm.changeUploadCategory = changeUploadCategory;
     vm.socialLogin = socialLogin;
     vm.chooseAlbum = chooseAlbum;
+    vm.chooseGoogleAlbum = chooseGoogleAlbum;
     vm.selectFiles = selectFiles;
     vm.addFilesToUploadQueue = addFilesToUploadQueue;
     vm.deletePhoto = deletePhoto;
@@ -171,11 +172,10 @@
           vm.filesToUpload = uploadFactory._data.socialFiles;
           vm.filesUploadedCountForSocial = 0;
           // clear controller's internal data
-          //vm.google = {
-          //  photos: {
-          //    pagination: null
-          //  }
-          //};
+          vm.google = {
+            albums: [],
+            currentAlbumIndex: ''
+          };
           // check google present
           if(userFactory.activeSocialProfiles().indexOf(uploadCategory)>=0){
             // already linked google account
@@ -253,7 +253,7 @@
     }
 
     // selecting a facebook album
-    function chooseAlbum(index, getNext){
+    function chooseAlbum(index, getNext) {
       vm.showAlbumOrPhotos = true;
       vm.fb.currentAlbumIndex = index;
       var nextCursor = null;
@@ -324,12 +324,13 @@
 
     // get google albums
     function getGoogleAlbums(cursor){
+      console.log('called ');
       pttGoogleFactory.getAlbums(cursor)
         .then(function(resp){
-          resp.forEach(function(elem, index){
+          console.log('resp ',resp);
+          resp.feed.entry.forEach(function(elem, index){
             vm.google.albums.push(elem);
           });
-          //vm.fb.albums = resp;
         })
     }
 
@@ -345,21 +346,24 @@
       // if getNext is true, pass the paging cursor
       if(getNext && vm.google.albums.photosPagination.next){
         nextCursor = vm.google.albums.photosPagination.next;
-         console.log("next photos paging: ", vm.google.albums.photosPagination.next);
+        console.log("next photos paging: ", vm.google.albums.photosPagination.next);
       }
       else if(vm.google.albums.photosPagination && !('next' in vm.google.albums.photosPagination)){
-         console.log("no next image");
+        console.log("no next image");
         return;
       }
-      pttFBFactory.getAlbumPhotos(vm.google.albums[index].id, index, nextCursor)
+      console.log('yo',vm.google.albums[index].gphoto$id.$t);
+      pttGoogleFactory.getAlbumPhotos(vm.google.albums[index].gphoto$id.$t, index, nextCursor)
         .then(function(resp){
-          // resp = { data: [], paging:{} }
-          // console.log(resp);
-          resp.data.forEach(function(elem, index){
+          console.log('sd',resp);
+          resp.photos.forEach(function(elem, index){
             //vm.filesToUpload.push(elem);
             uploadFactory.addFile(elem, vm.uploadCategory);
           });
-          vm.google.albums.photosPagination = resp.paging;
+          if(vm.google.albums.photosPagination == null ){
+            vm.google.albums.photosPagination = {};
+          }
+          vm.google.albums.photosPagination.next = resp.data.feed.link[resp.data.feed.link.length -1].rel == 'next' ? resp.data.feed.link[resp.data.feed.link.length -1].href : null ;
           if(resp.data.length>1){
             vm.showAllUploadButtonForSocial = true;
           }
@@ -492,6 +496,7 @@
         //// console.log("uploadImagesDiv scrollHeight: ",uploadImageDivScrollHeight );
         if(scrollBottom == uploadImageDivScrollHeight){
           // console.log("fetching more images");
+          console.log('event hit');
           switch(vm.uploadCategory){
             case 'facebook':
               chooseAlbum(vm.fb.currentAlbumIndex, true);
@@ -500,7 +505,7 @@
               getInstagramPhotos(true);
               break;
             case 'google':
-              chooseAlbum(vm.google.currentAlbumIndex, true);
+              chooseGoogleAlbum(vm.google.currentAlbumIndex, true);
               break;
           }
         }

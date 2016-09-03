@@ -217,6 +217,7 @@
     }
 
     function mapSocialPhotos(photo, platform){
+      console.log('photo',photo);
       var photoObj = {
         original: '',
         thumbnail: '',
@@ -240,6 +241,11 @@
           photoObj.platform = platform;
           break;
         case 'google':
+          photoObj.original  = photo.media$group.media$content[0].height;
+          photoObj.thumbnail = photo.media$group.media$content[0].url;
+          photoObj.width =  photo.media$group.media$content[0].width;
+          photoObj.height = photo.media$group.media$thumbnail[0].url;
+          photoObj.platform = platform;
           break;
         case 'flickr':
           break;
