@@ -96,22 +96,20 @@
       //console.log($auth.getToken().slice(1, $auth.getToken().length-1));
       $auth.authenticate(provider, ($auth.isAuthenticated()?{'token':$localStorage.token}:{}))
         .then(function(resp){
-          console.log(resp);
           if(resp.data.success){
             alertFactory.success(null,resp.data.message);
             // remove the token saved by $auth, as its throwing 'Uncaught Syntax error'
             $auth.removeToken();
             delete $localStorage.token;
             $timeout(function(){
-              console.log("SAVING TOKEN TO LOCAL STORAGE");
               $localStorage.token = resp.data.token;
               $localStorage.savier = 'xyz';
             }, 2000);
             //$localStorage.$reset();
             // user signup through social provider
             if(!userFactory.getUserFromLocal()){
-              console.log("User signup through social provider");
-              console.log(resp.data.data);
+              //console.log("User signup through social provider");
+              //console.log(resp.data.data);
               Restangular.setDefaultHeaders({'token': 'Bearer {'+ resp.data.token +'}'});
               userFactory.createUserInLocal(resp.data.data);
               $timeout(function(){
@@ -127,17 +125,22 @@
                 $rootScope.user['activeSocialProfiles'] = [provider];
               }
               // event with social data
-              console.log(resp.data.data);
-              $rootScope.$emit('socialAuthenticate', resp.data.data);
+              console.log("Event emitted");
+              $rootScope.$emit('socialAuthenticate', resp.data);
             }
+            // remove the loader-social
+            //console.log("remove social loader");
+            $('#loader-social').css("display", "none");
+            $('.login-div').css("display", "inline");
           }
           else{
+            // remove the loader-social
+            //console.log("remove social loader");
+            $('#loader-social').css("display", "none");
+            $('.login-div').css("display", "inline");
             alertFactory.error(null, resp.data.message);
           }
           defer.resolve(resp);
-          $('#loader-social').css("display", "none");
-          $('.login-div').css("display", "inline");
-
         }, function(err){
           defer.reject(err);
           $('#loader-social').css("display", "none");
@@ -179,7 +182,6 @@
     function socialDisconnect(platform) {
       var deferred = $q.defer();
       restFactory.auth.socialDisconnect(platform).then(function(resp){
-        console.log(resp);
         if(resp.success){
           userFactory.removeSocialProfile(platform);
           alertFactory.success(null,resp.message);

@@ -26,7 +26,7 @@ body.app {
       border-radius: 0 0 20px 20px;
       padding-left: 19px;
     }
-    .ptt-dropdown-color-2, .ptt-dropdown-color-3 {
+    .ptt-dropdown-color-1, .ptt-dropdown-color-2, .ptt-dropdown-color-3 {
       width: 20px;
       height: 20px;
       display: inline-block;
@@ -36,17 +36,18 @@ body.app {
       margin-left: 2px;
       margin-right: 6px;
     }
-    .ptt-dropdown-color-1 {
+    #ptt-dropdown-color {
       width: 21px;
       height: 21px;
       display: inline-block;
       border-radius: 100%;
       margin-top: 4px;
-      background-color: #f4f7f9;
+      //background-color: #f4f7f9;
       margin-left: -5px;
       margin-right: 2px;
     }
     .ptt-dropdown-color-1 {
+      background-color: $body-bkg-color-1;
     }
     .ptt-dropdown-color-2 {
       background-color: $body-bkg-color-2;

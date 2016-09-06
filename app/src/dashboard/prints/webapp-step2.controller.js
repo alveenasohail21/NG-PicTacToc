@@ -1120,7 +1120,6 @@
           }
         }
       });
-
     }
 
     // Background Image Boundary Check and Position Update
@@ -1372,6 +1371,19 @@
       };
     }
 
+
+
+
+    var imageThemeUrl;
+    $('.toolbar .custom-svg-icon>img').hover(function (e) {
+        imageThemeUrl=this.src;
+        this.src=this.src.replace("gray","blue");
+        this.src=this.src.replace(/-[0-9]/g,"");
+    },
+      function (e) {
+        this.src=imageThemeUrl;
+      }
+    );
 
     /* Initializer Call */
 

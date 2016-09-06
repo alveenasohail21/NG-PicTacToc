@@ -10,75 +10,75 @@ Headers : End
 Content : Start
 -->
 <div class="step1">
-    <div class="row text-center">
-        <!--
-        Left Div : Start
-        -->
-        <div class="left-div sub-content">
-            <div class="upload-icons">
-                <div class="upload-icon" ng-class="{'active': vm.uploadCategory=='device'}" ng-click="vm.changeUploadCategory('device')">
-                    <div class="custom-svg-icon" >
-                        <img src="images/gray-device-cloud.png" alt="Computer" ng-show="vm.uploadCategory!='device'">
-                        <img src="images/blue-device-cloud.png" alt="Computer" ng-show="vm.uploadCategory=='device'">
-                        <div class="object-backdrop"></div>
-                    </div>
-                    <div class="title">
-                        Upload from Computer
-                    </div>
-                </div>
-                <div class="upload-icon" ng-class="{'active': vm.uploadCategory=='facebook'}" ng-click="vm.changeUploadCategory('facebook')">
-                    <div class="custom-svg-icon">
-                        <img src="svgs/gray-facebook.svg" alt="facebook" ng-if="vm.uploadCategory!='facebook'">
-                        <img src="svgs/blue-facebook.svg" alt="facebook" ng-if="vm.uploadCategory=='facebook'">
-                        <div class="object-backdrop"></div>
-                    </div>
-                    <div class="title">
-                        Import from Facebook
-                    </div>
-                </div>
-                <div class="upload-icon" ng-class="{'active': vm.uploadCategory=='instagram'}" ng-click="vm.changeUploadCategory('instagram')">
-                    <div class="custom-svg-icon">
-                        <img src="svgs/gray-instagram.svg" alt="instagram" ng-if="vm.uploadCategory!='instagram'">
-                        <img src="svgs/blue-instagram.svg" alt="instagram" ng-if="vm.uploadCategory=='instagram'">
-                        <div class="object-backdrop"></div>
-                    </div>
-                    <div class="title">
-                        Import from Instagram
-                    </div>
-                </div>
-                <div class="upload-icon" ng-class="{'active': vm.uploadCategory=='flickr'}" ng-click="vm.changeUploadCategory('flickr')">
-                    <div class="custom-svg-icon">
-                        <img src="svgs/gray-flickr.svg" alt="flickr" ng-if="vm.uploadCategory!='flickr'">
-                        <img src="svgs/blue-flickr.svg" alt="flickr" ng-if="vm.uploadCategory=='flickr'">
-                        <div class="object-backdrop"></div>
-                    </div>
-                    <div class="title">
-                        Import from Flickr
-                    </div>
-                </div>
-                <div class="upload-icon" ng-class="{'active': vm.uploadCategory=='google'}" ng-click="vm.changeUploadCategory('google')">
-                    <div class="custom-svg-icon">
-                        <img src="svgs/gray-google.svg" alt="google" ng-if="vm.uploadCategory!='google'">
-                        <img src="svgs/blue-google.svg" alt="google" ng-if="vm.uploadCategory=='google'">
-                        <div class="object-backdrop"></div>
-                    </div>
-                    <div class="title">
-                        Import from Google Photos
-                    </div>
-                </div>
-            </div>
+  <div class="row text-center">
+    <!--
+    Left Div : Start
+    -->
+    <div class="left-div sub-content">
+      <div class="upload-icons">
+        <div class="upload-icon" ng-class="{'active': vm.uploadCategory=='device'}" ng-click="vm.changeUploadCategory('device')">
+          <div class="custom-svg-icon" >
+            <img src="images/gray-device-cloud.png" alt="Computer" ng-show="vm.uploadCategory!='device'">
+            <img src="images/blue-device-cloud.png" alt="Computer" ng-show="vm.uploadCategory=='device'">
+            <div class="object-backdrop"></div>
+          </div>
+          <div class="title">
+            Upload from Computer
+          </div>
         </div>
-        <!--
-          Left Div : End
-        -->
+        <div class="upload-icon" ng-class="{'active': vm.uploadCategory=='facebook'}" ng-click="vm.changeUploadCategory('facebook')">
+          <div class="custom-svg-icon">
+            <img src="svgs/gray-facebook.svg" alt="facebook" ng-if="vm.uploadCategory!='facebook'">
+            <img src="svgs/blue-facebook.svg" alt="facebook" ng-if="vm.uploadCategory=='facebook'">
+            <div class="object-backdrop"></div>
+          </div>
+          <div class="title">
+            Import from Facebook
+          </div>
+        </div>
+        <div class="upload-icon" ng-class="{'active': vm.uploadCategory=='instagram'}" ng-click="vm.changeUploadCategory('instagram')">
+          <div class="custom-svg-icon">
+            <img src="svgs/gray-instagram.svg" alt="instagram" ng-if="vm.uploadCategory!='instagram'">
+            <img src="svgs/blue-instagram.svg" alt="instagram" ng-if="vm.uploadCategory=='instagram'">
+            <div class="object-backdrop"></div>
+          </div>
+          <div class="title">
+            Import from Instagram
+          </div>
+        </div>
+        <div class="upload-icon" ng-class="{'active': vm.uploadCategory=='flickr'}" ng-click="vm.changeUploadCategory('flickr')">
+          <div class="custom-svg-icon">
+            <img src="svgs/gray-flickr.svg" alt="flickr" ng-if="vm.uploadCategory!='flickr'">
+            <img src="svgs/blue-flickr.svg" alt="flickr" ng-if="vm.uploadCategory=='flickr'">
+            <div class="object-backdrop"></div>
+          </div>
+          <div class="title">
+            Import from Flickr
+          </div>
+        </div>
+        <div class="upload-icon" ng-class="{'active': vm.uploadCategory=='google'}" ng-click="vm.changeUploadCategory('google')">
+          <div class="custom-svg-icon">
+            <img src="svgs/gray-google.svg" alt="google" ng-if="vm.uploadCategory!='google'">
+            <img src="svgs/blue-google.svg" alt="google" ng-if="vm.uploadCategory=='google'">
+            <div class="object-backdrop"></div>
+          </div>
+          <div class="title">
+            Import from Google Photos
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--
+      Left Div : End
+    -->
 
-        <!--
-          Right Div : Start
-        -->
-        <div class="right-div sub-content">
+    <!--
+      Right Div : Start
+    -->
+    <div class="right-div sub-content">
 
-            <div class="jumbotron" ngf-drag-over-class="'dragover'" ngf-drop="vm.selectFiles($files, $invalidFiles)" ngf-multiple="true" ngf-max-size="{{$root.imageConstraints.maxSize}}">
-                <!-- Connected as -->
+      <div class="jumbotron" ngf-drag-over-class="'dragover'" ngf-drop="vm.selectFiles($files, $invalidFiles)" ngf-multiple="true" ngf-max-size="{{$root.imageConstraints.maxSize}}">
+        <!-- Connected as -->
         <span ng-if="vm.uploadCategory!='device' && (vm.fbLogin || vm.instagramLogin || vm.flickrLogin || vm.googleLogin)" class="">
                     <!--<img src="images/profile_icon.png" alt="">-->
                     <img src="{{$root.user.socialPicture}}" alt="" onerror="this.src = 'images/user_profile_placeholder.png'">
@@ -87,7 +87,7 @@ Content : Start
                         <div class="details"><a href="" ng-click="vm.socialDisconnect(vm.uploadCategory)">click here</a> to disconnect</div>
                     </div>
                 </span>
-                <!-- Device Drag & Drop -->
+        <!-- Device Drag & Drop -->
         <span ng-if="vm.uploadCategory=='device'" class="device">
                     <div class="description drop-box">
                         <div class="title">Drag & Drop</div>
@@ -97,142 +97,164 @@ Content : Start
                         </div>
                     </div>
               </span>
-                <!-- social loader -->
-                <img src="svgs/ptt-loader.svg" id="loader-social" class="social-loader" alt="Loading..">
+        <!-- social loader -->
+        <img src="svgs/ptt-loader.svg" id="loader-social" class="social-loader" alt="Loading..">
 
-                <!-- Facebook Login Button -->
+        <!-- Facebook Login Button -->
 
-                <div ng-if="!vm.fbLogin && vm.uploadCategory=='facebook'" class="login-div fb-login-div">
-                    <button class="btn fb-login" ng-click="vm.socialLogin('facebook')">
-                        <i class="fa fa-facebook-official" aria-hidden="true"></i>
+        <div ng-if="!vm.fbLogin && vm.uploadCategory=='facebook'" class="login-div fb-login-div">
+          <button class="btn fb-login" ng-click="vm.socialLogin('facebook')">
+            <i class="fa fa-facebook-official" aria-hidden="true"></i>
             <span class="text">
                             <strong>Login</strong>
                             with
                             <strong>Facebook</strong>
                         </span>
-                    </button>
-                </div>
-                <!-- Instagram Login Button -->
-                <div ng-if="!vm.instagramLogin && vm.uploadCategory=='instagram'" class="login-div instagram-login-div">
-                    <button class="btn instagram-login" ng-click="vm.socialLogin('instagram')">
-                        <i class="fa fa-instagram" aria-hidden="true"></i>
+          </button>
+        </div>
+        <!-- Instagram Login Button -->
+        <div ng-if="!vm.instagramLogin && vm.uploadCategory=='instagram'" class="login-div instagram-login-div">
+          <button class="btn instagram-login" ng-click="vm.socialLogin('instagram')">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
             <span class="text">
                             <strong>Login</strong>
                             with
                             <strong>Instagram</strong>
                         </span>
-                    </button>
+          </button>
 
-                </div>
-                <!-- Flickr Login Button -->
-                <div ng-if="!vm.flickrLogin && vm.uploadCategory=='flickr'" class="login-div flickr-login-div">
-                    <button class="btn flickr-login" ng-click="vm.socialLogin('flickr')" disabled="true">
-                        <i class="fa fa-flickr" aria-hidden="true"></i>
+        </div>
+        <!-- Flickr Login Button -->
+        <div ng-if="!vm.flickrLogin && vm.uploadCategory=='flickr'" class="login-div flickr-login-div">
+          <button class="btn flickr-login" ng-click="vm.socialLogin('flickr')" disabled="true">
+            <i class="fa fa-flickr" aria-hidden="true"></i>
             <span class="text">
                             <strong>Login</strong>
                             with
                             <strong>Flickr</strong>
                         </span>
-                    </button>
+          </button>
 
-                </div>
-                <!-- Google Login Button -->
-                <div ng-if="!vm.googleLogin && vm.uploadCategory=='google'" class="login-div google-login-div">
-                    <button class="btn google-login" ng-click="vm.socialLogin('google')" disabled="true">
-                        <i class="fa fa-google" aria-hidden="true"></i>
+        </div>
+        <!-- Google Login Button -->
+        <div ng-if="!vm.googleLogin && vm.uploadCategory=='google'" class="login-div google-login-div">
+          <button class="btn google-login" ng-click="vm.socialLogin('google')">
+            <i class="fa fa-google" aria-hidden="true"></i>
             <span class="text">
               <strong>Login</strong>
               for
               <strong>Google Photos</strong>
             </span>
-                    </button>
-                    <img src="svgs/ptt-loader.svg" class="social-loader"  alt="X">
-                </div>
-            </div>
-
-            <!-- Only for photos -->
-            <div class="uploaded-images animate-if " ng-if="vm.showAlbumOrPhotos" ngf-drag-over-class="'dragover'" ngf-drop="vm.selectFiles($files, $invalidFiles)" ngf-multiple="true" ngf-max-size="{{$root.imageConstraints.maxSize}}">
-                <div class="img" ng-repeat="file in vm.filesToUpload" ng-if="!file.uploaded || vm.uploadCategory!='device'">
-                    <!-- Cancel button -->
-                    <div class="custom-svg-icon abort-uploading" ng-click="vm.abortUploading($index)" ng-show="file.inProgress && !file.uploaded">
-                        <img src="images/white-cross.png" class="white-cross" alt="">
-                    </div>
-                    <div class="img-container" ng-click="(!file.inProgress) ? vm.addFilesToUploadQueue($index) : null" >
-                        <!-- For device -->
-                        <img ngf-thumbnail="file" ng-click="(!file.inProgress) ? vm.addFilesToUploadQueue($index) : null" alt="" ng-if="vm.uploadCategory=='device'" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
-                        <!-- For facebook, instagram, google, flickr photos -->
-                        <img src="{{file.thumbnail}}" alt=""  ptt-loader="loader-fb-photo" keep-aspect-ratio="true" ng-if="vm.uploadCategory!='device'">
-                        <!-- Upload arrow -->
-                        <div class="custom-svg-icon" ng-show="(!file.uploaded || vm.uploadCategory!='device') && !file.inProgress">
-                            <img src="svgs/gray-arrow-down.svg" alt="">
-                        </div>
-                        <!-- Upload complete tick -->
-                        <div class="custom-svg-icon blue-tick" ng-show="file.uploaded">
-                            <img src="svgs/blue-tick.svg" alt="">
-                        </div>
-                        <!-- Progress bar -->
-                        <div class="progress" ng-show="file.inProgress && !file.uploaded">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{file.progress}}">
-                            </div>
-                        </div>
-                        <!-- Error notification icon -->
-                        <i class="fa fa-exclamation-circle" ng-show="file.error" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{file.errMessage}}"></i>
-                    </div>
-                </div>
-                <!-- Upload All Files -->
-                <div class="img img-upload-all" ng-if="vm.filesToUpload.length>1 && vm.showAllUploadButtonForDevice && vm.uploadCategory=='device'" ng-click="vm.addFilesToUploadQueue()">
-                    <div class="img-container">
-                        <div class="custom-svg-icon">
-                            <img src="svgs/gray-arrow-down.svg" alt="">
-                        </div>
-                        <div class="add-all-photos">Add All Photos</div>
-                    </div>
-                </div>
-                <div class="img img-upload-all" ng-if="vm.filesToUpload.length>1 && vm.showAllUploadButtonForSocial && vm.uploadCategory!='device'" ng-click="vm.addFilesToUploadQueue()">
-                    <div class="img-container">
-                        <div class="custom-svg-icon">
-                            <img src="svgs/gray-arrow-down.svg" alt="">
-                        </div>
-                        <div class="add-all-photos">Add All Photos</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- only for facebook albums -->
-            <div class="fb-albums animate-if" ng-if="vm.uploadCategory=='facebook' && vm.fbLogin && !vm.showAlbumOrPhotos">
-                <div class="row">
-                    <div class="col-sm-4" ng-repeat="album in vm.fb.albums">
-                        <div class="square"></div>
-                        <div class="square"></div>
-                        <div class="square"></div>
-                        <div class="square" ng-click="vm.chooseAlbum($index)">
-                            <img src="{{album.picture.data.url}}" alt="" ptt-loader="loader-fb-album" keep-aspect-ratio="true">
-                        </div>
-                        <p>{{album.name}} <span ng-show="vm.debug"> : count = {{album.count}}</span></p>
-                    </div>
-                </div>
-            </div>
-
+          </button>
+          <img src="svgs/ptt-loader.svg" class="social-loader"  alt="X">
         </div>
-        <!--
-          Right Div : End
-        -->
+      </div>
+
+      <!-- Only for photos -->
+      <div class="uploaded-images animate-if " ng-if="vm.showAlbumOrPhotos" ngf-drag-over-class="'dragover'" ngf-drop="vm.selectFiles($files, $invalidFiles)" ngf-multiple="true" ngf-max-size="{{$root.imageConstraints.maxSize}}">
+        <div class="img" ng-repeat="file in vm.filesToUpload" ng-if="!file.uploaded || vm.uploadCategory!='device'">
+          <!-- Upload cancel -->
+          <div class="custom-svg-icon abort-uploading" ng-click="vm.abortUploading($index)" ng-show="file.inProgress && !file.uploaded">
+            <img src="svgs/pink-cross.svg" class="white-cross" alt="">
+          </div>
+          <div class="img-container" ng-click="(!file.inProgress) ? vm.addFilesToUploadQueue($index) : null">
+
+            <!--<div class="custom-svg-icon abort-uploading" ng-click="vm.abortUploading($index)" ng-if="file.inProgress">-->
+              <!--<img src="svgs/pink-cross.svg" class="white-cross" alt="">-->
+            <!--</div>-->
+
+
+            <!-- For device -->
+            <img ngf-thumbnail="file" ng-click="(!file.inProgress) ? vm.addFilesToUploadQueue($index) : null" alt="" ng-if="vm.uploadCategory=='device'" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
+            <!-- For facebook, instagram, google, flickr photos -->
+            <img src="{{file.thumbnail}}" alt=""  ptt-loader="loader-fb-photo" keep-aspect-ratio="true" ng-if="vm.uploadCategory!='device'">
+            <!-- Upload arrow -->
+            <div class="custom-svg-icon" ng-show="(!file.uploaded || vm.uploadCategory!='device') && !file.inProgress">
+              <img src="svgs/gray-arrow-down.svg" alt="">
+            </div>
+
+            <!-- Upload complete tick -->
+            <div class="custom-svg-icon blue-tick" ng-show="file.uploaded">
+              <img src="svgs/blue-tick.svg" alt="">
+            </div>
+            <!-- Progress bar -->
+            <div class="progress" ng-show="file.inProgress && !file.uploaded">
+              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{file.progress}}">
+              </div>
+            </div>
+            <!-- Error notification icon -->
+            <i class="fa fa-exclamation-circle" ng-show="file.error" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{file.errMessage}}"></i>
+          </div>
+        </div>
+        <!-- Upload All Files -->
+        <div class="img img-upload-all" ng-if="vm.filesToUpload.length>1 && vm.showAllUploadButtonForDevice && vm.uploadCategory=='device'" ng-click="vm.addFilesToUploadQueue()">
+          <div class="img-container">
+            <div class="custom-svg-icon">
+              <img src="svgs/gray-arrow-down.svg" alt="">
+            </div>
+            <div class="add-all-photos">Add All Photos</div>
+          </div>
+        </div>
+        <div class="img img-upload-all" ng-if="vm.filesToUpload.length>1 && vm.showAllUploadButtonForSocial && vm.uploadCategory!='device'" ng-click="vm.addFilesToUploadQueue()">
+          <div class="img-container">
+            <div class="custom-svg-icon">
+              <img src="svgs/gray-arrow-down.svg" alt="">
+            </div>
+            <div class="add-all-photos">Add All Photos</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- only for facebook albums -->
+      <div class="fb-albums animate-if" ng-if="vm.uploadCategory=='facebook' && vm.fbLogin && !vm.showAlbumOrPhotos">
+        <div class="row">
+          <div class="col-sm-4" ng-repeat="album in vm.fb.albums">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square" ng-click="vm.chooseAlbum($index)">
+              <img src="{{album.picture.data.url}}" alt="" ptt-loader="loader-fb-album" keep-aspect-ratio="true">
+            </div>
+            <p>{{album.name}} <span ng-show="vm.debug"> : count = {{album.count}}</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- only for Google albums -->
+      <div class="fb-albums animate-if" ng-if="vm.uploadCategory=='google' && vm.googleLogin && !vm.showAlbumOrPhotos">
+        <div class="row">
+          <div class="col-sm-4" ng-repeat="album in vm.google.albums">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square" ng-click="vm.chooseGoogleAlbum($index)">
+              <img src="{{album.media$group.media$thumbnail[0].url}}" alt="" ptt-loader="loader-fb-album" keep-aspect-ratio="true">
+            </div>
+            <p>{{album.gphoto$name.$t}} <span ng-show="vm.debug"> : count = {{album.count}}</span></p>
+          </div>
+        </div>
+      </div>
 
     </div>
+    <!--
+      Right Div : End
+    -->
+
+  </div>
 </div>
 
 
 <!-- Film Strip Thumbs : Start-->
 <!--<div ng-include="'src/dashboard/upload/lightSlider1.html'"></div>-->
 <ptt-photo-strip
-        photos="vm.myPhotos"
-        show-upload-image=""
-        step=1
-        on-delete="vm.deletePhoto(id, index)"
-        on-select=""
-        on-select-files="vm.selectFiles(files, invalidFiles)"
-        on-toggle-expand-view=""
-        on-get-select-photo=""
+  photos="vm.myPhotos"
+  show-upload-image=""
+  step=1
+  on-delete="vm.deletePhoto(id, index)"
+  on-select=""
+  on-select-files="vm.selectFiles(files, invalidFiles)"
+  on-toggle-expand-view=""
+  on-get-select-photo=""
 >
 </ptt-photo-strip>
 <!-- Film Strip Thumbs : End-->
