@@ -74,6 +74,7 @@
 
         switch(attrs.pttLoader){
           case 'loader-fb-photo':
+            $('.abort-uploading').css('opacity', 1);
             elem.siblings().css('display', 'block');
             elem.prev().css('display', 'none');
             break;

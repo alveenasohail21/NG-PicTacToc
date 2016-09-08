@@ -416,12 +416,16 @@ body.app {
   }
 
   img.social-loader{
-    margin: 0 !important;
+    margin: 11px 20px 0px -25px !important;
     animation: loader 0.82s cubic-bezier(.36,.07,.19,.97) infinite;
     transform: rotate(360deg);
     backface-visibility: hidden;
     perspective: 1000px;
-    display: none;
+    opacity: 0;
+    z-index: 0;
+    display: inline;
+    position: absolute;
+
   }
 
   img.filter-loader{

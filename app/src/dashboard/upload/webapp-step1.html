@@ -79,14 +79,14 @@ Content : Start
 
       <div class="jumbotron" ngf-drag-over-class="'dragover'" ngf-drop="vm.selectFiles($files, $invalidFiles)" ngf-multiple="true" ngf-max-size="{{$root.imageConstraints.maxSize}}">
         <!-- Connected as -->
-        <span ng-if="vm.uploadCategory!='device' && (vm.fbLogin || vm.instagramLogin || vm.flickrLogin || vm.googleLogin)" class="">
+        <span ng-if="vm.uploadCategory!='device' && (vm.fbLogin || vm.instagramLogin || vm.flickrLogin || vm.googleLogin)" class="user-description">
                     <!--<img src="images/profile_icon.png" alt="">-->
                     <img src="{{$root.user.socialPicture}}" alt="" onerror="this.src = 'images/user_profile_placeholder.png'">
                     <div class="description">
                         <div class="title">Connected as {{$root.user.socialName}}</div>
                         <div class="details"><a href="" ng-click="vm.socialDisconnect(vm.uploadCategory)">click here</a> to disconnect</div>
                     </div>
-                </span>
+        </span>
         <!-- Device Drag & Drop -->
         <span ng-if="vm.uploadCategory=='device'" class="device">
                     <div class="description drop-box">
@@ -95,13 +95,13 @@ Content : Start
                             <a class="cursor-pointer" ngf-select="vm.selectFiles($files, $invalidFiles)" ngf-max-size="{{$root.imageConstraints.maxSize}}" multiple accept="image/*">browse</a>
                             your photo files
                         </div>
+
                     </div>
               </span>
         <!-- social loader -->
         <img src="svgs/ptt-loader.svg" id="loader-social" class="social-loader" alt="Loading..">
 
         <!-- Facebook Login Button -->
-
         <div ng-if="!vm.fbLogin && vm.uploadCategory=='facebook'" class="login-div fb-login-div">
           <button class="btn fb-login" ng-click="vm.socialLogin('facebook')">
             <i class="fa fa-facebook-official" aria-hidden="true"></i>
@@ -157,12 +157,12 @@ Content : Start
           <div class="custom-svg-icon abort-uploading" ng-click="vm.abortUploading($index)" ng-show="file.inProgress && !file.uploaded">
             <img src="svgs/pink-cross.svg" class="white-cross" alt="">
           </div>
+
           <div class="img-container" ng-click="(!file.inProgress) ? vm.addFilesToUploadQueue($index) : null">
 
             <!--<div class="custom-svg-icon abort-uploading" ng-click="vm.abortUploading($index)" ng-if="file.inProgress">-->
-              <!--<img src="svgs/pink-cross.svg" class="white-cross" alt="">-->
+            <!--<img src="svgs/pink-cross.svg" class="white-cross" alt="">-->
             <!--</div>-->
-
 
             <!-- For device -->
             <img ngf-thumbnail="file" ng-click="(!file.inProgress) ? vm.addFilesToUploadQueue($index) : null" alt="" ng-if="vm.uploadCategory=='device'" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">

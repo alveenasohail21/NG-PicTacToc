@@ -73,6 +73,9 @@ body.app{
         margin: -40px 20px 0 -24px;
         border-radius: 100%;
       }
+      .user-description{
+        display: none;
+      }
       div.description{
         display: inline-block;
         .title{
@@ -205,6 +208,7 @@ body.app{
         }
 
         .abort-uploading{
+          opacity: 0;
           background: none !important;
           border: none !important;
         }

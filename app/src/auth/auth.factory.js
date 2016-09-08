@@ -88,9 +88,8 @@
       socialLoader[provider]=true;
     }
     function socialAuthenticate(provider){
-      $('#loader-social').css("display", "inline");
+      $('#loader-social').css("opacity", "1");
       $('.login-div').css("display", "none");
-
       console.log("auth factory social authenticate provider: ", provider);
       var defer = $q.defer();
       //console.log($auth.getToken().slice(1, $auth.getToken().length-1));
@@ -129,23 +128,20 @@
               $rootScope.$emit('socialAuthenticate', resp.data);
             }
             // remove the loader-social
-            //console.log("remove social loader");
-            $('#loader-social').css("display", "none");
             $('.login-div').css("display", "inline");
           }
           else{
             // remove the loader-social
             //console.log("remove social loader");
-            $('#loader-social').css("display", "none");
+            $('#loader-social').css("opacity", "0");
             $('.login-div').css("display", "inline");
             alertFactory.error(null, resp.data.message);
           }
           defer.resolve(resp);
         }, function(err){
           defer.reject(err);
-          $('#loader-social').css("display", "none");
+          $('#loader-social').css("opacity", "0");
           $('.login-div').css("display", "inline");
-
         });
       return defer.promise;
     }
