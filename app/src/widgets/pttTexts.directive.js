@@ -18,35 +18,43 @@
     .directive('pttTexts', pttTexts);
 
   /* @ngInject */
-  function pttTexts($timeout){
+  function pttTexts($timeout,restFactory){
 
     // would be get from server, only active texts will be shown
-    var texts = [
+    var texts =[
       {
         name: 'MyriadPro_SemiBold',
-        url: '/fonts/Myriad_Pro/MYRIADPRO-SEMIBOLD.OTF',
+        url: 'media/public/fonts/MYRIADPRO-SEMIBOLD.OTF',
         isActive: true,
         selected: false
       },
       {
         name: 'MyriadPro_CondIt',
-        url: '/fonts/Myriad_Pro/MYRIADPRO-CONDIT.OTF',
+        url: 'media/public/fonts/MYRIADPRO-CONDIT.OTF',
         isActive: true,
         selected: false
       },
       {
         name: 'Kelvitca_Nobis',
-        url: '/fonts/Kelvetica Nobis.otf',
+        url: 'media/public/fonts/Kelvetica Nobis.otf',
         isActive: true,
         selected: false
       },
       {
         name: 'OpenSans_LightItalic',
-        url: '/fonts/Open_Sans/OpenSans-LightItalic.ttf',
+        url: 'media/public/fonts/OpenSans-LightItalic.ttf',
         isActive: true,
         selected: false
       }
     ];
+
+    var defaultQuery = {
+      type : 'fonts',
+      from : 0,
+      size : 12,
+      all : false
+    };
+
 
     return {
       restrict: 'E',
@@ -66,8 +74,39 @@
       // Initializer
       function init(){
         // TODO: Fetch texts from server
-        setupTexts();
+        getTextFromServer();
+        bindLoadMoreStickers();
       }
+      function getTextFromServer() {
+        restFactory.media.get(defaultQuery).then(function (resp) {
+          texts = resp.data;
+          setupTexts();
+        })
+      }
+      // Pagination
+      function bindLoadMoreStickers(){
+        var stickerDiv = angular.element('.sidemenu-texts');
+        stickerDiv.scroll(function(){
+          var offset = 20;
+          var stickerDivHeight = stickerDiv.height();
+          var scrollBottom = stickerDiv.scrollTop() + stickerDivHeight + offset;
+          var stickerDivScrollHeight = stickerDiv[0].scrollHeight;
+          if(scrollBottom >= stickerDivScrollHeight ){
+            // console.log("fetching more images");
+            loadMoreStickers();
+          }
+        });
+      }
+
+      function loadMoreStickers() {
+        var data = defaultQuery;
+        data.from += 12;
+        restFactory.media.get(data).then(function (resp) {
+          texts.push.apply(texts,resp.data);
+          setupTexts();
+        })
+      }
+
 
       // setup text
       function setupTexts(){
@@ -106,11 +145,11 @@
         //scope.texts[index].selected = true;
         scope.onSelect({text: text});
       }
-      
+
 
       // call initializer
       init();
-      
+
 
     }
 

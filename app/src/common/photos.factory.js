@@ -25,7 +25,7 @@
 
     var defaultQueryParams = {
       from: 0,
-      size: 12,
+      size: 6,
       dimension: '260x260'
     };
 
@@ -74,7 +74,7 @@
       restFactory.photos.getPhotos(data)
         .then(function(resp){
           if(resp.success){
-            resp.data['photos'] = mapPhotos(resp.data.photos);
+            resp.data['photos'] = mapPhotos(resp.data);
             resp.data['photos'].forEach(function(elem, index){
               _data.photos.push(angular.copy(elem));
             });

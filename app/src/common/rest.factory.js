@@ -20,6 +20,7 @@
     var Auth = Restangular.all('auth');
     var Photos = Restangular.all('photos');
     var Media = Restangular.all('media');
+    var Products = Restangular.all('products');
 
     /* Return Functions */
     return {
@@ -48,6 +49,9 @@
       },
       media: {
         get: getMedia
+      },
+      products : {
+        addInProgressProducts : addInProgressProducts
       },
       oneUrl: oneUrl
     };
@@ -130,6 +134,9 @@
 
     function getMedia(queryParams){
       return Media.one('get').get(queryParams);
+    }
+    function addInProgressProducts(data){
+      return Products.one('inprogress').post(null,data);
     }
 
   }

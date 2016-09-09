@@ -18,7 +18,7 @@
     .directive('pttFilters', pttFilters);
 
   /* @ngInject */
-  function pttFilters($timeout){
+  function pttFilters($timeout,restFactory){
 
     // would be get from server, only active filters will be shown
     // normal is always on last
@@ -43,6 +43,12 @@
       //{ name: 'concentrate', selected: false },
       { name: 'normal', selected: false }
     ];
+    var defaultQuery = {
+      type : 'filter',
+      from : 0,
+      size : 12,
+      all : false
+    };
     // {name: 'vintage', selected: false}
     var activeFilterIndex = null;
 
@@ -64,7 +70,38 @@
       // Initializer
       function init(){
         // TODO: Fetch filters from server
+        getFiltersFromServer();
+        bindLoadMoreStickers();
       }
+      function getFiltersFromServer() {
+        restFactory.media.get(defaultQuery).then(function (resp) {
+          filters = resp.data;
+        })
+      }
+      // Pagination
+      function bindLoadMoreStickers(){
+        var stickerDiv = angular.element('.sidemenu-filters');
+        stickerDiv.scroll(function(){
+          var offset = 20;
+          var stickerDivHeight = stickerDiv.height();
+          var scrollBottom = stickerDiv.scrollTop() + stickerDivHeight + offset;
+          var stickerDivScrollHeight = stickerDiv[0].scrollHeight;
+          if(scrollBottom >= stickerDivScrollHeight ){
+            // console.log("fetching more images");
+            loadMoreStickers();
+          }
+        });
+      }
+
+      function loadMoreStickers() {
+        var data = defaultQuery;
+        data.from += 12;
+        restFactory.media.get(data).then(function (resp) {
+          filters.push.apply(filters,resp.data);
+          setupFilters();
+        })
+      }
+
       // setup filters
       function setupFilters(){
         if(filters){

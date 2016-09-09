@@ -33,7 +33,7 @@
 
     vm.myPhotosPagination = {
       from: 0,
-      size: 12,
+      size: 6,
       dimension: '260x260'
     };
     vm.uploadCategory = 'device';
@@ -565,7 +565,7 @@
       if(vm.myPhotosTotalCount > vm.myPhotos.length){
         // console.log("******** Loading More Photos ********", vm.myPhotosTotalCount, vm.myPhotos.length);
         // load new photos
-        vm.myPhotosPagination.from += 12;
+        vm.myPhotosPagination.from += 6;
         photosFactory.getPhotos(vm.myPhotosPagination)
           .then(function(resp){
             // console.log("new photos length: ", resp.photos.length);

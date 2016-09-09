@@ -18,35 +18,42 @@
     .directive('pttStickers', pttStickers);
 
   /* @ngInject */
-  function pttStickers($timeout){
+  function pttStickers($timeout,restFactory){
 
     // would be get from server, only active stickers will be shown
     var stickers = [
       {
-        url: 'images/sidemenu/stickers/2.png',
+        url: 'media/public/stickers/2.png',
         isActive: true
       },
       {
-        url: 'images/sidemenu/stickers/3.png',
+        url: 'media/public/stickers/3.png',
         isActive: true
       },
       {
-        url: 'images/sidemenu/stickers/5.png',
+        url: 'media/public/stickers/5.png',
         isActive: true
       },
       {
-        url: 'images/sidemenu/stickers/4.png',
+        url: 'media/public/stickers/4.png',
         isActive: true
       },
       {
-        url: 'images/sidemenu/stickers/1.png',
+        url: 'media/public/stickers/1.png',
         isActive: true
       },
       {
-        url: 'images/sidemenu/stickers/6.png',
+        url: 'media/public/stickers/6.png',
         isActive: true
       }
     ];
+    var defaultQuery = {
+      type : 'stickers',
+      from : 0,
+      size : 2,
+      all : false
+    };
+
 
     return {
       restrict: 'E',
@@ -64,7 +71,48 @@
       // Initializer
       function init(){
         // TODO: Fetch stickers from server
-        setupFilters();
+        getStickersFromServer();
+        bindLoadMoreStickers();
+      }
+      // load sticker
+      function getStickersFromServer() {
+        restFactory.media.get(defaultQuery).then(function (resp) {
+          stickers = resp.data;
+          setupFilters();
+        })
+      }
+      // Pagination
+      function bindLoadMoreStickers(){
+        var stickerDiv = angular.element('.sidemenu-stickers');
+        stickerDiv.scroll(function(){
+          var offset = 20;
+          var stickerDivHeight = stickerDiv.height();
+          var scrollBottom = stickerDiv.scrollTop() + stickerDivHeight + offset;
+          var stickerDivScrollHeight = stickerDiv[0].scrollHeight;
+          if(scrollBottom >= stickerDivScrollHeight ){
+            // console.log("fetching more images");
+            loadMoreStickers();
+          }
+        });
+      }
+
+      function loadMoreStickers() {
+        var data = defaultQuery;
+        data.from += 2;
+        restFactory.media.get(data).then(function (resp) {
+          stickers.push.apply(stickers,resp.data);
+          console.log('stickers',stickers);
+          setupFilters();
+          $timeout(function () {
+            $(function() {
+              $('#gallery-container').snapGallery({
+                maxCols: 2,
+                margin: 5,
+                minWidth: 100
+              });
+            });
+          });
+        })
       }
 
       // setup stickers
