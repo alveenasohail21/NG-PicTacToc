@@ -135,6 +135,7 @@
         case 'facebook':
           uploadFactory.removeFiles(uploadCategory);
           vm.filesToUpload = uploadFactory._data.socialFiles;
+          console.log("HERE I AM: ", vm.filesToUpload);
           vm.filesUploadedCountForSocial = 0;
           // clear controller's internal data
           vm.fb = {
@@ -153,6 +154,7 @@
           uploadFactory.removeFiles(uploadCategory);
           vm.filesToUpload = uploadFactory._data.socialFiles;
           vm.filesUploadedCountForSocial = 0;
+
           // clear controller's internal data
           vm.instagram = {
             photos: {
@@ -170,6 +172,7 @@
         case 'google':
           uploadFactory.removeFiles(uploadCategory);
           vm.filesToUpload = uploadFactory._data.socialFiles;
+          console.log("HERE I AM: ", vm.filesToUpload);
           vm.filesUploadedCountForSocial = 0;
           // clear controller's internal data
           vm.google = {
@@ -205,9 +208,11 @@
         if (resp) {
           // linked social account
           changeUploadCategory(platform,true);
+
         }
       });
     }
+
 
     //disconnect social login
     function socialDisconnect(platform){
@@ -243,10 +248,13 @@
 
     // get facebook albums
     function getFBAlbums(cursor){
+      turnOnLoader();
       pttFBFactory.getAlbums(cursor)
         .then(function(resp){
           resp.forEach(function(elem, index){
             vm.fb.albums.push(elem);
+            console.log("FACEBOOK CHECK");
+            turnOffLoader();
           });
           //vm.fb.albums = resp;
         })
@@ -290,6 +298,7 @@
 
     // get instagram photos
     function getInstagramPhotos(getNext){
+      turnOnLoader();
       vm.showAlbumOrPhotos = true;
       var nextCursor = null;
       console.log("show me next url: ", vm.instagram.photos.pagination);
@@ -308,6 +317,9 @@
       pttInstagram.getPhotos(nextCursor)
         .then(function(resp){
           // console.log(resp);
+          console.log("INSTAGRAM PHOTOS");
+          turnOffLoader();
+
           resp.data.forEach(function(elem, index){
             //vm.filesToUpload.push(elem);
             uploadFactory.addFile(elem, vm.uploadCategory);
@@ -324,10 +336,13 @@
 
     // get google albums
     function getGoogleAlbums(cursor,login){
+      turnOnLoader();
       pttGoogleFactory.getAlbums(cursor,login)
         .then(function(resp){
           resp.feed.entry.forEach(function(elem, index){
             vm.google.albums.push(elem);
+            console.log("GOOGLE PHOTOS");
+            turnOffLoader();
           });
         },function (err) {
          socialDisconnect('google');
@@ -585,6 +600,15 @@
     function abortUploading(index){
       uploadFactory.abortUploading(index, vm.uploadCategory);
     }
+    function turnOffLoader(){
+      $('#loader-social').css("opacity", "0");
+      $('.user-description').css("display", "inline", "important");
+    }
+    function turnOnLoader(){
+      $('#loader-social').css("opacity", "1");
+      $('.user-description').css("display", "none", "important");
+    }
+
 
     /*
      * Call Constructor

@@ -11,8 +11,12 @@ body.app{
     .element{
       box-shadow: none !important;
     }
-    .custom-svg-icon, button, ul, p{
+    .custom-svg-icon, button, p{
       box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1) !important;
+      color: $theme-text-color-2 !important;
+      background-color: $theme-btn-color-2 !important;
+    }
+    ul{
       color: $theme-text-color-2 !important;
       background-color: $theme-btn-color-2 !important;
     }
@@ -37,11 +41,16 @@ body.app{
     .element{
       box-shadow: none !important;
     }
-    .custom-svg-icon, button, ul, p{
+    .custom-svg-icon, button, p{
       box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1) !important;
       color: $theme-text-color-3 !important;
       background-color: $theme-btn-color-3 !important;
     }
+    ul{
+      color: $theme-text-color-3 !important;
+      background-color: $theme-btn-color-3 !important;
+    }
+
     .slider-handle{
       border-color: $theme-slider-high-3 !important;
       background-color: $theme-slider-low-3 !important;
@@ -430,6 +439,7 @@ body.app{
     .dropdown-menu{
       margin-left: -15px;
       top: 34px !important;
+      width: 70px;
       background-color: rgb(244, 247, 249);
     }
   }

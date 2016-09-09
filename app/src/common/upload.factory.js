@@ -185,5 +185,6 @@
         file.uploadCanceled = true;
       }
     }
+
   }
 }());
