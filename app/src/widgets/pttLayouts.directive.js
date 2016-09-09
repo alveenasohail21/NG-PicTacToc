@@ -34,12 +34,92 @@
             top: 0,
             width: 1,
             height: 0.5,
+            percentValues: {
+              left: 0,
+              top: 0,
+              width: 1,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -48,12 +128,92 @@
             top: 0.5,
             width: 1,
             height: 0.5,
+            percentValues: {
+              left: 0,
+              top: 0.5,
+              width: 1,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              }
+            }
           }
         ]
       },
@@ -69,12 +229,92 @@
             top: 0,
             width: 0.5,
             height: 1,
+            percentValues: {
+              left: 0,
+              top: 0,
+              width: 0.5,
+              height: 1
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -83,12 +323,92 @@
             top: 0,
             width: 0.5,
             height: 1,
+            percentValues: {
+              left: 0.5,
+              top: 0,
+              width: 0.5,
+              height: 1
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              }
+            }
           }
         ]
       },
@@ -104,12 +424,92 @@
             top: 0,
             width: 0.5,
             height: 1,
+            percentValues: {
+              left: 0,
+              top: 0,
+              width: 0.5,
+              height: 1
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -118,12 +518,92 @@
             top: 0,
             width: 0.5,
             height: 0.5,
+            percentValues: {
+              left: 0.5,
+              top: 0,
+              width: 0.5,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -132,12 +612,92 @@
             top: 0.5,
             width: 0.5,
             height: 0.5,
+            percentValues: {
+              left: 0.5,
+              top: 0.5,
+              width: 0.5,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              }
+            }
           }
         ]
       },
@@ -153,12 +713,92 @@
             top: 0,
             width: 1,
             height: 0.6,
+            percentValues: {
+              left: 0,
+              top: 0,
+              width: 1,
+              height: 0.6
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 1
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -166,13 +806,93 @@
             left: 0,
             top: 0.6,
             width: 0.5,
-            height: 0.5,
+            height: 0.4,
+            percentValues: {
+              left: 0,
+              top: 0.6,
+              width: 0.5,
+              height: 0.4
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 1
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -180,13 +900,93 @@
             left: 0.5,
             top: 0.6,
             width: 0.5,
-            height: 0.5,
+            height: 0.4,
+            percentValues: {
+              left: 0.5,
+              top: 0.6,
+              width: 0.5,
+              height: 0.4
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              }
+            }
           }
         ]
       },
@@ -202,12 +1002,92 @@
             top: 0,
             width: 0.5,
             height: 0.5,
+            percentValues: {
+              left: 0,
+              top: 0,
+              width: 0.5,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -216,12 +1096,92 @@
             top: 0,
             width: 0.5,
             height: 0.5,
+            percentValues: {
+              left: 0.5,
+              top: 0,
+              width: 0.5,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -230,12 +1190,92 @@
             top: 0.5,
             width: 0.5,
             height: 0.5,
+            percentValues: {
+              left: 0,
+              top: 0.5,
+              width: 0.5,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -244,12 +1284,92 @@
             top: 0.5,
             width: 0.5,
             height: 0.5,
+            percentValues: {
+              left: 0.5,
+              top: 0.5,
+              width: 0.5,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: false,
+                  applyFactor: 1
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              }
+            }
           }
         ]
       },
@@ -265,12 +1385,92 @@
             top: 0,
             width: 0.33333,
             height: 0.5,
+            percentValues: {
+              left: 0,
+              top: 0,
+              width: 0.33333,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 1
+                },
+                width: {
+                  value: false,
+                  applyFactor: 1
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -279,12 +1479,92 @@
             top: 0,
             width: 0.33333,
             height: 0.5,
+            percentValues: {
+              left: 0.33333,
+              top: 0,
+              width: 0.33333,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: false,
+                  applyFactor: 1
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -293,12 +1573,92 @@
             top: 0,
             width: 0.33333,
             height: 0.5,
+            percentValues: {
+              left: 0.66666,
+              top: 0,
+              width: 0.33333,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 1
+                },
+                width: {
+                  value: true,
+                  applyFactor: 1
+                }
+              }
+            }
           },
           {
             originX: 'left',
@@ -307,12 +1667,92 @@
             top: 0.5,
             width: 1,
             height: 0.5,
+            percentValues: {
+              left: 0,
+              top: 0.5,
+              width: 1,
+              height: 0.5
+            },
             fill: 'rgba(88,88,87,0.4)', /* use transparent for no fill */
             selectable: false,
             hasControls: false,
             hasBorders: false,
-            stroke: 'white',
-            strokeWidth: 2
+            stroke: 'rgb(101, 224, 228)',
+            strokeWidth: 0,
+            borders: {
+              noBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              fullBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              },
+              innerBorder: {
+                top: {
+                  value: true,
+                  applyFactor: 1
+                },
+                left: {
+                  value: false,
+                  applyFactor: 0
+                },
+                height: {
+                  value: false,
+                  applyFactor: 0
+                },
+                width: {
+                  value: false,
+                  applyFactor: 0
+                }
+              },
+              outerBorder: {
+                top: {
+                  value: false,
+                  applyFactor: 0
+                },
+                left: {
+                  value: true,
+                  applyFactor: 1
+                },
+                height: {
+                  value: true,
+                  applyFactor: 2
+                },
+                width: {
+                  value: true,
+                  applyFactor: 2
+                }
+              }
+            }
           }
         ]
       }

@@ -68,23 +68,34 @@
       // setup filters
       function setupFilters(){
         if(filters){
+          var filterFound = false;
           // console.log("RUNNING FILTERS SETUP: ");
           scope.filters = filters;
+          // update filter images
           scope.filters.forEach(function(obj, index){
             obj.selected = false;
             // remove old filter canvas (all)
             $('canvas#'+obj.name).remove();
             // add img tag
             var img = new Image();
-            img.src = scope.thumbnail.base64;
             img.onload = function() {
               $(img).attr('id', obj.name);
               $($('.sidemenu-filters .filter')[index]).prepend(img);
+            };
+            img.src = scope.thumbnail.base64;
+            if(scope.filters[index].name == scope.thumbnail.currentFilter){
+              scope.filters[index].selected = true;
+              activeFilterIndex = index;
+              filterFound = true;
+            }
+            else{
+              if(index == scope.filters.length-1 && !filterFound){
+                // by default normal is applied
+                scope.filters[scope.filters.length-1].selected = true;
+                activeFilterIndex = scope.filters.length-1;
+              }
             }
           });
-          // by default normal is applied
-          scope.filters[scope.filters.length-1].selected = true;
-          activeFilterIndex = scope.filters.length-1;
             applyFilters();
         }
         else{

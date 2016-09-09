@@ -10,36 +10,45 @@
     .module('app.common')
     .factory('designTool', designTool);
 
-  function designTool(){
+  function designTool($timeout){
 
     /*
-    * Constants
-    * */
+     * Constants
+     * */
     const customObjectTypes = {
       layout: 'Layout',
       filter: 'Filter',
       text: 'Text',
       sticker: 'Sticker',
-      backgroundImage: 'BackgroundImage'
+      backgroundImage: 'BackgroundImage',
+      layoutPlusSign: 'LayoutPlusSign'
     };
+    const customBorderTypes = [
+      'noBorder', 'fullBorder', 'innerBorder', 'outerBorder'
+    ];
     const Defaults = {
       zoom: 0,
-      propsToIncludeForJSON: [
-        'customObjectType', 'hasControls', 'clipName', 'originalScale', 'zoom', 'sectionIndex'
-      ],
-      plusIconSizeForLayoutSections: 60
+      plusIconSizeForLayoutSections: 60,
+      borderWidth: 8
     };
 
     /*
-    * Variables
-    * */
+     * Variables
+     * */
     var currentLayoutSections = [];
     var sectionBkgImages = [];
-    var selectedSectionIndex = 0;
+    var selectedSectionIndex = -1;
+    var selectedBorderIndex = 0;
     var flags = {
       isCanvasEmpty: true,
-      isLayoutApplied: false
+      isSectionSelected: false,
+      isLayoutApplied: false,
+      isActionPerformable: true
     };
+    // props to save
+    var propsToIncludeForJSON = [
+      'customObjectType', 'hasControls', 'clipName', 'originalScale', 'zoom', 'sectionIndex'
+    ];
     var fabricCanvas;
     // fabric objects default setting
     var fabricObjSettings = {
@@ -54,6 +63,27 @@
       originX: 'center',
       originY: 'center'
     };
+    // zoom slider
+    var zoomSlider;
+    // current selected object (only for opacity)
+    var currentSelectedObject = null;
+
+    /*
+     * Custom Events
+     * */
+    const customEventsList = {
+      imageSelected: 'image:selected',
+      imageEdited: 'image:edited',
+      canvasDimensionChanged : 'canvas:dimensionChanged'
+    };
+    var customEvents = new EventChannel();
+    for (var event in customEventsList) {
+      if (customEventsList.hasOwnProperty(event)) {
+        customEvents.on(customEventsList[event], function(e){
+          //console.log('DesignTool: Custom Event Fired: ' + e.name +', with data: ', e.data);
+        });
+      }
+    }
 
     /* Return Data & Functions */
     return {
@@ -61,6 +91,7 @@
       initializeTool: initializeTool,
       onDOMLoad: onDOMLoad,
       setDimensions: setDimensions,
+      initializeZoomSlider: initializeZoomSlider,
       loadBkgImage: loadBkgImage,
       loadFromJSON: loadFromJSON,
       getCanvasJSON: getCanvasJSON,
@@ -85,8 +116,8 @@
       updateTextColor: updateTextColor,
       deleteSelectedObject: deleteSelectedObject,
       copySelectedObject: copySelectedObject,
-      // Tool events
-      bindToolEvents: bindToolEvents,
+      // Custom events
+      on: on,
       // zoom
       resetZoomSettings: resetZoomSettings
     };
@@ -111,6 +142,10 @@
       // disable group selection
       fabricCanvas.selection = false;
       fabricCanvas.renderAll();
+      // bind fabric events to tool as well
+      bindFabricEvents();
+      // bind keyboard events
+      bindKeyboardEvents();
     }
 
     function setDimensions(dimension){
@@ -122,7 +157,45 @@
       fabricCanvas.renderAll();
     }
 
-    function loadBkgImage(image, cb){
+    function initializeZoomSlider(selector){
+      // Slider With JQuery
+      zoomSlider = $(selector).slider({
+        reversed : true
+      });
+      zoomSlider.on('change', function(data){
+        var object;
+        if(flags.isLayoutApplied){
+          object = findByProps({
+            sectionIndex: selectedSectionIndex,
+            customObjectType: customObjectTypes.backgroundImage
+          })
+        }
+        else{
+          object = findByProps({
+            customObjectType: customObjectTypes.backgroundImage
+          })
+        }
+        // if no background image
+        if(!object){
+          zoomSlider.slider('setValue', Defaults.zoom);
+          return;
+        }
+        /*
+         * Formula: OriginalScale(x,y) * ZoomSliderValue = NewScale(x,y)
+         * */
+        object.setScaleX(object.originalScale.x*data.value.newValue);
+        object.setScaleY(object.originalScale.y*data.value.newValue);
+        object.set('zoom', data.value.newValue);
+        object.setCoords();
+        fabricCanvas.renderAll();
+        $timeout(function(){
+          // to hold on the check till unknown operation finishes
+          backgroundImageBoundaryCheck(object);
+        }, 500);
+      });
+    }
+
+    function loadBkgImage(image, propsToAdd, cb){
       console.log('DESIGN TOOL: loadBkgImage');
       var img = new Image();
       img.onload = function(){
@@ -136,11 +209,21 @@
         });
         // fabric default settings
         fabricImage.set(fabricObjSettings);
-        // add to canvas
-        fabricCanvas.add(fabricImage);
-        /* No Layout Selected */
-        if(!flags.isLayoutApplied){
-          console.log('DESIGN TOOL: Layout is not applied');
+        // custom props to add
+        fabricImage.set(propsToAdd);
+        for(var key in propsToAdd){
+          if(propsToAdd.hasOwnProperty(key)){
+            propsToIncludeForJSON.push(key);
+          }
+        }
+        /* No Layout Section Selected */
+        if(selectedSectionIndex == -1){
+          console.log('DESIGN TOOL: Layout section is not selected, loading single image');
+          flags.isLayoutApplied = false;
+          // change bkg color
+          fabricCanvas.backgroundColor = '#cccccc';
+          // add to canvas
+          fabricCanvas.add(fabricImage);
           // position
           fabricImage.center();
           // scale
@@ -154,35 +237,28 @@
           sectionBkgImages = [];
           sectionBkgImages.push(fabricImage);
         }
-        /* Working With Layouts */
+        /* Working With Layouts Sections */
         else{
-          console.log('DESIGN TOOL: Layout is applied');
+          console.log('DESIGN TOOL: Layout section is selected!');
           // position
-          fabricImage.set({
-            top: currentLayoutSections[selectedSectionIndex].top + currentLayoutSections[selectedSectionIndex].height/2,
-            left: currentLayoutSections[selectedSectionIndex].left + currentLayoutSections[selectedSectionIndex].width/2
-          });
           // scale
-          if(currentLayoutSections[selectedSectionIndex].width > currentLayoutSections[selectedSectionIndex].height){
-            console.log('DESIGN TOOL: Scaled to Width');
-            fabricImage.scaleToWidth(currentLayoutSections[selectedSectionIndex].width);
-          }
-          else{
-            console.log('DESIGN TOOL: Scaled to Height');
-            fabricImage.scaleToHeight(currentLayoutSections[selectedSectionIndex].height);
-          }
           // apply clipping
-          fabricImage.set({
-            'sectionIndex': selectedSectionIndex,
-            'clipName': 'bkgImage'+selectedSectionIndex,
-            'clipTo': function(ctx) {
-              return _.bind(clipByName, fabricImage)(ctx)
-            }
-          });
+          fabricImage = addBkgImageToSection(fabricImage, selectedSectionIndex);
+          // if there is already a background image, remove the previous one
+          if(typeof sectionBkgImages[selectedSectionIndex] !== 'undefined'){
+            sectionBkgImages[selectedSectionIndex].remove();
+          }
           // save fabric image instance to section index
           sectionBkgImages[selectedSectionIndex] = fabricImage;
-          // update selected section index
-          selectedSectionIndex++;
+          //console.log(sectionBkgImages);
+          // add to canvas
+          fabricCanvas.add(fabricImage);
+          // remove the plus sign image
+          var plusSign = findByProps({
+            sectionIndex: selectedSectionIndex,
+            customObjectType: customObjectTypes.layoutPlusSign
+          });
+          if(plusSign) { plusSign.remove(); }
         }
         // save scale
         fabricImage.set('originalScale', {
@@ -242,7 +318,7 @@
     }
 
     function getCanvasJSON(){
-      var canvasJSON = fabricCanvas.toJSON(Defaults.propsToIncludeForJSON);
+      var canvasJSON = fabricCanvas.toJSON(propsToIncludeForJSON);
       console.log('DESIGN TOOL: getCanvasJSON', canvasJSON);
       // TODO: any update in JSON, or any other process
       return canvasJSON;
@@ -256,6 +332,11 @@
 
     function resetTool(){
       console.log('DESIGN TOOL: resetTool');
+      currentLayoutSections = [];
+      selectedSectionIndex = -1;
+      selectedBorderIndex = 0;
+      flags.isSectionSelected = false;
+      hideObjectCustomizer();
       fabricCanvas.clear();
       fabricCanvas.renderAll();
       // call reset zoom also
@@ -279,125 +360,521 @@
     // ****************************************** Toolbar methods ******************************************
 
     function applyBorder(){
-      console.log('DESIGN TOOL: applyBorder');
+      // only if layout is applied
+      if(flags.isLayoutApplied){
+        selectedBorderIndex++;
+        if(selectedBorderIndex == customBorderTypes.length){
+          selectedBorderIndex = 0;
+        }
+        console.log('DESIGN TOOL: applyBorder', customBorderTypes[selectedBorderIndex]);
+        var objects = fabricCanvas.getObjects();
+        for(var i=0; i<objects.length; i++){
+          switch(objects[i].customObjectType){
+            case customObjectTypes.layout:
+              var border = objects[i].borders[customBorderTypes[selectedBorderIndex]];
+              // create gap between layout sections which will work like borders
+              objects[i].set({
+                top: (fabricCanvas.getHeight()*objects[i].percentValues.top) + ((border.top.value)?Defaults.borderWidth*border.top.applyFactor:0),
+                left: (fabricCanvas.getWidth()*objects[i].percentValues.left) + ((border.left.value)?Defaults.borderWidth*border.left.applyFactor:0),
+                height: (fabricCanvas.getHeight()*objects[i].percentValues.height) - ((border.height.value)?Defaults.borderWidth*border.height.applyFactor:0),
+                width: (fabricCanvas.getWidth()*objects[i].percentValues.width) - ((border.width.value)?Defaults.borderWidth*border.width.applyFactor:0)
+              });
+              break;
+            case customObjectTypes.backgroundImage:
+              break;
+          }
+        }
+        fabricCanvas.renderAll();
+      }
     }
 
     function flipHorizontal(){
       console.log('DESIGN TOOL: flipHorizontal');
+      var object = fabricCanvas.getActiveObject();
+      // if no object is selected and no layout is applied, select the background image
+      if(!object && !flags.isLayoutApplied){
+        object = findByProps({
+          customObjectType: customObjectTypes.backgroundImage
+        });
+      }
+      // if no object is selected but layout is applied, select the background image for the selected section
+      else if(!object && flags.isLayoutApplied){
+        object = findByProps({
+          sectionIndex: selectedSectionIndex,
+          customObjectType: customObjectTypes.backgroundImage
+        })
+      }
+      if(object){
+        switch(object.customObjectType){
+          case customObjectTypes.backgroundImage:
+          case customObjectTypes.sticker:
+          case customObjectTypes.text:
+            object.flipX = object.flipX ? false : true;
+            break;
+        }
+      }
+      fabricCanvas.renderAll();
     }
 
     function flipVertical(){
       console.log('DESIGN TOOL: flipVertical');
+      var object = fabricCanvas.getActiveObject();
+      // if no object is selected and no layout is applied, select the background image
+      if(!object && !flags.isLayoutApplied){
+        object = findByProps({
+          customObjectType: customObjectTypes.backgroundImage
+        });
+      }
+      // if no object is selected but layout is applied, select the background image for the selected section
+      else if(!object && flags.isLayoutApplied){
+        object = findByProps({
+          sectionIndex: selectedSectionIndex,
+          customObjectType: customObjectTypes.backgroundImage
+        })
+      }
+      if(object){
+        switch(object.customObjectType){
+          case customObjectTypes.backgroundImage:
+          case customObjectTypes.sticker:
+          case customObjectTypes.text:
+            object.flipY = object.flipY ? false : true;
+            break;
+        }
+      }
+      fabricCanvas.renderAll();
     }
 
     function rotateClockwise(){
       console.log('DESIGN TOOL: rotateClockwise');
+      if(!flags.isActionPerformable){
+        return;
+      }
+      var object= fabricCanvas.getActiveObject();
+      var isBkgImg = false;
+      // if no object is selected and no layout is applied, select the background image
+      if(!object && !flags.isLayoutApplied){
+        object = findByProps({
+          customObjectType: customObjectTypes.backgroundImage
+        });
+        object.center();
+      }
+      // if no object is selected but layout is applied, select the background image for the selected section
+      else if(!object && flags.isLayoutApplied){
+        object = findByProps({
+          sectionIndex: selectedSectionIndex,
+          customObjectType: customObjectTypes.backgroundImage
+        })
+      }
+      switch(object.customObjectType){
+        case customObjectTypes.backgroundImage:
+          isBkgImg = true;
+        //object.center();
+        case customObjectTypes.sticker:
+        case customObjectTypes.text:
+          flags.isActionPerformable = false;
+          object.animate('angle', object.angle+(-90), {
+            //easing: fabric.util.ease.easeOutBounce,
+            onChange: fabricCanvas.renderAll.bind(fabricCanvas),
+            onComplete: function(){
+              flags.isActionPerformable = true;
+              if(isBkgImg){
+                backgroundImageBoundaryCheck(object);
+                //fixBackgroundScalingAndLocking(object);
+              }
+              object.setCoords();
+            }
+          });
+          break;
+      }
     }
 
     function rotateAntiClockwise(){
       console.log('DESIGN TOOL: rotateAntiClockwise');
+      if(!flags.isActionPerformable){
+        return;
+      }
+      var object= fabricCanvas.getActiveObject();
+      var isBkgImg = false;
+      // if no object is selected and no layout is applied, select the background image
+      if(!object && !flags.isLayoutApplied){
+        object = findByProps({
+          customObjectType: customObjectTypes.backgroundImage
+        });
+        object.center();
+      }
+      // if no object is selected but layout is applied, select the background image for the selected section
+      else if(!object && flags.isLayoutApplied){
+        object = findByProps({
+          sectionIndex: selectedSectionIndex,
+          customObjectType: customObjectTypes.backgroundImage
+        })
+      }
+      switch(object.customObjectType){
+        case customObjectTypes.backgroundImage:
+          isBkgImg = true;
+        case customObjectTypes.sticker:
+        case customObjectTypes.text:
+          flags.isActionPerformable = false;
+          object.animate('angle', object.angle+(90), {
+            //easing: fabric.util.ease.easeOutBounce,
+            onChange: fabricCanvas.renderAll.bind(fabricCanvas),
+            onComplete: function(){
+              flags.isActionPerformable = true;
+              if(isBkgImg){
+                backgroundImageBoundaryCheck(object);
+                //fixBackgroundScalingAndLocking(object);
+              }
+              object.setCoords();
+            }
+          });
+          break;
+      }
     }
 
     // ****************************************** Left sidemenu methods ******************************************
 
-    function applyFilter(){
+    function applyFilter(filter, cb){
       console.log('DESIGN TOOL: applyFilter');
+      // apply filter
+      Caman('#caman-canvas', function () {
+        //var that = this;
+        this.revert(false);
+        switch(filter){
+          case'normal':
+            // do nothing
+            break;
+          default:
+            this[filter]();
+            break;
+        }
+        this.render(function(){
+          var img = new Image();
+          img.onload = function() {
+            var imgObj;
+            if(flags.isLayoutApplied){
+              imgObj = findByProps({
+                sectionIndex: selectedSectionIndex,
+                customObjectType: customObjectTypes.backgroundImage
+              })
+            }
+            else{
+              imgObj = findByProps({
+                customObjectType: customObjectTypes.backgroundImage
+              })
+            }
+            // update img on canvas
+            imgObj.setElement(img);
+            // update current filter
+            imgObj.set('currentFilter', filter);
+            cb();
+            fabricCanvas.renderAll();
+          };
+          img.src = this.toBase64();
+        });
+      });
     }
 
-    function applySticker(){
+    function applySticker(sticker){
       console.log('DESIGN TOOL: applySticker');
+      if(sticker.url && sticker.isActive){
+        var img = new Image();
+        img.src = sticker.url;
+        img.onload = function() {
+          var fabricStickerInstance = new fabric.Image(img, {
+            id: (new Date().getTime() / 1000),
+            customObjectType: customObjectTypes.sticker
+          });
+          fabricStickerInstance.set(fabricObjSettings);
+          fabricCanvas.add(fabricStickerInstance);
+          fabricStickerInstance.center();
+          fabricStickerInstance.setCoords();
+          fabricCanvas.renderAll();
+          fabricCanvas.setActiveObject(fabricStickerInstance);
+        };
+      }
     }
 
-    function applyText(){
+    function applyText(text){
       console.log('DESIGN TOOL: applyText');
+      if(text.url && text.isActive){
+        var fabricText = new fabric.IText('Add Heading', {
+          id: (new Date().getTime() / 1000),
+          fontFamily: text.name,
+          customObjectType: customObjectTypes.text
+        });
+        fabricText.editingBorderColor = '#65e0e4';
+        fabricText.setColor('white');
+        //fabricText.enterEditing();
+        //fabricText.hiddenTextarea.focus();
+        fabricText.set(fabricObjSettings);
+        fabricCanvas.add(fabricText);
+        fabricText.center();
+        fabricText.setCoords();
+        fabricCanvas.renderAll();
+        fabricCanvas.setActiveObject(fabricText);
+      }
     }
 
     function applyLayout(layout, cb){
       console.log('DESIGN TOOL: applyLayout', layout);
       var layoutSectionsCloned = angular.copy(layout.data);
+      // change bkg color
+      fabricCanvas.backgroundColor = 'white';
+      // straighten the sectionBkgImages array
+      sectionBkgImages = straightArray(sectionBkgImages, layoutSectionsCloned.length);
       // empty local layout sections
-      currentLayoutSections = [];
       // clear canvas
-      fabricCanvas.clear();
+      // hide customizer
+      resetTool();
+      var cbCalled = false;
       // apply layout
       layoutSectionsCloned.forEach(function(elem, index){
         // convert the percentage values to pixel values
-        elem.top = fabricCanvas.getHeight()*elem.top;
-        elem.left = fabricCanvas.getWidth()*elem.left;
-        elem.height = fabricCanvas.getHeight()*elem.height;
-        elem.width = fabricCanvas.getWidth()*elem.width;
+        elem.top = fabricCanvas.getHeight()*elem.percentValues.top;
+        elem.left = fabricCanvas.getWidth()*elem.percentValues.left;
+        elem.height = fabricCanvas.getHeight()*elem.percentValues.height;
+        elem.width = fabricCanvas.getWidth()*elem.percentValues.width;
         // add the clipping rect to canvas
         var clipRect = new fabric.Rect(elem);
         clipRect.set({
           clipFor: 'bkgImage'+currentLayoutSections.length,
           alwaysBack: true,
-          customObjectType: customObjectTypes.layout
+          customObjectType: customObjectTypes.layout,
+          sectionIndex: index
         });
         // push to local layout sections
         currentLayoutSections.push(clipRect);
         fabricCanvas.add(clipRect);
-        // add the plus icon to rectangle
-        var pugImg = new Image();
-        pugImg.onload = function(img){
-          (function(img, elem, index){
-            var pug = new fabric.Image(pugImg, {
-              angle: 0,
-              width: Defaults.plusIconSizeForLayoutSections,
-              height: Defaults.plusIconSizeForLayoutSections,
-              left: elem.left + elem.width/2 - Defaults.plusIconSizeForLayoutSections/2,
-              top: elem.top + elem.height/2 - Defaults.plusIconSizeForLayoutSections/2,
-              scaleX: 1,
-              scaleY: 1,
-              selectable: false,
-              hasControls: false,
-              hasBorders: false
-            });
-            fabricCanvas.add(pug);
-            // render
-            fabricCanvas.renderAll();
-            fabricCanvas.deactivateAll();
-
-            // if last layout
-            if(index == layoutSectionsCloned.length-1){
-              if(cb){
-                cb();
-              }
+        // if bkg image is present add it too
+        if(typeof sectionBkgImages[currentLayoutSections.length-1] !== 'undefined'){
+          sectionBkgImages[currentLayoutSections.length-1] = addBkgImageToSection(sectionBkgImages[currentLayoutSections.length-1], currentLayoutSections.length-1);
+          fabricCanvas.add(sectionBkgImages[currentLayoutSections.length-1]);
+          // render
+          fabricCanvas.renderAll();
+          fabricCanvas.deactivateAll();
+          // if last layout
+          if(index == layoutSectionsCloned.length-1){
+            if(cb && !cbCalled){
+              cbCalled = true;
+              cb();
             }
-
-          }(img, elem, index));
-        };
-        pugImg.src = 'images/white-cross.png';
+          }
+        }
+        // add the plus icon to rectangle
+        else{
+          var pugImg = new Image();
+          pugImg.onload = function(img){
+            (function(img, elem, index){
+              var pug = new fabric.Image(pugImg, {
+                angle: 0,
+                width: Defaults.plusIconSizeForLayoutSections,
+                height: Defaults.plusIconSizeForLayoutSections,
+                left: elem.left + elem.width/2 - Defaults.plusIconSizeForLayoutSections/2,
+                top: elem.top + elem.height/2 - Defaults.plusIconSizeForLayoutSections/2,
+                scaleX: 1,
+                scaleY: 1,
+                selectable: false,
+                hasControls: false,
+                hasBorders: false,
+                customObjectType: customObjectTypes.layoutPlusSign,
+                sectionIndex: index
+              });
+              fabricCanvas.add(pug);
+              // render
+              fabricCanvas.renderAll();
+              fabricCanvas.deactivateAll();
+              // if last layout
+              if(index == layoutSectionsCloned.length-1){
+                if(cb && !cbCalled){
+                  cbCalled = true;
+                  cb();
+                }
+              }
+            }(img, elem, index));
+          };
+          pugImg.src = 'images/white-cross.png';
+        }
       });
       flags.isLayoutApplied = true;
     }
 
+    function straightArray(arr, needed) {
+      var toReturn = [];
+      for (var i = 0; i < arr.length && toReturn.length < needed; i++) {
+        if (typeof arr[i] !== 'undefined') {
+          toReturn.push(arr[i]);
+        }
+      }
+      return toReturn;
+    }
+
     // ****************************************** Customizer methods ******************************************
+
+    function objectCustomizer(obj){
+      console.log('DESIGN TOOL: objectCustomizer');
+      //console.log("Customize Object: ",obj);
+      // capture control
+      var customizerControl = $('.text-editor-parent');
+      // weather to open or not
+      switch(obj.customObjectType){
+        case customObjectTypes.text:
+          //console.log("opening customizer");
+          // show necessary control
+          customizerControl.find('.size-picker').css('display', 'block');
+          customizerControl.find('.ptt-dropmenu').css('display', 'block');
+          customizerControl.find('.vertical-partition').css('display', 'block');
+          // show control
+          customizerControl.css({
+            'visibility': 'visible',
+            'opacity': 1
+          });
+          // update size picker
+          customizerControl.find('.size-picker').val(obj.getFontSize());
+          // update color
+          customizerControl.find('.ptt-dropdown-color-3').css('background-color', obj.fill);
+          break;
+        case customObjectTypes.sticker:
+          // its sticker
+          //console.log("hide unnecessary control");
+          // hide unnecessary control
+          customizerControl.find('.size-picker').css('display', 'none');
+          customizerControl.find('.ptt-dropmenu').css('display', 'none');
+          customizerControl.find('.vertical-partition').css('display', 'none');
+          //console.log("opening customizer");
+          // show control
+          customizerControl.css({
+            'visibility': 'visible',
+            'opacity': 1
+          });
+          break;
+        default:
+          customizerControl.css({
+            'visibility': 'hidden',
+            'opacity': 0
+          });
+          break;
+      }
+      // position customizer control
+      var customizerTop = obj.top - (obj.height/2) - parseInt(customizerControl.css('height').replace('px', '')) - 52;
+      if(customizerTop-10 <= 0 ){
+        customizerTop = obj.top + (obj.height/2) + 10;
+      }
+      customizerControl.css('left', obj.left - customizerControl.width()/2);
+      customizerControl.css('top', customizerTop);
+    }
 
     function updateTextSize(){
       console.log('DESIGN TOOL: updateTextSize');
+      var customizerControl = $('.text-editor-parent');
+      var sizePickerValue = customizerControl.find('.size-picker').val();
+      fabricCanvas.getActiveObject().setFontSize(sizePickerValue);
+      fabricCanvas.renderAll();
     }
 
-    function updateTextColor(){
+    function updateTextColor(elemIndex){
       console.log('DESIGN TOOL: updateTextColor');
+      var customizerControl = $('.text-editor-parent');
+      var currentColorLi = customizerControl.find('.ptt-dropdown-color-3');
+      var list = customizerControl.find('.ptt-dropdown-color-2');
+      var selectedColor = $(list[elemIndex]).css('background-color');
+      //console.log("update color", selectedColor);
+      fabricCanvas.getActiveObject().setColor(selectedColor);
+      fabricCanvas.renderAll();
+      // switch color
+      $(currentColorLi).css('background-color', selectedColor);
     }
 
     function deleteSelectedObject(){
       console.log('DESIGN TOOL: deleteSelectedObject');
+      var selectedElem = fabricCanvas.getActiveObject();
+      if(selectedElem!=null){
+        hideObjectCustomizer();
+        selectedElem.remove();
+        fabricCanvas.renderAll();
+      }
     }
 
     function copySelectedObject(){
       console.log('DESIGN TOOL: copySelectedObject');
     }
 
-    // ****************************************** Tool events ******************************************
+    function hideObjectCustomizer(){
+      console.log('DESIGN TOOL: hideObjectCustomizer');
+      // capture control
+      var customizerControl = $('.text-editor-parent');
+      // hide
+      customizerControl.css({
+        'visibility': 'hidden',
+        'opacity': 0
+      });
+    }
 
-    function bindToolEvents(){
-      console.log('DESIGN TOOL: bindToolEvents');
-      // fabric events
+    // ****************************************** Fabric events ******************************************
+
+    function bindFabricEvents(){
+      console.log('DESIGN TOOL: bindFabricEvents');
       fabricCanvas.on({
         'mouse:down': function(event){
+          console.log("mouse:down");
           var obj = event.target;
-          console.log(obj);
+          if(obj){
+            switch(obj.customObjectType){
+              case customObjectTypes.layoutPlusSign:
+                // change to layout obj
+                obj = findByProps({
+                  sectionIndex: obj.sectionIndex,
+                  customObjectType: customObjectTypes.layout
+                });
+              case customObjectTypes.layout:
+                if(flags.isLayoutApplied)selectLayoutSection(obj);
+                var bkgimg = findByProps({
+                  sectionIndex: selectedSectionIndex,
+                  customObjectType: customObjectTypes.backgroundImage
+                });
+                if(bkgimg) {
+                  zoomSlider.slider('setValue', bkgimg.get('zoom'));
+                  customEvents.fire(customEventsList.imageSelected, obj);
+                  if(!flags.isSectionSelected){
+                    bkgimg.lockMovementX = true;
+                    bkgimg.lockMovementY = true;
+                  }
+                  else{
+                    bkgimg.lockMovementX = false;
+                    bkgimg.lockMovementY = false;
+                  }
+                }
+                else{
+                  zoomSlider.slider('setValue', Defaults.zoom);
+                }
+                break;
+              case customObjectTypes.backgroundImage:
+                console.log("BKG IMAGE");
+                if(flags.isLayoutApplied){
+                  selectLayoutSection(obj);
+                  if(!flags.isSectionSelected){
+                    obj.lockMovementX = true;
+                    obj.lockMovementY = true;
+                  }
+                  else{
+                    obj.lockMovementX = false;
+                    obj.lockMovementY = false;
+                  }
+                }
+                zoomSlider.slider('setValue', obj.get('zoom'));
+                customEvents.fire(customEventsList.imageSelected, obj);
+                break;
+              case customObjectTypes.text:
+                if(obj.isEditing){
+                  // set it to true
+                  flags.textInEdtitingMode = true;
+                  return;
+                }
+            }
+            flags.textInEdtitingMode = false;
+            obj.opacity = 0.5;
+            currentSelectedObject = obj;
+            fabricCanvas.renderAll();
+          }
           //if(textInEdtitingMode){
           //  //console.log("Editing mode is ON, returning");
           //  return;
@@ -415,7 +892,31 @@
 
         },
         'mouse:up': function(event){
-
+          console.log("mouse:up");
+          if(currentSelectedObject) currentSelectedObject.opacity = 1;
+          var obj = event.target;
+          if(flags.textInEdtitingMode){
+            return;
+          }
+          if(obj){
+            obj.opacity = 1;
+            switch(obj.customObjectType){
+              case customObjectTypes.layout:
+              case customObjectTypes.layoutPlusSign:
+                break;
+              case customObjectTypes.backgroundImage:
+                console.log("b");
+                if(!flags.isLayoutApplied) fabricCanvas.sendToBack(obj);
+                fabricCanvas.deactivateAll();
+                break;
+              default:
+                console.log("c");
+                var newIndex = fabricCanvas.getObjects().length;
+                fabricCanvas.moveTo(obj, newIndex);
+                fabricCanvas.setActiveObject(obj);
+                break;
+            }
+          }
         },
         'mouse:over': function(event){
 
@@ -424,7 +925,10 @@
 
         },
         'selection:cleared': function(event){
-
+          var obj = event.target;
+          if(obj){
+            hideObjectCustomizer();
+          }
         },
         'selection:created': function(event){
 
@@ -436,7 +940,19 @@
 
         },
         'object:modified': function(event){
+          console.log("object:modified");
+          var obj = event.target;
+          switch(obj.customObjectType){
+            case customObjectTypes.layoutPlusSign:
+            case customObjectTypes.layout:
 
+              break;
+            case customObjectTypes.backgroundImage:
+              if(flags.isSectionSelected || !flags.isLayoutApplied) backgroundImageBoundaryCheck(obj);
+              fabricCanvas.deactivateAll();
+              break;
+          }
+          fabricCanvas.renderAll();
         },
         'object:rotating': function(event){
 
@@ -445,24 +961,314 @@
 
         },
         'object:moving': function(event){
-
+          var obj = event.target;
+          if(obj){
+            switch(obj.customObjectType){
+              case customObjectTypes.sticker:
+              case customObjectTypes.text:
+                objectCustomizer(obj);
+                break;
+            }
+          }
         },
         'object:selected': function(event){
-
+          var obj = event.target;
+          if(flags.textInEdtitingMode){
+            return;
+          }
+          if(obj){
+            switch(obj.customObjectType){
+              case customObjectTypes.sticker:
+              case customObjectTypes.text:
+                objectCustomizer(obj);
+                break;
+              default:
+                hideObjectCustomizer();
+            }
+            fabricCanvas.renderAll();
+          }
         }
       })
+    }
+
+    // ****************************************** Custom events ******************************************
+
+    function on(name, cb){
+      customEvents.on(name, cb);
     }
 
     // ****************************************** Zoom methods ******************************************
 
     function resetZoomSettings(){
       console.log('DESIGN TOOL: resetZoomSettings');
+      zoomSlider.slider('setValue', Defaults.zoom);
+      sectionBkgImages.forEach(function(elem, index){
+        elem.zoom = Defaults.zoom;
+      })
+    }
+
+    // ****************************************** Boundary Check methods ******************************************
+
+    // Background Image Boundary Check and Position Update
+    function backgroundImageBoundaryCheck(obj) {
+      console.log('DESIGN TOOL: backgroundImageBoundaryCheck');
+      var bounds = obj.getBoundingRect();
+      var area;
+      var objBounds = obj.getBoundingRect();
+      if (flags.isLayoutApplied) {
+        bounds = currentLayoutSections[selectedSectionIndex].getBoundingRect();
+        area = {
+          top: currentLayoutSections[selectedSectionIndex].top,
+          left: currentLayoutSections[selectedSectionIndex].left,
+          width: currentLayoutSections[selectedSectionIndex].width,
+          height: currentLayoutSections[selectedSectionIndex].height
+        }
+      }
+      else {
+        bounds = obj.getBoundingRect();
+        area = {
+          top: 0,
+          width: fabricCanvas.getWidth(),
+          height: fabricCanvas.getHeight()
+        }
+      }
+      var keyPair = {
+        key: null,
+        value: null
+      };
+      var movement = {
+        x: obj.lockMovementX,
+        y: obj.lockMovementY
+      };
+      // Single Image
+      if (!flags.isLayoutApplied) {
+        // moving horizontally
+        if (!movement.x) {
+          if (bounds.left > 0) {
+            //console.log("inside left bound");
+            keyPair.key = 'left';
+            keyPair.value = (bounds.width / fabricCanvas.getZoom()) / 2;
+          }
+          else if ((bounds.width + bounds.left) < area.width) {
+            //console.log("inside right bound");
+            keyPair.key = 'left';
+            keyPair.value = (area.width - bounds.width / 2) / fabricCanvas.getZoom();
+          }
+          setInBound(keyPair.key, keyPair.value);
+        }
+        // moving vertically
+        if (!movement.y) {
+          if (bounds.top > 0) {
+            //console.log("inside top bound");
+            keyPair.key = 'top';
+            keyPair.value = (bounds.height / fabricCanvas.getZoom()) / 2;
+          }
+          else if ((bounds.height + bounds.top) < area.height) {
+            //console.log("inside bottom bound");
+            keyPair.key = 'top';
+            keyPair.value = (area.height - bounds.height / 2) / fabricCanvas.getZoom();
+          }
+          setInBound(keyPair.key, keyPair.value);
+        }
+      }
+      // Layout
+      else{
+        // moving horizontally
+        if(!movement.x){
+          if(bounds.left < objBounds.left){
+            //console.log("inside left bound");
+            keyPair.key = 'left';
+            if(flags.isLayoutApplied) keyPair.value = (bounds.left + objBounds.width/2) /fabricCanvas.getZoom();
+          }
+          else if((bounds.left + bounds.width) > (objBounds.left +objBounds.width)){
+            //console.log("inside right bound");
+            keyPair.key = 'left';
+            if(flags.isLayoutApplied) keyPair.value = (bounds.left + bounds.width - objBounds.width/2)/fabricCanvas.getZoom();
+          }
+          setInBound(keyPair.key, keyPair.value);
+        }
+        // moving vertically
+        if(!movement.y){
+          if((bounds.top + bounds.height) > (objBounds.top + objBounds.height)){
+            //console.log("inside top bound");
+            keyPair.key = 'top';
+            if(flags.isLayoutApplied) keyPair.value = (bounds.top + bounds.height -objBounds.height/2)/fabricCanvas.getZoom();
+            console.log('values',keyPair.value);
+          }
+          else if(bounds.top < objBounds.top){
+            //console.log("inside bottom bound");
+            keyPair.key = 'top';
+            if(flags.isLayoutApplied) keyPair.value = (bounds.top + objBounds.height/2)/fabricCanvas.getZoom();
+          }
+          setInBound(keyPair.key, keyPair.value);
+        }
+      }
+
+
+      function setInBound(key, value){
+        if(key){ // key.value could be 0 - lol :D
+          flags.isActionPerformable = false;
+          obj.lockMovementX = true;
+          obj.lockMovementY = true;
+          obj.animate(key, value, {
+            //easing: fabric.util.ease.easeOutBounce,
+            onChange: fabricCanvas.renderAll.bind(fabricCanvas),
+            onComplete: function(){
+              //console.log("done");
+              flags.isActionPerformable = true;
+              obj.lockMovementX = movement.x;
+              obj.lockMovementY = movement.y;
+            }
+          });
+          obj.setCoords();
+        }
+      }
+
+    }
+
+    /************************************* KEYBOARD SHORTCUTS*************************************/
+
+    function animateObject(obj, parameter, shiftFlag, ctrlFlag, subtractFlag){
+      // Movement
+      if(!shiftFlag){
+        var animationValue = 1;
+        animationValue+=ctrlFlag ? 20 : 0;
+        var value = (subtractFlag)?(animationValue*-1):animationValue;
+        obj.set(parameter, obj.get(parameter) + value);
+      }
+      // Rotation & don't rotate background images
+      else if(shiftFlag && obj.customObjectType != customObjectTypes.backgroundImage){
+        var animateValue = 10;
+        var value = null;
+        if(parameter == 'left' && !subtractFlag) value = animateValue;
+        else if(parameter == 'left' && subtractFlag) value = animateValue*-1;
+        if(value) obj.set('angle', obj.get('angle') + value);
+      }
+      objectCustomizer(obj);
+      $timeout(function(){
+        // boundary check not workiing here, IDK
+        if(obj.customObjectType == customObjectTypes.backgroundImage){
+          backgroundImageBoundaryCheck(obj);
+        }
+      });
+      fabricCanvas.renderAll();
+    }
+
+    function bindKeyboardEvents(){
+      return;
+      $(window).keydown(function(e) {
+        var key = window.event?window.event.keyCode:e.keyCode;
+        var object = fabricCanvas.getActiveObject();
+        if(!object){
+          if(flags.isLayoutApplied && flags.isSectionSelected){
+            object = findByProps({
+              sectionIndex: selectedSectionIndex,
+              customObjectType: customObjectTypes.backgroundImage
+            })
+          }
+          else{
+            object = findByProps({
+              customObjectType: customObjectTypes.backgroundImage
+            })
+          }
+          if(!object) return;
+        }
+        //keyboard shortcuts
+        switch(object.customObjectType){
+          case customObjectTypes.backgroundImage:
+          case customObjectTypes.sticker:
+          case customObjectTypes.text:
+            switch (key) {
+              case 46: // delete
+                // don't delete background image
+                if(object.customObjectType != customObjectTypes.backgroundImage)
+                deleteSelectedObject();
+                break;
+              case 37: // right
+                animateObject(object, 'left', e.shiftKey, e.ctrlKey, true);
+                break;
+              case 38: // up
+                animateObject(object, 'top', e.shiftKey, e.ctrlKey, true);
+                break;
+              case 39: // left
+                animateObject(object, 'left', e.shiftKey, e.ctrlKey, false);
+                break;
+              case 40: // down
+                animateObject(object, 'top', e.shiftKey, e.ctrlKey, false);
+                break;
+            }
+            break;
+        }
+      });
     }
 
     // ****************************************** Other methods ******************************************
 
+    function selectLayoutSection(obj, forcefullySelect){
+      // deselect other sections
+      for(var i=0; i<currentLayoutSections.length; i++){
+        currentLayoutSections[i].set({
+          strokeWidth: 0
+        });
+      }
+      // select the new section if not already selected
+      if(obj.sectionIndex != selectedSectionIndex || forcefullySelect){
+        console.log("selecting");
+        selectedSectionIndex = obj.sectionIndex;
+        currentLayoutSections[selectedSectionIndex].set({
+          strokeWidth: 2
+        });
+        flags.isSectionSelected = true;
+      }
+      // deselect
+      else{
+        console.log("deselecting");
+        selectedSectionIndex = -1;
+        flags.isSectionSelected = false;
+        fabricCanvas.deactivateAll();
+      }
+    }
+
+    function addBkgImageToSection(imgInstance, sectionIndex){
+      // position
+      imgInstance.set({
+        top: currentLayoutSections[sectionIndex].top + currentLayoutSections[sectionIndex].height/2,
+        left: currentLayoutSections[sectionIndex].left + currentLayoutSections[sectionIndex].width/2
+      });
+      // scale
+      if(currentLayoutSections[sectionIndex].width > currentLayoutSections[sectionIndex].height){
+        console.log('DESIGN TOOL: Scaled to Width');
+        imgInstance.scaleToWidth(currentLayoutSections[sectionIndex].width);
+      }
+      else{
+        console.log('DESIGN TOOL: Scaled to Height');
+        imgInstance.scaleToHeight(currentLayoutSections[sectionIndex].height);
+      }
+      // apply clipping
+      imgInstance.set({
+        'sectionIndex': sectionIndex,
+        'clipName': 'bkgImage'+sectionIndex,
+        'clipTo': function(ctx) {
+          return _.bind(clipByName, imgInstance)(ctx)
+        }
+      });
+      // save original scale
+      imgInstance.set('originalScale', {
+        x: imgInstance.getScaleX(),
+        y: imgInstance.getScaleY()
+      });
+      // update coords
+      imgInstance.setCoords();
+      // return imgInstance
+      return imgInstance;
+    }
+
     function degToRad(degrees) {
       return degrees * (Math.PI / 180);
+    }
+
+    function findByProps(props){
+      return _(fabricCanvas.getObjects()).where(props).first();
     }
 
     function findByClipName(name) {
@@ -472,27 +1278,32 @@
     }
 
     function clipByName(ctx) {
+
+      //console.log("DesignTool: clipByName", this);
+
       this.setCoords();
       var clipRect = findByClipName(this.clipName);
       var scaleXTo1 = (1 / this.scaleX);
       var scaleYTo1 = (1 / this.scaleY);
       ctx.save();
 
+      //console.log("DesignTool: clipByName", clipRect);
+
       var ctxLeft = -( this.width / 2 ) + clipRect.strokeWidth;
       var ctxTop = -( this.height / 2 ) + clipRect.strokeWidth;
       var ctxWidth = clipRect.width - clipRect.strokeWidth;
       var ctxHeight = clipRect.height - clipRect.strokeWidth;
 
-      ctx.translate( ctxLeft, ctxTop );
-      ctx.scale(scaleXTo1, scaleYTo1);
+      ctx.translate((this.flipX)?ctxLeft*-1:ctxLeft, (this.flipY)?ctxTop*-1:ctxTop);
+      ctx.scale((this.flipX)?scaleXTo1*-1:scaleXTo1, (this.flipY)?scaleYTo1*-1:scaleYTo1);
       ctx.rotate(degToRad(this.angle * -1));
 
       ctx.beginPath();
       ctx.rect(
         clipRect.left - this.oCoords.tl.x,
         clipRect.top - this.oCoords.tl.y,
-        clipRect.width,
-        clipRect.height
+        ctxWidth,
+        ctxHeight
       );
       ctx.closePath();
       ctx.restore();
