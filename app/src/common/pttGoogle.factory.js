@@ -138,7 +138,7 @@
               saveAuth(resp.data);
             }
             if(albums.data.length>0 && !cursor){
-               console.log("pttGoogleFactory: albums already present");
+              console.log("pttGoogleFactory: albums already present");
               deffered.resolve(albums.data);
             }
             else{
@@ -153,13 +153,13 @@
         $rootScope.user.socialPicture = authResponse.picture;
 
         if(albums.data.length>0 && !cursor){
-           console.log("pttGoogleFactory: albums already present");
+          console.log("pttGoogleFactory: albums already present");
           deffered.resolve(albums.data);
         }
         else{
           // check if all albums are downloaded
           if(albums.pagination.end){
-             console.log("pttGoogleFactory: no more album");
+            console.log("pttGoogleFactory: no more album");
             deffered.resolve([]);
           }
           else{
@@ -245,19 +245,19 @@
           params    : data,
           headers : {'Content-Type': 'application/json'}
         }).then(function (response) {
-            // console.log("Album Photos Response: ", response);
-            if (response && !response.error) {
-              // resolve
-              response.photos = [];
-              response.data.feed.entry.forEach(function(elem, index){
-                response.photos[index] = photosFactory.mapSocialPhotos(elem, platform);
-              });
-              deffered.resolve(response);
-            }
-            else{
-              deffered.reject('Something is wrong');
-            }
-          },function (err) {
+          // console.log("Album Photos Response: ", response);
+          if (response && !response.error) {
+            // resolve
+            response.photos = [];
+            response.data.feed.entry.forEach(function(elem, index){
+              response.photos[index] = photosFactory.mapSocialPhotos(elem, platform);
+            });
+            deffered.resolve(response);
+          }
+          else{
+            deffered.reject('Something is wrong');
+          }
+        },function (err) {
           deffered.reject('Something is wrong');
         });
       }
