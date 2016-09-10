@@ -47,7 +47,7 @@
     };
     // props to save
     var propsToIncludeForJSON = [
-      'customObjectType', 'hasControls', 'clipName', 'originalScale', 'zoom', 'sectionIndex'
+      'customObjectType', 'hasControls', 'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex'
     ];
     var fabricCanvas;
     // fabric objects default setting
@@ -289,40 +289,146 @@
 
     function loadFromJSON(canvasJSON, cb){
       console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
-      fabricCanvas.loadFromJSON(canvasJSON, function(){
-        var objects = fabricCanvas.getObjects();
-        var loadedImage;
-        objects.forEach(function(obj){
-          obj.set(fabricObjSettings);
-          // reactivate settings
-          switch(obj.customObjectType){
-            case customObjectTypes.backgroundImage:
-              loadedImage = obj.toDataURL();
-              // position
-              // scale
-              // clipping
-              // zoom
+      for(var i = 0;i<canvasJSON.objects.length;i++){
+        if(canvasJSON.objects[i].customObjectType == customObjectTypes.layout){
+          flags.isLayoutApplied = true;
+          break;
+        }
+      }
+      if(flags.isLayoutApplied){
+        var canvasJsonObjects = {};
+        canvasJsonObjects[customObjectTypes.layout] = [];
+        canvasJsonObjects[customObjectTypes.backgroundImage] = [];
+        canvasJsonObjects[customObjectTypes.sticker] = [];
+        canvasJsonObjects[customObjectTypes.text] = [];
+        for(var j = 0;j<canvasJSON.objects.length;j++){
+          switch (canvasJSON.objects[j].customObjectType){
+            case customObjectTypes.layout :
               break;
-            case customObjectTypes.layout:
+            case customObjectTypes.layoutPlusSign :
+            case customObjectTypes.backgroundImage :
+              var img = new Image();
+              img.src = canvasJSON.objects[j].src;
+
+              var bgImage = new fabric.Image(img,canvasJSON.objects[j]);
+              // save scale
+              bgImage.set('originalScale', {
+                x: canvasJSON.objects[j].x,
+                y: canvasJSON.objects[j].y
+              });
+              canvasJSON.objects[j].clipTo = function (ctx) {
+                return _.bind(clipByName, bgImage)(ctx)
+              };
               break;
-            case customObjectTypes.sticker:
+            case customObjectTypes.sticker :
               break;
-            case customObjectTypes.text:
-              break;
+            case customObjectTypes.text :
+              break
           }
-          // update coords
-          obj.setCoords();
-        });
+        }
+
+        fabricCanvas.loadFromJSON(canvasJSON, fabricCanvas.renderAll.bind(fabricCanvas));
+        // for(var prop in canvasJsonObjects){
+        //   if(canvasJsonObjects.hasOwnProperty(prop)){
+        //     switch (prop){
+        //       case customObjectTypes.layout :
+        //         for(var k = 0; k<canvasJsonObjects[prop].length;k++){
+        //           var clipRect = new fabric.Rect(canvasJsonObjects[prop][k]);
+        //           fabricCanvas.add(clipRect);
+        //         }
+        //         console.log('ok layouts');
+        //         break;
+        //       case customObjectTypes.backgroundImage :
+        //         for(var b  = 0;b<canvasJsonObjects[prop].length;b++){
+        //           var img = new Image();
+        //           img.src = canvasJsonObjects[prop][b].src;
+        //           var bgImage = new fabric.Image(img,canvasJsonObjects[prop][b]);
+        //           bgImage.clipTo = function(ctx) {
+        //             return _.bind(clipByName, bgImage)(ctx);
+        //           };
+        //           fabricCanvas.add(bgImage);
+        //         }
+        //         console.log('ok bg');
+        //         break;
+        //       case customObjectTypes.sticker :
+        //         for(var s  = 0;s<canvasJsonObjects[prop].length;s++){
+        //           var sticker = new fabric.Image(canvasJsonObjects[prop][s]);
+        //           fabricCanvas.add(sticker);
+        //         }
+        //         console.log('ok stickers');
+        //         break;
+        //       case customObjectTypes.text :
+        //         for(var t  = 0;t<canvasJsonObjects[prop].length;t++){
+        //           var texts = new fabric.IText(canvasJsonObjects[prop][t]);
+        //           fabricCanvas.add(texts);
+        //         }
+        //         console.log('ok text');
+        //         break;
+        //       default :
+        //         break;
+        //     }
+        //   }
+        // }
         // render
-        fabricCanvas.renderAll();
-        fabricCanvas.deactivateAll();
+        // fabricCanvas.renderAll();
+        // fabricCanvas.deactivateAll();
         // update flag
         flags.isCanvasEmpty = false;
         // call callback
         if(cb){
-          cb(loadedImage);
+          cb(null);
         }
-      });
+      }
+      else {
+        fabricCanvas.loadFromJSON(canvasJSON, function(){
+          var objects = fabricCanvas.getObjects();
+          var loadedImage;
+          for(var i=0; i<objects.length; i++){
+            var obj = objects[i];
+            console.log("setting object at index: ",i);
+            obj.set(fabricObjSettings);
+            // reactivate settings
+            switch(obj.customObjectType){
+              case customObjectTypes.backgroundImage:
+                loadedImage = obj.toDataURL();
+                // position
+                // scale
+                // clipping
+                // zoom
+                zoomSlider.slider('setValue', obj.get('zoom'));
+                console.log('Its a bkg image');
+                if(selectedSectionIndex == -1){
+                  console.log('DESIGN TOOL: Layout section is not selected, loading single image');
+                  flags.isLayoutApplied = false;
+                  // change bkg color
+                  fabricCanvas.backgroundColor = '#cccccc';
+                  // save fabric image instance
+                  sectionBkgImages = [];
+                  sectionBkgImages.push(obj);
+                }
+                break;
+              case customObjectTypes.layout:
+                flags.isLayoutApplied = true;
+                break;
+              case customObjectTypes.sticker:
+                break;
+              case customObjectTypes.text:
+                break;
+            }
+            // update coords
+            obj.setCoords();
+          }
+          // render
+          fabricCanvas.renderAll();
+          fabricCanvas.deactivateAll();
+          // update flag
+          flags.isCanvasEmpty = false;
+          // call callback
+          if(cb){
+            cb(loadedImage);
+          }
+        });
+      }
     }
 
     function getCanvasJSON(){
@@ -472,7 +578,7 @@
           customObjectType: customObjectTypes.backgroundImage
         })
       }else {
-         backgroundImage = findByProps({
+        backgroundImage = findByProps({
           customObjectType: customObjectTypes.backgroundImage
         });
       }
@@ -639,7 +745,7 @@
             imgObj.set('currentFilter', filter);
             cb(true);
             fabricCanvas.renderAll();
-              // firing edited image event
+            // firing edited image event
             customEvents.fire(customEventsList.imageEdited,imgObj);
           };
           img.src = this.toBase64();
@@ -718,6 +824,7 @@
 
     function applyLayout(layout, cb){
       console.log('DESIGN TOOL: applyLayout', layout);
+      console.log("sectionBkgImages: ", sectionBkgImages);
       var layoutSectionsCloned = angular.copy(layout.data);
       // change bkg color
       fabricCanvas.backgroundColor = 'white';

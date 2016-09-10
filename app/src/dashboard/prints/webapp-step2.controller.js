@@ -331,8 +331,6 @@
       if(!designTool.getProp('isCanvasEmpty')){
         // save the already active image with settings
         // canvas json will have zoom value and original scale value
-        console.log('why');
-        console.log('bk',canvasBkgImg);
         updatePhotoStripWithCanvas(
           canvasBkgImg.photoIndex,
           designTool.getCanvasJSON(),
@@ -351,7 +349,6 @@
         if(designTool.getProp('isSectionSelected')){
           // reset only zoom
           //designTool.resetZoomSettings();
-          console.log('yo');
         }
         // working on single photo
         else{
