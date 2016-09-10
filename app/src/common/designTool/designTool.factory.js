@@ -304,74 +304,90 @@
         for(var j = 0;j<canvasJSON.objects.length;j++){
           switch (canvasJSON.objects[j].customObjectType){
             case customObjectTypes.layout :
+              canvasJsonObjects[customObjectTypes.layout].push(canvasJSON.objects[j]);
               break;
             case customObjectTypes.layoutPlusSign :
             case customObjectTypes.backgroundImage :
-              var img = new Image();
-              img.src = canvasJSON.objects[j].src;
-
-              var bgImage = new fabric.Image(img,canvasJSON.objects[j]);
-              // save scale
-              bgImage.set('originalScale', {
-                x: canvasJSON.objects[j].x,
-                y: canvasJSON.objects[j].y
-              });
-              canvasJSON.objects[j].clipTo = function (ctx) {
-                return _.bind(clipByName, bgImage)(ctx)
-              };
+              canvasJsonObjects[customObjectTypes.backgroundImage].push(canvasJSON.objects[j]);
               break;
             case customObjectTypes.sticker :
+              canvasJsonObjects[customObjectTypes.sticker].push(canvasJSON.objects[j]);
               break;
             case customObjectTypes.text :
+              canvasJsonObjects[customObjectTypes.text].push(canvasJSON.objects[j]);
               break
           }
         }
 
-        fabricCanvas.loadFromJSON(canvasJSON, fabricCanvas.renderAll.bind(fabricCanvas));
-        // for(var prop in canvasJsonObjects){
-        //   if(canvasJsonObjects.hasOwnProperty(prop)){
-        //     switch (prop){
-        //       case customObjectTypes.layout :
-        //         for(var k = 0; k<canvasJsonObjects[prop].length;k++){
-        //           var clipRect = new fabric.Rect(canvasJsonObjects[prop][k]);
-        //           fabricCanvas.add(clipRect);
-        //         }
-        //         console.log('ok layouts');
-        //         break;
-        //       case customObjectTypes.backgroundImage :
-        //         for(var b  = 0;b<canvasJsonObjects[prop].length;b++){
-        //           var img = new Image();
-        //           img.src = canvasJsonObjects[prop][b].src;
-        //           var bgImage = new fabric.Image(img,canvasJsonObjects[prop][b]);
-        //           bgImage.clipTo = function(ctx) {
-        //             return _.bind(clipByName, bgImage)(ctx);
-        //           };
-        //           fabricCanvas.add(bgImage);
-        //         }
-        //         console.log('ok bg');
-        //         break;
-        //       case customObjectTypes.sticker :
-        //         for(var s  = 0;s<canvasJsonObjects[prop].length;s++){
-        //           var sticker = new fabric.Image(canvasJsonObjects[prop][s]);
-        //           fabricCanvas.add(sticker);
-        //         }
-        //         console.log('ok stickers');
-        //         break;
-        //       case customObjectTypes.text :
-        //         for(var t  = 0;t<canvasJsonObjects[prop].length;t++){
-        //           var texts = new fabric.IText(canvasJsonObjects[prop][t]);
-        //           fabricCanvas.add(texts);
-        //         }
-        //         console.log('ok text');
-        //         break;
-        //       default :
-        //         break;
-        //     }
+        // for(var j = 0;j<canvasJSON.objects.length;j++){
+        //   switch (canvasJSON.objects[j].customObjectType){
+        //     case customObjectTypes.layout :
+        //       break;
+        //     case customObjectTypes.layoutPlusSign :
+        //     case customObjectTypes.backgroundImage :
+        //       var img = new Image();
+        //       img.src = canvasJSON.objects[j].src;
+        //
+        //       var bgImage = new fabric.Image(img,canvasJSON.objects[j]);
+        //       canvasJSON.objects[j].clipTo = function (ctx) {
+        //         return _.bind(clipByName, bgImage)(ctx)
+        //       };
+        //       break;
+        //     case customObjectTypes.sticker :
+        //       break;
+        //     case customObjectTypes.text :
+        //       break
         //   }
         // }
+
+
+        // fabricCanvas.loadFromJSON(canvasJSON, fabricCanvas.renderAll.bind(fabricCanvas));
+
+        for(var prop in canvasJsonObjects){
+          if(canvasJsonObjects.hasOwnProperty(prop)){
+            switch (prop){
+              case customObjectTypes.layout :
+                for(var k = 0; k<canvasJsonObjects[prop].length;k++){
+                  var clipRect = new fabric.Rect(canvasJsonObjects[prop][k]);
+                  fabricCanvas.add(clipRect);
+                }
+                console.log('ok layouts');
+                break;
+              case customObjectTypes.backgroundImage :
+                for(var b  = 0;b<canvasJsonObjects[prop].length;b++){
+                  var img = new Image();
+                  img.src = canvasJsonObjects[prop][b].src;
+                  var bgImage = new fabric.Image(img,canvasJsonObjects[prop][b]);
+                //  bgImage = addBkgImageToSection(bgImage,canvasJsonObjects[prop][b].sectionIndex);
+                  canvasJsonObjects[prop][b].clipTo = function(ctx) {
+                    return _.bind(clipByName, bgImage)(ctx);
+                  };
+                  fabricCanvas.add(bgImage);
+                }
+                console.log('ok bg');
+                break;
+              case customObjectTypes.sticker :
+                for(var s  = 0;s<canvasJsonObjects[prop].length;s++){
+                  var sticker = new fabric.Image(canvasJsonObjects[prop][s]);
+                  fabricCanvas.add(sticker);
+                }
+                console.log('ok stickers');
+                break;
+              case customObjectTypes.text :
+                for(var t  = 0;t<canvasJsonObjects[prop].length;t++){
+                  var texts = new fabric.IText(canvasJsonObjects[prop][t]);
+                  fabricCanvas.add(texts);
+                }
+                console.log('ok text');
+                break;
+              default :
+                break;
+            }
+          }
+        }
         // render
-        // fabricCanvas.renderAll();
-        // fabricCanvas.deactivateAll();
+        fabricCanvas.renderAll();
+        fabricCanvas.deactivateAll();
         // update flag
         flags.isCanvasEmpty = false;
         // call callback
@@ -1492,15 +1508,11 @@
 
     function clipByName(ctx) {
 
-      console.log("DesignTool: clipByName", this);
-
       this.setCoords();
       var clipRect = findByClipName(this.clipName);
       var scaleXTo1 = (1 / this.scaleX);
       var scaleYTo1 = (1 / this.scaleY);
       ctx.save();
-
-      console.log("DesignTool: clipByName", clipRect);
 
       var ctxLeft = -( this.width / 2 ) + clipRect.strokeWidth;
       var ctxTop = -( this.height / 2 ) + clipRect.strokeWidth;
