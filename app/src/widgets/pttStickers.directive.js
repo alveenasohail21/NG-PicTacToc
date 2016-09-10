@@ -71,8 +71,9 @@
       // Initializer
       function init(){
         // TODO: Fetch stickers from server
-        getStickersFromServer();
-        bindLoadMoreStickers();
+        //getStickersFromServer();
+        //bindLoadMoreStickers();
+        setupFilters();
       }
       // load sticker
       function getStickersFromServer() {

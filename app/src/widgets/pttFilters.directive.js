@@ -70,9 +70,11 @@
       // Initializer
       function init(){
         // TODO: Fetch filters from server
-        getFiltersFromServer();
-        bindLoadMoreStickers();
+        //getFiltersFromServer();
+        //bindLoadMoreStickers();
+        //setupFilters();
       }
+
       function getFiltersFromServer() {
         restFactory.media.get(defaultQuery).then(function (resp) {
           filters = resp.data;

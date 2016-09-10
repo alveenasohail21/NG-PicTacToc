@@ -47,7 +47,8 @@
     };
     // props to save
     var propsToIncludeForJSON = [
-      'customObjectType', 'hasControls', 'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex'
+      'customObjectType', 'hasControls', 'hasBorders', 'selectable', 'borders',
+      'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex', 'percentValues'
     ];
     var fabricCanvas;
     // fabric objects default setting
@@ -246,12 +247,14 @@
         /* Working With Layouts Sections */
         else{
           console.log('DESIGN TOOL: Layout section is selected!');
+          var indexToMoveImgTo = null;
           // position
           // scale
           // apply clipping
           fabricImage = addBkgImageToSection(fabricImage, selectedSectionIndex);
           // if there is already a background image, remove the previous one
           if(typeof sectionBkgImages[selectedSectionIndex] !== 'undefined'){
+            indexToMoveImgTo = fabricCanvas.getObjects().indexOf(sectionBkgImages[selectedSectionIndex]);
             sectionBkgImages[selectedSectionIndex].remove();
           }
           // save fabric image instance to section index
@@ -264,7 +267,17 @@
             sectionIndex: selectedSectionIndex,
             customObjectType: customObjectTypes.layoutPlusSign
           });
-          if(plusSign) { plusSign.remove(); }
+          if(plusSign) {
+            indexToMoveImgTo = fabricCanvas.getObjects().indexOf(plusSign);
+            plusSign.remove();
+          }
+          if(indexToMoveImgTo){
+            console.log("MOVING TO INDEX: ", indexToMoveImgTo);
+            fabricCanvas.moveTo(fabricImage, indexToMoveImgTo);
+          }
+          // reset zoom to default
+          resetZoomSettings();
+          // send image to back (as there might be stickers and text present)
         }
         // save scale
         fabricImage.set('originalScale', {
@@ -282,13 +295,14 @@
         if(cb){
           cb(img);
         }
-        console.log("DESIGN TOOL: fabricImage", fabricImage);
       };
       img.src = image.base64;
     }
 
     function loadFromJSON(canvasJSON, cb){
       console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
+      // by default make layout applied to false
+      flags.isLayoutApplied = false;
       for(var i = 0;i<canvasJSON.objects.length;i++){
         if(canvasJSON.objects[i].customObjectType == customObjectTypes.layout){
           flags.isLayoutApplied = true;
@@ -296,9 +310,13 @@
         }
       }
       if(flags.isLayoutApplied){
+        resetTool();
+        // empty bkg images as well
+        sectionBkgImages = [];
         var canvasJsonObjects = {};
         canvasJsonObjects[customObjectTypes.layout] = [];
         canvasJsonObjects[customObjectTypes.backgroundImage] = [];
+        canvasJsonObjects[customObjectTypes.layoutPlusSign] = [];
         canvasJsonObjects[customObjectTypes.sticker] = [];
         canvasJsonObjects[customObjectTypes.text] = [];
         for(var j = 0;j<canvasJSON.objects.length;j++){
@@ -307,6 +325,8 @@
               canvasJsonObjects[customObjectTypes.layout].push(canvasJSON.objects[j]);
               break;
             case customObjectTypes.layoutPlusSign :
+              canvasJsonObjects[customObjectTypes.layoutPlusSign].push(canvasJSON.objects[j]);
+              break;
             case customObjectTypes.backgroundImage :
               canvasJsonObjects[customObjectTypes.backgroundImage].push(canvasJSON.objects[j]);
               break;
@@ -319,66 +339,84 @@
           }
         }
 
-        // for(var j = 0;j<canvasJSON.objects.length;j++){
-        //   switch (canvasJSON.objects[j].customObjectType){
-        //     case customObjectTypes.layout :
-        //       break;
-        //     case customObjectTypes.layoutPlusSign :
-        //     case customObjectTypes.backgroundImage :
-        //       var img = new Image();
-        //       img.src = canvasJSON.objects[j].src;
-        //
-        //       var bgImage = new fabric.Image(img,canvasJSON.objects[j]);
-        //       canvasJSON.objects[j].clipTo = function (ctx) {
-        //         return _.bind(clipByName, bgImage)(ctx)
-        //       };
-        //       break;
-        //     case customObjectTypes.sticker :
-        //       break;
-        //     case customObjectTypes.text :
-        //       break
-        //   }
-        // }
-
-
-        // fabricCanvas.loadFromJSON(canvasJSON, fabricCanvas.renderAll.bind(fabricCanvas));
-
         for(var prop in canvasJsonObjects){
           if(canvasJsonObjects.hasOwnProperty(prop)){
             switch (prop){
-              case customObjectTypes.layout :
+              case customObjectTypes.layout:
                 for(var k = 0; k<canvasJsonObjects[prop].length;k++){
-                  var clipRect = new fabric.Rect(canvasJsonObjects[prop][k]);
-                  fabricCanvas.add(clipRect);
+                  (function(layoutSection){
+                    var clipRect = new fabric.Rect(layoutSection);
+                    currentLayoutSections[clipRect.sectionIndex] = clipRect;
+                    fabricCanvas.add(clipRect);
+                  }(canvasJsonObjects[prop][k]));
                 }
-                console.log('ok layouts');
                 break;
               case customObjectTypes.backgroundImage :
                 for(var b  = 0;b<canvasJsonObjects[prop].length;b++){
-                  var img = new Image();
-                  img.src = canvasJsonObjects[prop][b].src;
-                  var bgImage = new fabric.Image(img,canvasJsonObjects[prop][b]);
-                //  bgImage = addBkgImageToSection(bgImage,canvasJsonObjects[prop][b].sectionIndex);
-                  canvasJsonObjects[prop][b].clipTo = function(ctx) {
-                    return _.bind(clipByName, bgImage)(ctx);
-                  };
-                  fabricCanvas.add(bgImage);
+                  (function(bkgImage){
+                    var img = new Image();
+                    img.src = bkgImage.src;
+                    var fabricImage = new fabric.Image(img, bkgImage);
+                    // if bkg image (avoiding plus signs)
+                    if(fabricImage.customObjectType == customObjectTypes.backgroundImage){
+                      // apply clipping
+                      fabricImage.clipTo = function(ctx) {
+                        return _.bind(clipByName, fabricImage)(ctx);
+                      };
+                      // fabric default settings
+                      fabricImage.set(fabricObjSettings);
+                      // set coords
+                      fabricImage.setCoords();
+                      // save fabric image instance to section index
+                      sectionBkgImages[fabricImage.sectionIndex] = fabricImage;
+                    }
+                    // add to canvas
+                    fabricCanvas.add(fabricImage);
+                  }(canvasJsonObjects[prop][b]));
                 }
-                console.log('ok bg');
+                break;
+              case customBorderTypes.layoutPlusSign:
+                for(var a= 0;a<canvasJsonObjects[prop].length;a++){
+                  (function(plusSignImage){
+                    var img = new Image();
+                    img.src = plusSignImage.src;
+                    var fabricImage = new fabric.Image(img, plusSignImage);
+                    // add to canvas
+                    fabricCanvas.add(fabricImage);
+                  }(canvasJsonObjects[prop][a]));
+                }
                 break;
               case customObjectTypes.sticker :
-                for(var s  = 0;s<canvasJsonObjects[prop].length;s++){
-                  var sticker = new fabric.Image(canvasJsonObjects[prop][s]);
-                  fabricCanvas.add(sticker);
+                for(var s=0; s<canvasJsonObjects[prop].length; s++){
+                  (function(sticker){
+                    var img = new Image();
+                    img.onload = function(){
+                      var fabricStickerImg = new fabric.Image(img, sticker);
+                      // fabric default settings
+                      fabricStickerImg.set(fabricObjSettings);
+                      // set coords
+                      fabricStickerImg.setCoords();
+                      // add to canvas
+                      fabricCanvas.add(fabricStickerImg);
+                      // bring forward
+                      fabricCanvas.bringForward(fabricStickerImg);
+                    };
+                    img.src = sticker.src;
+                  }(canvasJsonObjects[prop][s]));
                 }
-                console.log('ok stickers');
                 break;
               case customObjectTypes.text :
-                for(var t  = 0;t<canvasJsonObjects[prop].length;t++){
-                  var texts = new fabric.IText(canvasJsonObjects[prop][t]);
-                  fabricCanvas.add(texts);
+                for(var t=0; t<canvasJsonObjects[prop].length; t++){
+                  (function(text){
+                    var fabricText = new fabric.IText('Add Heading', text);
+                    // fabric default settings
+                    fabricText.set(fabricObjSettings);
+                    // set coords
+                    fabricText.setCoords();
+                    // add to canvas
+                    fabricCanvas.add(fabricText);
+                  }(canvasJsonObjects[prop][t]));
                 }
-                console.log('ok text');
                 break;
               default :
                 break;
@@ -783,8 +821,15 @@
           fabricCanvas.add(fabricStickerInstance);
           fabricStickerInstance.center();
           fabricStickerInstance.setCoords();
+
+          // deselect all layout sections
+          if(flags.isLayoutApplied){
+            deselectLayoutAllSections()
+          }
+
           fabricCanvas.renderAll();
           fabricCanvas.setActiveObject(fabricStickerInstance);
+
         };
         // select background Image for Editing Event
         var backgroundImage;
@@ -818,6 +863,12 @@
         fabricCanvas.add(fabricText);
         fabricText.center();
         fabricText.setCoords();
+
+        // deselect all layout sections
+        if(flags.isLayoutApplied){
+          deselectLayoutAllSections()
+        }
+
         fabricCanvas.renderAll();
         fabricCanvas.setActiveObject(fabricText);
 
@@ -1039,9 +1090,9 @@
       console.log('DESIGN TOOL: bindFabricEvents');
       fabricCanvas.on({
         'mouse:down': function(event){
-          customEvents.fire(customEventsList.layoutSectionToggle, obj);
           var obj = event.target;
           if(obj){
+            customEvents.fire(customEventsList.layoutSectionToggle, obj);
             switch(obj.customObjectType){
               case customObjectTypes.layoutPlusSign:
                 // change to layout obj
@@ -1087,7 +1138,15 @@
                 zoomSlider.slider('setValue', obj.get('zoom'));
                 customEvents.fire(customEventsList.imageSelected, obj);
                 break;
+              case customObjectTypes.sticker:
+                if(flags.isLayoutApplied){
+                  deselectLayoutAllSections();
+                }
+                break;
               case customObjectTypes.text:
+                if(flags.isLayoutApplied){
+                  deselectLayoutAllSections();
+                }
                 if(obj.isEditing){
                   // set it to true
                   flags.textInEdtitingMode = true;
@@ -1099,43 +1158,29 @@
             currentSelectedObject = obj;
             fabricCanvas.renderAll();
           }
-          //if(textInEdtitingMode){
-          //  //console.log("Editing mode is ON, returning");
-          //  return;
-          //}
-          //if(obj){
-          //  if(!obj.selectable){
-          //    return;
-          //  }
-          //  vm.selectedObject = obj;
-          //  objectCustomizer(vm.selectedObject);
-          //  fabricCanvas.renderAll();
-          //}
         },
         'mouse:move': function(event){
 
         },
         'mouse:up': function(event){
           // console.log("mouse:up");
-          customEvents.fire(customEventsList.layoutSectionToggle, obj);
           if(currentSelectedObject) currentSelectedObject.opacity = 1;
           var obj = event.target;
           if(flags.textInEdtitingMode){
             return;
           }
           if(obj){
+            customEvents.fire(customEventsList.layoutSectionToggle, obj);
             obj.opacity = 1;
             switch(obj.customObjectType){
               case customObjectTypes.layout:
               case customObjectTypes.layoutPlusSign:
                 break;
               case customObjectTypes.backgroundImage:
-                // console.log("b");
                 if(!flags.isLayoutApplied) fabricCanvas.sendToBack(obj);
                 fabricCanvas.deactivateAll();
                 break;
               default:
-                console.log("c");
                 var newIndex = fabricCanvas.getObjects().length;
                 fabricCanvas.moveTo(obj, newIndex);
                 fabricCanvas.setActiveObject(obj);
@@ -1249,7 +1294,6 @@
           width: currentLayoutSections[selectedSectionIndex].width,
           height: currentLayoutSections[selectedSectionIndex].height
         };
-        // console.log("AREA: ",area);
       }
       else {
         bounds = obj.getBoundingRect();
@@ -1448,6 +1492,7 @@
           strokeWidth: 2
         });
         flags.isSectionSelected = true;
+        zoomSlider.slider('setValue', obj.get('zoom'));
       }
       // deselect
       else{
@@ -1455,7 +1500,19 @@
         selectedSectionIndex = -1;
         flags.isSectionSelected = false;
         fabricCanvas.deactivateAll();
+        zoomSlider.slider('setValue', Defaults.zoom);
       }
+    }
+
+    function deselectLayoutAllSections(){
+      // deselect all sections
+      for(var i=0; i<currentLayoutSections.length; i++){
+        currentLayoutSections[i].set({
+          strokeWidth: 0
+        });
+      }
+      flags.isSectionSelected = false;
+      selectedSectionIndex = -1;
     }
 
     function addBkgImageToSection(imgInstance, sectionIndex){

@@ -74,8 +74,9 @@
       // Initializer
       function init(){
         // TODO: Fetch texts from server
-        getTextFromServer();
-        bindLoadMoreStickers();
+        //getTextFromServer();
+        //bindLoadMoreStickers();
+        setupTexts();
       }
       function getTextFromServer() {
         restFactory.media.get(defaultQuery).then(function (resp) {

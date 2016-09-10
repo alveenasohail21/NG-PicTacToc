@@ -12,7 +12,7 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state, $timeout,productsFactory){
+  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state, $timeout,productsFactory, alertFactory){
 
     var vm = this;
 
@@ -342,8 +342,8 @@
             canvasDataUrl : designTool.getCanvasDataUrl(),
             canvasJSON : designTool.getCanvasJSON()
           };
-          console.log('data to save',dataToSaveForProduct);
-          productsFactory.addInProgressProducts(dataToSaveForProduct);
+          // console.log('data to save',dataToSaveForProduct);
+          // productsFactory.addInProgressProducts(dataToSaveForProduct);
         }
         // working on layout
         if(designTool.getProp('isSectionSelected')){
@@ -356,70 +356,12 @@
           designTool.resetTool();         // reset zoom settings inside
         }
 
-        //// save the already active image with settings
-        //vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
-        //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
-        //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgZoomValue = zoomSlider.slider('getValue');
-        //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgOrignalScaleValue = originalScale;
-        //vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
-        //// clear canvas
-        //fabricCanvas.clear();
-        //// render all
-        //fabricCanvas.renderAll();
-        ////console.log("SAVED CANVAS JSON: ",vm.myPhotos[canvasBkgImg.photoIndex]);
-        //// reset zoom slider
-        //resetZoomSettings();
       }
       // get photo now
       photosFactory.getSelectedPhoto(id, index).then(function(resp){
         // the new selected image has JSON data
         // JSON will be loaded now, saved current work and rest tool
         if(vm.myPhotos[index].canvasJSON ){
-          /*          fabricCanvas.loadFromJSON(vm.myPhotos[index].canvasJSON , function(){
-           //console.log("LOADED FROM JSON");
-           //console.log('vm.selectedPhoto: ', vm.selectedPhoto);
-           // save index
-           canvasBkgImg.photoIndex = index;
-           canvasBkgImg.active = true;
-           // caman image for filter
-           canvasImage.src = resp.base64;
-           canvasImage.onload = function(){
-           $(canvasImage).css('z-index', '-10');
-           $(canvasImage).attr('id', 'caman-canvas');
-           $('.editor').append(canvasImage);
-           // save image data & filter widget will update filters
-           vm.selectedPhoto = {
-           thumbnail: vm.myPhotos[index],
-           original: resp
-           };
-           vm.selectedPhoto.thumbnail.applyingFilter=false;
-           };
-           // fabric settings
-           var objects = fabricCanvas.getObjects();
-           objects.forEach(function(obj){
-           obj.set(fabricObjSettings);
-           });
-           // background img settings
-           objects[0].set({
-           id: vm.myPhotos[index].canvasImgId
-           });
-           canvasBkgImg.id = vm.myPhotos[index].canvasImgId;
-           // position
-           //objects[0].center();
-           objects[0].setCoords();
-           // locks
-           //objects[0].lockMovementY = false;
-           //objects[0].lockMovementX = false;
-           objects[0].hasControls = false;
-           resetZoomSettings({
-           zoomValue: vm.myPhotos[index].canvasImgZoomValue,
-           scaleX: vm.myPhotos[index].canvasImgOrignalScaleValue.x,
-           scaleY: vm.myPhotos[index].canvasImgOrignalScaleValue.y
-           });
-           // render All
-           fabricCanvas.renderAll();
-           fabricCanvas.deactivateAll();
-           });*/
           console.log('CTRL: Loading from JSON', vm.myPhotos[index].canvasJSON);
           // if JSON is present the current layout will be cleared
           designTool.resetTool();
@@ -487,7 +429,7 @@
     }
 
     function updatePhotoStripWithCanvas(index, canvasJSON, canvasDataUrl){
-      console.log('CTRL: saving current work', index);
+      console.log('CTRL: saving current work', index, canvasJSON);
       if(canvasJSON){
         vm.myPhotos[index].canvasJSON = canvasJSON;
       }
@@ -600,6 +542,8 @@
     }
 
     function copySelectedObject(){
+      alertFactory.warning(null, 'Not functional, need updates');
+      return;
       var selectedElem = fabricCanvas.getActiveObject();
       if(selectedElem!=null){
         //console.log("running COPY");
@@ -619,6 +563,8 @@
     }
 
     function copyCanvas(){
+      alertFactory.warning(null, 'Not functional, need updates');
+      return;
       fabricCanvas.deactivateAll();
       // save the already active image with settings
       vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
@@ -631,6 +577,8 @@
     }
 
     function deleteCanvas(){
+      alertFactory.warning(null, 'Not functional, need updates');
+      return;
       // remove current selected photo with all canvas settings
       photosFactory.deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id, canvasBkgImg.photoIndex)
         .then(function(resp){
@@ -670,11 +618,11 @@
         }
       }
     });
-    designTool.on('image:edited',function (e) {
-      if(!vm.myPhotos[e.data[0].photoIndex].isEdited){
-        vm.myPhotos[e.data[0].photoIndex].isEdited = true;
-      }
-    });
+    //designTool.on('image:edited',function (e) {
+    //  if(!vm.myPhotos[e.data[0].photoIndex].isEdited){
+    //    vm.myPhotos[e.data[0].photoIndex].isEdited = true;
+    //  }
+    //});
 
     /************************************* OBJECT CUSTOMIZER *************************************/
 
