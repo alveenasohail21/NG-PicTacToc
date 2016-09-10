@@ -12,7 +12,7 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state, $timeout, alertFactory){
+  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state, $timeout,productsFactory){
 
     var vm = this;
 
@@ -24,7 +24,7 @@
 
     vm.myPhotosPagination = {
       from: 0,
-      size: 12,
+      size: 6,
       dimension: '260x260'
     };
     vm.activeSidemenuItem = null;
@@ -331,15 +331,27 @@
       if(!designTool.getProp('isCanvasEmpty')){
         // save the already active image with settings
         // canvas json will have zoom value and original scale value
+        console.log('why');
+        console.log('bk',canvasBkgImg);
         updatePhotoStripWithCanvas(
           canvasBkgImg.photoIndex,
           designTool.getCanvasJSON(),
           designTool.getCanvasDataUrl()
         );
+        if(vm.myPhotos[canvasBkgImg.photoIndex].isEdited){
+          var dataToSaveForProduct = {
+            photoid : vm.myPhotos[canvasBkgImg.photoIndex].id,
+            canvasDataUrl : designTool.getCanvasDataUrl(),
+            canvasJSON : designTool.getCanvasJSON()
+          };
+          console.log('data to save',dataToSaveForProduct);
+          productsFactory.addInProgressProducts(dataToSaveForProduct);
+        }
         // working on layout
         if(designTool.getProp('isSectionSelected')){
           // reset only zoom
           //designTool.resetZoomSettings();
+          console.log('yo');
         }
         // working on single photo
         else{
@@ -361,7 +373,6 @@
         //// reset zoom slider
         //resetZoomSettings();
       }
-
       // get photo now
       photosFactory.getSelectedPhoto(id, index).then(function(resp){
         // the new selected image has JSON data
@@ -424,7 +435,7 @@
             img.onload = function(){
               updateCamanCanvas(img);
             };
-            img.src = resp.base64;
+            img.src = resp.base64 ? resp.base64 : loadedImage;
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
           });
@@ -456,7 +467,6 @@
 
         }
       }, function(err){
-
       });
     }
 
@@ -654,14 +664,20 @@
         }
       )
     });
-    designTool.on('layout:sectionToggle', function(e){
-      if(vm.activeSidemenuItem=="filters"){
+
+    designTool.on('layout:sectionToggle', function(e) {
+      if (vm.activeSidemenuItem == "filters") {
         console.log("I am here at controller");
-        if(!designTool.checkLayoutSelection()){
+        if (!designTool.checkLayoutSelection()) {
           closeSidemenu();
         }
       }
       console.log("SELECTION MADE!!!!", e);
+    });
+    designTool.on('image:edited',function (e) {
+      if(!vm.myPhotos[e.data[0].photoIndex].isEdited){
+        vm.myPhotos[e.data[0].photoIndex].isEdited = true;
+      }
     });
 
     /************************************* OBJECT CUSTOMIZER *************************************/
@@ -705,6 +721,7 @@
     /************************************* Image change on hover *************************************/
     var imageUrl;
     $('.toolbar .custom-svg-icon>img').hover(function (e) {
+
         imageUrl=this.src;
         var temp= imageUrl.substring(imageUrl.indexOf("svgs/"), imageUrl.length);
         imageUrl=temp;

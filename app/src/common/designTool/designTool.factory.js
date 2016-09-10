@@ -178,6 +178,9 @@
             customObjectType: customObjectTypes.backgroundImage
           })
         }
+        if(object){
+          customEvents.fire(customEventsList.imageEdited,object);
+        }
         // if no background image
         if(!object){
           zoomSlider.slider('setValue', Defaults.zoom);
@@ -288,11 +291,13 @@
       console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
       fabricCanvas.loadFromJSON(canvasJSON, function(){
         var objects = fabricCanvas.getObjects();
+        var loadedImage;
         objects.forEach(function(obj){
           obj.set(fabricObjSettings);
           // reactivate settings
           switch(obj.customObjectType){
             case customObjectTypes.backgroundImage:
+              loadedImage = obj.toDataURL();
               // position
               // scale
               // clipping
@@ -315,7 +320,7 @@
         flags.isCanvasEmpty = false;
         // call callback
         if(cb){
-          cb();
+          cb(loadedImage);
         }
       });
     }
@@ -418,6 +423,19 @@
             break;
         }
       }
+      // select background Image for Editing Event
+      var backgroundImage;
+      if(flags.isLayoutApplied){
+        backgroundImage= findByProps({
+          sectionIndex: selectedSectionIndex,
+          customObjectType: customObjectTypes.backgroundImage
+        })
+      }else {
+        backgroundImage = findByProps({
+          customObjectType: customObjectTypes.backgroundImage
+        });
+      }
+      customEvents.fire(customEventsList.imageEdited,backgroundImage);
       fabricCanvas.renderAll();
     }
 
@@ -446,6 +464,19 @@
             break;
         }
       }
+      // select background Image for Editing Event
+      var backgroundImage;
+      if(flags.isLayoutApplied){
+        backgroundImage= findByProps({
+          sectionIndex: selectedSectionIndex,
+          customObjectType: customObjectTypes.backgroundImage
+        })
+      }else {
+         backgroundImage = findByProps({
+          customObjectType: customObjectTypes.backgroundImage
+        });
+      }
+      customEvents.fire(customEventsList.imageEdited,backgroundImage);
       fabricCanvas.renderAll();
     }
 
@@ -489,6 +520,19 @@
               object.setCoords();
             }
           });
+          // select background Image for Editing Event
+          var backgroundImage;
+          if(flags.isLayoutApplied){
+            backgroundImage= findByProps({
+              sectionIndex: selectedSectionIndex,
+              customObjectType: customObjectTypes.backgroundImage
+            })
+          }else {
+            backgroundImage = findByProps({
+              customObjectType: customObjectTypes.backgroundImage
+            });
+          }
+          customEvents.fire(customEventsList.imageEdited,backgroundImage);
           break;
       }
     }
@@ -532,6 +576,19 @@
               object.setCoords();
             }
           });
+          // select background Image for Editing Event
+          var backgroundImage;
+          if(flags.isLayoutApplied){
+            backgroundImage= findByProps({
+              sectionIndex: selectedSectionIndex,
+              customObjectType: customObjectTypes.backgroundImage
+            })
+          }else {
+            backgroundImage = findByProps({
+              customObjectType: customObjectTypes.backgroundImage
+            });
+          }
+          customEvents.fire(customEventsList.imageEdited,backgroundImage);
           break;
       }
     }
@@ -582,6 +639,8 @@
             imgObj.set('currentFilter', filter);
             cb(true);
             fabricCanvas.renderAll();
+              // firing edited image event
+            customEvents.fire(customEventsList.imageEdited,imgObj);
           };
           img.src = this.toBase64();
         });
@@ -605,6 +664,19 @@
           fabricCanvas.renderAll();
           fabricCanvas.setActiveObject(fabricStickerInstance);
         };
+        // select background Image for Editing Event
+        var backgroundImage;
+        if(flags.isLayoutApplied){
+          backgroundImage= findByProps({
+            sectionIndex: selectedSectionIndex,
+            customObjectType: customObjectTypes.backgroundImage
+          })
+        }else {
+          backgroundImage = findByProps({
+            customObjectType: customObjectTypes.backgroundImage
+          });
+        }
+        customEvents.fire(customEventsList.imageEdited,backgroundImage);
       }
     }
 
@@ -626,7 +698,22 @@
         fabricText.setCoords();
         fabricCanvas.renderAll();
         fabricCanvas.setActiveObject(fabricText);
+
+        // select background Image for Editing Event
+        var backgroundImage;
+        if(flags.isLayoutApplied){
+          backgroundImage= findByProps({
+            sectionIndex: selectedSectionIndex,
+            customObjectType: customObjectTypes.backgroundImage
+          })
+        }else {
+          backgroundImage = findByProps({
+            customObjectType: customObjectTypes.backgroundImage
+          });
+        }
+        customEvents.fire(customEventsList.imageEdited,backgroundImage);
       }
+
     }
 
     function applyLayout(layout, cb){
@@ -1198,7 +1285,7 @@
               case 46: // delete
                 // don't delete background image
                 if(object.customObjectType != customObjectTypes.backgroundImage)
-                deleteSelectedObject();
+                  deleteSelectedObject();
                 break;
               case 37: // right
                 animateObject(object, 'left', e.shiftKey, e.ctrlKey, true);

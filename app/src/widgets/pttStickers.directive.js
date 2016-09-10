@@ -50,7 +50,7 @@
     var defaultQuery = {
       type : 'stickers',
       from : 0,
-      size : 2,
+      size : 12,
       all : false
     };
 
@@ -98,7 +98,7 @@
 
       function loadMoreStickers() {
         var data = defaultQuery;
-        data.from += 2;
+        data.from += 12;
         restFactory.media.get(data).then(function (resp) {
           stickers.push.apply(stickers,resp.data);
           console.log('stickers',stickers);

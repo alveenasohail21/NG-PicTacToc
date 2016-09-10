@@ -12,9 +12,8 @@
       addInProgressProducts : addInProgressProducts
     };
 
-    function addInProgressProducts(canvasObject) {
+    function addInProgressProducts(data) {
       var deffered = $q.defer();
-      var data = productToPostDataMapper(canvasObject);
       restFactory.products.addInProgressProducts(data).then(function (resp) {
         alertFactory.success(null, resp.message);
         deffered.resolve(resp.data);
