@@ -1198,7 +1198,7 @@
               case 46: // delete
                 // don't delete background image
                 if(object.customObjectType != customObjectTypes.backgroundImage)
-                deleteSelectedObject();
+                  deleteSelectedObject();
                 break;
               case 37: // right
                 animateObject(object, 'left', e.shiftKey, e.ctrlKey, true);
@@ -1330,17 +1330,12 @@
         sectionIndex: selectedSectionIndex,
         customObjectType: customObjectTypes.backgroundImage
       });
-      if(flags.isLayoutApplied){
-        if(flags.isSectionSelected){
-          if(!object){
-            return false;
-          }
-        }
-        else{
-          return false;
-        }
-      }
-      return true;
+      var sectionFlag= flags.isLayoutApplied ? flags.isLayoutApplied : false;
+      var objectFlag= sectionFlag ? sectionFlag : false;
+      var returnFlag=true;
+      if(objectFlag)
+        returnFlag= object ? true : false;
+      return returnFlag;
     }
   }
 }());
