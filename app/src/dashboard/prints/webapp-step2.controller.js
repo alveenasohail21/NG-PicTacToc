@@ -172,7 +172,7 @@
 
       // if opening
       if(!$("#ptt-wrapper-2").hasClass("toggled")){
-        //console.log("opening");
+        //// console.log("opening");
         vm.sideMenuTemplate = 'src/dashboard/sidemenu/'+template+'.html';
         $rootScope.$emit('sidemenuToggles', {
           previousTemplate: vm.activeSidemenuItem,
@@ -193,7 +193,7 @@
         }
         // closing
         else{
-          //console.log("closing");
+          //// console.log("closing");
           $rootScope.$emit('sidemenuToggles', {
             previousTemplate: vm.activeSidemenuItem,
             currentTemplate: null
@@ -234,7 +234,7 @@
     $(window).resize(updateImageEditorSize);
 
     function updateImageEditorSize(event, runningFirstTime){
-      ////console.log("resizing :)");
+      ////// console.log("resizing :)");
       var imageStudio = {
         height: $("#image-studio").height(),
         width: $("#image-studio").width()
@@ -249,17 +249,17 @@
       if(imageStudio.height < imageStudio.width){
         // new width = (new height)/(original height / original width)
         updateValue = (imageStudio.height)/(element.original.height/element.original.width);
-        ////console.log("height is small");
+        ////// console.log("height is small");
       }
       // else if image studio width is small
       else if(imageStudio.width < imageStudio.height){
         // new height = (original height / original width) x (new width)
         updateValue = (element.original.height/element.original.width) * (imageStudio.width);
-        ////console.log("width is small");
+        ////// console.log("width is small");
       }
 
       // update css
-      ////console.log("change height and width to: ", updateValue);
+      ////// console.log("change height and width to: ", updateValue);
       $("#image-studio .element").width(updateValue);
       $("#image-studio .element").height(updateValue);
       $("#image-studio .element").css({
@@ -270,7 +270,7 @@
       // set zoom and dimensions of canvas
       // got from canvas test
       scaleFactor = updateValue/element.original.width;
-      //console.log("--- FACTOR SCALE ---", scaleFactor);
+      //// console.log("--- FACTOR SCALE ---", scaleFactor);
       if(scallingFirstTime){
         //fabricCanvas.setZoom((scaleFactor*scaleConstant));
       }
@@ -299,7 +299,7 @@
         vm.myPhotosPagination.from += 12;
         photosFactory.getPhotos(vm.myPhotosPagination)
           .then(function (resp) {
-            //console.log("new photos length: ", resp.photos.length);
+            //// console.log("new photos length: ", resp.photos.length);
             resp['photos'].forEach(function (elem, index) {
               //vm.myPhotos.push(elem);
             });
@@ -308,7 +308,7 @@
               loadMoreMyPhotos();
             }
             else {
-              //console.log("all photos are loaded");
+              //// console.log("all photos are loaded");
             }
           });
       }
@@ -327,7 +327,7 @@
         vm.myPhotos[index].selected = true;
       }
       // if canvas is already in editing, save current work as JSON
-      //console.log('CTRL: designTool.getProp("isCanvasEmpty")', designTool.getProp('isCanvasEmpty'));
+      //// console.log('CTRL: designTool.getProp("isCanvasEmpty")', designTool.getProp('isCanvasEmpty'));
       if(!designTool.getProp('isCanvasEmpty')){
         // save the already active image with settings
         // canvas json will have zoom value and original scale value
@@ -342,7 +342,7 @@
             canvasDataUrl : designTool.getCanvasDataUrl(),
             canvasJSON : designTool.getCanvasJSON()
           };
-          // console.log('data to save',dataToSaveForProduct);
+          // // console.log('data to save',dataToSaveForProduct);
           // productsFactory.addInProgressProducts(dataToSaveForProduct);
         }
         // working on layout
@@ -362,7 +362,7 @@
         // the new selected image has JSON data
         // JSON will be loaded now, saved current work and rest tool
         if(vm.myPhotos[index].canvasJSON ){
-          console.log('CTRL: Loading from JSON', vm.myPhotos[index].canvasJSON);
+          // console.log('CTRL: Loading from JSON', vm.myPhotos[index].canvasJSON);
           // if JSON is present the current layout will be cleared
           designTool.resetTool();
           // update index
@@ -382,7 +382,7 @@
         }
         // new image -> single photo / adding to current layout
         else{
-          console.log('CTRL: Loading new Image');
+          // console.log('CTRL: Loading new Image');
           // update index
           if(!designTool.getProp('isSectionSelected')){
             canvasBkgImg.photoIndex = index;
@@ -410,7 +410,7 @@
     }
 
     function updateCamanCanvas(img){
-      console.log('CTRL: updateCamanCanvas');
+      // console.log('CTRL: updateCamanCanvas');
       // remove caman canvas
       $('#caman-canvas').remove();
       // set new caman canvas
@@ -420,7 +420,7 @@
     }
 
     function saveSelectedPhoto(thumbnail, original){
-      console.log('CTRL: saveSelectedPhoto');
+      // console.log('CTRL: saveSelectedPhoto');
       // will also update sidemenu filters
       vm.selectedPhoto = {
         thumbnail: thumbnail,
@@ -429,7 +429,7 @@
     }
 
     function updatePhotoStripWithCanvas(index, canvasJSON, canvasDataUrl){
-      console.log('CTRL: saving current work', index, canvasJSON);
+      // console.log('CTRL: saving current work', index, canvasJSON);
       if(canvasJSON){
         vm.myPhotos[index].canvasJSON = canvasJSON;
       }
@@ -506,7 +506,7 @@
           if(!isLayoutApplied){
             // create a new photo slot for layout
             vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]));
-            console.log(vm.myPhotos);
+            // console.log(vm.myPhotos);
             canvasBkgImg.photoIndex++;
           }
           // else update the current slot
@@ -546,7 +546,7 @@
       return;
       var selectedElem = fabricCanvas.getActiveObject();
       if(selectedElem!=null){
-        //console.log("running COPY");
+        //// console.log("running COPY");
         var clonedObj = fabric.util.object.clone(selectedElem);
         clonedObj.set("top", clonedObj.top+10);
         clonedObj.set("left", clonedObj.left+10);
@@ -595,7 +595,7 @@
     /************************************* DESIGN TOOL EVENTS *************************************/
 
     designTool.on('image:selected', function(e){
-      console.log("CTRL: image:selected: ", e);
+      // console.log("CTRL: image:selected: ", e);
       photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
         function(resp){
           vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;
@@ -612,7 +612,7 @@
 
     designTool.on('layout:sectionToggle', function(e) {
       if (vm.activeSidemenuItem == "filters") {
-        console.log("I am here at controller");
+        // console.log("I am here at controller");
         if (!designTool.checkLayoutSelection()) {
           closeSidemenu();
         }
@@ -637,10 +637,11 @@
     /***************/
     function goToState(stateName){
       saveCanvasState();
+      designTool.emptyTool();
       // go to state
-      //console.log(stateName);
+      //// console.log(stateName);
       if(stateName.indexOf('Upload')>=0){
-        //console.log("going");
+        //// console.log("going");
         $state.go('^.Upload');
       }
       else{
@@ -649,17 +650,22 @@
     }
 
     function saveCanvasState(){
-      fabricCanvas.deactivateAll();
+      //fabricCanvas.deactivateAll();
       // save the already active image with settings
-      vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
-      vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
-      vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
-      vm.myPhotos[canvasBkgImg.photoIndex].canvasImgZoomValue = zoomSlider.slider('getValue');
-      vm.myPhotos[canvasBkgImg.photoIndex].canvasImgOrignalScaleValue = originalScale;
+      //vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
+      //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
+      //vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
+      //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgZoomValue = zoomSlider.slider('getValue');
+      //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgOrignalScaleValue = originalScale;
       // clear canvas
       //fabricCanvas.clear();
       // hide customizer
-      hideObjectCustomizer();
+      //hideObjectCustomizer();
+      updatePhotoStripWithCanvas(
+        canvasBkgImg.photoIndex,
+        designTool.getCanvasJSON(),
+        designTool.getCanvasDataUrl()
+      );
     }
 
     /************************************* Image change on hover *************************************/
@@ -673,7 +679,7 @@
         temp=temp.replace("gray", "blue");
         temp=temp.replace(/-[0-9]/g, "");
         this.src=temp;
-        console.log(temp);
+        // console.log(temp);
       },
       function (e) {
         imageUrl=imageUrl.replace(/noBorder|fullBorder|innerBorder|outerBorder/gi, vm.selectedBorder);
@@ -683,7 +689,7 @@
 
     function changeBorderSvg(borderStyle){
       vm.selectedBorder=borderStyle;
-      console.log(vm.selectedBorder);
+      // console.log(vm.selectedBorder);
     }
 
 

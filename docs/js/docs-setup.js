@@ -95,6 +95,15 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "app.common.directive:compareTo",
+      "shortName": "compareTo",
+      "type": "directive",
+      "moduleName": "app.common",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app common description directive object placeholder test true"
+    },
+    {
+      "section": "api",
       "id": "app.common.directive:ptt-loader",
       "shortName": "ptt-loader",
       "type": "directive",
@@ -194,12 +203,21 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "app.core",
-      "shortName": "app.core",
-      "type": "overview",
-      "moduleName": "app.core",
-      "shortDescription": "Core is where the Magma is",
-      "keywords": "api app core magma overview"
+      "id": "app.common.user",
+      "shortName": "app.common.user",
+      "type": "service",
+      "moduleName": "app.common",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app common description placeholder service user"
+    },
+    {
+      "section": "api",
+      "id": "app.common.user",
+      "shortName": "app.common.user",
+      "type": "service",
+      "moduleName": "app.common",
+      "shortDescription": "&lt; description placeholder &gt;",
+      "keywords": "api app common description placeholder service user"
     },
     {
       "section": "api",
@@ -216,6 +234,15 @@ NG_DOCS={
       "shortName": "app.core",
       "type": "overview",
       "moduleName": "app.core",
+      "shortDescription": "Configuration block for routing",
+      "keywords": "api app block configuration core overview routing"
+    },
+    {
+      "section": "api",
+      "id": "app.core",
+      "shortName": "app.core",
+      "type": "overview",
+      "moduleName": "app.core",
       "shortDescription": "Core is where the Magma is",
       "keywords": "api app core magma overview"
     },
@@ -225,8 +252,8 @@ NG_DOCS={
       "shortName": "app.core",
       "type": "overview",
       "moduleName": "app.core",
-      "shortDescription": "Configuration block for routing",
-      "keywords": "api app block configuration core overview routing"
+      "shortDescription": "Core is where the Magma is",
+      "keywords": "api app core magma overview"
     },
     {
       "section": "api",
