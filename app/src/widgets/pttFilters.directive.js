@@ -129,11 +129,12 @@
               if(index == scope.filters.length-1 && !filterFound){
                 // by default normal is applied
                 scope.filters[scope.filters.length-1].selected = true;
+
                 activeFilterIndex = scope.filters.length-1;
               }
             }
           });
-            applyFilters();
+          applyFilters();
         }
         else{
           // console.log("NO FILTERS, NO SETUP");
@@ -175,7 +176,10 @@
         }
       }
 
-      function disableLoader(filter){
+      function loaderHandler(loaderFlag){
+        // if(!loaderFlag){
+        //   console.log(activeFilterIndex);
+        // }
         scope.$apply(function(){
           scope.filters[activeFilterIndex].showLoader = false;
         })
@@ -191,7 +195,7 @@
         if(index == activeFilterIndex){
           scope.filters[index].selected = false;
           scope.filters[index].showLoader = false;
-          scope.onSelect({filter: 'normal', cb: disableLoader});
+          scope.onSelect({filter: 'normal', cb: loaderHandler});
           scope.filters[scope.filters.length-1].selected = true;
           activeFilterIndex = scope.filters.length-1;
         }
@@ -199,10 +203,9 @@
           activeFilterIndex = index;
           scope.filters[index].selected = true;
           scope.filters[activeFilterIndex].showLoader = true;
-          scope.onSelect({filter: filter.name, cb: disableLoader});
+          scope.onSelect({filter: filter.name, cb: loaderHandler});
         }
       }
-
       // call initializer
       init();
     }

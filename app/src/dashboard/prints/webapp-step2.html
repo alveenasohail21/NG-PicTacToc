@@ -206,7 +206,7 @@ Content : Start : Step 2
                         <div class="toolbar">
                             <div class="custom-svg-icon gray-border-none" ng-click="vm.applyBorder()">
                                 <!--<object data="svgs/gray-border-none-1.svg" type=""></object>-->
-                                <img ng-src="svgs/gray-border-none-{{svgImage}}.svg" alt="">
+                                <img ng-src="svgs/gray-border-{{vm.selectedBorder}}-{{svgImage}}.svg" alt="">
                             </div>
                             <div ng-click="vm.rotateAntiClockwise()" class="custom-svg-icon gray-rotate-l">
                                 <!--<object data="svgs/gray-rotate-1.svg" type=""></object>-->

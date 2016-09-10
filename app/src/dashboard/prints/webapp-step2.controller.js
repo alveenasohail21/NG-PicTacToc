@@ -12,13 +12,14 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state, $timeout){
+  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state, $timeout, alertFactory){
 
     var vm = this;
 
     /* Variables */
     vm.myPhotos = photosFactory._data.photos;
     vm.myPhotosTotalCount = photosFactory._data.totalCount;
+    vm.selectedBorder="noBorder";
     var defaultSelectedPhotoIndex = 0;
 
     vm.myPhotosPagination = {
@@ -161,6 +162,12 @@
         saveCanvasState();
         $state.go('^.Upload');
         return;
+      }
+      if(template== 'filters'){
+        if(!designTool.checkLayoutSelection()){
+          alertFactory.error(null, "Please select an image to apply filter");
+          return;
+        }
       }
 
       // if opening
@@ -521,8 +528,8 @@
 
     // apply filter
     function applyFilter(filter, cb){
-      designTool.applyFilter(filter, function(){
-        cb();
+      designTool.applyFilter(filter, function(flag){
+        cb(flag);
       });
     }
 
@@ -601,7 +608,7 @@
     }
 
     function applyBorder(){
-      designTool.applyBorder();
+      designTool.applyBorder(changeBorderSvg);
     }
 
     function copyCanvas(){
@@ -631,8 +638,9 @@
     }
 
     /************************************* DESIGN TOOL EVENTS *************************************/
+
     designTool.on('image:selected', function(e){
-      //console.log("CTRL: image:selected: ", e);
+      console.log("CTRL: image:selected: ", e);
       photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
         function(resp){
           vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;
@@ -645,6 +653,15 @@
           img.src = resp.base64;
         }
       )
+    });
+    designTool.on('layout:sectionToggle', function(e){
+      if(vm.activeSidemenuItem=="filters"){
+        console.log("I am here at controller");
+        if(!designTool.checkLayoutSelection()){
+          closeSidemenu();
+        }
+      }
+      console.log("SELECTION MADE!!!!", e);
     });
 
     /************************************* OBJECT CUSTOMIZER *************************************/
@@ -686,16 +703,29 @@
     }
 
     /************************************* Image change on hover *************************************/
-    var imageThemeUrl;
+    var imageUrl;
     $('.toolbar .custom-svg-icon>img').hover(function (e) {
-        imageThemeUrl=this.src;
-        this.src=this.src.replace("gray","blue");
-        this.src=this.src.replace(/-[0-9]/g,"");
-    },
+        imageUrl=this.src;
+        var temp= imageUrl.substring(imageUrl.indexOf("svgs/"), imageUrl.length);
+        imageUrl=temp;
+        temp=temp.replace(/fullBorder|innerBorder|outerBorder/gi, 'noBorder');
+        temp=temp.replace("gray", "blue");
+        temp=temp.replace(/-[0-9]/g, "");
+        this.src=temp;
+        console.log(temp);
+      },
       function (e) {
-        this.src=imageThemeUrl;
+        imageUrl=imageUrl.replace(/noBorder|fullBorder|innerBorder|outerBorder/gi, vm.selectedBorder);
+        this.src=imageUrl;
       }
     );
+
+    function changeBorderSvg(borderStyle){
+      vm.selectedBorder=borderStyle;
+      console.log(vm.selectedBorder);
+    }
+
+
 
     /* Initializer Call */
 
