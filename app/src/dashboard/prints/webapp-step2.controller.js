@@ -12,7 +12,7 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state, $timeout){
+  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state, $timeout, alertFactory){
 
     var vm = this;
 
@@ -162,6 +162,12 @@
         saveCanvasState();
         $state.go('^.Upload');
         return;
+      }
+      if(template== 'filters'){
+        if(!designTool.checkLayoutSelection()){
+          alertFactory.error(null, "Please select an image to apply filter");
+          return;
+        }
       }
 
       // if opening
@@ -522,8 +528,8 @@
 
     // apply filter
     function applyFilter(filter, cb){
-      designTool.applyFilter(filter, function(){
-        cb();
+      designTool.applyFilter(filter, function(flag){
+        cb(flag);
       });
     }
 
@@ -632,8 +638,9 @@
     }
 
     /************************************* DESIGN TOOL EVENTS *************************************/
+
     designTool.on('image:selected', function(e){
-      //console.log("CTRL: image:selected: ", e);
+      console.log("CTRL: image:selected: ", e);
       photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
         function(resp){
           vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;
@@ -646,6 +653,15 @@
           img.src = resp.base64;
         }
       )
+    });
+    designTool.on('layout:sectionToggle', function(e){
+      if(vm.activeSidemenuItem=="filters"){
+        console.log("I am here at controller");
+        if(!designTool.checkLayoutSelection()){
+          closeSidemenu();
+        }
+      }
+      console.log("SELECTION MADE!!!!", e);
     });
 
     /************************************* OBJECT CUSTOMIZER *************************************/
@@ -708,6 +724,9 @@
       vm.selectedBorder=borderStyle;
       console.log(vm.selectedBorder);
     }
+
+
+
     /* Initializer Call */
 
     init();

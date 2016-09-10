@@ -74,7 +74,8 @@
     const customEventsList = {
       imageSelected: 'image:selected',
       imageEdited: 'image:edited',
-      canvasDimensionChanged : 'canvas:dimensionChanged'
+      canvasDimensionChanged : 'canvas:dimensionChanged',
+      layoutSectionToggle: 'layout:sectionToggle'
     };
     var customEvents = new EventChannel();
     for (var event in customEventsList) {
@@ -119,7 +120,9 @@
       // Custom events
       on: on,
       // zoom
-      resetZoomSettings: resetZoomSettings
+      resetZoomSettings: resetZoomSettings,
+      checkLayoutSelection: checkLayoutSelection
+
     };
 
     /* Define Functions */
@@ -550,7 +553,10 @@
             break;
         }
         this.render(function(){
+
+
           var img = new Image();
+
           img.onload = function() {
             var imgObj;
             if(flags.isLayoutApplied){
@@ -564,11 +570,17 @@
                 customObjectType: customObjectTypes.backgroundImage
               })
             }
+            // if(!imgObj){
+            //   cb(false);
+            //   return;
+            // }
+
+
             // update img on canvas
             imgObj.setElement(img);
             // update current filter
             imgObj.set('currentFilter', filter);
-            cb();
+            cb(true);
             fabricCanvas.renderAll();
           };
           img.src = this.toBase64();
@@ -817,6 +829,7 @@
       console.log('DESIGN TOOL: bindFabricEvents');
       fabricCanvas.on({
         'mouse:down': function(event){
+          customEvents.fire(customEventsList.layoutSectionToggle, obj);
           console.log("mouse:down");
           var obj = event.target;
           if(obj){
@@ -895,6 +908,7 @@
         },
         'mouse:up': function(event){
           console.log("mouse:up");
+          customEvents.fire(customEventsList.layoutSectionToggle, obj);
           if(currentSelectedObject) currentSelectedObject.opacity = 1;
           var obj = event.target;
           if(flags.textInEdtitingMode){
@@ -1311,5 +1325,22 @@
       ctx.restore();
     }
 
+    function checkLayoutSelection(){
+      var object = findByProps({
+        sectionIndex: selectedSectionIndex,
+        customObjectType: customObjectTypes.backgroundImage
+      });
+      if(flags.isLayoutApplied){
+        if(flags.isSectionSelected){
+          if(!object){
+            return false;
+          }
+        }
+        else{
+          return false;
+        }
+      }
+      return true;
+    }
   }
 }());
