@@ -47,7 +47,7 @@
     };
     // props to save
     var propsToIncludeForJSON = [
-      'customObjectType', 'hasControls', 'clipName', 'originalScale', 'zoom', 'sectionIndex'
+      'customObjectType', 'hasControls', 'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex'
     ];
     var fabricCanvas;
     // fabric objects default setting
@@ -286,9 +286,23 @@
 
     function loadFromJSON(canvasJSON, cb){
       console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
+
+      canvasJSON.objects.forEach(function(obj){
+        if(obj.customObjectType == customObjectTypes.backgroundImage){
+          if(obj.sectionIndex>=0){
+            console.log("applying clipping");
+            obj.clipTo = function(ctx) {
+              return _.bind(clipByName, obj)(ctx)
+            }
+          }
+        }
+      });
+
       fabricCanvas.loadFromJSON(canvasJSON, function(){
         var objects = fabricCanvas.getObjects();
-        objects.forEach(function(obj){
+        for(var i=0; i<objects.length; i++){
+          var obj = objects[i];
+          console.log("setting object at index: ",i);
           obj.set(fabricObjSettings);
           // reactivate settings
           switch(obj.customObjectType){
@@ -297,8 +311,20 @@
               // scale
               // clipping
               // zoom
+              zoomSlider.slider('setValue', obj.get('zoom'));
+              console.log('Its a bkg image');
+              if(selectedSectionIndex == -1){
+                console.log('DESIGN TOOL: Layout section is not selected, loading single image');
+                flags.isLayoutApplied = false;
+                // change bkg color
+                fabricCanvas.backgroundColor = '#cccccc';
+                // save fabric image instance
+                sectionBkgImages = [];
+                sectionBkgImages.push(obj);
+              }
               break;
             case customObjectTypes.layout:
+              flags.isLayoutApplied = true;
               break;
             case customObjectTypes.sticker:
               break;
@@ -307,7 +333,7 @@
           }
           // update coords
           obj.setCoords();
-        });
+        }
         // render
         fabricCanvas.renderAll();
         fabricCanvas.deactivateAll();
@@ -631,6 +657,7 @@
 
     function applyLayout(layout, cb){
       console.log('DESIGN TOOL: applyLayout', layout);
+      console.log("sectionBkgImages: ", sectionBkgImages);
       var layoutSectionsCloned = angular.copy(layout.data);
       // change bkg color
       fabricCanvas.backgroundColor = 'white';
