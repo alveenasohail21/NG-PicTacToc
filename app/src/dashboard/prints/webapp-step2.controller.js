@@ -656,6 +656,7 @@
     });
     designTool.on('layout:sectionToggle', function(e){
       if(vm.activeSidemenuItem=="filters"){
+        console.log("I am here at controller");
         if(!designTool.checkLayoutSelection()){
           closeSidemenu();
         }

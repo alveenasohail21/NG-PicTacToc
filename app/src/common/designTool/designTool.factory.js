@@ -81,7 +81,7 @@
     for (var event in customEventsList) {
       if (customEventsList.hasOwnProperty(event)) {
         customEvents.on(customEventsList[event], function(e){
-          //console.log('DesignTool: Custom Event Fired: ' + e.name +', with data: ', e.data);
+          console.log('DesignTool: Custom Event Fired: ' + e.name +', with data: ', e.data);
         });
       }
     }
@@ -759,7 +759,7 @@
       // weather to open or not
       switch(obj.customObjectType){
         case customObjectTypes.text:
-          //console.log("opening customizer");
+          console.log("opening customizer");
           // show necessary control
           customizerControl.find('.size-picker').css('display', 'block');
           customizerControl.find('.ptt-dropmenu').css('display', 'block');
@@ -840,7 +840,7 @@
     }
 
     function hideObjectCustomizer(){
-      console.log('DESIGN TOOL: hideObjectCustomizer');
+      // console.log('DESIGN TOOL: hideObjectCustomizer');
       // capture control
       var customizerControl = $('.text-editor-parent');
       // hide
@@ -857,7 +857,6 @@
       fabricCanvas.on({
         'mouse:down': function(event){
           customEvents.fire(customEventsList.layoutSectionToggle, obj);
-          console.log("mouse:down");
           var obj = event.target;
           if(obj){
             switch(obj.customObjectType){
@@ -890,7 +889,7 @@
                 }
                 break;
               case customObjectTypes.backgroundImage:
-                console.log("BKG IMAGE");
+                // console.log("BKG IMAGE");
                 if(flags.isLayoutApplied){
                   selectLayoutSection(obj);
                   if(!flags.isSectionSelected){
@@ -934,7 +933,7 @@
 
         },
         'mouse:up': function(event){
-          console.log("mouse:up");
+          // console.log("mouse:up");
           customEvents.fire(customEventsList.layoutSectionToggle, obj);
           if(currentSelectedObject) currentSelectedObject.opacity = 1;
           var obj = event.target;
@@ -948,7 +947,7 @@
               case customObjectTypes.layoutPlusSign:
                 break;
               case customObjectTypes.backgroundImage:
-                console.log("b");
+                // console.log("b");
                 if(!flags.isLayoutApplied) fabricCanvas.sendToBack(obj);
                 fabricCanvas.deactivateAll();
                 break;
@@ -1005,6 +1004,7 @@
         },
         'object:moving': function(event){
           var obj = event.target;
+          // console.log("standing at object moving: ", obj);
           if(obj){
             switch(obj.customObjectType){
               case customObjectTypes.sticker:
@@ -1054,7 +1054,7 @@
 
     // Background Image Boundary Check and Position Update
     function backgroundImageBoundaryCheck(obj) {
-      console.log('DESIGN TOOL: backgroundImageBoundaryCheck');
+      // console.log('DESIGN TOOL: backgroundImageBoundaryCheck');
       var bounds = obj.getBoundingRect();
       var area;
       var objBounds = obj.getBoundingRect();
@@ -1065,7 +1065,8 @@
           left: currentLayoutSections[selectedSectionIndex].left,
           width: currentLayoutSections[selectedSectionIndex].width,
           height: currentLayoutSections[selectedSectionIndex].height
-        }
+        };
+        // console.log("AREA: ",area);
       }
       else {
         bounds = obj.getBoundingRect();
@@ -1153,12 +1154,14 @@
           flags.isActionPerformable = false;
           obj.lockMovementX = true;
           obj.lockMovementY = true;
+          obj.selectable=false;
           obj.animate(key, value, {
             //easing: fabric.util.ease.easeOutBounce,
             onChange: fabricCanvas.renderAll.bind(fabricCanvas),
             onComplete: function(){
               //console.log("done");
               flags.isActionPerformable = true;
+              obj.selectable=true;
               obj.lockMovementX = movement.x;
               obj.lockMovementY = movement.y;
             }
@@ -1322,7 +1325,7 @@
 
     function clipByName(ctx) {
 
-      //console.log("DesignTool: clipByName", this);
+      console.log("DesignTool: clipByName", this);
 
       this.setCoords();
       var clipRect = findByClipName(this.clipName);
@@ -1330,7 +1333,7 @@
       var scaleYTo1 = (1 / this.scaleY);
       ctx.save();
 
-      //console.log("DesignTool: clipByName", clipRect);
+      console.log("DesignTool: clipByName", clipRect);
 
       var ctxLeft = -( this.width / 2 ) + clipRect.strokeWidth;
       var ctxTop = -( this.height / 2 ) + clipRect.strokeWidth;
@@ -1357,11 +1360,10 @@
         sectionIndex: selectedSectionIndex,
         customObjectType: customObjectTypes.backgroundImage
       });
-      var sectionFlag= flags.isLayoutApplied ? flags.isLayoutApplied : false;
-      var objectFlag= sectionFlag ? sectionFlag : false;
+      var objectFlag=flags.isLayoutApplied ? flags.isLayoutApplied : false;
       var returnFlag=true;
       if(objectFlag)
-        returnFlag= object ? true : false;
+        returnFlag=object ? true : false;
       return returnFlag;
     }
   }
