@@ -669,7 +669,6 @@
           closeSidemenu();
         }
       }
-      console.log("SELECTION MADE!!!!", e);
     });
     designTool.on('image:edited',function (e) {
       if(!vm.myPhotos[e.data[0].photoIndex].isEdited){
