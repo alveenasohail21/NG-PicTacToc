@@ -19,6 +19,7 @@
     /* Variables */
     vm.myPhotos = photosFactory._data.photos;
     vm.myPhotosTotalCount = photosFactory._data.totalCount;
+    vm.selectedBorder="noBorder";
     var defaultSelectedPhotoIndex = 0;
 
     vm.myPhotosPagination = {
@@ -601,7 +602,7 @@
     }
 
     function applyBorder(){
-      designTool.applyBorder();
+      designTool.applyBorder(changeBorderSvg);
     }
 
     function copyCanvas(){
@@ -686,17 +687,27 @@
     }
 
     /************************************* Image change on hover *************************************/
-    var imageThemeUrl;
+    var imageUrl;
     $('.toolbar .custom-svg-icon>img').hover(function (e) {
-        imageThemeUrl=this.src;
-        this.src=this.src.replace("gray","blue");
-        this.src=this.src.replace(/-[0-9]/g,"");
-    },
+        imageUrl=this.src;
+        var temp= imageUrl.substring(imageUrl.indexOf("svgs/"), imageUrl.length);
+        imageUrl=temp;
+        temp=temp.replace(/fullBorder|innerBorder|outerBorder/gi, 'noBorder');
+        temp=temp.replace("gray", "blue");
+        temp=temp.replace(/-[0-9]/g, "");
+        this.src=temp;
+        console.log(temp);
+      },
       function (e) {
-        this.src=imageThemeUrl;
+        imageUrl=imageUrl.replace(/noBorder|fullBorder|innerBorder|outerBorder/gi, vm.selectedBorder);
+        this.src=imageUrl;
       }
     );
 
+    function changeBorderSvg(borderStyle){
+      vm.selectedBorder=borderStyle;
+      console.log(vm.selectedBorder);
+    }
     /* Initializer Call */
 
     init();

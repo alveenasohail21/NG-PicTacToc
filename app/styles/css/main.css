@@ -869,6 +869,7 @@ body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li {
 }
 /* line 159, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li img.white-cross {
+  transform: rotate(45deg);
   position: absolute;
   width: 15px;
   height: 15px;
@@ -878,7 +879,7 @@ body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li img.white-cros
   left: 50%;
   margin-left: 44px;
 }
-/* line 169, ../partials/others/_ptt-lightSlider.scss */
+/* line 170, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li .backdrop {
   position: absolute;
   height: 100%;
@@ -887,15 +888,15 @@ body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li .backdrop {
   opacity: 0;
   transition: opacity 0.8s;
 }
-/* line 178, ../partials/others/_ptt-lightSlider.scss */
+/* line 179, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li:hover .backdrop {
   opacity: 1;
 }
-/* line 185, ../partials/others/_ptt-lightSlider.scss */
+/* line 186, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li.add-new-image img {
   height: 100%;
 }
-/* line 189, ../partials/others/_ptt-lightSlider.scss */
+/* line 190, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.left-arrow {
   position: absolute;
   left: 19px;
@@ -903,7 +904,7 @@ body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.left-arrow {
   height: 100%;
   width: 20px;
 }
-/* line 195, ../partials/others/_ptt-lightSlider.scss */
+/* line 196, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.left-arrow .object-backdrop {
   position: absolute;
   top: 0;
@@ -912,7 +913,7 @@ body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.left-arrow .object-
   height: 100%;
   background: transparent;
 }
-/* line 204, ../partials/others/_ptt-lightSlider.scss */
+/* line 205, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.right-arrow {
   position: absolute;
   right: 19px;
@@ -920,7 +921,7 @@ body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.right-arrow {
   height: 100%;
   width: 20px;
 }
-/* line 210, ../partials/others/_ptt-lightSlider.scss */
+/* line 211, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.right-arrow .object-backdrop {
   position: absolute;
   top: 0;
@@ -929,26 +930,26 @@ body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.right-arrow .object
   height: 100%;
   background: transparent;
 }
-/* line 219, ../partials/others/_ptt-lightSlider.scss */
+/* line 220, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .gray-left-arrow {
   position: absolute;
   width: 20px;
   top: 69px;
 }
-/* line 224, ../partials/others/_ptt-lightSlider.scss */
+/* line 225, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .gray-right-arrow {
   position: absolute;
   width: 20px;
   top: 69px;
 }
-/* line 229, ../partials/others/_ptt-lightSlider.scss */
+/* line 230, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .thumbs-collapse-btn {
   padding: 13px 15px 8px 16px;
   border-bottom: none;
   margin-left: -62px;
   padding-bottom: 0;
 }
-/* line 234, ../partials/others/_ptt-lightSlider.scss */
+/* line 235, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .thumbs-collapse-btn span {
   padding: 0;
 }

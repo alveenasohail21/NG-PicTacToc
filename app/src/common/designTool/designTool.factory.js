@@ -359,7 +359,8 @@
 
     // ****************************************** Toolbar methods ******************************************
 
-    function applyBorder(){
+    function applyBorder(cb){
+
       // only if layout is applied
       if(flags.isLayoutApplied){
         selectedBorderIndex++;
@@ -379,6 +380,7 @@
                 height: (fabricCanvas.getHeight()*objects[i].percentValues.height) - ((border.height.value)?Defaults.borderWidth*border.height.applyFactor:0),
                 width: (fabricCanvas.getWidth()*objects[i].percentValues.width) - ((border.width.value)?Defaults.borderWidth*border.width.applyFactor:0)
               });
+              cb(customBorderTypes[selectedBorderIndex]);
               break;
             case customObjectTypes.backgroundImage:
               break;
