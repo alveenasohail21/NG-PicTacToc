@@ -47,11 +47,13 @@
         sendEditedImage: sendEditedImage,
         copyPhoto: copyPhoto
       },
+
       media: {
         get: getMedia
       },
       products : {
-        addInProgressProducts : addInProgressProducts
+        addInProgressProducts : addInProgressProducts,
+        copyProduct: copyProduct
       },
       oneUrl: oneUrl
     };
@@ -138,6 +140,12 @@
     function addInProgressProducts(data){
       return Products.one('inprogress').post(null,data);
     }
+    function copyProduct(id, index){
+      return Products.one('copy').post(null, {id: id});
+    }
+    // function deleteProduct(id, index){
+    //   return Products.one('copy').post(null, {id: id});
+    // }
 
   }
 }());

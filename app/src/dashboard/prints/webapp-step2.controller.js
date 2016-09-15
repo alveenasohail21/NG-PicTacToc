@@ -467,6 +467,8 @@
     function copyPhoto(id, index){
       if(index == canvasBkgImg.photoIndex){
         copyCanvas();
+        // in progress product(d)
+        // copy product
       }
       else{
         photosFactory.copyPhoto(id, index);
@@ -566,10 +568,13 @@
       alertFactory.warning(null, 'Not functional, need updates');
       return;
       fabricCanvas.deactivateAll();
+
+      // fabricCanvas.deactivateAll();
+
       // save the already active image with settings
-      vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
-      vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
-      vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
+      // vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
+      // vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
+      // vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
       // create a copy in vm.myPhotos
       var copiedObj = angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]);
       copiedObj.selected = false;
@@ -578,7 +583,7 @@
 
     function deleteCanvas(){
       alertFactory.warning(null, 'Not functional, need updates');
-      return;
+      // return;
       // remove current selected photo with all canvas settings
       photosFactory.deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id, canvasBkgImg.photoIndex)
         .then(function(resp){

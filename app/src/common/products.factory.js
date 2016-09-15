@@ -9,7 +9,8 @@
 
   function productsFactory($q, restFactory, alertFactory){
     return {
-      addInProgressProducts : addInProgressProducts
+      addInProgressProducts : addInProgressProducts,
+      copyProduct: copyProduct
     };
 
     function addInProgressProducts(data) {
@@ -31,6 +32,19 @@
         canvasJSON : canvasObject.canvasJSON
       };
       return data;
+    }
+
+    function copyProduct(id, index) {
+      var deferred = $q.defer();
+      restFactory.products.copyProduct(id, index).then(function(resp){
+        if(resp.success){
+          deferred.resolve(resp);
+        }
+        else{
+          deferred.reject(resp);
+        }
+      });
+      return deferred.promise;
     }
   }
 
