@@ -19,7 +19,7 @@
     /* Variables */
     vm.myPhotos = photosFactory._data.photos;
     vm.myPhotosTotalCount = photosFactory._data.totalCount;
-    vm.selectedBorder="noBorder";
+
     var defaultSelectedPhotoIndex = 0;
 
     vm.myPhotosPagination = {
@@ -152,6 +152,7 @@
       });
 
       // select the 0th index photo by default
+
       getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
 
     }
@@ -402,9 +403,19 @@
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
           });
-          console.log("I am being set here: ", vm.myPhotos[index].canvasJSON.customSettings.selectedBorder);
-
-          vm.selectedBorder=vm.myPhotos[index].canvasJSON.customSettings.selectedBorder;
+          vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
+          if(!designTool.getProp('isLayoutApplied')){
+            if(vm.selectedBorder=='fullBorder'){
+              $('#canvas').addClass("single-image-border");
+            }
+            else if(vm.selectedBorder=='noBorder'){
+              $('#canvas').removeClass("single-image-border");
+            }
+          }
+          else{
+            console.log(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder);
+            $('#canvas').removeClass("single-image-border");
+          }
         }
         // new image -> single photo / adding to current layout
         else{
@@ -421,21 +432,23 @@
               saveSelectedPhoto(vm.myPhotos[index], resp);
               // udpate photo strip in case working on layout
               if(designTool.getProp('isSectionSelected')){
+                console.log("layout testing");
+
                 updatePhotoStripWithCanvas(
                   canvasBkgImg.photoIndex,
                   designTool.getCanvasJSON(),
                   designTool.getCanvasDataUrl()
                 );
               }
-              vm.selectedBorder='noBorder';
+              else{
+                vm.selectedBorder='noBorder';
+              }
+              $('#canvas').removeClass("single-image-border");
             });
           });
-
         }
       }, function(err){
       });
-
-
     }
 
     function updateCamanCanvas(img){
@@ -547,8 +560,11 @@
             designTool.getCanvasDataUrl()
           );
           vm.myPhotos[canvasBkgImg.photoIndex].selected = true;
+          vm.selectedBorder='noBorder';
+          $('#canvas').removeClass("single-image-border");
         })
       });
+
     }
 
     /************************************* LEFT TOOLBAR FUNCTIONS *************************************/
@@ -705,7 +721,6 @@
     /************************************* Image change on hover *************************************/
     var imageUrl;
     $('.toolbar .custom-svg-icon>img').hover(function (e) {
-
         imageUrl=this.src;
         var temp= imageUrl.substring(imageUrl.indexOf("svgs/"), imageUrl.length);
         imageUrl=temp;

@@ -302,7 +302,6 @@
     function loadFromJSON(canvasJSON, cb){
       // console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
       // by default make layout applied to false
-      console.log('injson',canvasJSON);
       flags.isLayoutApplied = false;
       for(var i = 0;i<canvasJSON.objects.length;i++){
         if(canvasJSON.objects[i].customObjectType == customObjectTypes.layout){
@@ -343,6 +342,7 @@
           }
         }
 
+        console.log(canvasJsonObjects);
         for(var prop in canvasJsonObjects){
           if(canvasJsonObjects.hasOwnProperty(prop)){
             switch (prop){
@@ -538,7 +538,8 @@
     // ****************************************** Toolbar methods ******************************************
 
     function applyBorder(cb){
-
+      console.log("canvas json: ", getCanvasJSON());
+      var objects = fabricCanvas.getObjects();
       // only if layout is applied
       if(flags.isLayoutApplied){
         selectedBorderIndex++;
@@ -546,7 +547,6 @@
           selectedBorderIndex = 0;
         }
         // console.log('DESIGN TOOL: applyBorder', customBorderTypes[selectedBorderIndex]);
-        var objects = fabricCanvas.getObjects();
         for(var i=0; i<objects.length; i++){
           switch(objects[i].customObjectType){
             case customObjectTypes.layout:
@@ -564,8 +564,24 @@
               break;
           }
         }
-        fabricCanvas.renderAll();
       }
+      else{
+        switch(objects[0].customObjectType){
+          case customObjectTypes.layout:
+            break;
+          case customObjectTypes.backgroundImage:
+            selectedBorderIndex=selectedBorderIndex==0 ? 1 : 0;
+            if(customBorderTypes[selectedBorderIndex]=='fullBorder'){
+              $('#canvas').addClass("single-image-border");
+            }
+            else if(customBorderTypes[selectedBorderIndex]=='noBorder'){
+              $('#canvas').removeClass("single-image-border");
+            }
+            cb(customBorderTypes[selectedBorderIndex]);
+            break;
+        }
+      }
+      fabricCanvas.renderAll();
     }
 
     function flipHorizontal(){

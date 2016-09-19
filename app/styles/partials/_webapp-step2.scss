@@ -4,6 +4,11 @@ body.app{
   }
 
   // Different themes
+
+  .single-image-border{
+    border: 5px solid white
+  }
+
   .theme-box-shadow{
     box-shadow: 15px 10px 20px 4px rgba(0, 0, 0, 0.075) !important;
   }
