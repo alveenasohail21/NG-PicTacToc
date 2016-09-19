@@ -77,7 +77,7 @@
       instance: null,
       active: false,
       id: null,
-      photoIndex: null
+      photoIndex: null,
     };
     var scallingFirstTime = true;
     var scaleFactor;
@@ -314,6 +314,10 @@
       }
     }
 
+
+    function maintainCanvasObject(){
+
+    }
     // get the high res image for editing
     function getSelectPhoto(id, index){
       // close sidemenu if open
@@ -331,17 +335,38 @@
       if(!designTool.getProp('isCanvasEmpty')){
         // save the already active image with settings
         // canvas json will have zoom value and original scale value
+
+        // var canvasJson=designTool.getCanvasJSON();
+        // vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON=canvasJson;
+        // if(!vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
+        //   vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings={};
+        // }
+        // var selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder  || 'noBorder';
+        // canvasJson['customSettings'] = {
+        //   selectedBorder : selectedBorder
+        // };
+        var canvasJson = designTool.getCanvasJSON();
+        canvasJson['customSettings'] = {
+          selectedBorder : 'noBorder'
+        };
+        if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
+          if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
+            canvasJson['customSettings'] = {
+              selectedBorder : vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder
+            };
+          }
+        }
         updatePhotoStripWithCanvas(
           canvasBkgImg.photoIndex,
-          designTool.getCanvasJSON(),
+          canvasJson,
           designTool.getCanvasDataUrl()
         );
         if(vm.myPhotos[canvasBkgImg.photoIndex].isEdited){
-          var dataToSaveForProduct = {
-            photoid : vm.myPhotos[canvasBkgImg.photoIndex].id,
-            canvasDataUrl : designTool.getCanvasDataUrl(),
-            canvasJSON : designTool.getCanvasJSON()
-          };
+          // var dataToSaveForProduct = {
+          //   photoid : vm.myPhotos[canvasBkgImg.photoIndex].id,
+          //   canvasDataUrl : designTool.getCanvasDataUrl(),
+          //   canvasJSON : designTool.getCanvasJSON()
+          // };
           // // console.log('data to save',dataToSaveForProduct);
           // productsFactory.addInProgressProducts(dataToSaveForProduct);
         }
@@ -355,7 +380,6 @@
           // reset canvas + zoom
           designTool.resetTool();         // reset zoom settings inside
         }
-
       }
       // get photo now
       photosFactory.getSelectedPhoto(id, index).then(function(resp){
@@ -378,7 +402,9 @@
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
           });
+          console.log("I am being set here: ", vm.myPhotos[index].canvasJSON.customSettings.selectedBorder);
 
+          vm.selectedBorder=vm.myPhotos[index].canvasJSON.customSettings.selectedBorder;
         }
         // new image -> single photo / adding to current layout
         else{
@@ -401,12 +427,15 @@
                   designTool.getCanvasDataUrl()
                 );
               }
-            })
-          })
+              vm.selectedBorder='noBorder';
+            });
+          });
 
         }
       }, function(err){
       });
+
+
     }
 
     function updateCamanCanvas(img){
@@ -694,10 +723,12 @@
 
     function changeBorderSvg(borderStyle){
       vm.selectedBorder=borderStyle;
-      // console.log(vm.selectedBorder);
+      var canvasJson=designTool.getCanvasJSON();
+      canvasJson['customSettings'] = {
+        selectedBorder : borderStyle
+      };
+      vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON=canvasJson;
     }
-
-
 
     /* Initializer Call */
 

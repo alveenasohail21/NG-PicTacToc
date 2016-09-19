@@ -48,7 +48,7 @@
     // props to save
     var propsToIncludeForJSON = [
       'customObjectType', 'hasControls', 'hasBorders', 'selectable', 'borders',
-      'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex', 'percentValues'
+      'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex', 'percentValues', 'selectedBorder'
     ];
     var fabricCanvas;
     // fabric objects default setting
@@ -124,7 +124,6 @@
       // zoom
       resetZoomSettings: resetZoomSettings,
       checkLayoutSelection: checkLayoutSelection
-
     };
 
     /* Define Functions */
@@ -303,6 +302,7 @@
     function loadFromJSON(canvasJSON, cb){
       // console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
       // by default make layout applied to false
+      console.log('injson',canvasJSON);
       flags.isLayoutApplied = false;
       for(var i = 0;i<canvasJSON.objects.length;i++){
         if(canvasJSON.objects[i].customObjectType == customObjectTypes.layout){
@@ -311,6 +311,7 @@
         }
       }
       if(flags.isLayoutApplied){
+        fabricCanvas.backgroundColor="white";
         resetTool();
         // empty bkg images as well
         sectionBkgImages = [];
@@ -326,6 +327,8 @@
               canvasJsonObjects[customObjectTypes.layout].push(canvasJSON.objects[j]);
               break;
             case customObjectTypes.layoutPlusSign :
+              console.log("plus sign");
+              console.log(canvasJSON.objects);
               canvasJsonObjects[customObjectTypes.layoutPlusSign].push(canvasJSON.objects[j]);
               break;
             case customObjectTypes.backgroundImage :
@@ -488,7 +491,6 @@
 
     function getCanvasJSON(){
       var canvasJSON = fabricCanvas.toJSON(propsToIncludeForJSON);
-      // console.log('DESIGN TOOL: getCanvasJSON', canvasJSON);
       // TODO: any update in JSON, or any other process
       return canvasJSON;
     }

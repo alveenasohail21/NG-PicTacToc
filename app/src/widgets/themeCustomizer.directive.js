@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @name app.common.directive:compareTo
+ * @name app.common.directive:themeCustomizer
  * @scope true
  * @param {object} test test object
  * @restrict E
@@ -33,20 +33,47 @@
       var initialTheme=$localStorage.theme || 1;
       $localStorage.theme=$localStorage.theme ? $localStorage.theme : 1;
 
-      scope.changeTheme=function(theme){
+      //add dark shadows for dark themes
+      function addThemeShadow(){
+        $('.navbar').addClass('theme-box-shadow');
+        $('.step2-lightSlider').addClass('theme-box-shadow');
+        $('#ptt-sidebar-wrapper').addClass('theme-box-shadow');
+        $('.thumbs-collapse-btn').addClass('theme-box-shadow');
+        $('.ptt-sidebar-2-close').addClass('theme-box-shadow');
+        $('.sidemenu-filters').addClass('theme-box-shadow');
+      }
+
+      //remove dark shadows for light themes
+      function removeThemeShadow(){
+        $('.navbar').removeClass('theme-box-shadow');
+        $('#ptt-sidebar-wrapper').removeClass('theme-box-shadow');
+        $('.step2-lightSlider').removeClass('theme-box-shadow');
+        $('.ptt-sidebar-2-close').removeClass('theme-box-shadow');
+        $('.sidemenu-filters').removeClass('theme-box-shadow');
+      }
+
+      //check if the theme is light
+      function lightTheme(theme){
+        return theme != 1;
+      }
+
+      //main changing theme event
+      function changeTheme(theme){
         dropdownElement.attr('class', themeBase+theme);
         $('#ptt-content-wrapper-2').attr('class', themeBase+theme+'-bg');
+        lightTheme(theme) ?  addThemeShadow() : removeThemeShadow() ;
         scope.svgImage=theme;
-      };
-      scope.selectTheme=function(selected){
+      }
+
+      //triggers theme change on selection
+      scope.selectTheme = function(selected){
         $localStorage.theme=selected;
-        scope.changeTheme(selected);
+        changeTheme(selected);
       };
 
-      scope.changeTheme(initialTheme);
-
-
+      changeTheme(initialTheme);
     }
   }
-
 }());
+
+
