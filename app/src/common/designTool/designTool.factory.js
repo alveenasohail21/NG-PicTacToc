@@ -1630,6 +1630,7 @@
         returnFlag=object ? true : false;
       return returnFlag;
     }
+    
     function cancel(e) {
       // console.log(e);
       if (e.preventDefault) { e.preventDefault(); }
@@ -1647,44 +1648,54 @@
     }
 
     function registerCanvasEvents(){
-      var canvas_container=$(".canvas-container");
-      $('#photo').on('dragenter', function(e, photo){
-        console.log("i am being dragged: ",photo);
+      var canvas_container= $(".canvas-container");
+     
+      // controller
+      $('ul#step2-lightSlider img').on('dragstart', function(ev){
+        console.log("dragstart", ev);
+      })
+      
+      canvas_container.on('drop', function(ev){
+        console.log("drop", ev);
       });
-      canvas_container.on('drop', function (e, target) {
-        e.preventDefault();
-        // if(flags.isLayoutApplied){
-        var img = new Image();
-        console.log(this);
-        console.log("the object being dropped: ", e.originalEvent.dataTransfer.getData('url'));
-        img.src = e.originalEvent.dataTransfer.getData("url");
-        var droppedImage= new fabric.Image(img, {
-          customObjectType: customObjectTypes.backgroundImage,
-          renderOnAddRemove: false,
-          hasControls: false,
-          zoom: Defaults.zoom,
-          sectionIndex: 1,
-          left: currentLayoutSections[1].left,
-          top: currentLayoutSections[1].top,
-          'clipName': 'bkgImage1',
-          'clipTo': function(ctx) {
-            return _.bind(clipByName, droppedImage)(ctx)
-          },
-          hasBorders: false
-        });
-
-        currentLayoutSections[1].width > currentLayoutSections[1].height ?
-          droppedImage.scaleToWidth(currentLayoutSections[1].width) : droppedImage.scaleToHeight(currentLayoutSections[1].height);
-
-        // droppedImage.set(fabricObjSettings);
-        console.log("thr curretn layout sections: ", currentLayoutSections);
-
-        // droppedImage=disableFabricObject(droppedImage);
-        fabricCanvas.add(droppedImage);
-        fabricCanvas.renderAll();
-        // }
-        return false;
-      });
+      // -------------
+      
+      
+      
+      // canvas_container.on('drop', function (e, target) {
+      //   e.preventDefault();
+      //   // if(flags.isLayoutApplied){
+      //   var img = new Image();
+      //   console.log(this);
+      //   console.log("the object being dropped: ", e);
+      //   img.src = e.originalEvent.dataTransfer.getData("url");
+      //   var droppedImage= new fabric.Image(img, {
+      //     customObjectType: customObjectTypes.backgroundImage,
+      //     renderOnAddRemove: false,
+      //     hasControls: false,
+      //     zoom: Defaults.zoom,
+      //     sectionIndex: 1,
+      //     left: currentLayoutSections[1].left,
+      //     top: currentLayoutSections[1].top,
+      //     'clipName': 'bkgImage1',
+      //     'clipTo': function(ctx) {
+      //       return _.bind(clipByName, droppedImage)(ctx)
+      //     },
+      //     hasBorders: false
+      //   });
+      //
+      //   currentLayoutSections[1].width > currentLayoutSections[1].height ?
+      //     droppedImage.scaleToWidth(currentLayoutSections[1].width) : droppedImage.scaleToHeight(currentLayoutSections[1].height);
+      //
+      //   // droppedImage.set(fabricObjSettings);
+      //   console.log("thr curretn layout sections: ", currentLayoutSections);
+      //
+      //   // droppedImage=disableFabricObject(droppedImage);
+      //   fabricCanvas.add(droppedImage);
+      //   fabricCanvas.renderAll();
+      //   // }
+      //   return false;
+      // });
       canvas_container.on('dragover', cancel);
       canvas_container.on('dragenter', cancel);
     }
