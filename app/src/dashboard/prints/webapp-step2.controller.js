@@ -12,7 +12,7 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state, $timeout,productsFactory, alertFactory){
+  function webappStep2Ctrl($scope, photosFactory, designTool, $rootScope, $state, $timeout,productsFactory, alertFactory){
 
     var vm = this;
 
@@ -118,6 +118,7 @@
     vm.updateTextColor = updateTextColor;
     // nextstep
     vm.goToState = goToState;
+    // vm.update_item=update_item;
 
 
     /* Initializer */
@@ -321,6 +322,7 @@
     }
     // get the high res image for editing
     function getSelectPhoto(id, index){
+
       // close sidemenu if open
       vm.closeSidemenu();
       // if no section is selected then mark the index selected
@@ -646,6 +648,7 @@
 
     designTool.on('image:selected', function(e){
       // console.log("CTRL: image:selected: ", e);
+      // console.log(e.data[0]);
       photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
         function(resp){
           vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;

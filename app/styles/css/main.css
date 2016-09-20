@@ -473,17 +473,6 @@ body.app .navbar {
   box-shadow: 0px 1px 10px 2px rgba(239, 243, 246, 0.9);
   z-index: 2;
   /*-- photoshop style navbar : end --*/
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-/* line 27, ../partials/_header.scss */
-body.app .navbar img {
-  -moz-user-drag: none;
-  -webkit-user-drag: none;
-  -ms-user-drag: none;
-  user-drag: none;
 }
 /* line 36, ../partials/_header.scss */
 body.app .navbar .container-fluid {
@@ -738,17 +727,17 @@ body.app .ptt-lightSlider {
   /*-- photoshop style filmstrip : start --*/
   box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
   /*-- photoshop style filmstrip : end --*/
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -moz-user-select: all !important;
+  -webkit-user-select: auto !important;
+  -ms-user-select: none !important;
+  user-select: all !important;
 }
 /* line 21, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider img {
-  -moz-user-drag: none;
-  -webkit-user-drag: none;
-  -ms-user-drag: none;
-  user-drag: none;
+  -moz-user-drag: all !important;
+  -webkit-user-drag: auto !important;
+  -ms-user-drag: all !important;
+  user-drag: all !important;
 }
 /* line 28, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider #step2-lightSlider {
@@ -2662,7 +2651,7 @@ body.app .step2b .step2b-container {
   margin-right: 0;
   position: relative;
   /*-- photoshop style sidebar : start --*/
-  box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
+  box-shadow: 0 0 10px 1px rgba(239, 243, 246, 0.9);
   /*-- photoshop style sidebar : end --*/
 }
 /* line 30, ../partials/_webapp-step2-b.scss */
