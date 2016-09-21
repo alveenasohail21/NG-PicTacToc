@@ -14,16 +14,6 @@ body.app{
     box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
     /*-- photoshop style filmstrip : end --*/
 
-    -moz-user-select: all !important;
-    -webkit-user-select: auto !important;
-    -ms-user-select: none !important;
-    user-select: all !important;
-    img{
-      -moz-user-drag:  all !important;
-      -webkit-user-drag: auto !important;
-      -ms-user-drag: all !important;
-      user-drag: all !important;
-    }
 
     #step2-lightSlider{
       height: 134px !important;
@@ -139,7 +129,22 @@ body.app{
   }
 
   .ptt-lightSlider.step1-lightSlider {
+
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    img{
+      -moz-user-drag: none;
+      -webkit-user-drag: none;
+      -ms-user-drag: none;
+      user-drag: none;
+    }
     #step1-lightSlider{
+
+
+
       height: 134px !important;
       li, li img{
         //height: 100%;

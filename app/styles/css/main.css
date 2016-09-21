@@ -473,6 +473,21 @@ body.app .navbar {
   box-shadow: 0px 1px 10px 2px rgba(239, 243, 246, 0.9);
   z-index: 2;
   /*-- photoshop style navbar : end --*/
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* line 27, ../partials/_header.scss */
+body.app .navbar img {
+  -moz-user-drag: none;
+  -webkit-user-drag: none;
+  -ms-user-drag: none;
+  user-drag: none;
+}
+/* line 33, ../partials/_header.scss */
+body.app .navbar .theme-box-shadow {
+  box-shadow: 0 1px 10px 10px rgba(0, 0, 0, 0.075) !important;
 }
 /* line 36, ../partials/_header.scss */
 body.app .navbar .container-fluid {
@@ -727,27 +742,16 @@ body.app .ptt-lightSlider {
   /*-- photoshop style filmstrip : start --*/
   box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
   /*-- photoshop style filmstrip : end --*/
-  -moz-user-select: all !important;
-  -webkit-user-select: auto !important;
-  -ms-user-select: none !important;
-  user-select: all !important;
 }
-/* line 21, ../partials/others/_ptt-lightSlider.scss */
-body.app .ptt-lightSlider img {
-  -moz-user-drag: all !important;
-  -webkit-user-drag: auto !important;
-  -ms-user-drag: all !important;
-  user-drag: all !important;
-}
-/* line 28, ../partials/others/_ptt-lightSlider.scss */
+/* line 18, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider #step2-lightSlider {
   height: 134px !important;
 }
-/* line 33, ../partials/others/_ptt-lightSlider.scss */
+/* line 23, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider #step2-lightSlider li img {
   cursor: pointer;
 }
-/* line 37, ../partials/others/_ptt-lightSlider.scss */
+/* line 27, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider #step2-lightSlider li {
   text-align: center;
   position: relative;
@@ -756,7 +760,7 @@ body.app .ptt-lightSlider #step2-lightSlider li {
   background-color: #f4f7f9;
   overflow: hidden;
 }
-/* line 50, ../partials/others/_ptt-lightSlider.scss */
+/* line 40, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider #step2-lightSlider li.selected {
   border: 2px solid white;
   box-shadow: 0px 0px 0px 2px #65e0e4;
@@ -765,7 +769,7 @@ body.app .ptt-lightSlider #step2-lightSlider li.selected {
   margin-left: 2px;
   margin-right: 8px !important;
 }
-/* line 69, ../partials/others/_ptt-lightSlider.scss */
+/* line 59, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider .custom-svg-icon.left-arrow {
   position: absolute;
   left: 19px;
@@ -773,7 +777,7 @@ body.app .ptt-lightSlider .custom-svg-icon.left-arrow {
   height: 100%;
   width: 20px;
 }
-/* line 75, ../partials/others/_ptt-lightSlider.scss */
+/* line 65, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider .custom-svg-icon.left-arrow .object-backdrop {
   position: absolute;
   top: 0;
@@ -782,7 +786,7 @@ body.app .ptt-lightSlider .custom-svg-icon.left-arrow .object-backdrop {
   height: 100%;
   background: transparent;
 }
-/* line 84, ../partials/others/_ptt-lightSlider.scss */
+/* line 74, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider .custom-svg-icon.right-arrow {
   position: absolute;
   right: 19px;
@@ -790,7 +794,7 @@ body.app .ptt-lightSlider .custom-svg-icon.right-arrow {
   height: 100%;
   width: 20px;
 }
-/* line 90, ../partials/others/_ptt-lightSlider.scss */
+/* line 80, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider .custom-svg-icon.right-arrow .object-backdrop {
   position: absolute;
   top: 0;
@@ -799,19 +803,19 @@ body.app .ptt-lightSlider .custom-svg-icon.right-arrow .object-backdrop {
   height: 100%;
   background: transparent;
 }
-/* line 99, ../partials/others/_ptt-lightSlider.scss */
+/* line 89, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider .gray-left-arrow {
   position: absolute;
   width: 20px;
   top: 69px;
 }
-/* line 104, ../partials/others/_ptt-lightSlider.scss */
+/* line 94, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider .gray-right-arrow {
   position: absolute;
   width: 20px;
   top: 69px;
 }
-/* line 109, ../partials/others/_ptt-lightSlider.scss */
+/* line 99, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider .thumbs-collapse-btn {
   height: 23px;
   line-height: 0;
@@ -833,21 +837,35 @@ body.app .ptt-lightSlider .thumbs-collapse-btn {
   box-shadow: 0px -7px 10px -4px rgba(239, 243, 246, 0.9);
   /*-- photoshop style filmstrip : end --*/
 }
-/* line 130, ../partials/others/_ptt-lightSlider.scss */
+/* line 120, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider .thumbs-collapse-btn object, body.app .ptt-lightSlider .thumbs-collapse-btn img {
   width: 16px;
 }
-/* line 133, ../partials/others/_ptt-lightSlider.scss */
+/* line 123, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider .thumbs-collapse-btn span {
   font-size: 14px;
   padding-left: 5px;
   letter-spacing: -0.2px;
 }
-/* line 142, ../partials/others/_ptt-lightSlider.scss */
+/* line 131, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* line 138, ../partials/others/_ptt-lightSlider.scss */
+body.app .ptt-lightSlider.step1-lightSlider img {
+  -moz-user-drag: none;
+  -webkit-user-drag: none;
+  -ms-user-drag: none;
+  user-drag: none;
+}
+/* line 144, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider {
   height: 134px !important;
 }
-/* line 150, ../partials/others/_ptt-lightSlider.scss */
+/* line 155, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li {
   text-align: center;
   overflow: hidden;
@@ -856,7 +874,7 @@ body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li {
   border-color: #e0e5ea;
   background-color: #f4f7f9;
 }
-/* line 158, ../partials/others/_ptt-lightSlider.scss */
+/* line 163, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li img.white-cross {
   transform: rotate(45deg);
   position: absolute;
@@ -868,7 +886,7 @@ body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li img.white-cros
   left: 50%;
   margin-left: 44px;
 }
-/* line 169, ../partials/others/_ptt-lightSlider.scss */
+/* line 174, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li .backdrop {
   position: absolute;
   height: 100%;
@@ -877,15 +895,15 @@ body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li .backdrop {
   opacity: 0;
   transition: opacity 0.8s;
 }
-/* line 178, ../partials/others/_ptt-lightSlider.scss */
+/* line 183, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li:hover .backdrop {
   opacity: 1;
 }
-/* line 185, ../partials/others/_ptt-lightSlider.scss */
+/* line 190, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider #step1-lightSlider li.add-new-image img {
   height: 100%;
 }
-/* line 189, ../partials/others/_ptt-lightSlider.scss */
+/* line 194, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.left-arrow {
   position: absolute;
   left: 19px;
@@ -893,7 +911,7 @@ body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.left-arrow {
   height: 100%;
   width: 20px;
 }
-/* line 195, ../partials/others/_ptt-lightSlider.scss */
+/* line 200, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.left-arrow .object-backdrop {
   position: absolute;
   top: 0;
@@ -902,7 +920,7 @@ body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.left-arrow .object-
   height: 100%;
   background: transparent;
 }
-/* line 204, ../partials/others/_ptt-lightSlider.scss */
+/* line 209, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.right-arrow {
   position: absolute;
   right: 19px;
@@ -910,7 +928,7 @@ body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.right-arrow {
   height: 100%;
   width: 20px;
 }
-/* line 210, ../partials/others/_ptt-lightSlider.scss */
+/* line 215, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.right-arrow .object-backdrop {
   position: absolute;
   top: 0;
@@ -919,26 +937,26 @@ body.app .ptt-lightSlider.step1-lightSlider .custom-svg-icon.right-arrow .object
   height: 100%;
   background: transparent;
 }
-/* line 219, ../partials/others/_ptt-lightSlider.scss */
+/* line 224, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .gray-left-arrow {
   position: absolute;
   width: 20px;
   top: 69px;
 }
-/* line 224, ../partials/others/_ptt-lightSlider.scss */
+/* line 229, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .gray-right-arrow {
   position: absolute;
   width: 20px;
   top: 69px;
 }
-/* line 229, ../partials/others/_ptt-lightSlider.scss */
+/* line 234, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .thumbs-collapse-btn {
   padding: 13px 15px 8px 16px;
   border-bottom: none;
   margin-left: -62px;
   padding-bottom: 0;
 }
-/* line 234, ../partials/others/_ptt-lightSlider.scss */
+/* line 239, ../partials/others/_ptt-lightSlider.scss */
 body.app .ptt-lightSlider.step1-lightSlider .thumbs-collapse-btn span {
   padding: 0;
 }

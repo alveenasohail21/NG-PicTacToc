@@ -328,9 +328,7 @@
             case customObjectTypes.layout :
               canvasJsonObjects[customObjectTypes.layout].push(canvasJSON.objects[j]);
               break;
-            case customObjectTypes.layoutPlusSign :
-              console.log("plus sign");
-              console.log(canvasJSON.objects);
+            case customObjectTypes.layoutPlusSign:
               canvasJsonObjects[customObjectTypes.layoutPlusSign].push(canvasJSON.objects[j]);
               break;
             case customObjectTypes.backgroundImage :
@@ -345,7 +343,6 @@
           }
         }
 
-        console.log(canvasJsonObjects);
         for(var prop in canvasJsonObjects){
           if(canvasJsonObjects.hasOwnProperty(prop)){
             switch (prop){
@@ -382,8 +379,9 @@
                   }(canvasJsonObjects[prop][b]));
                 }
                 break;
-              case customBorderTypes.layoutPlusSign:
-                for(var a= 0;a<canvasJsonObjects[prop].length;a++){
+              case customObjectTypes.layoutPlusSign:
+                console.log("plus sign", canvasJsonObjects[customObjectTypes.layoutPlusSign]);
+                for(var a=0;a<canvasJsonObjects[prop].length;a++){
                   (function(plusSignImage){
                     var img = new Image();
                     img.src = plusSignImage.src;
@@ -394,6 +392,7 @@
                 }
                 break;
               case customObjectTypes.sticker :
+                console.log(customObjectTypes.sticker);
                 for(var s=0; s<canvasJsonObjects[prop].length; s++){
                   (function(sticker){
                     var img = new Image();
@@ -1524,14 +1523,14 @@
         zoomSlider.slider('setValue', obj.get('zoom'));
       }
       // deselect
-      // else{
-      //
-      //   // console.log("deselecting");
-      //   selectedSectionIndex = -1;
-      //   flags.isSectionSelected = false;
-      //   fabricCanvas.deactivateAll();
-      //   zoomSlider.slider('setValue', Defaults.zoom);
-      // }
+      else{
+
+        // console.log("deselecting");
+        selectedSectionIndex = -1;
+        flags.isSectionSelected = false;
+        fabricCanvas.deactivateAll();
+        zoomSlider.slider('setValue', Defaults.zoom);
+      }
     }
 
     function deselectLayoutAllSections(){
@@ -1650,32 +1649,33 @@
 
     function dragOverOnCanvas(ev){
       //handles dragover event on the canvas
-      if(flags.isLayoutApplied){
-        var objectLeft=ev.originalEvent.offsetX;
-        var objectTop=ev.originalEvent.offsetY;
-        var minLeft=1000;
-        var minTop=1000;
-        var sectionIndex;
-        currentLayoutSections.forEach(function(section, index){
-          var differenceLeft=objectLeft-section.left;
-          var differenceTop=objectTop-section.top;
-          if(differenceLeft>0 && differenceTop>0){
-            if(differenceTop<=minTop && differenceLeft<=minLeft){
-              minLeft=differenceLeft;
-              minTop=differenceTop;
-              sectionIndex=index;
-            }
-          }
-        });
-        selectLayoutSection(currentLayoutSections[sectionIndex], true);
-        fabricCanvas.renderAll();
-      }
     }
 
     function registerCanvasEvents(){
       //registers events on canvas
       var canvas_container= $(".canvas-container");
-      canvas_container.on('dragover', dragOverOnCanvas);
+      canvas_container.on('dragover', function(ev){
+        if(flags.isLayoutApplied){
+          var objectLeft=ev.originalEvent.offsetX;
+          var objectTop=ev.originalEvent.offsetY;
+          var minLeft=1000;
+          var minTop=1000;
+          var sectionIndex;
+          currentLayoutSections.forEach(function(section, index){
+            var differenceLeft=objectLeft-section.left;
+            var differenceTop=objectTop-section.top;
+            if(differenceLeft>0 && differenceTop>0){
+              if(differenceTop<=minTop && differenceLeft<=minLeft){
+                minLeft=differenceLeft;
+                minTop=differenceTop;
+                sectionIndex=index;
+              }
+            }
+          });
+          selectLayoutSection(currentLayoutSections[sectionIndex], true);
+          fabricCanvas.renderAll();
+        }
+      });
     }
   }
 }());

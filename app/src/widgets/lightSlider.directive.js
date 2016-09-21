@@ -137,7 +137,9 @@
       });
 
       function registerSliderEvents() {
+        //handles events on the lightslider photos
         $('ul#step2-lightSlider img').on('dragend', function(ev){
+          ev.preventDefault();
           var imageDragged= {
             dataset: ev.target.dataset,
             x: ev.target.x,
@@ -145,8 +147,9 @@
           };
           var photoId=ev.target.dataset.photoid;
           var index=ev.target.dataset.index;
+          console.log(index);
           scope.onGetSelectPhoto({id: photoId, index: index, imageDragged: imageDragged});
-          return false;
+
         });
       }
       // call initializer
