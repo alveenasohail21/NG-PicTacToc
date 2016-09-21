@@ -118,6 +118,8 @@
     vm.updateTextColor = updateTextColor;
     // nextstep
     vm.goToState = goToState;
+    // Deselect layouts
+    vm.deSelectLayout = deSelectLayout;
 
 
     /* Initializer */
@@ -215,6 +217,12 @@
         $('div#image-studio').css({
           'padding': '2.65% 0'
         });
+      }
+    }
+
+    function deSelectLayout() {
+      if($('.sidemenu-layouts > .empty-images').hasClass('layout-selected')){
+        $('.sidemenu-layouts > .empty-images').removeClass('layout-selected');
       }
     }
 
@@ -318,6 +326,7 @@
     function getSelectPhoto(id, index){
       // close sidemenu if open
       vm.closeSidemenu();
+     vm.deSelectLayout();
       // if no section is selected then mark the index selected
       if(!designTool.getProp('isSectionSelected')){
         // selected image
@@ -500,25 +509,45 @@
 
     function applyLayout(layout){
       var isLayoutApplied = designTool.getProp('isLayoutApplied');
-      designTool.applyLayout(layout, function(){
-        $timeout(function(){
-          // remove selected from old one
-          vm.myPhotos[canvasBkgImg.photoIndex].selected = false;
-          // if layout is not applied then
-          if(!isLayoutApplied){
-            // create a new photo slot for layout
-            vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]));
-            // console.log(vm.myPhotos);
-            canvasBkgImg.photoIndex++;
-          }
-          // else update the current slot
-          updatePhotoStripWithCanvas(
-            canvasBkgImg.photoIndex,
-            designTool.getCanvasJSON(),
-            designTool.getCanvasDataUrl()
-          );
-          vm.myPhotos[canvasBkgImg.photoIndex].selected = true;
-        })
+      designTool.applyLayout(layout, function(islayoutOff,photoIndex){
+        if(!islayoutOff){
+          $timeout(function(){
+            // remove selected from old one
+            vm.myPhotos[canvasBkgImg.photoIndex].selected = false;
+            // if layout is not applied then
+            if(!isLayoutApplied){
+              // create a new photo slot for layout
+              vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]));
+              // console.log(vm.myPhotos);
+              canvasBkgImg.photoIndex++;
+            }
+            // else update the current slot
+            updatePhotoStripWithCanvas(
+              canvasBkgImg.photoIndex,
+              designTool.getCanvasJSON(),
+              designTool.getCanvasDataUrl()
+            );
+            vm.myPhotos[canvasBkgImg.photoIndex].selected = true;
+          })
+        }else {
+          designTool.loadBkgImage(vm.myPhotos[photoIndex], {photoIndex: photoIndex, currentFilter: 'normal'}, function(loadedImage){
+            $timeout(function(){
+              // caman image for filter
+              updateCamanCanvas(loadedImage);
+              // save image data & filter widget will update filters
+              //saveSelectedPhoto(vm.myPhotos[photoIndex], resp);
+              vm.myPhotos.splice(canvasBkgImg.photoIndex, 1);
+              // udpate photo strip in case working on layout
+              if(designTool.getProp('isSectionSelected')){
+                updatePhotoStripWithCanvas(
+                  photoIndex,
+                  designTool.getCanvasJSON(),
+                  designTool.getCanvasDataUrl()
+                );
+              }
+            })
+          })
+        }
       });
     }
 
@@ -665,7 +694,9 @@
       // clear canvas
       //fabricCanvas.clear();
       // hide customizer
-      //hideObjectCustomizer();
+      //h
+      //
+      // ideObjectCustomizer();
       updatePhotoStripWithCanvas(
         canvasBkgImg.photoIndex,
         designTool.getCanvasJSON(),
