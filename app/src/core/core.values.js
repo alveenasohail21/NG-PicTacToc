@@ -17,6 +17,7 @@
         speed: 800,
         pager: false,
         controls: false,
+        enableDrag : false,
         mode: 'slide',
         responsive: [
           {

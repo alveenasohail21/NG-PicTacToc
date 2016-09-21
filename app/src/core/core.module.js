@@ -15,6 +15,7 @@
     'ngStorage',
     'ngMessages',
     'satellizer',
+    // 'ngDragDrop',
     'ngFileUpload'
   ])
     .run(function(){

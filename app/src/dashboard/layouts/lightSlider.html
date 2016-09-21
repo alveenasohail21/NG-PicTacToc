@@ -2,53 +2,54 @@
 <!-- STEP 1 -->
 <div class="ptt-lightSlider step1-lightSlider" ng-if="step==1">
 
-    <button class="thumbs-collapse-btn cursor-initial">
-        <span>Total {{photos.length}} Photos</span>
-    </button>
+  <button class="thumbs-collapse-btn cursor-initial">
+    <span>Total {{photos.length}} Photos</span>
+  </button>
 
-    <div class="custom-svg-icon left-arrow cursor-pointer">
-        <img class="gray-left-arrow" src="images/gray-left-arrow-slider.png" alt="">
-    </div>
+  <div class="custom-svg-icon left-arrow cursor-pointer">
+    <img class="gray-left-arrow" src="images/gray-left-arrow-slider.png" alt="">
+  </div>
 
-    <ul id="step1-lightSlider">
-        <li ng-repeat="photo in photos track by $index">
-            <div class="backdrop"></div>
-            <img ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl:photo.base64}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
-            <img ng-click="(photo.deleting)?null:onDelete({id: photo.id, index: $index})"
-                 class="white-cross" ng-class="{'delete-loader': photo.deleting}"
-                 src="{{(photo.deleting)?'svgs/ptt-loader.svg':'images/white-cross.png'}}"
-                 alt="X">
-        </li>
-        <!--ng-if="showUploadImage"-->
-        <li class="cursor-pointer add-new-image" ngf-select="onSelectFiles({files: $files, invalidFiles: $invalidFiles})" ngf-max-size="{{$root.imageConstraints.maxSize}}" multiple accept="image/*" >
-            <img src="images/add_image.png" alt="">
-        </li>
-    </ul>
-    <div class="custom-svg-icon right-arrow cursor-pointer">
-        <img class="gray-right-arrow" src="images/gray-right-arrow-slider.png" alt="">
-    </div>
+  <ul id="step1-lightSlider">
+    <li ng-repeat="photo in photos track by $index">
+      <div class="backdrop"></div>
+      <img ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl:photo.base64}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
+      <img ng-click="(photo.deleting)?null:onDelete({id: photo.id, index: $index})"
+           class="white-cross" ng-class="{'delete-loader': photo.deleting}"
+           src="{{(photo.deleting)?'svgs/ptt-loader.svg':'images/white-cross.png'}}"
+           alt="X">
+    </li>
+    <!--ng-if="showUploadImage"-->
+    <li class="cursor-pointer add-new-image" ngf-select="onSelectFiles({files: $files, invalidFiles: $invalidFiles})" ngf-max-size="{{$root.imageConstraints.maxSize}}" multiple accept="image/*" >
+      <img src="images/add_image.png" alt="">
+    </li>
+  </ul>
+  <div class="custom-svg-icon right-arrow cursor-pointer">
+    <img class="gray-right-arrow" src="images/gray-right-arrow-slider.png" alt="">
+  </div>
 
 </div>
 
 <!-- STEP 2 -->
 <div class="ptt-lightSlider step2-lightSlider" ng-if="step==2">
-    <button class="thumbs-collapse-btn" ng-click="onToggleExpandView()">
-        <img src="images/gray-expand.png" alt="">
-        <span>View All Photos</span>
-    </button>
+  <button class="thumbs-collapse-btn" ng-click="onToggleExpandView()">
+    <img src="images/gray-expand.png" alt="">
+    <span>View All Photos</span>
+  </button>
 
-    <div class="custom-svg-icon left-arrow cursor-pointer">
-        <img class="gray-left-arrow" src="images/gray-left-arrow-slider.png" alt="">
-    </div>
+  <div class="custom-svg-icon left-arrow cursor-pointer">
+    <img class="gray-left-arrow"  src="images/gray-left-arrow-slider.png" alt="">
+  </div>
 
-    <ul id="step2-lightSlider">
-        <li ng-repeat="photo in photos track by $index" ng-class="{'selected': photo.selected}">
-            <img ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl:photo.base64}}" ng-click="onGetSelectPhoto({id: photo.id, index: $index})" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
-        </li>
-    </ul>
+  <ul id="step2-lightSlider">
+    <li ng-repeat="photo in photos track by $index" ng-class="{'selected': photo.selected}">
+      <img ng-src="{{(photo.canvasDataUrl) ? photo.canvasDataUrl : photo.base64}}" draggable="true"
+           ng-click="onGetSelectPhoto({id: photo.id, index: $index})" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true"
+           data-photoId="{{photo.id}}" data-index="{{$index}}">
+    </li>
+  </ul>
 
-    <div class="custom-svg-icon right-arrow cursor-pointer">
-        <img class="gray-right-arrow" src="images/gray-right-arrow-slider.png" alt="">
-    </div>
-
+  <div class="custom-svg-icon right-arrow cursor-pointer">
+    <img class="gray-right-arrow" src="images/gray-right-arrow-slider.png" alt="">
+  </div>
 </div>

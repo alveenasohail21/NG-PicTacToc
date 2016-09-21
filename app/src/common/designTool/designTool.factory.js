@@ -48,10 +48,11 @@
       isLayoutApplied: false,
       isActionPerformable: true
     };
+
     // props to save
     var propsToIncludeForJSON = [
       'customObjectType', 'hasControls', 'hasBorders', 'selectable', 'borders',
-      'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex', 'percentValues'
+      'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex', 'percentValues', 'selectedBorder'
     ];
     var fabricCanvas;
     // fabric objects default setting
@@ -126,8 +127,8 @@
       on: on,
       // zoom
       resetZoomSettings: resetZoomSettings,
-      checkLayoutSelection: checkLayoutSelection
-
+      checkLayoutSelection: checkLayoutSelection,
+      //drag and drop events
     };
 
     /* Define Functions */
@@ -163,6 +164,7 @@
         height: dimension.height
       });
       fabricCanvas.renderAll();
+      registerCanvasEvents();
     }
 
     function initializeZoomSlider(selector){
@@ -314,6 +316,7 @@
         }
       }
       if(flags.isLayoutApplied){
+        fabricCanvas.backgroundColor="white";
         resetTool();
         // empty bkg images as well
         sectionBkgImages = [];
@@ -328,7 +331,7 @@
             case customObjectTypes.layout :
               canvasJsonObjects[customObjectTypes.layout].push(canvasJSON.objects[j]);
               break;
-            case customObjectTypes.layoutPlusSign :
+            case customObjectTypes.layoutPlusSign:
               canvasJsonObjects[customObjectTypes.layoutPlusSign].push(canvasJSON.objects[j]);
               break;
             case customObjectTypes.backgroundImage :
@@ -379,8 +382,9 @@
                   }(canvasJsonObjects[prop][b]));
                 }
                 break;
-              case customBorderTypes.layoutPlusSign:
-                for(var a= 0;a<canvasJsonObjects[prop].length;a++){
+              case customObjectTypes.layoutPlusSign:
+                console.log("plus sign", canvasJsonObjects[customObjectTypes.layoutPlusSign]);
+                for(var a=0;a<canvasJsonObjects[prop].length;a++){
                   (function(plusSignImage){
                     var img = new Image();
                     img.src = plusSignImage.src;
@@ -391,6 +395,7 @@
                 }
                 break;
               case customObjectTypes.sticker :
+                console.log(customObjectTypes.sticker);
                 for(var s=0; s<canvasJsonObjects[prop].length; s++){
                   (function(sticker){
                     var img = new Image();
@@ -491,7 +496,6 @@
 
     function getCanvasJSON(){
       var canvasJSON = fabricCanvas.toJSON(propsToIncludeForJSON);
-      // console.log('DESIGN TOOL: getCanvasJSON', canvasJSON);
       // TODO: any update in JSON, or any other process
       return canvasJSON;
     }
@@ -539,7 +543,8 @@
     // ****************************************** Toolbar methods ******************************************
 
     function applyBorder(cb){
-
+      console.log("canvas json: ", getCanvasJSON());
+      var objects = fabricCanvas.getObjects();
       // only if layout is applied
       if(flags.isLayoutApplied){
         selectedBorderIndex++;
@@ -547,7 +552,6 @@
           selectedBorderIndex = 0;
         }
         // console.log('DESIGN TOOL: applyBorder', customBorderTypes[selectedBorderIndex]);
-        var objects = fabricCanvas.getObjects();
         for(var i=0; i<objects.length; i++){
           switch(objects[i].customObjectType){
             case customObjectTypes.layout:
@@ -565,8 +569,24 @@
               break;
           }
         }
-        fabricCanvas.renderAll();
       }
+      else{
+        switch(objects[0].customObjectType){
+          case customObjectTypes.layout:
+            break;
+          case customObjectTypes.backgroundImage:
+            selectedBorderIndex=selectedBorderIndex==0 ? 1 : 0;
+            if(customBorderTypes[selectedBorderIndex]=='fullBorder'){
+              $('#canvas').addClass("single-image-border");
+            }
+            else if(customBorderTypes[selectedBorderIndex]=='noBorder'){
+              $('#canvas').removeClass("single-image-border");
+            }
+            cb(customBorderTypes[selectedBorderIndex]);
+            break;
+        }
+      }
+      fabricCanvas.renderAll();
     }
 
     function flipHorizontal(){
@@ -1511,7 +1531,7 @@
       }
       // select the new section if not already selected
       if(obj.sectionIndex != selectedSectionIndex || forcefullySelect){
-        // console.log("selecting");
+
         selectedSectionIndex = obj.sectionIndex;
         blueSelectedBoarderOffset = Defaults.strokeWidth;
         currentLayoutSections[selectedSectionIndex].set({
@@ -1526,6 +1546,7 @@
       else{
         blueSelectedBoarderOffset = 0;
         backgroundImageBoundaryCheck(obj);
+        // console.log("deselecting");
         selectedSectionIndex = -1;
         flags.isSectionSelected = false;
         fabricCanvas.deactivateAll();
@@ -1636,5 +1657,52 @@
         returnFlag=object ? true : false;
       return returnFlag;
     }
+
+    function cancel(e) {
+      // console.log(e);
+      if (e.preventDefault) { e.preventDefault(); }
+      return false;
+    }
+
+    function disableFabricObject(object){
+      object.lockMovementX=true;
+      object.lockMovementY=true;
+      object.lockScalingY=true;
+      object.lockScalingX=true;
+      object.lockRotation=true;
+      return object;
+    }
+
+    function dragOverOnCanvas(ev){
+      //handles dragover event on the canvas
+    }
+
+    function registerCanvasEvents(){
+      //registers events on canvas
+      var canvas_container= $(".canvas-container");
+      canvas_container.on('dragover', function(ev){
+        if(flags.isLayoutApplied){
+          var objectLeft=ev.originalEvent.offsetX;
+          var objectTop=ev.originalEvent.offsetY;
+          var minDistance=1000;
+          var sectionIndex;
+          currentLayoutSections.forEach(function(section, index){
+            var sectionX=section.left + (section.width/2);
+            var sectionY=section.top + (section.height/2);
+            var distance=Math.pow((sectionX - objectLeft), 2) + Math.pow((sectionY- objectTop), 2);
+            distance=Math.sqrt(distance);
+            if(distance<=minDistance){
+                minDistance=distance;
+                // minLeft=differenceLeft;
+                // minTop=differenceTop;
+                sectionIndex=index;
+              }
+          });
+          selectLayoutSection(currentLayoutSections[sectionIndex], true);
+          fabricCanvas.renderAll();
+        }
+      });
+    }
   }
 }());
+
