@@ -58,6 +58,8 @@
             }, 200);
           });
         });
+
+
       }
 
       // setup slider
@@ -80,6 +82,7 @@
 
         $('.ptt-lightSlider').css('opacity', 1);
 
+        registerSliderEvents();
       }
 
       // watch any change in photos
@@ -133,6 +136,19 @@
         // console.log("REMOVED FROM DIRECTIVE", scope.photos);
       });
 
+      function registerSliderEvents() {
+        $('ul#step2-lightSlider img').on('dragend', function(ev){
+          var imageDragged= {
+            dataset: ev.target.dataset,
+            x: ev.target.x,
+            y: ev.target.y
+          };
+          var photoId=ev.target.dataset.photoid;
+          var index=ev.target.dataset.index;
+          scope.onGetSelectPhoto({id: photoId, index: index, imageDragged: imageDragged});
+          return false;
+        });
+      }
       // call initializer
       init();
 

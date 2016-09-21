@@ -155,7 +155,6 @@
       // select the 0th index photo by default
 
       getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-
     }
 
     function toggleSidemenu(template){
@@ -321,136 +320,147 @@
 
     }
     // get the high res image for editing
-    function getSelectPhoto(id, index){
+    function getSelectPhoto(id, index, imageDragged){
+      var layoutApplied=designTool.getProp('isLayoutApplied');
+      var sectionSelected=designTool.getProp('isSectionSelected');
+      // if(imageDragged){
+      //   if(layoutApplied){
+      //     designTool.sectionToDrop(imageDragged);
+      //   }
+      // }
+      // else{
+        vm.closeSidemenu();
+        // if no section is selected then mark the index selected
+        if(!designTool.getProp('isSectionSelected')){
+          console.log(id);
 
-      // close sidemenu if open
-      vm.closeSidemenu();
-      // if no section is selected then mark the index selected
-      if(!designTool.getProp('isSectionSelected')){
-        // selected image
-        vm.myPhotos.forEach(function(photo){
-          photo.selected = false;
-        });
-        vm.myPhotos[index].selected = true;
-      }
-      // if canvas is already in editing, save current work as JSON
-      //// console.log('CTRL: designTool.getProp("isCanvasEmpty")', designTool.getProp('isCanvasEmpty'));
-      if(!designTool.getProp('isCanvasEmpty')){
-        // save the already active image with settings
-        // canvas json will have zoom value and original scale value
-
-        // var canvasJson=designTool.getCanvasJSON();
-        // vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON=canvasJson;
-        // if(!vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
-        //   vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings={};
-        // }
-        // var selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder  || 'noBorder';
-        // canvasJson['customSettings'] = {
-        //   selectedBorder : selectedBorder
-        // };
-        var canvasJson = designTool.getCanvasJSON();
-        canvasJson['customSettings'] = {
-          selectedBorder : 'noBorder'
-        };
-        if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
-          if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
-            canvasJson['customSettings'] = {
-              selectedBorder : vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder
-            };
-          }
-        }
-        updatePhotoStripWithCanvas(
-          canvasBkgImg.photoIndex,
-          canvasJson,
-          designTool.getCanvasDataUrl()
-        );
-        if(vm.myPhotos[canvasBkgImg.photoIndex].isEdited){
-          // var dataToSaveForProduct = {
-          //   photoid : vm.myPhotos[canvasBkgImg.photoIndex].id,
-          //   canvasDataUrl : designTool.getCanvasDataUrl(),
-          //   canvasJSON : designTool.getCanvasJSON()
-          // };
-          // // console.log('data to save',dataToSaveForProduct);
-          // productsFactory.addInProgressProducts(dataToSaveForProduct);
-        }
-        // working on layout
-        if(designTool.getProp('isSectionSelected')){
-          // reset only zoom
-          //designTool.resetZoomSettings();
-        }
-        // working on single photo
-        else{
-          // reset canvas + zoom
-          designTool.resetTool();         // reset zoom settings inside
-        }
-      }
-      // get photo now
-      photosFactory.getSelectedPhoto(id, index).then(function(resp){
-        // the new selected image has JSON data
-        // JSON will be loaded now, saved current work and rest tool
-        if(vm.myPhotos[index].canvasJSON ){
-          // console.log('CTRL: Loading from JSON', vm.myPhotos[index].canvasJSON);
-          // if JSON is present the current layout will be cleared
-          designTool.resetTool();
-          // update index
-          canvasBkgImg.photoIndex = index;
-          // load
-          designTool.loadFromJSON(vm.myPhotos[index].canvasJSON, function(loadedImage){
-            // caman image for filter
-            var img = new Image();
-            img.onload = function(){
-              updateCamanCanvas(img);
-            };
-            img.src = resp.base64 ? resp.base64 : loadedImage;
-            // save image data & filter widget will update filters
-            saveSelectedPhoto(vm.myPhotos[index], resp);
+          // selected image
+          vm.myPhotos.forEach(function(photo){
+            photo.selected = false;
           });
-          vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
-          if(!designTool.getProp('isLayoutApplied')){
-            if(vm.selectedBorder=='fullBorder'){
-              $('#canvas').addClass("single-image-border");
-            }
-            else if(vm.selectedBorder=='noBorder'){
-              $('#canvas').removeClass("single-image-border");
+          vm.myPhotos[index].selected = true;
+        }
+        // if canvas is already in editing, save current work as JSON
+        //// console.log('CTRL: designTool.getProp("isCanvasEmpty")', designTool.getProp('isCanvasEmpty'));
+        if(!designTool.getProp('isCanvasEmpty')){
+          // save the already active image with settings
+          // canvas json will have zoom value and original scale value
+
+          // var canvasJson=designTool.getCanvasJSON();
+          // vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON=canvasJson;
+          // if(!vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
+          //   vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings={};
+          // }
+          // var selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder  || 'noBorder';
+          // canvasJson['customSettings'] = {
+          //   selectedBorder : selectedBorder
+          // };
+          var canvasJson = designTool.getCanvasJSON();
+          canvasJson['customSettings'] = {
+            selectedBorder : 'noBorder'
+          };
+          if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
+            if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
+              canvasJson['customSettings'] = {
+                selectedBorder : vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder
+              };
             }
           }
+          updatePhotoStripWithCanvas(
+            canvasBkgImg.photoIndex,
+            canvasJson,
+            designTool.getCanvasDataUrl()
+          );
+          if(vm.myPhotos[canvasBkgImg.photoIndex].isEdited){
+            // var dataToSaveForProduct = {
+            //   photoid : vm.myPhotos[canvasBkgImg.photoIndex].id,
+            //   canvasDataUrl : designTool.getCanvasDataUrl(),
+            //   canvasJSON : designTool.getCanvasJSON()
+            // };
+            // // console.log('data to save',dataToSaveForProduct);
+            // productsFactory.addInProgressProducts(dataToSaveForProduct);
+          }
+          // working on layout
+          if(designTool.getProp('isSectionSelected')){
+            // reset only zoom
+            //designTool.resetZoomSettings();
+          }
+          // working on single photo
           else{
-            console.log(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder);
-            $('#canvas').removeClass("single-image-border");
+            // reset canvas + zoom
+            designTool.resetTool();         // reset zoom settings inside
           }
         }
-        // new image -> single photo / adding to current layout
-        else{
-          // console.log('CTRL: Loading new Image');
-          // update index
-          if(!designTool.getProp('isSectionSelected')){
+        // get photo now
+        photosFactory.getSelectedPhoto(id, index).then(function(resp){
+          // the new selected image has JSON data
+          // JSON will be loaded now, saved current work and rest tool
+          if(vm.myPhotos[index].canvasJSON ){
+            // console.log('CTRL: Loading from JSON', vm.myPhotos[index].canvasJSON);
+            // if JSON is present the current layout will be cleared
+            designTool.resetTool();
+            // update index
             canvasBkgImg.photoIndex = index;
-          }
-          designTool.loadBkgImage(resp, {photoIndex: index, currentFilter: 'normal'}, function(loadedImage){
-            $timeout(function(){
+            // load
+            designTool.loadFromJSON(vm.myPhotos[index].canvasJSON, function(loadedImage){
               // caman image for filter
-              updateCamanCanvas(loadedImage);
+              var img = new Image();
+              img.onload = function(){
+                updateCamanCanvas(img);
+              };
+              img.src = resp.base64 ? resp.base64 : loadedImage;
               // save image data & filter widget will update filters
               saveSelectedPhoto(vm.myPhotos[index], resp);
-              // udpate photo strip in case working on layout
-              if(designTool.getProp('isSectionSelected')){
-                console.log("layout testing");
-
-                updatePhotoStripWithCanvas(
-                  canvasBkgImg.photoIndex,
-                  designTool.getCanvasJSON(),
-                  designTool.getCanvasDataUrl()
-                );
-              }
-              else{
-                vm.selectedBorder='noBorder';
-              }
-              $('#canvas').removeClass("single-image-border");
             });
-          });
-        }
-      }, function(err){
-      });
+            vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
+            if(!designTool.getProp('isLayoutApplied')){
+              if(vm.selectedBorder=='fullBorder'){
+                $('#canvas').addClass("single-image-border");
+              }
+              else if(vm.selectedBorder=='noBorder'){
+                $('#canvas').removeClass("single-image-border");
+              }
+            }
+            else{
+              console.log(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder);
+              $('#canvas').removeClass("single-image-border");
+            }
+          }
+          // new image -> single photo / adding to current layout
+          else{
+            // console.log('CTRL: Loading new Image');
+            // update index
+            if(!designTool.getProp('isSectionSelected')){
+              canvasBkgImg.photoIndex = index;
+            }
+            designTool.loadBkgImage(resp, {photoIndex: index, currentFilter: 'normal'}, function(loadedImage){
+              $timeout(function(){
+                // caman image for filter
+                updateCamanCanvas(loadedImage);
+                // save image data & filter widget will update filters
+                saveSelectedPhoto(vm.myPhotos[index], resp);
+                // udpate photo strip in case working on layout
+                if(designTool.getProp('isSectionSelected')){
+                  console.log("layout testing");
+
+                  updatePhotoStripWithCanvas(
+                    canvasBkgImg.photoIndex,
+                    designTool.getCanvasJSON(),
+                    designTool.getCanvasDataUrl()
+                  );
+                }
+                else{
+                  vm.selectedBorder='noBorder';
+                }
+                $('#canvas').removeClass("single-image-border");
+              });
+            });
+          }
+        }, function(err){
+        });
+      // }
+      // close sidemenu if open
+
     }
 
     function updateCamanCanvas(img){
@@ -747,6 +757,8 @@
       };
       vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON=canvasJson;
     }
+    // controller
+
 
     /* Initializer Call */
 
