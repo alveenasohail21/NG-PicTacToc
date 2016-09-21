@@ -18,7 +18,7 @@
     .directive('themeCustomizer', themeCustomizer);
 
   /* @ngInject */
-  function themeCustomizer($localStorage){
+  function themeCustomizer($localStorage,$timeout){
 
     return {
       link: link,
@@ -32,11 +32,11 @@
       var themeBase="ptt-dropdown-color-";
       var initialTheme=$localStorage.theme || 1;
       $localStorage.theme=$localStorage.theme ? $localStorage.theme : 1;
-
+      console.log('theme :: ',initialTheme);
       //add dark shadows for dark themes
       function addThemeShadow(){
         $('.navbar').addClass('theme-box-shadow');
-        $('.step2-lightSlider').addClass('theme-box-shadow');
+        $('.step2-lightSlider').addClass('lightSlider-box-shadow');
         $('#ptt-sidebar-wrapper').addClass('theme-box-shadow');
         $('.thumbs-collapse-btn').addClass('theme-box-shadow');
         $('.ptt-sidebar-2-close').addClass('theme-box-shadow');
@@ -47,7 +47,7 @@
       function removeThemeShadow(){
         $('.navbar').removeClass('theme-box-shadow');
         $('#ptt-sidebar-wrapper').removeClass('theme-box-shadow');
-        $('.step2-lightSlider').removeClass('theme-box-shadow');
+        $('.step2-lightSlider').removeClass('lightSlider-box-shadow');
         $('.ptt-sidebar-2-close').removeClass('theme-box-shadow');
         $('.sidemenu-filters').removeClass('theme-box-shadow');
       }
@@ -71,7 +71,9 @@
         changeTheme(selected);
       };
 
-      changeTheme(initialTheme);
+      $timeout(function(){
+        changeTheme(initialTheme)
+      },300)
     }
   }
 }());

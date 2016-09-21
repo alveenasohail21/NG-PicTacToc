@@ -1658,19 +1658,19 @@
         if(flags.isLayoutApplied){
           var objectLeft=ev.originalEvent.offsetX;
           var objectTop=ev.originalEvent.offsetY;
-          var minLeft=1000;
-          var minTop=1000;
+          var minDistance=1000;
           var sectionIndex;
           currentLayoutSections.forEach(function(section, index){
-            var differenceLeft=objectLeft-section.left;
-            var differenceTop=objectTop-section.top;
-            if(differenceLeft>0 && differenceTop>0){
-              if(differenceTop<=minTop && differenceLeft<=minLeft){
-                minLeft=differenceLeft;
-                minTop=differenceTop;
+            var sectionX=section.left + (section.width/2);
+            var sectionY=section.top + (section.height/2);
+            var distance=Math.pow((sectionX - objectLeft), 2) + Math.pow((sectionY- objectTop), 2);
+            distance=Math.sqrt(distance);
+            if(distance<=minDistance){
+                minDistance=distance;
+                // minLeft=differenceLeft;
+                // minTop=differenceTop;
                 sectionIndex=index;
               }
-            }
           });
           selectLayoutSection(currentLayoutSections[sectionIndex], true);
           fabricCanvas.renderAll();
