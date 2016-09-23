@@ -44,6 +44,7 @@
   <ul id="step2-lightSlider">
     <li ng-repeat="photo in photos track by $index" ng-class="{'selected': photo.selected}">
       <img ng-src="{{(photo.canvasDataUrl) ? photo.canvasDataUrl : photo.base64}}" draggable="true"
+           id="photo{{$index}}"
            ng-click="onGetSelectPhoto({id: photo.id, index: $index})" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true"
            data-photoId="{{photo.id}}" data-index="{{$index}}">
     </li>
