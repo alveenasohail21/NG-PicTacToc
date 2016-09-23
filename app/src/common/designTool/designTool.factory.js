@@ -679,19 +679,25 @@
       var object= fabricCanvas.getActiveObject();
       var isBkgImg = false;
       // if no object is selected and no layout is applied, select the background image
+
       if(!object && !flags.isLayoutApplied){
         object = findByProps({
           customObjectType: customObjectTypes.backgroundImage
         });
         object.center();
       }
+      else if(!object && !flags.isSectionSelected){
+        return;
+      }
       // if no object is selected but layout is applied, select the background image for the selected section
       else if(!object && flags.isLayoutApplied){
         object = findByProps({
           sectionIndex: selectedSectionIndex,
           customObjectType: customObjectTypes.backgroundImage
-        })
+        });
+        if(!object) return;
       }
+
       switch(object.customObjectType){
         case customObjectTypes.backgroundImage:
           isBkgImg = true;
@@ -742,13 +748,18 @@
         });
         object.center();
       }
+      else if(!object && !flags.isSectionSelected){
+        return;
+      }
       // if no object is selected but layout is applied, select the background image for the selected section
       else if(!object && flags.isLayoutApplied){
         object = findByProps({
           sectionIndex: selectedSectionIndex,
           customObjectType: customObjectTypes.backgroundImage
-        })
+        });
+        if(!object) return;
       }
+
       switch(object.customObjectType){
         case customObjectTypes.backgroundImage:
           isBkgImg = true;

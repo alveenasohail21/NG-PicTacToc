@@ -416,7 +416,7 @@ body.app {
   }
 
   img.social-loader{
-    margin: 11px 20px 0px -25px !important;
+    margin: 0 20px 0px -25px !important;
     animation: loader 0.82s cubic-bezier(.36,.07,.19,.97) infinite;
     transform: rotate(360deg);
     backface-visibility: hidden;
