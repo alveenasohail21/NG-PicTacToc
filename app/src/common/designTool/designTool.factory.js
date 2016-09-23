@@ -23,6 +23,107 @@
       backgroundImage: 'BackgroundImage',
       layoutPlusSign: 'LayoutPlusSign'
     };
+    const imageStudioTag = "#image-studio";
+    const imageStudioElement = "#image-studio > .element";
+    const imageStudioElementEditor = "#image-studio > .element > .editor";
+    const zoombar = 'div.zoomBar';
+    const toolBar = 'div.toolbar';
+    const actionIcon5 = '.action-icons-5';
+    const actionIcon4= '.action-icons-4';
+    const canvasSize = {
+      SMALL : 'small',
+      MEDIUM : 'medium',
+      LARGE : 'large'
+    };
+    const canvasTypes = {
+      REGULAR : {
+        name : 'regular',
+        small : {
+          horizontal : {
+            width : 1800,
+            height : 1200
+          },
+          vertical : {
+            width : 1800,
+            height : 1200
+          }
+        },
+        medium : {
+          horizontal : {
+            width : 2100,
+            height : 1500
+          },
+          vertical : {
+            width : 1500,
+            height : 2100
+          }
+        },
+        large : {
+          horizontal : {
+            width : 2400,
+            height : 1800
+          },
+          vertical : {
+            width : 1800,
+            height : 2400
+          }
+        }
+      },
+      SQUARE : {
+        name : 'square',
+        small : {
+          dimensions : {
+            width : 1200,
+            height : 1200
+          }
+        },
+        medium : {
+          dimensions : {
+            width : 1800,
+            height : 1800
+          }
+        },
+        large : {
+          dimensions: {
+            width: 2400,
+            height: 2400
+          }
+        }
+      },
+      ENLARGE : {
+        name :  'enlarge',
+        small : {
+          horizontal : {
+            width : 3600,
+            height : 2400
+          },
+          vertical : {
+            width : 2400,
+            height : 3600
+          }
+        },
+        medium : {
+          horizontal : {
+            width : 3600,
+            height : 3000
+          },
+          vertical : {
+            width : 3000,
+            height : 3600
+          }
+        },
+        large : {
+          horizontal : {
+            width : 4800,
+            height : 3600
+          },
+          vertical : {
+            width : 3600,
+            height : 4800
+          }
+        }
+      }
+    };
     const customBorderTypes = [
       'noBorder', 'fullBorder', 'innerBorder', 'outerBorder'
     ];
@@ -42,6 +143,8 @@
     var selectedBorderIndex = 0;
     var currentLayout = null;
     var blueSelectedBoarderOffset =  5;
+    var currentSelectedCanvasType =  canvasTypes.SQUARE;
+    var currentSelectedCanvasSize = canvasSize.SMALL;
     var flags = {
       isCanvasEmpty: true,
       isSectionSelected: false,
@@ -52,7 +155,8 @@
     // props to save
     var propsToIncludeForJSON = [
       'customObjectType', 'hasControls', 'hasBorders', 'selectable', 'borders',
-      'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex', 'percentValues', 'selectedBorder'
+      'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex', 'percentValues', 'selectedBorder','originalWidth',
+      'originalHeight'
     ];
     var fabricCanvas;
     // fabric objects default setting
@@ -72,6 +176,7 @@
     var zoomSlider;
     // current selected object (only for opacity)
     var currentSelectedObject = null;
+    var scaleFactor;
 
     /*
      * Custom Events
@@ -81,6 +186,21 @@
       imageEdited: 'image:edited',
       canvasDimensionChanged : 'canvas:dimensionChanged',
       layoutSectionToggle: 'layout:sectionToggle'
+    };
+    // canvas parent div
+    var element = {
+      original:{
+        height: 459,
+        width: 459
+      },
+      current:{
+        height: $(imageStudioElement).height(),
+        width: $(imageStudioElement).width()
+      },
+      previous: {
+        height: null,
+        width: null
+      }
     };
     var customEvents = new EventChannel();
     for (var event in customEventsList) {
@@ -128,6 +248,12 @@
       // zoom
       resetZoomSettings: resetZoomSettings,
       checkLayoutSelection: checkLayoutSelection,
+      deselectLayoutAllSections : deselectLayoutAllSections,
+      // change Canvas
+      changeCanvas  : changeCanvas,
+      changeCanvasSize : changeCanvasSize,
+      updateImageEditorSize : updateImageEditorSize,
+      updateImageEditorForCanvasChange : updateImageEditorForCanvasChange
       //drag and drop events
     };
 
@@ -145,6 +271,7 @@
 
     function onDOMLoad(){
       // console.log('DESIGN TOOL: onDOMLoad');
+      setDimensions(element.original);
       fabricCanvas.selectionColor = 'rgba(101,224,228,0.5)';
       fabricCanvas.selectionBorderColor = 'white';
       fabricCanvas.selectionLineWidth = 1;
@@ -155,6 +282,142 @@
       bindFabricEvents();
       // bind keyboard events
       bindKeyboardEvents();
+    }
+
+    function updateImageEditorSize(){
+
+      var imageStudio = {
+        height: $(imageStudioTag).height(),
+        width: $(imageStudioTag).width()
+      };
+      var updateValue = 0;
+
+      // Formula for aspect ratio equality calculation
+      // (original height / original width) = (new height / new width)
+
+      // if image studio height is small
+      if(imageStudio.height < imageStudio.width){
+        // new width = (new height)/(original height / original width)
+        updateValue = (imageStudio.height)/(element.original.height/element.original.width);
+        ////// console.log("height is small");
+      }
+      // else if image studio width is small
+      else if(imageStudio.width < imageStudio.height){
+        // new height = (original height / original width) x (new width)
+        updateValue = (element.original.height/element.original.width) * (imageStudio.width);
+        ////// console.log("width is small");
+      }
+
+      // update css
+      ////// console.log("change height and width to: ", updateValue);
+      $(imageStudioElement).width(updateValue);
+      $(imageStudioElement).height(updateValue);
+      $(imageStudioElement).css({
+        'margin-left': '-' + Number((updateValue/2)+33) + 'px',
+        'left': '50%'
+      });
+
+      // set zoom and dimensions of canvas
+      // got from canvas test
+      scaleFactor = updateValue/element.original.width;
+      //// console.log("--- FACTOR SCALE ---", scaleFactor);
+      setDimensions({
+        width: updateValue,
+        height: updateValue
+      });
+      element.previous.height = updateValue;
+      element.previous.width = updateValue;
+      element.current.height = updateValue;
+      element.current.width = updateValue;
+    }
+
+    function updateImageEditorForCanvasChange (canvasType){
+
+      var updateHeight = 0;
+      var updateWidth = 0;
+      var imageStudio = {
+        width : $(imageStudioTag).width(),
+        height : $(imageStudioTag).height()
+      };
+      canvasType = canvasType || currentSelectedCanvasType;
+      // Formula for aspect ratio equality calculation
+      // (original height / original width) = (new height / new width)
+      switch (canvasType){
+        case canvasTypes.ENLARGE.name :
+        case canvasTypes.REGULAR.name :
+          if(flags.isLayoutApplied) {
+            // do size horizontal for layouts
+            selectedSize = canvasType == canvasTypes.REGULAR.name ? canvasTypes.REGULAR[currentSelectedCanvasSize].horizontal : canvasTypes.ENLARGE[currentSelectedCanvasSize].horizontal;
+            if (imageStudio.width < imageStudio.height) {
+              updateWidth = imageStudio.width;
+              updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
+            }
+            else {
+              updateHeight = imageStudio.height;
+              updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
+            }
+          }
+          else {
+            var object = findByProps({
+              customObjectType: customObjectTypes.backgroundImage
+            });
+            // if image  width is small go for vertical canvas
+            if(object.originalWidth < object.originalHeight){
+              // new height = (original height / original width) x (new width)
+              var selectedSize = canvasType == canvasTypes.REGULAR.name ? canvasTypes.REGULAR[currentSelectedCanvasSize].vertical: canvasTypes.ENLARGE[currentSelectedCanvasSize].vertical;
+              if(imageStudio.width < imageStudio.height){
+                updateWidth =  imageStudio.width;
+                updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
+              }
+              else {
+                updateHeight =  imageStudio.height;
+                updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
+              }
+            }
+            // else image  width is large go for horizontal canvas
+            else {
+              // new width = (new height)/(original height / original width)
+              selectedSize = canvasType == canvasTypes.REGULAR.name ? canvasTypes.REGULAR[currentSelectedCanvasSize].horizontal: canvasTypes.ENLARGE[currentSelectedCanvasSize].horizontal;
+              if(imageStudio.width < imageStudio.height){
+                updateWidth =  imageStudio.width;
+                updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
+              }
+              else {
+                updateHeight =  imageStudio.height;
+                updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
+              }
+            }
+          }
+          break;
+        default :
+          selectedSize = canvasTypes.SQUARE[currentSelectedCanvasSize].dimensions;
+          if(imageStudio.width < imageStudio.height){
+            updateWidth =  imageStudio.width;
+            updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
+          }
+          else {
+            updateHeight =  imageStudio.height;
+            updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
+          }
+          break;
+      }
+      // update css
+      ///// console.log("change height and width to: ", updateValue);
+      $(imageStudioElement).width(updateWidth);
+      $(imageStudioElement).height(updateHeight);
+      $(imageStudioElement).css({
+        'margin-left': '-' + Number((updateWidth/2)+33) + 'px',
+        'left': '50%'
+      });
+      setDimensions({
+        width:  updateWidth,
+        height: updateHeight
+      });
+      element.previous.height = updateHeight;
+      element.previous.width = updateWidth;
+      if(flags.isLayoutApplied){
+        reApplyLayouts(currentLayout);
+      }
     }
 
     function setDimensions(dimension){
@@ -209,7 +472,7 @@
     }
 
     function loadBkgImage(image, propsToAdd, cb){
-      // console.log('DESIGN TOOL: loadBkgImage');
+      // console.log('DESIGN TOOL: loadBkgImage');;
       var img = new Image();
       img.onload = function(){
         // image settings
@@ -218,7 +481,9 @@
           customObjectType: customObjectTypes.backgroundImage,
           renderOnAddRemove: false,
           hasControls: false,
-          zoom: Defaults.zoom
+          zoom: Defaults.zoom,
+          originalWidth : this.naturalWidth,
+          originalHeight : this.naturalHeight
         });
         // fabric default settings
         fabricImage.set(fabricObjSettings);
@@ -394,7 +659,6 @@
                 }
                 break;
               case customObjectTypes.sticker :
-                console.log(customObjectTypes.sticker);
                 for(var s=0; s<canvasJsonObjects[prop].length; s++){
                   (function(sticker){
                     var img = new Image();
@@ -453,6 +717,7 @@
             switch(obj.customObjectType){
               case customObjectTypes.backgroundImage:
                 loadedImage = obj.toDataURL();
+                // // fabric default settings
                 // position
                 // scale
                 // clipping
@@ -932,16 +1197,17 @@
 
     function applyLayout(layout, cb){
       // console.log('DESIGN TOOL: applyLayout', layout);
-
-      if(currentLayout === layout.name){
-        resetTool();
-        currentLayout = null;
-        flags.isLayoutApplied = false;
-        cb(true,sectionBkgImages[0].photoIndex);
-        return;
+      if(flags.isLayoutApplied){
+        if(currentLayout.name === layout.name){
+          resetTool();
+          currentLayout = null;
+          flags.isLayoutApplied = false;
+          cb(true,sectionBkgImages[0].photoIndex);
+          return;
+        }
       }
-
-      currentLayout = layout.name;
+      currentLayout = layout;
+      var stickerAndText = extractStickersAndTexts();
       var layoutSectionsCloned = angular.copy(layout.data);
       // change bkg color
       fabricCanvas.backgroundColor = 'white';
@@ -974,11 +1240,15 @@
         if(typeof sectionBkgImages[currentLayoutSections.length-1] !== 'undefined'){
           sectionBkgImages[currentLayoutSections.length-1] = addBkgImageToSection(sectionBkgImages[currentLayoutSections.length-1], currentLayoutSections.length-1);
           fabricCanvas.add(sectionBkgImages[currentLayoutSections.length-1]);
+          if(index == layoutSectionsCloned.length-1){
+            loadStickersAndTexts(stickerAndText);
+          }
           // render
           fabricCanvas.renderAll();
           fabricCanvas.deactivateAll();
           // if last layout
           if(index == layoutSectionsCloned.length-1){
+            loadStickersAndTexts(stickerAndText);
             if(cb && !cbCalled){
               cbCalled = true;
               cb(false);
@@ -1005,16 +1275,97 @@
                 sectionIndex: index
               });
               fabricCanvas.add(pug);
+              if(index == layoutSectionsCloned.length-1){
+                loadStickersAndTexts(stickerAndText);
+              }
               // render
               fabricCanvas.renderAll();
               fabricCanvas.deactivateAll();
               // if last layout
               if(index == layoutSectionsCloned.length-1){
+                loadStickersAndTexts(stickerAndText);
                 if(cb && !cbCalled){
                   cbCalled = true;
                   cb(false);
                 }
               }
+            }(img, elem, index));
+          };
+          pugImg.src = 'images/white-cross.png';
+        }
+      });
+      flags.isLayoutApplied = true;
+    }
+
+    function reApplyLayouts(layout) {
+      currentLayout = layout;
+      var stickerAndText = extractStickersAndTexts();
+      var layoutSectionsCloned = angular.copy(layout.data);
+      // change bkg color
+      fabricCanvas.backgroundColor = 'white';
+      // straighten the sectionBkgImages array
+      sectionBkgImages = straightArray(sectionBkgImages, layoutSectionsCloned.length);
+      // empty local layout sections
+      // clear canvas
+      // hide customizer
+      resetTool();
+      // apply layout
+      layoutSectionsCloned.forEach(function(elem, index){
+        // convert the percentage values to pixel values
+        elem.top = fabricCanvas.getHeight()*elem.percentValues.top;
+        elem.left = fabricCanvas.getWidth()*elem.percentValues.left;
+        elem.height = fabricCanvas.getHeight()*elem.percentValues.height;
+        elem.width = fabricCanvas.getWidth()*elem.percentValues.width;
+        // add the clipping rect to canvas
+        var clipRect = new fabric.Rect(elem);
+        clipRect.set({
+          clipFor: 'bkgImage'+currentLayoutSections.length,
+          alwaysBack: true,
+          customObjectType: customObjectTypes.layout,
+          sectionIndex: index
+        });
+        // push to local layout sections
+        currentLayoutSections.push(clipRect);
+        fabricCanvas.add(clipRect);
+        // if bkg image is present add it too
+        if(typeof sectionBkgImages[currentLayoutSections.length-1] !== 'undefined'){
+          sectionBkgImages[currentLayoutSections.length-1] = addBkgImageToSection(sectionBkgImages[currentLayoutSections.length-1], currentLayoutSections.length-1);
+          fabricCanvas.add(sectionBkgImages[currentLayoutSections.length-1]);
+          if(index == layoutSectionsCloned.length-1){
+            loadStickersAndTexts(stickerAndText);
+          }
+          // render
+          fabricCanvas.renderAll();
+          fabricCanvas.deactivateAll();
+        }
+        // add the plus icon to rectangle
+        else{
+          var pugImg = new Image();
+          pugImg.onload = function(img){
+            (function(img, elem, index){
+              var pug = new fabric.Image(pugImg, {
+                angle: 0,
+                width: Defaults.plusIconSizeForLayoutSections,
+                height: Defaults.plusIconSizeForLayoutSections,
+                left: elem.left + elem.width/2 - Defaults.plusIconSizeForLayoutSections/2,
+                top: elem.top + elem.height/2 - Defaults.plusIconSizeForLayoutSections/2,
+                scaleX: 1,
+                scaleY: 1,
+                selectable: false,
+                hasControls: false,
+                hasBorders: false,
+                customObjectType: customObjectTypes.layoutPlusSign,
+                sectionIndex: index
+              });
+              fabricCanvas.add(pug);
+              // if last layout
+              if(index == layoutSectionsCloned.length-1){
+                loadStickersAndTexts(stickerAndText);
+              }
+              // render
+              fabricCanvas.renderAll();
+              fabricCanvas.deactivateAll();
+
             }(img, elem, index));
           };
           pugImg.src = 'images/white-cross.png';
@@ -1333,7 +1684,6 @@
     // Background Image Boundary Check and Position Update
     function backgroundImageBoundaryCheck(obj) {
       // // console.log('DESIGN TOOL: backgroundImageBoundaryCheck');
-      console.log('djs',obj);
       var bounds = obj.getBoundingRect();
       var area;
       var objBounds = obj.getBoundingRect();
@@ -1702,17 +2052,51 @@
             var distance=Math.pow((sectionX - objectLeft), 2) + Math.pow((sectionY- objectTop), 2);
             distance=Math.sqrt(distance);
             if(distance<=minDistance){
-                minDistance=distance;
-                // minLeft=differenceLeft;
-                // minTop=differenceTop;
-                sectionIndex=index;
-              }
+              minDistance=distance;
+              // minLeft=differenceLeft;
+              // minTop=differenceTop;
+              sectionIndex=index;
+            }
           });
           selectLayoutSection(currentLayoutSections[sectionIndex], true);
           fabricCanvas.renderAll();
         }
       });
     }
+
+    // Change Canvas
+    function changeCanvas(canvasType) {
+      currentSelectedCanvasType = canvasType;
+      currentSelectedCanvasSize = canvasSize.SMALL;
+      updateImageEditorForCanvasChange(canvasType);
+    }
+
+    // Change Canvas Size
+    function changeCanvasSize(canvasSize) {
+      currentSelectedCanvasSize = canvasSize;
+      updateImageEditorForCanvasChange(currentSelectedCanvasType);
+    }
+
+    // extract Sticks and Text from Canvas
+    function extractStickersAndTexts() {
+      var objects = fabricCanvas.getObjects();
+      var returnArr = [];
+      for(var i = 0; i<objects.length; i++ ){
+        if(objects[i].customObjectType === customObjectTypes.sticker || objects[i].customObjectType === customObjectTypes.text){
+          returnArr.push(objects[i]);
+        }
+      }
+      return returnArr;
+    }
+
+    // load Stickers and Text into Canvas
+    function loadStickersAndTexts(stickerTextArr) {
+      for(var i =0; i<stickerTextArr.length; i++){
+        fabricCanvas.add(stickerTextArr[i]);
+      }
+    }
+
+
   }
 }());
 

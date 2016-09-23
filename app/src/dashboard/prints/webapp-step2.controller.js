@@ -28,33 +28,21 @@
       dimension: '260x260'
     };
     vm.activeSidemenuItem = null;
-
+    vm.selectedCanvasType = 'square';
+    vm.selectedSizeOfCanvas = 'small';
     vm.selectedPhoto = {
       thumbnail: null,
       original: null,
       filter: null
     };
-    // canvas parent div
-    var element = {
-      original:{
-        height: 459,
-        width: 459
-      },
-      current:{
-        height: $("#image-studio .element").height(),
-        width: $("#image-studio .element").width()
-      },
-      previous: {
-        height: null,
-        width: null
-      }
-    };
+
     // zoom slider
     var zoomSlider;
     var originalScale = {
       x: 0,
       y: 0
     };
+
     // canvas
     var canvasImage = new Image();
     canvasImage.crossOrigin = '';
@@ -120,7 +108,9 @@
     vm.goToState = goToState;
     // Deselect layouts
     vm.deSelectLayout = deSelectLayout;
-
+    //Resize Canvas When different Canvas is Changed
+    vm.changeCanvas = changeCanvas;
+    vm.changeCanvasSize = changeCanvasSize;
 
     /* Initializer */
     function init(){
@@ -145,12 +135,12 @@
       });
 
       $(document).ready(function(){
-        designTool.setDimensions(element.original);
+
         designTool.onDOMLoad();
         // initialize zoom slider
         designTool.initializeZoomSlider("#ex4");
         // update image studio .element css
-        updateImageEditorSize(null, true);
+        designTool.updateImageEditorSize();
       });
 
       // select the 0th index photo by default
@@ -239,59 +229,9 @@
     }
 
     // resize event
-    $(window).resize(updateImageEditorSize);
-
-    function updateImageEditorSize(event, runningFirstTime){
-      ////// console.log("resizing :)");
-      var imageStudio = {
-        height: $("#image-studio").height(),
-        width: $("#image-studio").width()
-      };
-
-      var updateValue = 0;
-
-      // Formula for aspect ratio equality calculation
-      // (original height / original width) = (new height / new width)
-
-      // if image studio height is small
-      if(imageStudio.height < imageStudio.width){
-        // new width = (new height)/(original height / original width)
-        updateValue = (imageStudio.height)/(element.original.height/element.original.width);
-        ////// console.log("height is small");
-      }
-      // else if image studio width is small
-      else if(imageStudio.width < imageStudio.height){
-        // new height = (original height / original width) x (new width)
-        updateValue = (element.original.height/element.original.width) * (imageStudio.width);
-        ////// console.log("width is small");
-      }
-
-      // update css
-      ////// console.log("change height and width to: ", updateValue);
-      $("#image-studio .element").width(updateValue);
-      $("#image-studio .element").height(updateValue);
-      $("#image-studio .element").css({
-        'margin-left': '-' + Number((updateValue/2)+33) + 'px',
-        'left': '50%'
-      });
-
-      // set zoom and dimensions of canvas
-      // got from canvas test
-      scaleFactor = updateValue/element.original.width;
-      //// console.log("--- FACTOR SCALE ---", scaleFactor);
-      if(scallingFirstTime){
-        //fabricCanvas.setZoom((scaleFactor*scaleConstant));
-      }
-      else{
-        //fabricCanvas.setZoom(fabricCanvas.getZoom() + (scaleFactor*scaleConstant));
-      }
-      designTool.setDimensions({
-        width: updateValue,
-        height: updateValue
-      });
-      element.previous.height = updateValue;
-      element.previous.width = updateValue;
-    }
+    $(window).resize(function(){
+      designTool.updateImageEditorSize();
+    });
 
     /************************************* MANIPULATE DOM *************************************/
     function manipulateDOM(){
@@ -331,7 +271,7 @@
       var layoutApplied=designTool.getProp('isLayoutApplied');
       var sectionSelected=designTool.getProp('isSectionSelected');
       vm.closeSidemenu();
-     vm.deSelectLayout();
+      vm.deSelectLayout();
       // if no section is selected then mark the index selected
       if(!designTool.getProp('isSectionSelected')){
         // selected image
@@ -341,45 +281,40 @@
         vm.myPhotos[index].selected = true;
       }
       // if canvas is already in editing, save current work as JSON
-      //// console.log('CTRL: designTool.getProp("isCanvasEmpty")', designTool.getProp('isCanvasEmpty'));
       if(!designTool.getProp('isCanvasEmpty')){
-        // save the already active image with settings
-        // canvas json will have zoom value and original scale value
 
-        // var canvasJson=designTool.getCanvasJSON();
-        // vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON=canvasJson;
-        // if(!vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
-        //   vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings={};
-        // }
-        // var selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder  || 'noBorder';
-        // canvasJson['customSettings'] = {
-        //   selectedBorder : selectedBorder
-        // };
-        var canvasJson = designTool.getCanvasJSON();
-        canvasJson['customSettings'] = {
-          selectedBorder : 'noBorder'
-        };
-        if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
-          if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
-            canvasJson['customSettings'] = {
-              selectedBorder : vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder
-            };
+        if(vm.myPhotos[canvasBkgImg.photoIndex].isEdited) {
+          // save the already active image with settings
+          // canvas json will have zoom value and original scale value
+          // deselect canvas
+          var canvasJson = designTool.getCanvasJSON();
+          canvasJson['customSettings'] = {
+            selectedBorder : 'noBorder'
+          };
+          if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
+            if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
+              canvasJson['customSettings'] = {
+                selectedBorder : vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder
+              };
+
+            }
           }
+          updatePhotoStripWithCanvas(
+            canvasBkgImg.photoIndex,
+            canvasJson,
+            designTool.getCanvasDataUrl()
+          );
+
         }
-        updatePhotoStripWithCanvas(
-          canvasBkgImg.photoIndex,
-          canvasJson,
-          designTool.getCanvasDataUrl()
-        );
-        if(vm.myPhotos[canvasBkgImg.photoIndex].isEdited){
-          // var dataToSaveForProduct = {
-          //   photoid : vm.myPhotos[canvasBkgImg.photoIndex].id,
-          //   canvasDataUrl : designTool.getCanvasDataUrl(),
-          //   canvasJSON : designTool.getCanvasJSON()
-          // };
-          // // console.log('data to save',dataToSaveForProduct);
-          // productsFactory.addInProgressProducts(dataToSaveForProduct);
-        }
+
+        // var dataToSaveForProduct = {
+        //   photoid : vm.myPhotos[canvasBkgImg.photoIndex].id,
+        //   canvasDataUrl : designTool.getCanvasDataUrl(),
+        //   canvasJSON : designTool.getCanvasJSON()
+        // };
+        // // console.log('data to save',dataToSaveForProduct);
+        // productsFactory.addInProgressProducts(dataToSaveForProduct);
+
         // working on layout
         if(designTool.getProp('isSectionSelected')){
           // reset only zoom
@@ -411,6 +346,7 @@
             img.src = resp.base64 ? resp.base64 : loadedImage;
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
+            designTool.updateImageEditorForCanvasChange(null);
           });
           vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
           if(!designTool.getProp('isLayoutApplied')){
@@ -440,8 +376,7 @@
               saveSelectedPhoto(vm.myPhotos[index], resp);
               // udpate photo strip in case working on layout
               if(designTool.getProp('isSectionSelected')){
-                console.log("layout testing");
-
+                designTool.deselectLayoutAllSections();
                 updatePhotoStripWithCanvas(
                   canvasBkgImg.photoIndex,
                   designTool.getCanvasJSON(),
@@ -452,9 +387,11 @@
                 vm.selectedBorder='noBorder';
               }
               $('#canvas').removeClass("single-image-border");
+              designTool.updateImageEditorForCanvasChange(null);
             });
           });
         }
+
       }, function(err){
       });
 
@@ -468,6 +405,7 @@
       $('#caman-canvas').remove();
       // set new caman canvas
       $(img).css('z-index', '-10');
+      $(img).css('margin-top', '4000px');
       $(img).attr('id', 'caman-canvas');
       $('.editor').append(img);
     }
@@ -777,6 +715,22 @@
       };
       vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON=canvasJson;
     }
+
+    // Change Canvas
+
+    function changeCanvas(canvasType) {
+      vm.selectedCanvasType = canvasType;
+      designTool.changeCanvas(canvasType);
+      vm.selectedSizeOfCanvas = 'small';
+    }
+
+    // change size of Canvas
+
+    function changeCanvasSize(canvasSize) {
+      designTool.changeCanvasSize(canvasSize);
+      vm.selectedSizeOfCanvas = canvasSize;
+    }
+
     // controller
 
 

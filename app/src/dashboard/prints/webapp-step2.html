@@ -145,12 +145,12 @@ Content : Start : Step 2
                     </div>
                     <div class="ptt-dropmenu dropup">
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.toggleDropdownVisibility('.action-icons-4 .ptt-dropmenu .dropdown-menu')">
-                            8 x 8 inches
+                            {{vm.selectedCanvasType}} ({{ vm.selectedSizeOfCanvas}})
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li class="enlarge">
-                                <div class="box-border">
+                                <div ng-click="vm.changeCanvas('enlarge')"  class="box-border">
                                     <div class="box">
                                         <img class="left-arrow" src="images/left-size-arrow.png" alt="">
                                         ENLARGED
@@ -158,13 +158,13 @@ Content : Start : Step 2
                                     </div>
                                 </div>
                                 <div class="box-size">
-                                    <p>L</p>
-                                    <p>M</p>
-                                    <p>S</p>
+                                    <p ng-click="vm.changeCanvasSize('large')">L</p>
+                                    <p ng-click="vm.changeCanvasSize('medium')">M</p>
+                                    <p ng-click="vm.changeCanvasSize('small')">S</p>
                                 </div>
                             </li>
                             <li class="regular">
-                                <div class="box-border">
+                                <div ng-click="vm.changeCanvas('regular')"  class="box-border">
                                     <div class="box">
                                         <img class="left-arrow" src="images/left-size-arrow.png" alt="">
                                         REGULAR
@@ -172,23 +172,23 @@ Content : Start : Step 2
                                     </div>
                                 </div>
                                 <div class="box-size">
-                                    <p>L</p>
-                                    <p>M</p>
-                                    <p>S</p>
+                                    <p ng-click="vm.changeCanvasSize('large')">L</p>
+                                    <p ng-click="vm.changeCanvasSize('medium')">M</p>
+                                    <p ng-click="vm.changeCanvasSize('small')">S</p>
                                 </div>
-                            <li class="square">
-                                <div class="box-border">
+                            <li  class="square">
+                                <div ng-click="vm.changeCanvas('square')" class="box-border">
                                     <div class="box">
                                         <img class="left-arrow" src="images/left-size-arrow.png" alt="">
-                                        8 x 8
+                                        SQUARE
                                         <img class="right-arrow" src="images/right-size-arrow.png" alt="">
 
                                     </div>
                                 </div>
                                 <div class="box-size">
-                                    <p>L</p>
-                                    <p>M</p>
-                                    <p>S</p>
+                                    <p ng-click="vm.changeCanvasSize('large')">L</p>
+                                    <p ng-click="vm.changeCanvasSize('medium')">M</p>
+                                    <p ng-click="vm.changeCanvasSize('small')">S</p>
                                 </div>
                             </li>
                         </ul>
@@ -232,7 +232,7 @@ Content : Start : Step 2
                           <!-- Canvas -->
                             <canvas id="canvas" ng-show="vm.readyToDisplay"></canvas>
                           <!-- Hidden Image For Filter -->
-                            <img id="caman-canvas" src="{{vm.selectedPhoto.original.base64}}" ng-if="vm.showCamanImg" style="z-index: -10;">
+                            <img id="caman-canvas" src="{{vm.selectedPhoto.original.base64}}" ng-if="vm.showCamanImg" style="z-index: -10; margin-top: 4000px">
                         </div>
                         <div class="zoomBar">
                             <input id="ex4" type="text" data-slider-min="1" data-slider-max="5" data-slider-value="0" data-slider-step="0.05" data-slider-orientation="vertical"/>
