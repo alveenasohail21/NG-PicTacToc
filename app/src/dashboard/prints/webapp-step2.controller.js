@@ -267,6 +267,7 @@
       var sectionSelected=designTool.getProp('isSectionSelected');
       vm.closeSidemenu();
       vm.deSelectLayout();
+      var oldIndex = canvasBkgImg.photoIndex;
       // if no section is selected then mark the index selected
       if(!designTool.getProp('isSectionSelected')){
         // selected image
@@ -512,7 +513,6 @@
               vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]));
               // console.log(vm.myPhotos);
               canvasBkgImg.photoIndex++;
-              turnOffSelectedImageDrag();
             }
             // else update the current slot
             updatePhotoStripWithCanvas(
@@ -521,6 +521,8 @@
               designTool.getCanvasDataUrl()
             );
             vm.myPhotos[canvasBkgImg.photoIndex].selected = true;
+            console.log('photos',vm.myPhotos);
+            turnOffSelectedImageDrag();
             vm.selectedBorder='noBorder';
             $('#canvas').removeClass("single-image-border");
           })
@@ -540,8 +542,6 @@
                   designTool.getCanvasDataUrl()
                 );
               }
-
-              // turnOffSelectedImageDrag();
             })
           })
         }
@@ -746,16 +746,18 @@
 
 
     function turnOffSelectedImageDrag(){
-      $('.step2-lightSlider li').each(function(i){
-        var image=$(this);
-        image.find("img").attr("draggable", "true");
-        if(image.hasClass("selected")){
-          console.log(image.find("img")[1].id);
-          image.find("img").attr("draggable", "false");
-        }
-      })
+      $timeout(function () {
+        $('.step2-lightSlider li').each(function(i){
+          var image=$(this);
+          console.log(this);
+          image.find("img").attr("draggable", "true");
+          if(image.hasClass("selected")){
+            // console.log(image.find("img")[1].id);
+            image.find("img").attr("draggable", "false");
+          }
+        });
+      },200);
     }
-
     // controller
     /* Initializer Call */
     init();

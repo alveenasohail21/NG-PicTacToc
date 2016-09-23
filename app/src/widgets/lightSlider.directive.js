@@ -161,7 +161,7 @@
           $('.step2-lightSlider li').each(function(i){
             var image=$(this);
             // console.log(image.find("img")[1].id);
-            console.log(this);
+
           });
         });
       }
