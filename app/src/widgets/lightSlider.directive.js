@@ -147,7 +147,6 @@
           };
           var photoId=ev.target.dataset.photoid;
           var index=ev.target.dataset.index;
-          console.log(index);
           scope.onGetSelectPhoto({id: photoId, index: index, imageDragged: imageDragged});
 
         });

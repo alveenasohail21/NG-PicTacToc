@@ -383,7 +383,6 @@
                 }
                 break;
               case customObjectTypes.layoutPlusSign:
-                console.log("plus sign", canvasJsonObjects[customObjectTypes.layoutPlusSign]);
                 for(var a=0;a<canvasJsonObjects[prop].length;a++){
                   (function(plusSignImage){
                     var img = new Image();
@@ -542,8 +541,8 @@
 
     // ****************************************** Toolbar methods ******************************************
 
-    function applyBorder(cb){
-      console.log("canvas json: ", getCanvasJSON());
+    function applyBorder(cb, currentBorder){
+      selectedBorderIndex=customBorderTypes.indexOf(currentBorder);
       var objects = fabricCanvas.getObjects();
       // only if layout is applied
       if(flags.isLayoutApplied){

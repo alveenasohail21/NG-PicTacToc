@@ -32,7 +32,6 @@
       var themeBase="ptt-dropdown-color-";
       var initialTheme=$localStorage.theme || 1;
       $localStorage.theme=$localStorage.theme ? $localStorage.theme : 1;
-      console.log('theme :: ',initialTheme);
       //add dark shadows for dark themes
       function addThemeShadow(){
         $('.navbar').addClass('theme-shadow');

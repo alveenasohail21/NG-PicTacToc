@@ -328,7 +328,6 @@
     }
     // get the high res image for editing
     function getSelectPhoto(id, index, imageDragged){
-      console.log(id, index);
       var layoutApplied=designTool.getProp('isLayoutApplied');
       var sectionSelected=designTool.getProp('isSectionSelected');
       vm.closeSidemenu();
@@ -423,7 +422,6 @@
             }
           }
           else{
-            console.log(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder);
             $('#canvas').removeClass("single-image-border");
           }
         }
@@ -639,7 +637,7 @@
     }
 
     function applyBorder(){
-      designTool.applyBorder(changeBorderSvg);
+      designTool.applyBorder(changeBorderSvg, vm.selectedBorder);
     }
 
     function copyCanvas(){
