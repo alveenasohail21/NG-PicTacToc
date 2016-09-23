@@ -19,7 +19,7 @@
     /* Variables */
     vm.myPhotos = photosFactory._data.photos;
     vm.myPhotosTotalCount = photosFactory._data.totalCount;
-
+    vm.selectedBorder='noBorder';
     var defaultSelectedPhotoIndex = 0;
 
     vm.myPhotosPagination = {
