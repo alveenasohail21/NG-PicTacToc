@@ -135,7 +135,6 @@
         case 'facebook':
           uploadFactory.removeFiles(uploadCategory);
           vm.filesToUpload = uploadFactory._data.socialFiles;
-          console.log("HERE I AM: ", vm.filesToUpload);
           vm.filesUploadedCountForSocial = 0;
           // clear controller's internal data
           vm.fb = {
@@ -172,7 +171,6 @@
         case 'google':
           uploadFactory.removeFiles(uploadCategory);
           vm.filesToUpload = uploadFactory._data.socialFiles;
-          console.log("HERE I AM: ", vm.filesToUpload);
           vm.filesUploadedCountForSocial = 0;
           // clear controller's internal data
           vm.google = {
@@ -253,7 +251,6 @@
         .then(function(resp){
           resp.forEach(function(elem, index){
             vm.fb.albums.push(elem);
-            console.log("FACEBOOK CHECK");
             turnOffLoader();
           });
           //vm.fb.albums = resp;
