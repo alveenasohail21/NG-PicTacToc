@@ -649,11 +649,12 @@
         }
       }
     });
-    //designTool.on('image:edited',function (e) {
-    //  if(!vm.myPhotos[e.data[0].photoIndex].isEdited){
-    //    vm.myPhotos[e.data[0].photoIndex].isEdited = true;
-    //  }
-    //});
+
+    designTool.on('image:edited',function (e) {
+     if(!vm.myPhotos[e.data[0].photoIndex].isEdited){
+       vm.myPhotos[e.data[0].photoIndex].isEdited = true;
+     }
+    });
 
     /************************************* OBJECT CUSTOMIZER *************************************/
 
