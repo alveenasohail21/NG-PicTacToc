@@ -9,12 +9,22 @@ body.app{
     border: 5px solid white
   }
 
-  .theme-box-shadow{
+  .theme-shadow{
     box-shadow: 15px 10px 20px 4px rgba(0, 0, 0, 0.075) !important;
   }
-  .lightSlider-box-shadow{
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.075) !important;
+  .lightSlider-shadow{
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.075) !important;
   }
+  .sidebar-shadow{
+    box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.075) !important;
+  }
+  .button-shadow{
+    box-shadow: 0 -7px 10px -4px rgba(0, 0, 0, 0.075) !important;
+  }
+  .sidebar-close-shadow{
+    box-shadow: 7px 0px 10px 1px rgba(0, 0, 0, 0.075) !important;
+  }
+
   .ptt-dropdown-color-2-bg {
     background-color: $theme-bkg-color-2 !important;
     color: $theme-text-color-2 !important;

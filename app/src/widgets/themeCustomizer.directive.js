@@ -35,21 +35,24 @@
       console.log('theme :: ',initialTheme);
       //add dark shadows for dark themes
       function addThemeShadow(){
-        $('.navbar').addClass('theme-box-shadow');
-        $('.step2-lightSlider').addClass('lightSlider-box-shadow');
-        $('#ptt-sidebar-wrapper').addClass('theme-box-shadow');
-        $('.thumbs-collapse-btn').addClass('theme-box-shadow');
-        $('.ptt-sidebar-2-close').addClass('theme-box-shadow');
-        $('.sidemenu-filters').addClass('theme-box-shadow');
+        $('.navbar').addClass('theme-shadow');
+        $('.step2-lightSlider').addClass('lightSlider-shadow');
+        $('#ptt-sidebar-wrapper').addClass('sidebar-shadow');
+        $('.ptt-sidebar-content-2').addClass('sidebar-shadow');
+        $('.thumbs-collapse-btn').addClass('button-shadow');
+        $('.ptt-sidebar-2-close').addClass('sidebar-close-shadow');
+        $('.sidemenu-filters').addClass('sidebar-shadow');
       }
 
       //remove dark shadows for light themes
       function removeThemeShadow(){
-        $('.navbar').removeClass('theme-box-shadow');
-        $('#ptt-sidebar-wrapper').removeClass('theme-box-shadow');
-        $('.step2-lightSlider').removeClass('lightSlider-box-shadow');
-        $('.ptt-sidebar-2-close').removeClass('theme-box-shadow');
-        $('.sidemenu-filters').removeClass('theme-box-shadow');
+        $('.navbar').removeClass('theme-shadow');
+        $('#ptt-sidebar-wrapper').removeClass('sidebar-shadow');
+        $('.thumbs-collapse-btn').removeClass('button-shadow');
+        $('.step2-lightSlider').removeClass('lightSlider-shadow');
+        $('.ptt-sidebar-2-close').removeClass('sidebar-close-shadow');
+        $('.ptt-sidebar-content-2').removeClass('sidebar-shadow');
+        $('.sidemenu-filters').removeClass('sidebar-shadow');
       }
 
       //check if the theme is light
