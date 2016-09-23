@@ -414,7 +414,7 @@
           });
           vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
           if(!designTool.getProp('isLayoutApplied')){
-            if(vm.selectedBorder=='fullBorder'){
+            if(vm.selectedBorder=='outerBorder'){
               $('#canvas').addClass("single-image-border");
             }
             else if(vm.selectedBorder=='noBorder'){

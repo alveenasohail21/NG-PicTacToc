@@ -574,8 +574,8 @@
           case customObjectTypes.layout:
             break;
           case customObjectTypes.backgroundImage:
-            selectedBorderIndex=selectedBorderIndex==0 ? 1 : 0;
-            if(customBorderTypes[selectedBorderIndex]=='fullBorder'){
+            selectedBorderIndex=selectedBorderIndex==0 ? 3 : 0;
+            if(customBorderTypes[selectedBorderIndex]=='outerBorder'){
               $('#canvas').addClass("single-image-border");
             }
             else if(customBorderTypes[selectedBorderIndex]=='noBorder'){
