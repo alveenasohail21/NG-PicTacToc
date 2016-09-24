@@ -149,7 +149,7 @@
       }
       if(template== 'filters'){
         if(!designTool.checkLayoutSelection()){
-          alertFactory.error(null, "Please select an image to apply filter");
+          alertFactory.warning(null, "Please select an image to apply filter");
           return;
         }
       }
@@ -594,7 +594,6 @@
     function copyCanvas(){
       alertFactory.warning(null, 'Not functional, need updates');
       return;
-      fabricCanvas.deactivateAll();
 
       // fabricCanvas.deactivateAll();
 
@@ -610,6 +609,7 @@
 
     function deleteCanvas(){
       alertFactory.warning(null, 'Not functional, need updates');
+      return;
       // return;
       // remove current selected photo with all canvas settings
       photosFactory.deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id, canvasBkgImg.photoIndex)

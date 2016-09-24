@@ -491,8 +491,6 @@
       // change Canvas
       getCanvasTypes: getCanvasTypes,
       getDefaultCanvasSizeDetails: getDefaultCanvasSizeDetails,
-      changeCanvas  : changeCanvas,
-      changeCanvasSize : changeCanvasSize,
       updateCanvasSize: updateCanvasSize,
       updateImageEditorSize : updateImageEditorSize,
       updateImageEditorForCanvasChange : updateImageEditorForCanvasChange
@@ -2150,19 +2148,6 @@
         size: Defaults.canvasSize,
         orientation: Defaults.canvasSizeOrientation
       };
-    }
-  
-    // Change Canvas
-    function changeCanvas(canvasType) {
-      currentSelectedCanvasType = canvasType;
-      currentSelectedCanvasSize = canvasSize.SMALL;
-      updateImageEditorForCanvasChange(canvasType);
-    }
-  
-    // Change Canvas Size
-    function changeCanvasSize(canvasSize) {
-      currentSelectedCanvasSize = canvasSize;
-      updateImageEditorForCanvasChange(currentSelectedCanvasType);
     }
   
     // Update canvas type and size
