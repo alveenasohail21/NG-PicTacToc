@@ -137,7 +137,8 @@
       function loadFonts(){
         for(var i=0; i<fontClasses.length; i++){
           (function(){
-            var hiddenElem = $('<p class="'+ fontClasses[i] +'"></p>', { css: { 'visibility': 'hidden' }});
+            var hiddenElem = $('<p class="'+ fontClasses[i] +'">.</p>');
+            hiddenElem.css({'margin-top':'4000px'});
             $('body').append(hiddenElem);
           }());
         }

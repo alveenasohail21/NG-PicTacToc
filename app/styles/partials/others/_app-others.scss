@@ -82,10 +82,10 @@ body.app {
       //transition: opacity 0.8s;
       border: none;
       width: 170px;
-      height: 252px;
+      //height: 252px;
       bottom: 48px;
-      left: 46px;
-      padding: 20px;
+      left: 30px;
+      padding: 0 20px;
       border-radius: 12px;
       background-color: rgb(255, 255, 255);
       box-shadow: 0px 0px 10px 1px rgba(239, 243, 246, 0.9);
@@ -167,7 +167,7 @@ body.app {
           height: 58px;
           text-align: center;
           padding-top: 21px;
-          font-size: 10px;
+          font-size: 11px;
           img.left-arrow {
             top: 13px;
             left: 23px;
@@ -224,7 +224,18 @@ body.app {
         }
       }
     }
+
   }
+  .action-icons-4 {
+    .ptt-dropmenu.dropup.open{
+      .dropdown-menu{
+        padding: 20px;
+        max-height: 300px;
+      }
+    }
+  }
+
+
   .action-icons-5 .ptt-dropmenu {
     cursor: pointer;
     display: inline-block;

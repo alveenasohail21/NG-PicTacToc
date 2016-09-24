@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('photosFactory', photosFactory);
 
-  function photosFactory($rootScope, $q, restFactory, alertFactory, productsFactory){
+  function photosFactory($rootScope, $q, restFactory, alertFactory, productsFactory, designTool){
 
     var _data = {
       photos: [],
@@ -122,14 +122,14 @@
       return deferred.promise;
     }
 
-    //get a photo selected by user in original size in step 2
+    //get a photo selected
+    // by user in original size in step 2
     function getSelectedPhoto(id, index) {
       var deferred = $q.defer();
       var isPresentInContainer = false;
       $('.global-loader').css('display', 'block');
       for(var i=0; i<originalPhotosContainer.length; i++){
         if(originalPhotosContainer[i].id == id){
-          //    console.log
           deferred.resolve(originalPhotosContainer[i]);
           $('.global-loader').css('display', 'none');
           isPresentInContainer = true;
@@ -153,6 +153,7 @@
           $('.global-loader').css('display', 'none');
         });
       }
+      designTool.checkLayoutSelection();
       return deferred.promise;
     }
 
@@ -283,6 +284,5 @@
       }
       return arr;
     }
-
   }
 }());

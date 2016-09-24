@@ -45,7 +45,7 @@
 
       var sliderId = '#'+availableSliders[scope.step-1];
       var sliderClass = '.'+availableSliders[scope.step-1];
-
+      console.log("The element: ",elem);
       // Initializer
       function init(){
         $(document).ready(function() {
@@ -58,6 +58,8 @@
             }, 200);
           });
         });
+
+
       }
 
       // setup slider
@@ -80,6 +82,7 @@
 
         $('.ptt-lightSlider').css('opacity', 1);
 
+        registerSliderEvents();
       }
 
       // watch any change in photos
@@ -133,6 +136,19 @@
         // console.log("REMOVED FROM DIRECTIVE", scope.photos);
       });
 
+      function registerSliderEvents() {
+        //handles events on the lightslider photos
+        $('ul#step2-lightSlider img').off('dragend');
+        $('ul#step2-lightSlider img').on('dragend', function(ev){
+          ev.preventDefault();
+          scope.onGetSelectPhoto({
+            id: ev.target.dataset.photoid,
+            index: ev.target.dataset.index,
+            imageDragged: true
+          });
+        });
+        
+      }
       // call initializer
       init();
 

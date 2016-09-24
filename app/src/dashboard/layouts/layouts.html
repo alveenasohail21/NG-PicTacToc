@@ -1,5 +1,5 @@
 <div class="ptt-sidebar-content-2 sidemenu-layouts">
-    <div class="empty-images" ng-repeat="layout in layouts" ng-click="onSelect({layout: layout})" ng-if="layout.isActive">
+    <div class="empty-images" ng-repeat="layout in layouts" ng-click="selectedLayouts(layout,$index)" ng-if="layout.isActive" ng-class="{'layout-selected': layout.selected}">
         <img src="{{layout.url}}" alt="">
     </div>
     <!--<div class="empty-images">

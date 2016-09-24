@@ -66,11 +66,8 @@ Content : Start : Step 2
 
   <!-- Page Content -->
     <div id="ptt-content-wrapper">
-
       <!-- Action Icons 5 : End -->
-
         <div id="ptt-wrapper-2">
-
             <!-- Sub Sidebar : Start -->
             <div id="ptt-sidebar-wrapper-2">
                 <!--<span ng-include="vm.sideMenuTemplate" ng-if="vm.activeSidemenuItem == 'layouts'"></span>-->
@@ -148,50 +145,26 @@ Content : Start : Step 2
                     </div>
                     <div class="ptt-dropmenu dropup">
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.toggleDropdownVisibility('.action-icons-4 .ptt-dropmenu .dropdown-menu')">
-                            8 x 8 inches
+                            {{vm.selectedSizeOfCanvas}}
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            <li class="enlarge">
-                                <div class="box-border">
+                            <li ng-repeat="(typeKey, typeValue) in vm.availableCanvasTypes" ng-class="typeValue.name">
+                                <div ng-click="vm.updateCanvasSize(typeValue.name, typeValue.sizes.small.name)" class="box-border">
                                     <div class="box">
                                         <img class="left-arrow" src="images/left-size-arrow.png" alt="">
-                                        ENLARGED
+                                        {{typeValue.sizeHoveredText || typeValue.name | uppercase }}
                                         <img class="right-arrow" src="images/right-size-arrow.png" alt="">
                                     </div>
                                 </div>
                                 <div class="box-size">
-                                    <p>L</p>
-                                    <p>M</p>
-                                    <p>S</p>
-                                </div>
-                            </li>
-                            <li class="regular">
-                                <div class="box-border">
-                                    <div class="box">
-                                        <img class="left-arrow" src="images/left-size-arrow.png" alt="">
-                                        REGULAR
-                                        <img class="right-arrow" src="images/right-size-arrow.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="box-size">
-                                    <p>L</p>
-                                    <p>M</p>
-                                    <p>S</p>
-                                </div>
-                            <li class="square">
-                                <div class="box-border">
-                                    <div class="box">
-                                        <img class="left-arrow" src="images/left-size-arrow.png" alt="">
-                                        8 x 8
-                                        <img class="right-arrow" src="images/right-size-arrow.png" alt="">
-
-                                    </div>
-                                </div>
-                                <div class="box-size">
-                                    <p>L</p>
-                                    <p>M</p>
-                                    <p>S</p>
+                                    <p ng-repeat="(sizeKey, sizeValue) in typeValue.sizes"
+                                       ng-click="vm.updateCanvasSize(typeValue.name, sizeValue.name)"
+                                       ng-mouseover="vm.sizeMouseOver(typeValue.name, sizeValue.name)"
+                                       ng-mouseleave="vm.sizeMouseLeave(typeValue.name, sizeValue.name)"
+                                    >
+                                        {{sizeValue.initial}}
+                                    </p>
                                 </div>
                             </li>
                         </ul>
@@ -235,7 +208,7 @@ Content : Start : Step 2
                           <!-- Canvas -->
                             <canvas id="canvas" ng-show="vm.readyToDisplay"></canvas>
                           <!-- Hidden Image For Filter -->
-                            <img id="caman-canvas" src="{{vm.selectedPhoto.original.base64}}" ng-if="vm.showCamanImg" style="z-index: -10;">
+                            <img id="caman-canvas" src="{{vm.selectedPhoto.original.base64}}" ng-if="vm.showCamanImg" style="z-index: -10; margin-top: 4000px">
                         </div>
                         <div class="zoomBar">
                             <input id="ex4" type="text" data-slider-min="1" data-slider-max="5" data-slider-value="0" data-slider-step="0.05" data-slider-orientation="vertical"/>
@@ -271,7 +244,7 @@ Content : Start : Step 2
       on-select=""
       on-select-files=""
       on-toggle-expand-view="vm.toggleExpandView()"
-      on-get-select-photo="vm.getSelectPhoto(id, index)"
+      on-get-select-photo="vm.getSelectPhoto(id, index, imageDragged)"
     >
     </ptt-photo-strip>
   <!-- Film Strip Thumbs : End-->

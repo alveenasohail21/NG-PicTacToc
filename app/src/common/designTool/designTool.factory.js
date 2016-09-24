@@ -23,13 +23,351 @@
       backgroundImage: 'BackgroundImage',
       layoutPlusSign: 'LayoutPlusSign'
     };
+    const imageStudioTag = "#image-studio";
+    const imageStudioElement = "#image-studio > .element";
+    const imageStudioElementEditor = "#image-studio > .element > .editor";
+    const zoombar = 'div.zoomBar';
+    const toolBar = 'div.toolbar';
+    const actionIcon5 = '.action-icons-5';
+    const actionIcon4= '.action-icons-4';
+    const canvasSize = {
+      SMALL : 'small',
+      MEDIUM : 'medium',
+      LARGE : 'large'
+    };
+    const canvasTypes = {
+      REGULAR : {
+        name : 'regular',
+        small : {
+          horizontal : {
+            width : 1800,
+            height : 1200
+          },
+          vertical : {
+            width : 1800,
+            height : 1200
+          }
+        },
+        medium : {
+          horizontal : {
+            width : 2100,
+            height : 1500
+          },
+          vertical : {
+            width : 1500,
+            height : 2100
+          }
+        },
+        large : {
+          horizontal : {
+            width : 2400,
+            height : 1800
+          },
+          vertical : {
+            width : 1800,
+            height : 2400
+          }
+        }
+      },
+      SQUARE : {
+        name : 'square',
+        small : {
+          dimensions : {
+            width : 1200,
+            height : 1200
+          }
+        },
+        medium : {
+          dimensions : {
+            width : 1800,
+            height : 1800
+          }
+        },
+        large : {
+          dimensions: {
+            width: 2400,
+            height: 2400
+          }
+        }
+      },
+      ENLARGE : {
+        name :  'enlarge',
+        small : {
+          horizontal : {
+            width : 3600,
+            height : 2400
+          },
+          vertical : {
+            width : 2400,
+            height : 3600
+          }
+        },
+        medium : {
+          horizontal : {
+            width : 3600,
+            height : 3000
+          },
+          vertical : {
+            width : 3000,
+            height : 3600
+          }
+        },
+        large : {
+          horizontal : {
+            width : 4800,
+            height : 3600
+          },
+          vertical : {
+            width : 3600,
+            height : 4800
+          }
+        }
+      }
+    };
+    const _canvasTypes = {
+      REGULAR : {
+        name : 'regular',
+        sizes: {
+          small : {
+            name: 'small',
+            initial: 'S',
+            horizontal : {
+              width : {
+                px: 1800,
+                inches: 6
+              },
+              height : {
+                px: 1200,
+                inches: 4
+              }
+            },
+            vertical : {
+              width : {
+                px: 1200,
+                inches: 4
+              },
+              height : {
+                px: 1800,
+                inches: 6
+              }
+            }
+          },
+          medium : {
+            name: 'medium',
+            initial: 'M',
+            horizontal : {
+              width : {
+                px: 2100,
+                inches: 7
+              },
+              height : {
+                px: 1500,
+                inches: 5
+              }
+            },
+            vertical : {
+              width : {
+                px: 1500,
+                inches: 5
+              },
+              height : {
+                px: 2100,
+                inches: 7
+              }
+            }
+          },
+          large : {
+            name: 'large',
+            initial: 'L',
+            horizontal : {
+              width : {
+                px: 2400,
+                inches: 8
+              },
+              height : {
+                px: 1800,
+                inches: 6
+              }
+            },
+            vertical : {
+              width : {
+                px: 1800,
+                inches: 6
+              },
+              height : {
+                px: 2400,
+                inches: 8
+              }
+            }
+          }
+        }
+      },
+      ENLARGE : {
+        name :  'enlarge',
+        sizes: {
+          small: {
+            name: 'small',
+            initial: 'S',
+            horizontal : {
+              width : {
+                px: 3600,
+                inches: 12
+              },
+              height : {
+                px: 2400,
+                inches: 8
+              }
+            },
+            vertical : {
+              width : {
+                px: 2400,
+                inches: 8
+              },
+              height : {
+                px: 3600,
+                inches: 12
+              }
+            }
+          },
+          medium : {
+            name: 'medium',
+            initial: 'M',
+            horizontal : {
+              width : {
+                px: 3600,
+                inches: 12
+              },
+              height : {
+                px: 3000,
+                inches: 10
+              }
+            },
+            vertical : {
+              width : {
+                px: 3000,
+                inches: 10
+              },
+              height : {
+                px: 3600,
+                inches: 12
+              }
+            }
+          },
+          large : {
+            name: 'large',
+            initial: 'L',
+            horizontal : {
+              width : {
+                px: 4800,
+                inches: 16
+              },
+              height : {
+                px: 3600,
+                inches: 12
+              }
+            },
+            vertical : {
+              width : {
+                px: 3600,
+                inches: 12
+              },
+              height : {
+                px: 4800,
+                inches: 16
+              }
+            }
+          }
+        }
+      },
+      SQUARE : {
+        name : 'square',
+        sizes: {
+          small: {
+            name: 'small',
+            initial: 'S',
+            horizontal : {
+              width : {
+                px: 1200,
+                inches: 4
+              },
+              height : {
+                px: 1200,
+                inches: 4
+              }
+            },
+            vertical : {
+              width : {
+                px: 1200,
+                inches:4
+              },
+              height : {
+                px: 1200,
+                inches: 4
+              }
+            }
+          },
+          medium : {
+            name: 'medium',
+            initial: 'M',
+            horizontal : {
+              width : {
+                px: 1800,
+                inches: 6
+              },
+              height : {
+                px: 1800,
+                inches: 6
+              }
+            },
+            vertical : {
+              width : {
+                px: 1800,
+                inches: 6
+              },
+              height : {
+                px: 1800,
+                inches: 6
+              }
+            }
+          },
+          large : {
+            name: 'large',
+            initial: 'L',
+            horizontal : {
+              width : {
+                px: 2400,
+                inches: 8
+              },
+              height : {
+                px: 2400,
+                inches: 8
+              }
+            },
+            vertical : {
+              width : {
+                px: 2400,
+                inches: 8
+              },
+              height : {
+                px: 2400,
+                inches: 8
+              }
+            }
+          }
+        }
+      }
+    };
     const customBorderTypes = [
       'noBorder', 'fullBorder', 'innerBorder', 'outerBorder'
     ];
     const Defaults = {
       zoom: 0,
       plusIconSizeForLayoutSections: 60,
-      borderWidth: 8
+      borderWidth: 8,
+      strokeWidth : 5,
+      canvasType: 'SQUARE',
+      canvasSize: 'small',
+      canvasSizeOrientation: 'horizontal'
     };
 
     /*
@@ -39,16 +377,25 @@
     var sectionBkgImages = [];
     var selectedSectionIndex = -1;
     var selectedBorderIndex = 0;
+    var currentLayout = null;
+    var blueSelectedBoarderOffset =  5;
+    // default canvas type and sizes
+    var currentSelectedCanvasType =  canvasTypes[Defaults.canvasType];
+    var currentSelectedCanvasSize = Defaults.canvasSize;
+    // flags
     var flags = {
       isCanvasEmpty: true,
       isSectionSelected: false,
       isLayoutApplied: false,
-      isActionPerformable: true
+      isActionPerformable: true,
+      droppedOnCanvas: false
     };
+
     // props to save
     var propsToIncludeForJSON = [
       'customObjectType', 'hasControls', 'hasBorders', 'selectable', 'borders',
-      'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex', 'percentValues'
+      'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex', 'percentValues', 'selectedBorder','originalWidth',
+      'originalHeight'
     ];
     var fabricCanvas;
     // fabric objects default setting
@@ -68,6 +415,7 @@
     var zoomSlider;
     // current selected object (only for opacity)
     var currentSelectedObject = null;
+    var scaleFactor;
 
     /*
      * Custom Events
@@ -77,6 +425,21 @@
       imageEdited: 'image:edited',
       canvasDimensionChanged : 'canvas:dimensionChanged',
       layoutSectionToggle: 'layout:sectionToggle'
+    };
+    // canvas parent div
+    var element = {
+      original:{
+        height: 459,
+        width: 459
+      },
+      current:{
+        height: $(imageStudioElement).height(),
+        width: $(imageStudioElement).width()
+      },
+      previous: {
+        height: null,
+        width: null
+      }
     };
     var customEvents = new EventChannel();
     for (var event in customEventsList) {
@@ -123,8 +486,15 @@
       on: on,
       // zoom
       resetZoomSettings: resetZoomSettings,
-      checkLayoutSelection: checkLayoutSelection
-
+      checkLayoutSelection: checkLayoutSelection,
+      deselectLayoutAllSections : deselectLayoutAllSections,
+      // change Canvas
+      getCanvasTypes: getCanvasTypes,
+      getDefaultCanvasSizeDetails: getDefaultCanvasSizeDetails,
+      updateCanvasSize: updateCanvasSize,
+      updateImageEditorSize : updateImageEditorSize,
+      updateImageEditorForCanvasChange : updateImageEditorForCanvasChange
+      //drag and drop events
     };
 
     /* Define Functions */
@@ -141,6 +511,7 @@
 
     function onDOMLoad(){
       // console.log('DESIGN TOOL: onDOMLoad');
+      setDimensions(element.original);
       fabricCanvas.selectionColor = 'rgba(101,224,228,0.5)';
       fabricCanvas.selectionBorderColor = 'white';
       fabricCanvas.selectionLineWidth = 1;
@@ -153,6 +524,145 @@
       bindKeyboardEvents();
     }
 
+    function updateImageEditorSize(){
+
+      var imageStudio = {
+        height: $(imageStudioTag).height(),
+        width: $(imageStudioTag).width()
+      };
+      var updateValue = 0;
+
+      // Formula for aspect ratio equality calculation
+      // (original height / original width) = (new height / new width)
+
+      // if image studio height is small
+      if(imageStudio.height < imageStudio.width){
+        // new width = (new height)/(original height / original width)
+        updateValue = (imageStudio.height)/(element.original.height/element.original.width);
+        ////// console.log("height is small");
+      }
+      // else if image studio width is small
+      else if(imageStudio.width < imageStudio.height){
+        // new height = (original height / original width) x (new width)
+        updateValue = (element.original.height/element.original.width) * (imageStudio.width);
+        ////// console.log("width is small");
+      }
+
+      // update css
+      ////// console.log("change height and width to: ", updateValue);
+      $(imageStudioElement).width(updateValue);
+      $(imageStudioElement).height(updateValue);
+      $(imageStudioElement).css({
+        'margin-left': '-' + Number((updateValue/2)+33) + 'px',
+        'left': '50%'
+      });
+
+      // set zoom and dimensions of canvas
+      // got from canvas test
+      scaleFactor = updateValue/element.original.width;
+      //// console.log("--- FACTOR SCALE ---", scaleFactor);
+      setDimensions({
+        width: updateValue,
+        height: updateValue
+      });
+      element.previous.height = updateValue;
+      element.previous.width = updateValue;
+      element.current.height = updateValue;
+      element.current.width = updateValue;
+    }
+
+    function updateImageEditorForCanvasChange(canvasType){
+
+      var updateHeight = 0;
+      var updateWidth = 0;
+      var imageStudio = {
+        width : $(imageStudioTag).width(),
+        height : $(imageStudioTag).height()
+      };
+      canvasType = canvasType || currentSelectedCanvasType;
+      // Formula for aspect ratio equality calculation
+      // (original height / original width) = (new height / new width)
+      switch (canvasType){
+        case canvasTypes.ENLARGE.name :
+        case canvasTypes.REGULAR.name :
+          if(flags.isLayoutApplied) {
+            // do size horizontal for layouts
+            selectedSize = canvasType == canvasTypes.REGULAR.name ? canvasTypes.REGULAR[currentSelectedCanvasSize].horizontal : canvasTypes.ENLARGE[currentSelectedCanvasSize].horizontal;
+            if (imageStudio.width < imageStudio.height) {
+              updateWidth = imageStudio.width;
+              updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
+            }
+            else {
+              updateHeight = imageStudio.height;
+              updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
+            }
+          }
+          else {
+            var object = findByProps({
+              customObjectType: customObjectTypes.backgroundImage
+            });
+            // if image  width is small go for vertical canvas
+            if(object.originalWidth < object.originalHeight){
+              // new height = (original height / original width) x (new width)
+              var selectedSize = canvasType == canvasTypes.REGULAR.name ? canvasTypes.REGULAR[currentSelectedCanvasSize].vertical: canvasTypes.ENLARGE[currentSelectedCanvasSize].vertical;
+              if(imageStudio.width < imageStudio.height){
+                updateWidth =  imageStudio.width;
+                updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
+              }
+              else {
+                updateHeight =  imageStudio.height;
+                updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
+              }
+            }
+            // else image  width is large go for horizontal canvas
+            else {
+              // new width = (new height)/(original height / original width)
+              selectedSize = canvasType == canvasTypes.REGULAR.name ? canvasTypes.REGULAR[currentSelectedCanvasSize].horizontal: canvasTypes.ENLARGE[currentSelectedCanvasSize].horizontal;
+              if(imageStudio.width < imageStudio.height){
+                updateWidth =  imageStudio.width;
+                updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
+              }
+              else {
+                updateHeight =  imageStudio.height;
+                updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
+              }
+            }
+          }
+          break;
+        default :
+          selectedSize = canvasTypes.SQUARE[currentSelectedCanvasSize].dimensions;
+          if(imageStudio.width < imageStudio.height){
+            updateWidth =  imageStudio.width;
+            updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
+          }
+          else {
+            updateHeight =  imageStudio.height;
+            updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
+          }
+          break;
+      }
+      // update css
+      ///// console.log("change height and width to: ", updateValue);
+      $(imageStudioElement).width(updateWidth);
+      $(imageStudioElement).height(updateHeight);
+      $(imageStudioElement).css({
+        'margin-left': '-' + Number((updateWidth/2)+33) + 'px',
+        'left': '50%'
+      });
+      setDimensions({
+        width:  updateWidth,
+        height: updateHeight
+      });
+      element.previous.height = updateHeight;
+      element.previous.width = updateWidth;
+      if(flags.isLayoutApplied){
+        reApplyLayouts(currentLayout);
+      }
+      else{
+        backgroundImageBoundaryCheck(sectionBkgImages[0]);
+      }
+    }
+
     function setDimensions(dimension){
       // console.log('DESIGN TOOL: setDimensions');
       fabricCanvas.setDimensions({
@@ -160,6 +670,7 @@
         height: dimension.height
       });
       fabricCanvas.renderAll();
+      registerCanvasEvents();
     }
 
     function initializeZoomSlider(selector){
@@ -204,7 +715,7 @@
     }
 
     function loadBkgImage(image, propsToAdd, cb){
-      // console.log('DESIGN TOOL: loadBkgImage');
+      // console.log('DESIGN TOOL: loadBkgImage');;
       var img = new Image();
       img.onload = function(){
         // image settings
@@ -213,7 +724,9 @@
           customObjectType: customObjectTypes.backgroundImage,
           renderOnAddRemove: false,
           hasControls: false,
-          zoom: Defaults.zoom
+          zoom: Defaults.zoom,
+          originalWidth : this.naturalWidth,
+          originalHeight : this.naturalHeight
         });
         // fabric default settings
         fabricImage.set(fabricObjSettings);
@@ -249,10 +762,17 @@
         else{
           // console.log('DESIGN TOOL: Layout section is selected!');
           var indexToMoveImgTo = null;
+          // save current section index and object
+          var currSectionIndex = selectedSectionIndex;
+          var currSelectedSection = currentLayoutSections[currSectionIndex];
+          // deselect section for the image to calculate its width and height properly
+          deselectLayoutAllSections();
           // position
           // scale
           // apply clipping
-          fabricImage = addBkgImageToSection(fabricImage, selectedSectionIndex);
+          fabricImage = addBkgImageToSection(fabricImage, currSectionIndex);
+          // select the section again to apply blue border
+          selectLayoutSection(currSelectedSection);
           // if there is already a background image, remove the previous one
           if(typeof sectionBkgImages[selectedSectionIndex] !== 'undefined'){
             indexToMoveImgTo = fabricCanvas.getObjects().indexOf(sectionBkgImages[selectedSectionIndex]);
@@ -311,6 +831,7 @@
         }
       }
       if(flags.isLayoutApplied){
+        fabricCanvas.backgroundColor="white";
         resetTool();
         // empty bkg images as well
         sectionBkgImages = [];
@@ -325,7 +846,7 @@
             case customObjectTypes.layout :
               canvasJsonObjects[customObjectTypes.layout].push(canvasJSON.objects[j]);
               break;
-            case customObjectTypes.layoutPlusSign :
+            case customObjectTypes.layoutPlusSign:
               canvasJsonObjects[customObjectTypes.layoutPlusSign].push(canvasJSON.objects[j]);
               break;
             case customObjectTypes.backgroundImage :
@@ -376,8 +897,8 @@
                   }(canvasJsonObjects[prop][b]));
                 }
                 break;
-              case customBorderTypes.layoutPlusSign:
-                for(var a= 0;a<canvasJsonObjects[prop].length;a++){
+              case customObjectTypes.layoutPlusSign:
+                for(var a=0;a<canvasJsonObjects[prop].length;a++){
                   (function(plusSignImage){
                     var img = new Image();
                     img.src = plusSignImage.src;
@@ -446,6 +967,7 @@
             switch(obj.customObjectType){
               case customObjectTypes.backgroundImage:
                 loadedImage = obj.toDataURL();
+                // // fabric default settings
                 // position
                 // scale
                 // clipping
@@ -488,7 +1010,6 @@
 
     function getCanvasJSON(){
       var canvasJSON = fabricCanvas.toJSON(propsToIncludeForJSON);
-      // console.log('DESIGN TOOL: getCanvasJSON', canvasJSON);
       // TODO: any update in JSON, or any other process
       return canvasJSON;
     }
@@ -535,21 +1056,27 @@
 
     // ****************************************** Toolbar methods ******************************************
 
-    function applyBorder(cb){
 
+    function applyBorder(cb, currentBorder, imageIndex){
+      selectedBorderIndex=customBorderTypes.indexOf(currentBorder);
+      var objects = fabricCanvas.getObjects();
       // only if layout is applied
       if(flags.isLayoutApplied){
         selectedBorderIndex++;
         if(selectedBorderIndex == customBorderTypes.length){
           selectedBorderIndex = 0;
         }
+
         // console.log('DESIGN TOOL: applyBorder', customBorderTypes[selectedBorderIndex]);
-        var objects = fabricCanvas.getObjects();
         for(var i=0; i<objects.length; i++){
+          if(imageIndex>=0){
+            customEvents.fire(customEventsList.imageEdited, objects[imageIndex]);
+          }
           switch(objects[i].customObjectType){
             case customObjectTypes.layout:
               var border = objects[i].borders[customBorderTypes[selectedBorderIndex]];
               // create gap between layout sections which will work like borders
+              console.log("applying border at layout");
               objects[i].set({
                 top: (fabricCanvas.getHeight()*objects[i].percentValues.top) + ((border.top.value)?Defaults.borderWidth*border.top.applyFactor:0),
                 left: (fabricCanvas.getWidth()*objects[i].percentValues.left) + ((border.left.value)?Defaults.borderWidth*border.left.applyFactor:0),
@@ -562,8 +1089,25 @@
               break;
           }
         }
-        fabricCanvas.renderAll();
       }
+      else{
+        customEvents.fire(customEventsList.imageEdited, objects[0]);
+        switch(objects[0].customObjectType){
+          case customObjectTypes.layout:
+            break;
+          case customObjectTypes.backgroundImage:
+            selectedBorderIndex=selectedBorderIndex==0 ? 3 : 0;
+            if(customBorderTypes[selectedBorderIndex]=='outerBorder'){
+              $('#canvas').addClass("single-image-border");
+            }
+            else if(customBorderTypes[selectedBorderIndex]=='noBorder'){
+              $('#canvas').removeClass("single-image-border");
+            }
+            cb(customBorderTypes[selectedBorderIndex]);
+            break;
+        }
+      }
+      fabricCanvas.renderAll();
     }
 
     function flipHorizontal(){
@@ -656,19 +1200,25 @@
       var object= fabricCanvas.getActiveObject();
       var isBkgImg = false;
       // if no object is selected and no layout is applied, select the background image
+
       if(!object && !flags.isLayoutApplied){
         object = findByProps({
           customObjectType: customObjectTypes.backgroundImage
         });
         object.center();
       }
+      else if(!object && !flags.isSectionSelected){
+        return;
+      }
       // if no object is selected but layout is applied, select the background image for the selected section
       else if(!object && flags.isLayoutApplied){
         object = findByProps({
           sectionIndex: selectedSectionIndex,
           customObjectType: customObjectTypes.backgroundImage
-        })
+        });
+        if(!object) return;
       }
+
       switch(object.customObjectType){
         case customObjectTypes.backgroundImage:
           isBkgImg = true;
@@ -719,13 +1269,18 @@
         });
         object.center();
       }
+      else if(!object && !flags.isSectionSelected){
+        return;
+      }
       // if no object is selected but layout is applied, select the background image for the selected section
       else if(!object && flags.isLayoutApplied){
         object = findByProps({
           sectionIndex: selectedSectionIndex,
           customObjectType: customObjectTypes.backgroundImage
-        })
+        });
+        if(!object) return;
       }
+
       switch(object.customObjectType){
         case customObjectTypes.backgroundImage:
           isBkgImg = true;
@@ -899,7 +1454,17 @@
 
     function applyLayout(layout, cb){
       // console.log('DESIGN TOOL: applyLayout', layout);
-      // console.log("sectionBkgImages: ", sectionBkgImages);
+      if(flags.isLayoutApplied){
+        if(currentLayout.name === layout.name){
+          resetTool();
+          currentLayout = null;
+          flags.isLayoutApplied = false;
+          cb(true,sectionBkgImages[0].photoIndex);
+          return;
+        }
+      }
+      currentLayout = layout;
+      var stickerAndText = extractStickersAndTexts();
       var layoutSectionsCloned = angular.copy(layout.data);
       // change bkg color
       fabricCanvas.backgroundColor = 'white';
@@ -932,14 +1497,18 @@
         if(typeof sectionBkgImages[currentLayoutSections.length-1] !== 'undefined'){
           sectionBkgImages[currentLayoutSections.length-1] = addBkgImageToSection(sectionBkgImages[currentLayoutSections.length-1], currentLayoutSections.length-1);
           fabricCanvas.add(sectionBkgImages[currentLayoutSections.length-1]);
+          if(index == layoutSectionsCloned.length-1){
+            loadStickersAndTexts(stickerAndText);
+          }
           // render
           fabricCanvas.renderAll();
           fabricCanvas.deactivateAll();
           // if last layout
           if(index == layoutSectionsCloned.length-1){
+            loadStickersAndTexts(stickerAndText);
             if(cb && !cbCalled){
               cbCalled = true;
-              cb();
+              cb(false);
             }
           }
         }
@@ -963,16 +1532,98 @@
                 sectionIndex: index
               });
               fabricCanvas.add(pug);
+              if(index == layoutSectionsCloned.length-1){
+                loadStickersAndTexts(stickerAndText);
+              }
               // render
               fabricCanvas.renderAll();
               fabricCanvas.deactivateAll();
               // if last layout
               if(index == layoutSectionsCloned.length-1){
+                loadStickersAndTexts(stickerAndText);
                 if(cb && !cbCalled){
                   cbCalled = true;
-                  cb();
+                  cb(false);
                 }
               }
+            }(img, elem, index));
+          };
+          pugImg.src = 'images/white-cross.png';
+        }
+      });
+      flags.isLayoutApplied = true;
+    }
+
+    function reApplyLayouts(layout) {
+      currentLayout = layout;
+      var stickerAndText = extractStickersAndTexts();
+      var layoutSectionsCloned = angular.copy(layout.data);
+      // change bkg color
+      fabricCanvas.backgroundColor = 'white';
+      // straighten the sectionBkgImages array
+      sectionBkgImages = straightArray(sectionBkgImages, layoutSectionsCloned.length);
+      // empty local layout sections
+      // clear canvas
+      // hide customizer
+      resetTool();
+      // apply layout
+      layoutSectionsCloned.forEach(function(elem, index){
+        // convert the percentage values to pixel values
+        elem.top = fabricCanvas.getHeight()*elem.percentValues.top;
+        elem.left = fabricCanvas.getWidth()*elem.percentValues.left;
+        elem.height = fabricCanvas.getHeight()*elem.percentValues.height;
+        elem.width = fabricCanvas.getWidth()*elem.percentValues.width;
+        // add the clipping rect to canvas
+        var clipRect = new fabric.Rect(elem);
+        clipRect.set({
+          clipFor: 'bkgImage'+currentLayoutSections.length,
+          alwaysBack: true,
+          customObjectType: customObjectTypes.layout,
+          sectionIndex: index
+        });
+        // push to local layout sections
+        currentLayoutSections.push(clipRect);
+        fabricCanvas.add(clipRect);
+        // if bkg image is present add it too
+        if(typeof sectionBkgImages[currentLayoutSections.length-1] !== 'undefined'){
+          sectionBkgImages[currentLayoutSections.length-1] = addBkgImageToSection(sectionBkgImages[currentLayoutSections.length-1], currentLayoutSections.length-1);
+          fabricCanvas.add(sectionBkgImages[currentLayoutSections.length-1]);
+          // backgroundImageBoundaryCheck(sectionBkgImages[currentLayoutSections.length-1]);
+          if(index == layoutSectionsCloned.length-1){
+            loadStickersAndTexts(stickerAndText);
+          }
+          // render
+          fabricCanvas.renderAll();
+          fabricCanvas.deactivateAll();
+        }
+        // add the plus icon to rectangle
+        else{
+          var pugImg = new Image();
+          pugImg.onload = function(img){
+            (function(img, elem, index){
+              var pug = new fabric.Image(pugImg, {
+                angle: 0,
+                width: Defaults.plusIconSizeForLayoutSections,
+                height: Defaults.plusIconSizeForLayoutSections,
+                left: elem.left + elem.width/2 - Defaults.plusIconSizeForLayoutSections/2,
+                top: elem.top + elem.height/2 - Defaults.plusIconSizeForLayoutSections/2,
+                scaleX: 1,
+                scaleY: 1,
+                selectable: false,
+                hasControls: false,
+                hasBorders: false,
+                customObjectType: customObjectTypes.layoutPlusSign,
+                sectionIndex: index
+              });
+              fabricCanvas.add(pug);
+              // if last layout
+              if(index == layoutSectionsCloned.length-1){
+                loadStickersAndTexts(stickerAndText);
+              }
+              // render
+              fabricCanvas.renderAll();
+              fabricCanvas.deactivateAll();
+
             }(img, elem, index));
           };
           pugImg.src = 'images/white-cross.png';
@@ -1290,7 +1941,7 @@
 
     // Background Image Boundary Check and Position Update
     function backgroundImageBoundaryCheck(obj) {
-      // // console.log('DESIGN TOOL: backgroundImageBoundaryCheck');
+      console.log('DESIGN TOOL: backgroundImageBoundaryCheck',obj);
       var bounds = obj.getBoundingRect();
       var area;
       var objBounds = obj.getBoundingRect();
@@ -1357,7 +2008,7 @@
           if(bounds.left < objBounds.left){
             //// console.log("inside left bound");
             keyPair.key = 'left';
-            if(flags.isLayoutApplied) keyPair.value = (bounds.left + objBounds.width/2) /fabricCanvas.getZoom();
+            if(flags.isLayoutApplied) keyPair.value = (bounds.left + objBounds.width/2)  /fabricCanvas.getZoom();
           }
           else if((bounds.left + bounds.width) > (objBounds.left +objBounds.width)){
             //// console.log("inside right bound");
@@ -1371,7 +2022,7 @@
           if((bounds.top + bounds.height) > (objBounds.top + objBounds.height)){
             //// console.log("inside top bound");
             keyPair.key = 'top';
-            if(flags.isLayoutApplied) keyPair.value = (bounds.top + bounds.height -objBounds.height/2)/fabricCanvas.getZoom();
+            if(flags.isLayoutApplied) keyPair.value = (bounds.top + bounds.height - objBounds.height/2)/fabricCanvas.getZoom();
             // console.log('values',keyPair.value);
           }
           else if(bounds.top < objBounds.top){
@@ -1482,42 +2133,79 @@
         }
       });
     }
+  
+    // ****************************************** Canvas Size methods ******************************************
+  
+    // get canvas types
+    function getCanvasTypes(){
+      return angular.copy(_canvasTypes);
+    }
+    
+    // get default canvas type, size, orientation
+    function getDefaultCanvasSizeDetails(){
+      return {
+        type: Defaults.canvasType,
+        size: Defaults.canvasSize,
+        orientation: Defaults.canvasSizeOrientation
+      };
+    }
+  
+    // Update canvas type and size
+    function updateCanvasSize(type, size){
+      currentSelectedCanvasType = type;
+      currentSelectedCanvasSize = size;
+      updateImageEditorForCanvasChange(type);
+    }
 
     // ****************************************** Other methods ******************************************
 
     function selectLayoutSection(obj, forcefullySelect){
       // deselect other sections
       for(var i=0; i<currentLayoutSections.length; i++){
-        currentLayoutSections[i].set({
-          strokeWidth: 0
-        });
+        if(currentLayoutSections[i].strokeWidth === 5){
+          currentLayoutSections[i].set({
+            strokeWidth: 0,
+            width :  currentLayoutSections[i].width + Defaults.strokeWidth ,
+            height :  currentLayoutSections[i].height + Defaults.strokeWidth
+          });
+        }
       }
       // select the new section if not already selected
       if(obj.sectionIndex != selectedSectionIndex || forcefullySelect){
-        // console.log("selecting");
+
         selectedSectionIndex = obj.sectionIndex;
+        blueSelectedBoarderOffset = Defaults.strokeWidth;
         currentLayoutSections[selectedSectionIndex].set({
-          strokeWidth: 2
+          strokeWidth: Defaults.strokeWidth,
+          width :  currentLayoutSections[selectedSectionIndex].width - Defaults.strokeWidth,
+          height :  currentLayoutSections[selectedSectionIndex].height - Defaults.strokeWidth
         });
         flags.isSectionSelected = true;
         zoomSlider.slider('setValue', obj.get('zoom'));
       }
       // deselect
       else{
+        blueSelectedBoarderOffset = 0;
+        backgroundImageBoundaryCheck(obj);
         // console.log("deselecting");
         selectedSectionIndex = -1;
         flags.isSectionSelected = false;
         fabricCanvas.deactivateAll();
         zoomSlider.slider('setValue', Defaults.zoom);
+
       }
     }
 
     function deselectLayoutAllSections(){
       // deselect all sections
       for(var i=0; i<currentLayoutSections.length; i++){
-        currentLayoutSections[i].set({
-          strokeWidth: 0
-        });
+        if(currentLayoutSections[i].strokeWidth === 5){
+          currentLayoutSections[i].set({
+            strokeWidth: 0,
+            width :  currentLayoutSections[i].width + Defaults.strokeWidth,
+            height :  currentLayoutSections[i].height + Defaults.strokeWidth
+          });
+        }
       }
       flags.isSectionSelected = false;
       selectedSectionIndex = -1;
@@ -1575,12 +2263,16 @@
 
       this.setCoords();
       var clipRect = findByClipName(this.clipName);
+      // console.log(this);
+      // console.log(clipRect);
       var scaleXTo1 = (1 / this.scaleX);
       var scaleYTo1 = (1 / this.scaleY);
       ctx.save();
 
-      var ctxLeft = -( this.width / 2 ) + clipRect.strokeWidth;
-      var ctxTop = -( this.height / 2 ) + clipRect.strokeWidth;
+      var ctxLeft = -( this.width / 2 ) + clipRect.strokeWidth*2;
+      // var ctxLeft = -( this.width / 2 ) + clipRect.strokeWidth;
+      var ctxTop = -( this.height / 2 ) + clipRect.strokeWidth*2;
+      // var ctxTop = -( this.height / 2 ) + clipRect.strokeWidth;
       var ctxWidth = clipRect.width - clipRect.strokeWidth;
       var ctxHeight = clipRect.height - clipRect.strokeWidth;
 
@@ -1588,9 +2280,16 @@
       ctx.scale((this.flipX)?scaleXTo1*-1:scaleXTo1, (this.flipY)?scaleYTo1*-1:scaleYTo1);
       ctx.rotate(degToRad(this.angle * -1));
 
+      // console.log(this.angle);
+      // TODO
+      // clip fix through angle
+      
       ctx.beginPath();
       ctx.rect(
+        // clockwise
+        // clipRect.left - this.oCoords.tl.x + ((flags.isSectionSelected && (this.angle==90 || this.angle==-270))?Defaults.strokeWidth*2:0),
         clipRect.left - this.oCoords.tl.x,
+        // clipRect.top - this.oCoords.tl.y + ((flags.isSectionSelected && (this.angle==-90 || this.angle==270))?Defaults.strokeWidth*2:0),
         clipRect.top - this.oCoords.tl.y,
         ctxWidth,
         ctxHeight
@@ -1610,5 +2309,85 @@
         returnFlag=object ? true : false;
       return returnFlag;
     }
+
+    function cancel(e) {
+      // console.log(e);
+      if (e.preventDefault) { e.preventDefault(); }
+      return false;
+    }
+
+    function disableFabricObject(object){
+      object.lockMovementX=true;
+      object.lockMovementY=true;
+      object.lockScalingY=true;
+      object.lockScalingX=true;
+      object.lockRotation=true;
+      return object;
+    }
+
+    function dragOverOnCanvas(ev){
+      //handles dragover event on the canvas
+    }
+
+    function registerCanvasEvents(){
+      //registers events on canvas
+      var canvas_container= $(".canvas-container");
+      canvas_container.on('dragover', function(ev){
+        if(flags.isLayoutApplied){
+          var objectLeft=ev.originalEvent.offsetX;
+          var objectTop=ev.originalEvent.offsetY;
+          var minDistance=1000;
+          var sectionIndex;
+          currentLayoutSections.forEach(function(section, index){
+            var sectionX=section.left + (section.width/2);
+            var sectionY=section.top + (section.height/2);
+            var distance=Math.pow((sectionX - objectLeft), 2) + Math.pow((sectionY- objectTop), 2);
+            distance=Math.sqrt(distance);
+            if(distance<=minDistance){
+              minDistance=distance;
+              // minLeft=differenceLeft;
+              // minTop=differenceTop;
+              sectionIndex=index;
+            }
+          });
+          selectLayoutSection(currentLayoutSections[sectionIndex], true);
+          fabricCanvas.renderAll();
+        }
+        flags.droppedOnCanvas = true;
+      });
+      $('#image-studio').on('dragover', function (ev) {
+        // just to cancel dropping on outside the canvas : somehow its working
+        ev.preventDefault();
+        // console.log('image-studio dragover');
+      });
+      canvas_container.on('dragleave', function(ev){
+        // console.log('dragleave');
+        flags.droppedOnCanvas = false;
+        deselectLayoutAllSections();
+        fabricCanvas.renderAll();
+      });
+    }
+  
+    // extract Sticks and Text from Canvas
+    function extractStickersAndTexts() {
+      var objects = fabricCanvas.getObjects();
+      var returnArr = [];
+      for(var i = 0; i<objects.length; i++ ){
+        if(objects[i].customObjectType === customObjectTypes.sticker || objects[i].customObjectType === customObjectTypes.text){
+          returnArr.push(objects[i]);
+        }
+      }
+      return returnArr;
+    }
+  
+    // load Stickers and Text into Canvas
+    function loadStickersAndTexts(stickerTextArr) {
+      for(var i =0; i<stickerTextArr.length; i++){
+        fabricCanvas.add(stickerTextArr[i]);
+      }
+    }
+
+
   }
 }());
+

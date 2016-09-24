@@ -26,6 +26,7 @@
         name: 'TWO HORIZONTAL ROWS',
         url: 'svgs/layout-1.svg',
         isActive: true,
+        selected: false,
         data: [
           {
             originX: 'left',
@@ -221,6 +222,7 @@
         name: 'TWO VERTICAL COLUMNS',
         url: 'svgs/layout-2.svg',
         isActive: true,
+        selected: false,
         data: [
           {
             originX: 'left',
@@ -416,6 +418,7 @@
         name: '1 COLUMN IN 50%, 2 ROWS IN SECOND COLUMN',
         url: 'svgs/layout-3.svg',
         isActive: true,
+        selected: false,
         data: [
           {
             originX: 'left',
@@ -705,6 +708,7 @@
         name: '1 ROW IN 60%, 2 COLUMNS IN HALF HALF',
         url: 'svgs/layout-4.svg',
         isActive: true,
+        selected: false,
         data: [
           {
             originX: 'left',
@@ -994,6 +998,7 @@
         name: '4 EQUAL BOXES ',
         url: 'svgs/layout-5.svg',
         isActive: true,
+        selected: false,
         data: [
           {
             originX: 'left',
@@ -1377,6 +1382,7 @@
         name: '3 COLUMN in ONE ROW, 1 ROW BOTTOM',
         url: 'svgs/layout-6.svg',
         isActive: true,
+        selected: false,
         data: [
           {
             originX: 'left',
@@ -1758,6 +1764,8 @@
       }
     ];
 
+    var activeLayoutIndex = null;
+
     return {
       restrict: 'E',
       link: link,
@@ -1771,6 +1779,7 @@
 
     function link(scope, elem, attrs){
 
+      scope.selectedLayouts = selectedLayouts;
       // Initializer
       function init(){
         // TODO: Fetch texts from server
@@ -1793,14 +1802,49 @@
       function loadLayouts(){
         for(var i=0; i<scope.layouts.length; i++){
           (function(){
+            scope.layouts[i].selected = false;
             var layoutsToLoad = scope.layouts[i];
             // console.log("LOADING LAYOUTS: ", layoutsToLoad);
 
           }());
         }
       }
-
-      // pagination
+      function selectedLayouts(layout, index) {
+        // remove old selected filter
+        // class will be applied automatically
+        if(activeLayoutIndex === index){
+          scope.layouts[activeLayoutIndex].selected = false;
+          activeLayoutIndex = null;
+          scope.onSelect({layout: layout});
+        }
+        else if(activeLayoutIndex === null){
+          activeLayoutIndex = index;
+          scope.layouts[activeLayoutIndex].selected = true;
+          scope.onSelect({layout: layout});
+        }else {
+          scope.layouts[activeLayoutIndex].selected = false;
+          activeLayoutIndex = index;
+          scope.layouts[activeLayoutIndex].selected = true;
+          scope.onSelect({layout: layout});
+        }
+        // if(activeFilterIndex!=undefined && activeFilterIndex>=0){
+        //   scope.layouts[activeFilterIndex].selected = false;
+        //   scope.layouts[activeFilterIndex].showLoader = false;
+        // }
+        // if(index == activeFilterIndex){
+        //   scope.layouts[index].selected = false;
+        //   scope.layouts[index].showLoader = false;
+        // //  scope.onSelect({filter: 'normal', cb: loaderHandler});
+        //  // scope.layouts[scope.layouts.length-1].selected = true;
+        //  // activeFilterIndex = scope.layouts.length-1;
+        // }
+        // else{
+        //   activeFilterIndex = index;
+        //   scope.layouts[index].selected = true;
+        //   scope.layouts[activeFilterIndex].showLoader = true;
+        //   //scope.onSelect({filter: filter.name, cb: loaderHandler});
+        // }
+      }
 
 
       // call initializer
