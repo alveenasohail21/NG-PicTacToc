@@ -124,6 +124,239 @@
         }
       }
     };
+    const _canvasTypes = {
+      REGULAR : {
+        name : 'regular',
+        sizes: {
+          small : {
+            name: 'small',
+            initial: 'S',
+            horizontal : {
+              width : {
+                px: 1800,
+                inches: 6
+              },
+              height : {
+                px: 1200,
+                inches: 4
+              }
+            },
+            vertical : {
+              width : {
+                px: 1200,
+                inches: 4
+              },
+              height : {
+                px: 1800,
+                inches: 6
+              }
+            }
+          },
+          medium : {
+            name: 'medium',
+            initial: 'M',
+            horizontal : {
+              width : {
+                px: 2100,
+                inches: 7
+              },
+              height : {
+                px: 1500,
+                inches: 5
+              }
+            },
+            vertical : {
+              width : {
+                px: 1500,
+                inches: 5
+              },
+              height : {
+                px: 2100,
+                inches: 7
+              }
+            }
+          },
+          large : {
+            name: 'large',
+            initial: 'L',
+            horizontal : {
+              width : {
+                px: 2400,
+                inches: 8
+              },
+              height : {
+                px: 1800,
+                inches: 6
+              }
+            },
+            vertical : {
+              width : {
+                px: 1800,
+                inches: 6
+              },
+              height : {
+                px: 2400,
+                inches: 8
+              }
+            }
+          }
+        }
+      },
+      ENLARGE : {
+        name :  'enlarge',
+        sizes: {
+          small: {
+            name: 'small',
+            initial: 'S',
+            horizontal : {
+              width : {
+                px: 3600,
+                inches: 12
+              },
+              height : {
+                px: 2400,
+                inches: 8
+              }
+            },
+            vertical : {
+              width : {
+                px: 2400,
+                inches: 8
+              },
+              height : {
+                px: 3600,
+                inches: 12
+              }
+            }
+          },
+          medium : {
+            name: 'medium',
+            initial: 'M',
+            horizontal : {
+              width : {
+                px: 3600,
+                inches: 12
+              },
+              height : {
+                px: 3000,
+                inches: 10
+              }
+            },
+            vertical : {
+              width : {
+                px: 3000,
+                inches: 10
+              },
+              height : {
+                px: 3600,
+                inches: 12
+              }
+            }
+          },
+          large : {
+            name: 'large',
+            initial: 'L',
+            horizontal : {
+              width : {
+                px: 4800,
+                inches: 16
+              },
+              height : {
+                px: 3600,
+                inches: 12
+              }
+            },
+            vertical : {
+              width : {
+                px: 3600,
+                inches: 12
+              },
+              height : {
+                px: 4800,
+                inches: 16
+              }
+            }
+          }
+        }
+      },
+      SQUARE : {
+        name : 'square',
+        sizes: {
+          small: {
+            name: 'small',
+            initial: 'S',
+            horizontal : {
+              width : {
+                px: 1200,
+                inches: 4
+              },
+              height : {
+                px: 1200,
+                inches: 4
+              }
+            },
+            vertical : {
+              width : {
+                px: 1200,
+                inches:4
+              },
+              height : {
+                px: 1200,
+                inches: 4
+              }
+            }
+          },
+          medium : {
+            name: 'medium',
+            initial: 'M',
+            horizontal : {
+              width : {
+                px: 1800,
+                inches: 6
+              },
+              height : {
+                px: 1800,
+                inches: 6
+              }
+            },
+            vertical : {
+              width : {
+                px: 1800,
+                inches: 6
+              },
+              height : {
+                px: 1800,
+                inches: 6
+              }
+            }
+          },
+          large : {
+            name: 'large',
+            initial: 'L',
+            horizontal : {
+              width : {
+                px: 2400,
+                inches: 8
+              },
+              height : {
+                px: 2400,
+                inches: 8
+              }
+            },
+            vertical : {
+              width : {
+                px: 2400,
+                inches: 8
+              },
+              height : {
+                px: 2400,
+                inches: 8
+              }
+            }
+          }
+        }
+      }
+    };
     const customBorderTypes = [
       'noBorder', 'fullBorder', 'innerBorder', 'outerBorder'
     ];
@@ -131,7 +364,10 @@
       zoom: 0,
       plusIconSizeForLayoutSections: 60,
       borderWidth: 8,
-      strokeWidth : 5
+      strokeWidth : 5,
+      canvasType: 'SQUARE',
+      canvasSize: 'small',
+      canvasSizeOrientation: 'horizontal'
     };
 
     /*
@@ -143,8 +379,10 @@
     var selectedBorderIndex = 0;
     var currentLayout = null;
     var blueSelectedBoarderOffset =  5;
-    var currentSelectedCanvasType =  canvasTypes.SQUARE;
-    var currentSelectedCanvasSize = canvasSize.SMALL;
+    // default canvas type and sizes
+    var currentSelectedCanvasType =  canvasTypes[Defaults.canvasType];
+    var currentSelectedCanvasSize = Defaults.canvasSize;
+    // flags
     var flags = {
       isCanvasEmpty: true,
       isSectionSelected: false,
@@ -251,8 +489,11 @@
       checkLayoutSelection: checkLayoutSelection,
       deselectLayoutAllSections : deselectLayoutAllSections,
       // change Canvas
+      getCanvasTypes: getCanvasTypes,
+      getDefaultCanvasSizeDetails: getDefaultCanvasSizeDetails,
       changeCanvas  : changeCanvas,
       changeCanvasSize : changeCanvasSize,
+      updateCanvasSize: updateCanvasSize,
       updateImageEditorSize : updateImageEditorSize,
       updateImageEditorForCanvasChange : updateImageEditorForCanvasChange
       //drag and drop events
@@ -332,7 +573,7 @@
       element.current.width = updateValue;
     }
 
-    function updateImageEditorForCanvasChange (canvasType){
+    function updateImageEditorForCanvasChange(canvasType){
 
       var updateHeight = 0;
       var updateWidth = 0;
@@ -1894,6 +2135,42 @@
         }
       });
     }
+  
+    // ****************************************** Canvas Size methods ******************************************
+  
+    // get canvas types
+    function getCanvasTypes(){
+      return angular.copy(_canvasTypes);
+    }
+    
+    // get default canvas type, size, orientation
+    function getDefaultCanvasSizeDetails(){
+      return {
+        type: Defaults.canvasType,
+        size: Defaults.canvasSize,
+        orientation: Defaults.canvasSizeOrientation
+      };
+    }
+  
+    // Change Canvas
+    function changeCanvas(canvasType) {
+      currentSelectedCanvasType = canvasType;
+      currentSelectedCanvasSize = canvasSize.SMALL;
+      updateImageEditorForCanvasChange(canvasType);
+    }
+  
+    // Change Canvas Size
+    function changeCanvasSize(canvasSize) {
+      currentSelectedCanvasSize = canvasSize;
+      updateImageEditorForCanvasChange(currentSelectedCanvasType);
+    }
+  
+    // Update canvas type and size
+    function updateCanvasSize(type, size){
+      currentSelectedCanvasType = type;
+      currentSelectedCanvasSize = size;
+      updateImageEditorForCanvasChange(type);
+    }
 
     // ****************************************** Other methods ******************************************
 
@@ -2105,20 +2382,7 @@
         fabricCanvas.renderAll();
       });
     }
-
-    // Change Canvas
-    function changeCanvas(canvasType) {
-      currentSelectedCanvasType = canvasType;
-      currentSelectedCanvasSize = canvasSize.SMALL;
-      updateImageEditorForCanvasChange(canvasType);
-    }
-
-    // Change Canvas Size
-    function changeCanvasSize(canvasSize) {
-      currentSelectedCanvasSize = canvasSize;
-      updateImageEditorForCanvasChange(currentSelectedCanvasType);
-    }
-
+  
     // extract Sticks and Text from Canvas
     function extractStickersAndTexts() {
       var objects = fabricCanvas.getObjects();
@@ -2130,7 +2394,7 @@
       }
       return returnArr;
     }
-
+  
     // load Stickers and Text into Canvas
     function loadStickersAndTexts(stickerTextArr) {
       for(var i =0; i<stickerTextArr.length; i++){

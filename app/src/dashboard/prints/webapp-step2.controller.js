@@ -28,8 +28,6 @@
       dimension: '260x260'
     };
     vm.activeSidemenuItem = null;
-    vm.selectedCanvasType = 'square';
-    vm.selectedSizeOfCanvas = 'small';
     vm.selectedPhoto = {
       thumbnail: null,
       original: null,
@@ -55,15 +53,17 @@
       originY: 'center'
     };
     var canvasBkgImg = {
-      instance: null,
       active: false,
-      id: null,
-      photoIndex: null,
+      photoIndex: null
     };
     vm.readyToDisplay = true;
     vm.selectedObject = {};
     vm.updateTextEditor = true;
-
+    // available canvas types, don't modify in controller
+    vm.availableCanvasTypes = designTool.getCanvasTypes();
+    // default canvas type & size string
+    vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString();
+        
 
     /* Function Assignment */
     vm.toggleSidemenu = toggleSidemenu;
@@ -99,9 +99,10 @@
     vm.goToState = goToState;
     // Deselect layouts
     vm.deSelectLayout = deSelectLayout;
-    //Resize Canvas When different Canvas is Changed
-    vm.changeCanvas = changeCanvas;
-    vm.changeCanvasSize = changeCanvasSize;
+    // Resize Canvas When different Canvas is Changed
+    vm.updateCanvasSize = updateCanvasSize;
+    vm.sizeMouseOver = sizeMouseOver;
+    vm.sizeMouseLeave = sizeMouseLeave;
 
     /* Initializer */
     function init(){
@@ -665,41 +666,43 @@
     function updateTextColor(elemIndex){
       designTool.updateTextColor(elemIndex);
     }
-
-    /***************/
-    function goToState(stateName){
-      saveCanvasState();
-      designTool.emptyTool();
-      // go to state
-      //// console.log(stateName);
-      if(stateName.indexOf('Upload')>=0){
-        //// console.log("going");
-        $state.go('^.Upload');
-      }
-      else{
-        $state.go(stateName);
-      }
+  
+    /************************************* Canvas type & Size *************************************/
+    // update Canvas type and size
+    function updateCanvasSize(type, size){
+      designTool.updateCanvasSize(type, size);
+      vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(type, size);
     }
-
-    function saveCanvasState(){
-      //fabricCanvas.deactivateAll();
-      // save the already active image with settings
-      //vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
-      //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
-      //vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
-      //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgZoomValue = zoomSlider.slider('getValue');
-      //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgOrignalScaleValue = originalScale;
-      // clear canvas
-      //fabricCanvas.clear();
-      // hide customizer
-      //h
-      //
-      // ideObjectCustomizer();
-      updatePhotoStripWithCanvas(
-        canvasBkgImg.photoIndex,
-        designTool.getCanvasJSON(),
-        designTool.getCanvasDataUrl()
-      );
+  
+    function getCanvasSizeDetailsInString(type, size, orientation){
+      var defaultDetails = designTool.getDefaultCanvasSizeDetails();
+      var obj = {
+        type: type || defaultDetails.type,
+        size: size || defaultDetails.size,
+        orientation: orientation || defaultDetails.orientation
+      };
+      obj.type = obj.type.toUpperCase();
+      return vm.availableCanvasTypes[obj.type].name.capitalize()
+          /* Only Initial */
+          + ' (' + vm.availableCanvasTypes[obj.type].sizes[obj.size].initial + ')';
+      /*  Inches -> (4x4)
+       + ' ' + vm.availableCanvasTypes[obj.type].sizes[obj.size][obj.orientation].width.inches
+       + 'x' + vm.availableCanvasTypes[obj.type].sizes[obj.size][obj.orientation].height.inches
+       + '';
+       */
+    }
+    
+    function sizeMouseOver(type, size){
+      var defaultDetails = designTool.getDefaultCanvasSizeDetails();
+      type = type.toUpperCase();
+      vm.availableCanvasTypes[type].sizeHoveredText = vm.availableCanvasTypes[type].sizes[size][defaultDetails.orientation].width.inches
+          + ' x ' + vm.availableCanvasTypes[type].sizes[size][defaultDetails.orientation].height.inches
+          + '';
+    }
+  
+    function sizeMouseLeave(type, size){
+      type = type.toUpperCase();
+      vm.availableCanvasTypes[type].sizeHoveredText = null;
     }
 
     /************************************* Image change on hover *************************************/
@@ -728,23 +731,42 @@
       };
       vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = canvasJson;
     }
-
-
-    // Change Canvas
-
-    function changeCanvas(canvasType) {
-      vm.selectedCanvasType = canvasType;
-      designTool.changeCanvas(canvasType);
-      vm.selectedSizeOfCanvas = 'small';
+  
+    /************************************* Other methods *************************************/
+    function goToState(stateName){
+      saveCanvasState();
+      designTool.emptyTool();
+      // go to state
+      //// console.log(stateName);
+      if(stateName.indexOf('Upload')>=0){
+        //// console.log("going");
+        $state.go('^.Upload');
+      }
+      else{
+        $state.go(stateName);
+      }
     }
-
-    // change size of Canvas
-
-    function changeCanvasSize(canvasSize) {
-      designTool.changeCanvasSize(canvasSize);
-      vm.selectedSizeOfCanvas = canvasSize;
+  
+    function saveCanvasState(){
+      //fabricCanvas.deactivateAll();
+      // save the already active image with settings
+      //vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
+      //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
+      //vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
+      //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgZoomValue = zoomSlider.slider('getValue');
+      //vm.myPhotos[canvasBkgImg.photoIndex].canvasImgOrignalScaleValue = originalScale;
+      // clear canvas
+      //fabricCanvas.clear();
+      // hide customizer
+      //h
+      //
+      // ideObjectCustomizer();
+      updatePhotoStripWithCanvas(
+          canvasBkgImg.photoIndex,
+          designTool.getCanvasJSON(),
+          designTool.getCanvasDataUrl()
+      );
     }
-
 
     function turnOffSelectedImageDrag(){
       $timeout(function () {

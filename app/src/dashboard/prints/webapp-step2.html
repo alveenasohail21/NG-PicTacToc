@@ -145,50 +145,26 @@ Content : Start : Step 2
                     </div>
                     <div class="ptt-dropmenu dropup">
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.toggleDropdownVisibility('.action-icons-4 .ptt-dropmenu .dropdown-menu')">
-                            {{vm.selectedCanvasType}} ({{ vm.selectedSizeOfCanvas}})
+                            {{vm.selectedSizeOfCanvas}}
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            <li class="enlarge">
-                                <div ng-click="vm.changeCanvas('enlarge')"  class="box-border">
+                            <li ng-repeat="(typeKey, typeValue) in vm.availableCanvasTypes" ng-class="typeValue.name">
+                                <div ng-click="vm.updateCanvasSize(typeValue.name, typeValue.sizes.small.name)" class="box-border">
                                     <div class="box">
                                         <img class="left-arrow" src="images/left-size-arrow.png" alt="">
-                                        ENLARGED
+                                        {{typeValue.sizeHoveredText || typeValue.name | uppercase }}
                                         <img class="right-arrow" src="images/right-size-arrow.png" alt="">
                                     </div>
                                 </div>
                                 <div class="box-size">
-                                    <p ng-click="vm.changeCanvasSize('large')">L</p>
-                                    <p ng-click="vm.changeCanvasSize('medium')">M</p>
-                                    <p ng-click="vm.changeCanvasSize('small')">S</p>
-                                </div>
-                            </li>
-                            <li class="regular">
-                                <div ng-click="vm.changeCanvas('regular')"  class="box-border">
-                                    <div class="box">
-                                        <img class="left-arrow" src="images/left-size-arrow.png" alt="">
-                                        REGULAR
-                                        <img class="right-arrow" src="images/right-size-arrow.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="box-size">
-                                    <p ng-click="vm.changeCanvasSize('large')">L</p>
-                                    <p ng-click="vm.changeCanvasSize('medium')">M</p>
-                                    <p ng-click="vm.changeCanvasSize('small')">S</p>
-                                </div>
-                            <li  class="square">
-                                <div ng-click="vm.changeCanvas('square')" class="box-border">
-                                    <div class="box">
-                                        <img class="left-arrow" src="images/left-size-arrow.png" alt="">
-                                        SQUARE
-                                        <img class="right-arrow" src="images/right-size-arrow.png" alt="">
-
-                                    </div>
-                                </div>
-                                <div class="box-size">
-                                    <p ng-click="vm.changeCanvasSize('large')">L</p>
-                                    <p ng-click="vm.changeCanvasSize('medium')">M</p>
-                                    <p ng-click="vm.changeCanvasSize('small')">S</p>
+                                    <p ng-repeat="(sizeKey, sizeValue) in typeValue.sizes"
+                                       ng-click="vm.updateCanvasSize(typeValue.name, sizeValue.name)"
+                                       ng-mouseover="vm.sizeMouseOver(typeValue.name, sizeValue.name)"
+                                       ng-mouseleave="vm.sizeMouseLeave(typeValue.name, sizeValue.name)"
+                                    >
+                                        {{sizeValue.initial}}
+                                    </p>
                                 </div>
                             </li>
                         </ul>
