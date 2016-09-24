@@ -347,6 +347,7 @@
             turnOffSelectedImageDrag();
 
           });
+
           vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
 
           if(!designTool.getProp('isLayoutApplied')){
@@ -650,9 +651,9 @@
     });
 
     designTool.on('image:edited',function (e) {
-     if(!vm.myPhotos[e.data[0].photoIndex].isEdited){
-       vm.myPhotos[e.data[0].photoIndex].isEdited = true;
-     }
+      if(!vm.myPhotos[e.data[0].photoIndex].isEdited){
+        vm.myPhotos[e.data[0].photoIndex].isEdited = true;
+      }
     });
 
     /************************************* OBJECT CUSTOMIZER *************************************/
@@ -749,7 +750,6 @@
       $timeout(function () {
         $('.step2-lightSlider li').each(function(i){
           var image=$(this);
-          console.log(this);
           image.find("img").attr("draggable", "true");
           if(image.hasClass("selected")){
             // console.log(image.find("img")[1].id);

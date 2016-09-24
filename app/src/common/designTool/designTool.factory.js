@@ -807,7 +807,7 @@
     // ****************************************** Toolbar methods ******************************************
 
 
-    function applyBorder(cb, currentBorder, layoutIndex){
+    function applyBorder(cb, currentBorder, imageIndex){
       selectedBorderIndex=customBorderTypes.indexOf(currentBorder);
       var objects = fabricCanvas.getObjects();
       // only if layout is applied
@@ -816,17 +816,15 @@
         if(selectedBorderIndex == customBorderTypes.length){
           selectedBorderIndex = 0;
         }
+
         // console.log('DESIGN TOOL: applyBorder', customBorderTypes[selectedBorderIndex]);
         for(var i=0; i<objects.length; i++){
-
-          if(i == objects.length -1){
-            customEvents.fire(customEventsList.imageEdited, layoutIndex);
-          }
-
+          customEvents.fire(customEventsList.imageEdited, objects[imageIndex]);
           switch(objects[i].customObjectType){
             case customObjectTypes.layout:
               var border = objects[i].borders[customBorderTypes[selectedBorderIndex]];
               // create gap between layout sections which will work like borders
+              console.log("applying border at layout");
               objects[i].set({
                 top: (fabricCanvas.getHeight()*objects[i].percentValues.top) + ((border.top.value)?Defaults.borderWidth*border.top.applyFactor:0),
                 left: (fabricCanvas.getWidth()*objects[i].percentValues.left) + ((border.left.value)?Defaults.borderWidth*border.left.applyFactor:0),
@@ -841,6 +839,7 @@
         }
       }
       else{
+        customEvents.fire(customEventsList.imageEdited, objects[0]);
         switch(objects[0].customObjectType){
           case customObjectTypes.layout:
             break;
