@@ -292,7 +292,6 @@
               canvasJson['customSettings'] = {
                 selectedBorder : vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder
               };
-
             }
           }
           updatePhotoStripWithCanvas(
@@ -587,7 +586,7 @@
     }
 
     function applyBorder(){
-      designTool.applyBorder(changeBorderSvg, vm.selectedBorder);
+      designTool.applyBorder(changeBorderSvg, vm.selectedBorder, canvasBkgImg.photoIndex);
     }
 
     function copyCanvas(){

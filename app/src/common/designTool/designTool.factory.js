@@ -806,7 +806,8 @@
 
     // ****************************************** Toolbar methods ******************************************
 
-    function applyBorder(cb, currentBorder){
+
+    function applyBorder(cb, currentBorder, layoutIndex){
       selectedBorderIndex=customBorderTypes.indexOf(currentBorder);
       var objects = fabricCanvas.getObjects();
       // only if layout is applied
@@ -817,6 +818,11 @@
         }
         // console.log('DESIGN TOOL: applyBorder', customBorderTypes[selectedBorderIndex]);
         for(var i=0; i<objects.length; i++){
+
+          if(i == objects.length -1){
+            customEvents.fire(customEventsList.imageEdited, layoutIndex);
+          }
+
           switch(objects[i].customObjectType){
             case customObjectTypes.layout:
               var border = objects[i].borders[customBorderTypes[selectedBorderIndex]];
