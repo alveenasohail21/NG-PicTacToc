@@ -95,8 +95,8 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "app.common.directive:compareTo",
-      "shortName": "compareTo",
+      "id": "app.common.directive:ptt-loader",
+      "shortName": "ptt-loader",
       "type": "directive",
       "moduleName": "app.common",
       "shortDescription": "&lt; description placeholder &gt;",
@@ -104,8 +104,8 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "app.common.directive:ptt-loader",
-      "shortName": "ptt-loader",
+      "id": "app.common.directive:themeCustomizer",
+      "shortName": "themeCustomizer",
       "type": "directive",
       "moduleName": "app.common",
       "shortDescription": "&lt; description placeholder &gt;",

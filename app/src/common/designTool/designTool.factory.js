@@ -149,7 +149,8 @@
       isCanvasEmpty: true,
       isSectionSelected: false,
       isLayoutApplied: false,
-      isActionPerformable: true
+      isActionPerformable: true,
+      droppedOnCanvas: false
     };
 
     // props to save
@@ -418,6 +419,9 @@
       if(flags.isLayoutApplied){
         reApplyLayouts(currentLayout);
       }
+      else{
+        backgroundImageBoundaryCheck(sectionBkgImages[0]);
+      }
     }
 
     function setDimensions(dimension){
@@ -519,10 +523,17 @@
         else{
           // console.log('DESIGN TOOL: Layout section is selected!');
           var indexToMoveImgTo = null;
+          // save current section index and object
+          var currSectionIndex = selectedSectionIndex;
+          var currSelectedSection = currentLayoutSections[currSectionIndex];
+          // deselect section for the image to calculate its width and height properly
+          deselectLayoutAllSections();
           // position
           // scale
           // apply clipping
-          fabricImage = addBkgImageToSection(fabricImage, selectedSectionIndex);
+          fabricImage = addBkgImageToSection(fabricImage, currSectionIndex);
+          // select the section again to apply blue border
+          selectLayoutSection(currSelectedSection);
           // if there is already a background image, remove the previous one
           if(typeof sectionBkgImages[selectedSectionIndex] !== 'undefined'){
             indexToMoveImgTo = fabricCanvas.getObjects().indexOf(sectionBkgImages[selectedSectionIndex]);
@@ -819,7 +830,9 @@
 
         // console.log('DESIGN TOOL: applyBorder', customBorderTypes[selectedBorderIndex]);
         for(var i=0; i<objects.length; i++){
-          customEvents.fire(customEventsList.imageEdited, objects[imageIndex]);
+          if(imageIndex>=0){
+            customEvents.fire(customEventsList.imageEdited, objects[imageIndex]);
+          }
           switch(objects[i].customObjectType){
             case customObjectTypes.layout:
               var border = objects[i].borders[customBorderTypes[selectedBorderIndex]];
@@ -1336,6 +1349,7 @@
         if(typeof sectionBkgImages[currentLayoutSections.length-1] !== 'undefined'){
           sectionBkgImages[currentLayoutSections.length-1] = addBkgImageToSection(sectionBkgImages[currentLayoutSections.length-1], currentLayoutSections.length-1);
           fabricCanvas.add(sectionBkgImages[currentLayoutSections.length-1]);
+          // backgroundImageBoundaryCheck(sectionBkgImages[currentLayoutSections.length-1]);
           if(index == layoutSectionsCloned.length-1){
             loadStickersAndTexts(stickerAndText);
           }
@@ -1688,7 +1702,7 @@
 
     // Background Image Boundary Check and Position Update
     function backgroundImageBoundaryCheck(obj) {
-      // // console.log('DESIGN TOOL: backgroundImageBoundaryCheck');
+      console.log('DESIGN TOOL: backgroundImageBoundaryCheck',obj);
       var bounds = obj.getBoundingRect();
       var area;
       var objBounds = obj.getBoundingRect();
@@ -1755,12 +1769,12 @@
           if(bounds.left < objBounds.left){
             //// console.log("inside left bound");
             keyPair.key = 'left';
-            if(flags.isLayoutApplied) keyPair.value = (bounds.left + blueSelectedBoarderOffset + objBounds.width/2)  /fabricCanvas.getZoom();
+            if(flags.isLayoutApplied) keyPair.value = (bounds.left + objBounds.width/2)  /fabricCanvas.getZoom();
           }
           else if((bounds.left + bounds.width) > (objBounds.left +objBounds.width)){
             //// console.log("inside right bound");
             keyPair.key = 'left';
-            if(flags.isLayoutApplied) keyPair.value = (bounds.left - blueSelectedBoarderOffset + bounds.width - objBounds.width/2)/fabricCanvas.getZoom();
+            if(flags.isLayoutApplied) keyPair.value = (bounds.left + bounds.width - objBounds.width/2)/fabricCanvas.getZoom();
           }
           setInBound(keyPair.key, keyPair.value);
         }
@@ -1769,13 +1783,13 @@
           if((bounds.top + bounds.height) > (objBounds.top + objBounds.height)){
             //// console.log("inside top bound");
             keyPair.key = 'top';
-            if(flags.isLayoutApplied) keyPair.value = (bounds.top - blueSelectedBoarderOffset + bounds.height -objBounds.height/2)/fabricCanvas.getZoom();
+            if(flags.isLayoutApplied) keyPair.value = (bounds.top + bounds.height - objBounds.height/2)/fabricCanvas.getZoom();
             // console.log('values',keyPair.value);
           }
           else if(bounds.top < objBounds.top){
             //// console.log("inside bottom bound");
             keyPair.key = 'top';
-            if(flags.isLayoutApplied) keyPair.value = (bounds.top + blueSelectedBoarderOffset + objBounds.height/2)/fabricCanvas.getZoom();
+            if(flags.isLayoutApplied) keyPair.value = (bounds.top + objBounds.height/2)/fabricCanvas.getZoom();
           }
           setInBound(keyPair.key, keyPair.value);
         }
@@ -1901,7 +1915,7 @@
         blueSelectedBoarderOffset = Defaults.strokeWidth;
         currentLayoutSections[selectedSectionIndex].set({
           strokeWidth: Defaults.strokeWidth,
-          width :  currentLayoutSections[selectedSectionIndex].width - Defaults.strokeWidth ,
+          width :  currentLayoutSections[selectedSectionIndex].width - Defaults.strokeWidth,
           height :  currentLayoutSections[selectedSectionIndex].height - Defaults.strokeWidth
         });
         flags.isSectionSelected = true;
@@ -1987,12 +2001,16 @@
 
       this.setCoords();
       var clipRect = findByClipName(this.clipName);
+      // console.log(this);
+      // console.log(clipRect);
       var scaleXTo1 = (1 / this.scaleX);
       var scaleYTo1 = (1 / this.scaleY);
       ctx.save();
 
-      var ctxLeft = -( this.width / 2 ) + clipRect.strokeWidth;
-      var ctxTop = -( this.height / 2 ) + clipRect.strokeWidth;
+      var ctxLeft = -( this.width / 2 ) + clipRect.strokeWidth*2;
+      // var ctxLeft = -( this.width / 2 ) + clipRect.strokeWidth;
+      var ctxTop = -( this.height / 2 ) + clipRect.strokeWidth*2;
+      // var ctxTop = -( this.height / 2 ) + clipRect.strokeWidth;
       var ctxWidth = clipRect.width - clipRect.strokeWidth;
       var ctxHeight = clipRect.height - clipRect.strokeWidth;
 
@@ -2000,9 +2018,16 @@
       ctx.scale((this.flipX)?scaleXTo1*-1:scaleXTo1, (this.flipY)?scaleYTo1*-1:scaleYTo1);
       ctx.rotate(degToRad(this.angle * -1));
 
+      // console.log(this.angle);
+      // TODO
+      // clip fix through angle
+      
       ctx.beginPath();
       ctx.rect(
+        // clockwise
+        // clipRect.left - this.oCoords.tl.x + ((flags.isSectionSelected && (this.angle==90 || this.angle==-270))?Defaults.strokeWidth*2:0),
         clipRect.left - this.oCoords.tl.x,
+        // clipRect.top - this.oCoords.tl.y + ((flags.isSectionSelected && (this.angle==-90 || this.angle==270))?Defaults.strokeWidth*2:0),
         clipRect.top - this.oCoords.tl.y,
         ctxWidth,
         ctxHeight
@@ -2066,6 +2091,18 @@
           selectLayoutSection(currentLayoutSections[sectionIndex], true);
           fabricCanvas.renderAll();
         }
+        flags.droppedOnCanvas = true;
+      });
+      $('#image-studio').on('dragover', function (ev) {
+        // just to cancel dropping on outside the canvas : somehow its working
+        ev.preventDefault();
+        // console.log('image-studio dragover');
+      });
+      canvas_container.on('dragleave', function(ev){
+        // console.log('dragleave');
+        flags.droppedOnCanvas = false;
+        deselectLayoutAllSections();
+        fabricCanvas.renderAll();
       });
     }
 

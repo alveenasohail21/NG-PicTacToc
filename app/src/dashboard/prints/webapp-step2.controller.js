@@ -36,13 +36,6 @@
       filter: null
     };
 
-    // zoom slider
-    var zoomSlider;
-    var originalScale = {
-      x: 0,
-      y: 0
-    };
-
     // canvas
     var canvasImage = new Image();
     canvasImage.crossOrigin = '';
@@ -67,8 +60,6 @@
       id: null,
       photoIndex: null,
     };
-    var scallingFirstTime = true;
-    var scaleFactor;
     vm.readyToDisplay = true;
     vm.selectedObject = {};
     vm.updateTextEditor = true;
@@ -263,11 +254,12 @@
     }
     // get the high res image for editing
     function getSelectPhoto(id, index, imageDragged){
-      var layoutApplied=designTool.getProp('isLayoutApplied');
-      var sectionSelected=designTool.getProp('isSectionSelected');
+      if(imageDragged && !designTool.getProp('droppedOnCanvas')){
+        // image is dragged but not dropped on canvas
+        return;
+      }
       vm.closeSidemenu();
       vm.deSelectLayout();
-      var oldIndex = canvasBkgImg.photoIndex;
       // if no section is selected then mark the index selected
       if(!designTool.getProp('isSectionSelected')){
         // selected image
@@ -283,6 +275,7 @@
           // save the already active image with settings
           // canvas json will have zoom value and original scale value
           // deselect canvas
+          console.log("CTRL IS EDITED");
           var canvasJson = designTool.getCanvasJSON();
           canvasJson['customSettings'] = {
             selectedBorder : 'noBorder'
@@ -294,6 +287,7 @@
               };
             }
           }
+          console.log("saving canvasJSON: ",canvasJson);
           updatePhotoStripWithCanvas(
             canvasBkgImg.photoIndex,
             canvasJson,
@@ -342,7 +336,7 @@
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
 
-            designTool.updateImageEditorForCanvasChange(null);
+            // designTool.updateImageEditorForCanvasChange(null);
 
             turnOffSelectedImageDrag();
 
@@ -371,16 +365,16 @@
             canvasBkgImg.photoIndex = index;
           }
           designTool.loadBkgImage(resp, {photoIndex: index, currentFilter: 'normal'}, function(loadedImage){
+            $('#canvas').removeClass("single-image-border");
             $timeout(function(){
               // caman image for filter
               updateCamanCanvas(loadedImage);
               // save image data & filter widget will update filters
               saveSelectedPhoto(vm.myPhotos[index], resp);
               // udpate photo strip in case working on layout
-
               if(designTool.getProp('isSectionSelected')){
 
-                designTool.deselectLayoutAllSections();
+                // designTool.deselectLayoutAllSections();
 
                 // turnOffSelectedImageDrag();
                 console.log("layout testing");
@@ -394,9 +388,8 @@
               else{
                 vm.selectedBorder='noBorder';
               }
-              $('#canvas').removeClass("single-image-border");
 
-              designTool.updateImageEditorForCanvasChange(null);
+              // designTool.updateImageEditorForCanvasChange(null);
               turnOffSelectedImageDrag();
 
             });
@@ -504,6 +497,8 @@
       var isLayoutApplied = designTool.getProp('isLayoutApplied');
       designTool.applyLayout(layout, function(islayoutOff,photoIndex){
         if(!islayoutOff){
+          $('#canvas').removeClass("single-image-border");
+          vm.selectedBorder='noBorder';
           $timeout(function(){
             // remove selected from old one
             vm.myPhotos[canvasBkgImg.photoIndex].selected = false;
@@ -513,6 +508,7 @@
               vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]));
               // console.log(vm.myPhotos);
               canvasBkgImg.photoIndex++;
+              vm.myPhotos[canvasBkgImg.photoIndex].isEdited = true;
             }
             // else update the current slot
             updatePhotoStripWithCanvas(
@@ -523,8 +519,6 @@
             vm.myPhotos[canvasBkgImg.photoIndex].selected = true;
             console.log('photos',vm.myPhotos);
             turnOffSelectedImageDrag();
-            vm.selectedBorder='noBorder';
-            $('#canvas').removeClass("single-image-border");
           })
         }else {
           designTool.loadBkgImage(vm.myPhotos[photoIndex], {photoIndex: photoIndex, currentFilter: 'normal'}, function(loadedImage){
@@ -587,7 +581,12 @@
     }
 
     function applyBorder(){
-      designTool.applyBorder(changeBorderSvg, vm.selectedBorder, canvasBkgImg.photoIndex);
+      if(designTool.getProp('isLayoutApplied')){
+        designTool.applyBorder(changeBorderSvg, vm.selectedBorder, -1);
+      }
+      else{
+        designTool.applyBorder(changeBorderSvg, vm.selectedBorder, canvasBkgImg.photoIndex);
+      }
     }
 
     function copyCanvas(){
@@ -643,6 +642,7 @@
     });
 
     designTool.on('layout:sectionToggle', function(e) {
+      // console.log("CTRL: sectionToggle: ", e);
       if (vm.activeSidemenuItem == "filters") {
         if (!designTool.checkLayoutSelection()) {
           closeSidemenu();
@@ -651,9 +651,8 @@
     });
 
     designTool.on('image:edited',function (e) {
-      if(!vm.myPhotos[e.data[0].photoIndex].isEdited){
-        vm.myPhotos[e.data[0].photoIndex].isEdited = true;
-      }
+      // console.log('CTRL: Edited event',e.data);
+      vm.myPhotos[e.data[0].photoIndex].isEdited = true;
     });
 
     /************************************* OBJECT CUSTOMIZER *************************************/
@@ -721,12 +720,12 @@
     );
 
     function changeBorderSvg(borderStyle){
-      vm.selectedBorder=borderStyle;
-      var canvasJson=designTool.getCanvasJSON();
+      vm.selectedBorder = borderStyle;
+      var canvasJson = designTool.getCanvasJSON();
       canvasJson['customSettings'] = {
         selectedBorder : borderStyle
       };
-      vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON=canvasJson;
+      vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = canvasJson;
     }
 
 

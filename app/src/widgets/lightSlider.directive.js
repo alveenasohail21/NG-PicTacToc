@@ -138,32 +138,16 @@
 
       function registerSliderEvents() {
         //handles events on the lightslider photos
-
-
-        $('ul#step2-lightSlider img').on('dragstart', function(ev){
-          // console.log("i have started dragging");
-        });
-        $('ul#step2-lightSlider img').on('drag', function(ev){
-          // console.log("i am being dragged");
-        });
-
+        $('ul#step2-lightSlider img').off('dragend');
         $('ul#step2-lightSlider img').on('dragend', function(ev){
-          // console.log("i have stopped being dragged");
           ev.preventDefault();
-          var imageDragged= {
-            dataset: ev.target.dataset,
-            x: ev.target.x,
-            y: ev.target.y
-          };
-          var photoId=ev.target.dataset.photoid;
-          var index=ev.target.dataset.index;
-          scope.onGetSelectPhoto({id: photoId, index: index, imageDragged: imageDragged});
-          $('.step2-lightSlider li').each(function(i){
-            var image=$(this);
-            // console.log(image.find("img")[1].id);
-
+          scope.onGetSelectPhoto({
+            id: ev.target.dataset.photoid,
+            index: ev.target.dataset.index,
+            imageDragged: true
           });
         });
+        
       }
       // call initializer
       init();
