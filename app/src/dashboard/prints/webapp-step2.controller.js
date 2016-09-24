@@ -271,7 +271,8 @@
       // if canvas is already in editing, save current work as JSON
       if(!designTool.getProp('isCanvasEmpty')){
 
-        if(vm.myPhotos[canvasBkgImg.photoIndex].isEdited) {
+        console.log(canvasBkgImg.photoIndex);
+        if(canvasBkgImg.photoIndex!=null && 'isEdited' in vm.myPhotos[canvasBkgImg.photoIndex]) {
           // save the already active image with settings
           // canvas json will have zoom value and original scale value
           // deselect canvas
