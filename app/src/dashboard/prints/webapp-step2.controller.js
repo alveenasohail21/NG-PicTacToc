@@ -279,14 +279,10 @@
           // deselect canvas
           console.log("CTRL IS EDITED");
           var canvasJson = designTool.getCanvasJSON();
-          canvasJson['customSettings'] = {
-            selectedBorder : 'noBorder'
-          };
+          canvasJson.customSettings.selectedBorder = 'noBorder';
           if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
             if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
-              canvasJson['customSettings'] = {
-                selectedBorder : vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder
-              };
+              canvasJson.customSettings.selectedBorder = vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
             }
           }
           console.log("saving canvasJSON: ",canvasJson);
@@ -337,7 +333,12 @@
             img.src = resp.base64 ? resp.base64 : loadedImage;
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
-
+            // update the size dropdown with default values
+            vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(
+                vm.myPhotos[index].canvasJSON.customSettings.canvasSizeDetails.type,
+                vm.myPhotos[index].canvasJSON.customSettings.canvasSizeDetails.size
+            );
+            
             // designTool.updateImageEditorForCanvasChange(null);
 
             turnOffSelectedImageDrag();
@@ -375,20 +376,21 @@
               saveSelectedPhoto(vm.myPhotos[index], resp);
               // udpate photo strip in case working on layout
               if(designTool.getProp('isSectionSelected')){
-
                 // designTool.deselectLayoutAllSections();
-
                 // turnOffSelectedImageDrag();
                 console.log("layout testing");
-
+                // update photostrip slot
                 updatePhotoStripWithCanvas(
                   canvasBkgImg.photoIndex,
                   designTool.getCanvasJSON(),
                   designTool.getCanvasDataUrl()
                 );
               }
+              // udpate border and dropdown
               else{
                 vm.selectedBorder='noBorder';
+                // update the size dropdown with default values
+                vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString();
               }
 
               // designTool.updateImageEditorForCanvasChange(null);
