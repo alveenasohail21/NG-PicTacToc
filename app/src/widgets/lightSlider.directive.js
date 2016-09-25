@@ -45,7 +45,6 @@
 
       var sliderId = '#'+availableSliders[scope.step-1];
       var sliderClass = '.'+availableSliders[scope.step-1];
-      console.log("The element: ",elem);
       // Initializer
       function init(){
         $(document).ready(function() {

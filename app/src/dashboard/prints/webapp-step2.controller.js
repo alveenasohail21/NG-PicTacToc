@@ -63,7 +63,7 @@
     vm.availableCanvasTypes = designTool.getCanvasTypes();
     // default canvas type & size string
     vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString();
-        
+
 
     /* Function Assignment */
     vm.toggleSidemenu = toggleSidemenu;
@@ -259,6 +259,9 @@
         // image is dragged but not dropped on canvas
         return;
       }
+      // show loader
+      $('.global-loader').css('display', 'block');
+      //
       vm.closeSidemenu();
       vm.deSelectLayout();
       // if no section is selected then mark the index selected
@@ -272,12 +275,12 @@
       // if canvas is already in editing, save current work as JSON
       if(!designTool.getProp('isCanvasEmpty')){
 
-        console.log(canvasBkgImg.photoIndex);
         if(canvasBkgImg.photoIndex!=null && 'isEdited' in vm.myPhotos[canvasBkgImg.photoIndex]) {
           // save the already active image with settings
           // canvas json will have zoom value and original scale value
           // deselect canvas
-          console.log("CTRL IS EDITED");
+          console.log("CTRL: SAVING PRODUCT");
+          designTool.deActivateAll();
           var canvasJson = designTool.getCanvasJSON();
           canvasJson.customSettings.selectedBorder = 'noBorder';
           if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
@@ -285,7 +288,6 @@
               canvasJson.customSettings.selectedBorder = vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
             }
           }
-          console.log("saving canvasJSON: ",canvasJson);
           updatePhotoStripWithCanvas(
             canvasBkgImg.photoIndex,
             canvasJson,
@@ -335,13 +337,13 @@
             saveSelectedPhoto(vm.myPhotos[index], resp);
             // update the size dropdown with default values
             vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(
-                vm.myPhotos[index].canvasJSON.customSettings.canvasSizeDetails.type,
-                vm.myPhotos[index].canvasJSON.customSettings.canvasSizeDetails.size
+              vm.myPhotos[index].canvasJSON.customSettings.canvasSizeDetails.type,
+              vm.myPhotos[index].canvasJSON.customSettings.canvasSizeDetails.size
             );
-            
-            // designTool.updateImageEditorForCanvasChange(null);
 
             turnOffSelectedImageDrag();
+            // hide loader
+            $('.global-loader').css('display', 'none');
 
           });
 
@@ -378,7 +380,6 @@
               if(designTool.getProp('isSectionSelected')){
                 // designTool.deselectLayoutAllSections();
                 // turnOffSelectedImageDrag();
-                console.log("layout testing");
                 // update photostrip slot
                 updatePhotoStripWithCanvas(
                   canvasBkgImg.photoIndex,
@@ -395,6 +396,9 @@
 
               // designTool.updateImageEditorForCanvasChange(null);
               turnOffSelectedImageDrag();
+
+              // hide loader
+              $('.global-loader').css('display', 'none');
 
             });
           });
@@ -498,6 +502,9 @@
     /************************************* LAYOUTS *************************************/
 
     function applyLayout(layout){
+      // show loader
+      $('.global-loader').css('display', 'block');
+      //
       var isLayoutApplied = designTool.getProp('isLayoutApplied');
       designTool.applyLayout(layout, function(islayoutOff,photoIndex){
         if(!islayoutOff){
@@ -521,8 +528,9 @@
               designTool.getCanvasDataUrl()
             );
             vm.myPhotos[canvasBkgImg.photoIndex].selected = true;
-            console.log('photos',vm.myPhotos);
             turnOffSelectedImageDrag();
+            // hide loader
+            $('.global-loader').css('display', 'none');
           })
         }else {
           designTool.loadBkgImage(vm.myPhotos[photoIndex], {photoIndex: photoIndex, currentFilter: 'normal'}, function(loadedImage){
@@ -540,6 +548,8 @@
                   designTool.getCanvasDataUrl()
                 );
               }
+              // hide loader
+              $('.global-loader').css('display', 'none');
             })
           })
         }
@@ -668,14 +678,21 @@
     function updateTextColor(elemIndex){
       designTool.updateTextColor(elemIndex);
     }
-  
+
     /************************************* Canvas type & Size *************************************/
     // update Canvas type and size
     function updateCanvasSize(type, size){
-      designTool.updateCanvasSize(type, size);
-      vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(type, size);
+      // show loader
+      $('.global-loader').css('display', 'block');
+      //
+      designTool.updateImageEditorForCanvasChange(type, size, null, null, function(){
+          vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(type, size);
+          // hideloader
+          $('.global-loader').css('display', 'none');
+        }
+      );
     }
-  
+
     function getCanvasSizeDetailsInString(type, size, orientation){
       var defaultDetails = designTool.getDefaultCanvasSizeDetails();
       var obj = {
@@ -685,23 +702,23 @@
       };
       obj.type = obj.type.toUpperCase();
       return vm.availableCanvasTypes[obj.type].name.capitalize()
-          /* Only Initial */
-          + ' (' + vm.availableCanvasTypes[obj.type].sizes[obj.size].initial + ')';
+        /* Only Initial */
+        + ' (' + vm.availableCanvasTypes[obj.type].sizes[obj.size].initial + ')';
       /*  Inches -> (4x4)
        + ' ' + vm.availableCanvasTypes[obj.type].sizes[obj.size][obj.orientation].width.inches
        + 'x' + vm.availableCanvasTypes[obj.type].sizes[obj.size][obj.orientation].height.inches
        + '';
        */
     }
-    
+
     function sizeMouseOver(type, size){
       var defaultDetails = designTool.getDefaultCanvasSizeDetails();
       type = type.toUpperCase();
       vm.availableCanvasTypes[type].sizeHoveredText = vm.availableCanvasTypes[type].sizes[size][defaultDetails.orientation].width.inches
-          + ' x ' + vm.availableCanvasTypes[type].sizes[size][defaultDetails.orientation].height.inches
-          + '';
+        + ' x ' + vm.availableCanvasTypes[type].sizes[size][defaultDetails.orientation].height.inches
+        + '';
     }
-  
+
     function sizeMouseLeave(type, size){
       type = type.toUpperCase();
       vm.availableCanvasTypes[type].sizeHoveredText = null;
@@ -733,7 +750,7 @@
       };
       vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = canvasJson;
     }
-  
+
     /************************************* Other methods *************************************/
     function goToState(stateName){
       saveCanvasState();
@@ -748,7 +765,7 @@
         $state.go(stateName);
       }
     }
-  
+
     function saveCanvasState(){
       //fabricCanvas.deactivateAll();
       // save the already active image with settings
@@ -764,9 +781,9 @@
       //
       // ideObjectCustomizer();
       updatePhotoStripWithCanvas(
-          canvasBkgImg.photoIndex,
-          designTool.getCanvasJSON(),
-          designTool.getCanvasDataUrl()
+        canvasBkgImg.photoIndex,
+        designTool.getCanvasJSON(),
+        designTool.getCanvasDataUrl()
       );
     }
 
