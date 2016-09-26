@@ -293,16 +293,18 @@
             canvasJson,
             designTool.getCanvasDataUrl()
           );
-
+          var dataToSaveForProduct = {
+            photoid : [],
+            canvasJSON : designTool.getCanvasJSON()
+          };
+          dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex].id);
+          // console.log('data to save',dataToSaveForProduct);
+          productsFactory.addInProgressProducts(dataToSaveForProduct).then(function (resp) {
+            vm.myPhotos[canvasBkgImg.photoIndex].isEdited = false;
+            vm.myPhotos[canvasBkgImg.photoIndex].isProduct = true;
+          });
         }
 
-        // var dataToSaveForProduct = {
-        //   photoid : vm.myPhotos[canvasBkgImg.photoIndex].id,
-        //   canvasDataUrl : designTool.getCanvasDataUrl(),
-        //   canvasJSON : designTool.getCanvasJSON()
-        // };
-        // // console.log('data to save',dataToSaveForProduct);
-        // productsFactory.addInProgressProducts(dataToSaveForProduct);
 
         // working on layout
         if(designTool.getProp('isSectionSelected')){
@@ -462,7 +464,11 @@
         deleteCanvas();
       }
       else{
-        photosFactory.deletePhoto(id, index);
+        if(vm.myPhotos[index].isProduct){
+          productsFactory.deleteProduct(id,index);
+        }else {
+          photosFactory.deletePhoto(id, index);
+        }
       }
     }
 
@@ -470,11 +476,13 @@
     function copyPhoto(id, index){
       if(index == canvasBkgImg.photoIndex){
         copyCanvas();
-        // in progress product(d)
-        // copy product
       }
       else{
-        photosFactory.copyPhoto(id, index);
+        if(vm.myPhotos[index].isProduct){
+          productsFactory.copyProduct(id,index);
+        }else {
+          photosFactory.copyPhoto(id, index);
+        }
       }
     }
 

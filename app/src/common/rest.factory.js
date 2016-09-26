@@ -53,7 +53,8 @@
       },
       products : {
         addInProgressProducts : addInProgressProducts,
-        copyProduct: copyProduct
+        copyProduct: copyProduct,
+        deleteProduct : deleteProduct
       },
       oneUrl: oneUrl
     };
@@ -143,9 +144,9 @@
     function copyProduct(id, index){
       return Products.one('copy').post(null, {id: id});
     }
-    // function deleteProduct(id, index){
-    //   return Products.one('copy').post(null, {id: id});
-    // }
+    function deleteProduct(id){
+      return Restangular.one('products', id).remove();
+    }
 
   }
 }());

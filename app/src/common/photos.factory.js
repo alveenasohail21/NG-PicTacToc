@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('photosFactory', photosFactory);
 
-  function photosFactory($rootScope, $q, restFactory, alertFactory, productsFactory, designTool){
+  function photosFactory($rootScope, $q, restFactory, alertFactory, designTool){
 
     var _data = {
       photos: [],
@@ -205,23 +205,6 @@
     function copyPhoto(id, index) {
       var deferred = $q.defer();
       $('.collapse-loader').css('display', 'block');
-      if(_data.photos[index].isProduct){
-        productsFactory.copyProduct(id, index).then(function(resp){
-          if(resp.success){
-            resp.data.base64 = _data.photos[index].base64;
-            _data.photos.splice(index, 0, angular.copy(resp.data));
-            _data.totalCount++;
-            alertFactory.success("Success!", resp.message);
-            deferred.resolve(resp);
-          }
-          else{
-            alertFactory.error(null, resp.message);
-            deferred.reject(resp);
-          }
-          $('.collapse-loader').css('display', 'none');
-        });
-      }
-      else{
         restFactory.photos.copyPhoto(id, index).then(function(resp){
           if(resp.success){
             resp.data.base64 = _data.photos[index].base64;
@@ -237,7 +220,6 @@
           $('.collapse-loader').css('display', 'none');
         });
         return deferred.promise;
-      }
     }
 
     function mapSocialPhotos(photo, platform){
