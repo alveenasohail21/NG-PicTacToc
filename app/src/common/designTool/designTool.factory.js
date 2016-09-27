@@ -474,6 +474,7 @@
       // getter and setter
       getProp: getProp,
       setProp: setProp,
+      getCurrentBkgIds : getCurrentBkgIds,
       // Toolbar methods
       applyBorder: applyBorder,
       flipHorizontal: flipHorizontal,
@@ -803,6 +804,7 @@
 
     function loadBkgImage(image, propsToAdd, cb){
       // console.log('DESIGN TOOL: loadBkgImage');;
+      console.log('images ',image);
       var img = new Image();
       img.onload = function(){
         // image settings
@@ -813,7 +815,8 @@
           hasControls: false,
           zoom: Defaults.zoom,
           originalWidth : this.naturalWidth,
-          originalHeight : this.naturalHeight
+          originalHeight : this.naturalHeight,
+          photoId  : image.id
         });
         // fabric default settings
         fabricImage.set(fabricObjSettings);
@@ -1073,7 +1076,6 @@
 
       }
       else {
-        console.log('loading json',canvasJSON);
         fabricCanvas.loadFromJSON(canvasJSON, function(){
           var objects = fabricCanvas.getObjects();
           var loadedImage;
@@ -1101,7 +1103,6 @@
                   sectionBkgImages = [];
                   sectionBkgImages.push(obj);
                   // before loading resize the canvas to previous type
-                  console.log('updating canvas', canvasJSON.customSettings.canvasSizeDetails);
                   currentSelectedCanvasType = canvasJSON.customSettings.canvasSizeDetails.type;
                   updateImageEditorForCanvasChange(
                     canvasJSON.customSettings.canvasSizeDetails.type,
@@ -2387,6 +2388,7 @@
     }
 
     function addBkgImageToSection(imgInstance, sectionIndex){
+      console.log('image instance',imgInstance);
       // position
       imgInstance.set({
         top: currentLayoutSections[sectionIndex].top + currentLayoutSections[sectionIndex].height/2,
@@ -2556,6 +2558,19 @@
     function loadStickersAndTexts(stickerTextArr) {
       for(var i =0; i<stickerTextArr.length; i++){
         fabricCanvas.add(stickerTextArr[i]);
+      }
+    }
+
+    function getCurrentBkgIds() {
+      var idArr = [];
+      console.log('yo yo');
+      if(flags.isLayoutApplied){
+        console.log('section bkg',sectionBkgImages);
+      }else {
+        var fabricBkgImage = findByProps({
+          customObjectType: customObjectTypes.backgroundImage
+        });
+        console.log('single ',fabricBkgImage);
       }
     }
 

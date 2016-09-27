@@ -236,7 +236,7 @@
     // load new photos
     function loadMoreMyPhotos(){
       if(vm.myPhotosTotalCount > vm.myPhotos.length) {
-        vm.myPhotosPagination.from += 12;
+        vm.myPhotosPagination.from += 6;
         photosFactory.getPhotos(vm.myPhotosPagination)
           .then(function (resp) {
             //// console.log("new photos length: ", resp.photos.length);
@@ -297,12 +297,18 @@
             photoid : [],
             canvasJSON : designTool.getCanvasJSON()
           };
+          designTool.getCurrentBkgIds();
+          if(vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            dataToSaveForProduct.productId = vm.myPhotos[canvasBkgImg.photoIndex].id;
+          }
           dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex].id);
           // console.log('data to save',dataToSaveForProduct);
-          productsFactory.addInProgressProducts(dataToSaveForProduct).then(function (resp) {
-            vm.myPhotos[canvasBkgImg.photoIndex].isEdited = false;
-            vm.myPhotos[canvasBkgImg.photoIndex].isProduct = true;
-          });
+          // productsFactory.addInProgressProducts(dataToSaveForProduct).then(function (resp) {
+          //   console.log('ctrl :: resp ',resp.data);
+          //   vm.myPhotos[canvasBkgImg.photoIndex].id = resp.data.id;
+          //   vm.myPhotos[canvasBkgImg.photoIndex].isEdited = false;
+          //   vm.myPhotos[canvasBkgImg.photoIndex].isProduct = true;
+          // });
         }
 
 

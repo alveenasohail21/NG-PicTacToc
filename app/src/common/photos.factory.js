@@ -74,7 +74,7 @@
       restFactory.photos.getPhotos(data)
         .then(function(resp){
           if(resp.success){
-            resp.data['photos'] = mapPhotos(resp.data);
+            resp.data['photos'] = mapPhotos(resp.data.photos);
             resp.data['photos'].forEach(function(elem, index){
               _data.photos.push(angular.copy(elem));
             });
