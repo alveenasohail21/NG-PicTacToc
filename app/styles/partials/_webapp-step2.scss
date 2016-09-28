@@ -681,6 +681,12 @@ body.app{
           background-color: $slider-handler-color;
           background-image: none;
         }
+        .slider-handle:hover{
+          border: 5px solid $btn-bkg-color !important;
+        }
+        .slider-handle:active{
+          border: 5px solid $btn-bkg-color !important;
+        }
         .tooltip{
           display: none;
         }

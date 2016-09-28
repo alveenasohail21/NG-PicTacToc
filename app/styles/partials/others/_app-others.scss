@@ -146,17 +146,22 @@ body.app {
           }
         }
         .box-border:hover .box > img.left-arrow {
-          transform: translate3d(-24px, -13px, 0);
-          backface-visibility: hidden;
-          perspective: 1000px;
+          //transform: translate3d(-24px, -13px, 0);
+          //backface-visibility: hidden;
+          //perspective: 1000px;
+          //visibility: visible;
         }
         .box-border:hover .box > img.right-arrow {
-          transform: translate3d(24px, 13px, 0);
-          backface-visibility: hidden;
-          perspective: 1000px;
+          //transform: translate3d(24px, 13px, 0);
+          //backface-visibility: hidden;
+          //perspective: 1000px;
+          //visibility: visible;
         }
         .box-size {
           padding-top: 8px;
+          p:hover{
+            background-color: $btn-bkg-color !important;
+          }
         }
       }
       .regular {
@@ -178,17 +183,22 @@ body.app {
           }
         }
         .box-border:hover .box > img.left-arrow {
-          transform: translate3d(-23px, -13px, 0);
-          backface-visibility: hidden;
-          perspective: 1000px;
+          //transform: translate3d(-23px, -13px, 0);
+          //backface-visibility: hidden;
+          //perspective: 1000px;
+          //visibility: visible;
         }
         .box-border:hover .box > img.right-arrow {
-          transform: translate3d(23px, 13px, 0);
-          backface-visibility: hidden;
-          perspective: 1000px;
+          //transform: translate3d(23px, 13px, 0);
+          //backface-visibility: hidden;
+          //perspective: 1000px;
+          //visibility: visible;
         }
         .box-size {
           padding-top: 3px;
+          p:hover{
+            background-color: $btn-bkg-color !important;
+          }
         }
       }
       .square {
@@ -210,17 +220,22 @@ body.app {
           }
         }
         .box-border:hover .box > img.left-arrow {
-          transform: translate3d(-13px, -13px, 0);
-          backface-visibility: hidden;
-          perspective: 1000px;
+          //transform: translate3d(-13px, -13px, 0);
+          //backface-visibility: hidden;
+          //perspective: 1000px;
+          //visibility: visible;
         }
         .box-border:hover .box > img.right-arrow {
-          transform: translate3d(13px, 13px, 0);
-          backface-visibility: hidden;
-          perspective: 1000px;
+          //transform: translate3d(13px, 13px, 0);
+          //backface-visibility: hidden;
+          //perspective: 1000px;
+          //visibility: visible;
         }
         .box-size {
           padding-top: 6px;
+          p:hover{
+            background-color: $btn-bkg-color !important;
+          }
         }
       }
     }

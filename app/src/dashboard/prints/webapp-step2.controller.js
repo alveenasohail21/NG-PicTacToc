@@ -139,7 +139,6 @@
 
       getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
     }
-
     function toggleSidemenu(template){
       // if addMorePhotos
       if(template == 'addMorePhotos'){
@@ -348,7 +347,7 @@
           });
 
           vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
-
+          console.log("I am selected here: ", vm.myPhotos[index].canvasJSON);
           if(!designTool.getProp('isLayoutApplied')){
             if(vm.selectedBorder=='outerBorder'){
               $('#canvas').addClass("single-image-border");
@@ -365,7 +364,6 @@
         else{
           // console.log('CTRL: Loading new Image');
           // update index
-
           if(!designTool.getProp('isSectionSelected')){
             canvasBkgImg.photoIndex = index;
           }
@@ -429,6 +427,7 @@
         thumbnail: thumbnail,
         original: original
       };
+      designTool.checkResolution(vm.selectedPhoto.original);
     }
 
     function updatePhotoStripWithCanvas(index, canvasJSON, canvasDataUrl){
@@ -668,6 +667,13 @@
       // console.log('CTRL: Edited event',e.data);
       vm.myPhotos[e.data[0].photoIndex].isEdited = true;
     });
+    designTool.on('image:checkResolution',function (e) {
+      var lowResolution=e.data[0];
+      if(lowResolution){
+        alertFactory.warning(null, "The Image has lower resolution than the canvas size selected");
+      }
+    });
+
 
     /************************************* OBJECT CUSTOMIZER *************************************/
 
@@ -685,7 +691,9 @@
       // show loader
       $('.global-loader').css('display', 'block');
       //
+      // console.log("Testing for actual height: ",vm.selectedPhoto.original);
       designTool.updateImageEditorForCanvasChange(type, size, null, null, function(){
+          designTool.checkResolution(vm.selectedPhoto.original);
           vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(type, size);
           // hideloader
           $('.global-loader').css('display', 'none');
@@ -712,17 +720,32 @@
     }
 
     function sizeMouseOver(type, size){
-      var defaultDetails = designTool.getDefaultCanvasSizeDetails();
-      type = type.toUpperCase();
-      vm.availableCanvasTypes[type].sizeHoveredText = vm.availableCanvasTypes[type].sizes[size][defaultDetails.orientation].width.inches
-        + ' x ' + vm.availableCanvasTypes[type].sizes[size][defaultDetails.orientation].height.inches
-        + '';
+      toggleArrowsOnDropdown(type);
+      if(size){
+        $("#"+type).css({border: "1px solid #65e0e4"});
+        var defaultDetails = designTool.getDefaultCanvasSizeDetails();
+        type = type.toUpperCase();
+        vm.availableCanvasTypes[type].sizeHoveredText = vm.availableCanvasTypes[type].sizes[size][defaultDetails.orientation].width.inches
+          + ' x ' + vm.availableCanvasTypes[type].sizes[size][defaultDetails.orientation].height.inches
+          + '';
+      }
+    }
+    function sizeMouseLeave(type, size){
+      $("img.left-arrow").css({
+        transform: "unset",
+        visibility:   "hidden"
+      });
+      $("img.right-arrow").css({
+        transform: "unset",
+        visibility: "hidden"
+      });
+      $("#"+type).css({border: "none"});
+      if(size){
+        type = type.toUpperCase();
+        vm.availableCanvasTypes[type].sizeHoveredText = null;
+      }
     }
 
-    function sizeMouseLeave(type, size){
-      type = type.toUpperCase();
-      vm.availableCanvasTypes[type].sizeHoveredText = null;
-    }
 
     /************************************* Image change on hover *************************************/
     var imageUrl;
@@ -741,7 +764,6 @@
         this.src=imageUrl;
       }
     );
-
     function changeBorderSvg(borderStyle){
       vm.selectedBorder = borderStyle;
       var canvasJson = designTool.getCanvasJSON();
@@ -797,8 +819,37 @@
             image.find("img").attr("draggable", "false");
           }
         });
-      },200);
+      }, 200);
     }
+
+    function toggleArrowsOnDropdown(type){
+      var leftArrow="#"+type+" img.left-arrow";
+      var rightArrow="#"+type+" img.right-arrow";
+      switch (type){
+        case "square":
+          $(leftArrow).css({
+            transform: "translate3d(-14px, -13px, 0px)",
+            visibility: "visible"
+          });
+          $(rightArrow).css({
+            transform: "translate3d(14px, 13px, 0px)",
+            visibility: "visible"
+          });
+          break;
+        case "regular":
+        case "enlarge":
+          $(leftArrow).css({
+            transform: "translate3d(-24px, -13px, 0)",
+            visibility: "visible"
+          });
+          $(rightArrow).css({
+            transform: "translate3d(24px, 13px, 0)",
+            visibility: "visible"
+          });
+          break;
+      }
+    }
+
     // controller
     /* Initializer Call */
     init();

@@ -150,8 +150,12 @@ Content : Start : Step 2
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li ng-repeat="(typeKey, typeValue) in vm.availableCanvasTypes" ng-class="typeValue.name">
-                                <div ng-click="vm.updateCanvasSize(typeValue.name, typeValue.sizes.small.name)" class="box-border">
-                                    <div class="box">
+                                <div ng-click="vm.updateCanvasSize(typeValue.name, typeValue.sizes.small.name)" class="box-border"
+                                     ng-mouseover="vm.sizeMouseOver(typeValue.name, null)"
+                                     ng-mouseleave="vm.sizeMouseLeave(typeValue.name, null)"
+                                >
+
+                                    <div class="box" id="{{typeValue.name}}">
                                         <img class="left-arrow" src="images/left-size-arrow.png" alt="">
                                         {{typeValue.sizeHoveredText || typeValue.name | uppercase }}
                                         <img class="right-arrow" src="images/right-size-arrow.png" alt="">

@@ -431,6 +431,7 @@
       imageSelected: 'image:selected',
       imageEdited: 'image:edited',
       canvasDimensionChanged : 'canvas:dimensionChanged',
+      imageCheckResolution : 'image:checkResolution',
       layoutSectionToggle: 'layout:sectionToggle'
     };
     // canvas parent div
@@ -500,7 +501,8 @@
       getCanvasTypes: getCanvasTypes,
       getDefaultCanvasSizeDetails: getDefaultCanvasSizeDetails,
       updateImageEditorSize : updateImageEditorSize,
-      updateImageEditorForCanvasChange : updateImageEditorForCanvasChange
+      updateImageEditorForCanvasChange : updateImageEditorForCanvasChange,
+      checkResolution: checkResolution
       //drag and drop events
     };
 
@@ -532,7 +534,7 @@
     }
 
     function updateImageEditorSize(){
-
+      customEvents.fire(customEventsList.imageCheckResolution, true);
       var imageStudio = {
         height: $(imageStudioTag).height(),
         width: $(imageStudioTag).width()
@@ -579,7 +581,6 @@
     }
 
     function updateImageEditorForCanvasChange(canvasType, canvasSize, canvasOrientation, noRecalculation, cb){
-
       var updateHeight = 0;
       var updateWidth = 0;
       var imageStudio = {
@@ -591,6 +592,19 @@
       currentSelectedCanvasSize = canvasSize || currentSelectedCanvasSize;
       // Formula for aspect ratio equality calculation
       // (original height / original width) = (new height / new width)
+
+
+      // if(!flags.isLayoutApplied){
+        var fabricBkgImage = findByProps({
+          customObjectType: customObjectTypes.backgroundImage
+        });
+        // var selectedCanvasResolutions=_canvasTypes[currentSelectedCanvasType.toLocaleUpperCase()].sizes[currentSelectedCanvasSize][Defaults.canvasSizeOrientation];
+        // var lowResolution=checkResolution(fabricBkgImage.actualWidth, fabricBkgImage.actualHeight,
+        //   selectedCanvasResolutions.width.px, selectedCanvasResolutions.height.px);
+        // if(lowResolution) customEvents.fire(customEventsList.imageCheckResolution, true);
+      // }
+
+
       switch (canvasType){
         case canvasTypes.ENLARGE.name :
         case canvasTypes.REGULAR.name :
@@ -608,7 +622,7 @@
             }
           }
           else {
-            var fabricBkgImage = findByProps({
+            fabricBkgImage = findByProps({
               customObjectType: customObjectTypes.backgroundImage
             });
             // if image  width is small go for vertical canvas
@@ -672,7 +686,7 @@
           reApplyLayouts(currentLayout);
         }
         else{
-          updateScalingOfBkgImage();
+         // updateScalingOfBkgImage();
           backgroundImageBoundaryCheck(sectionBkgImages[0]);
         }
       }
@@ -1077,52 +1091,52 @@
         fabricCanvas.loadFromJSON(canvasJSON, function(){
           var objects = fabricCanvas.getObjects();
           var loadedImage;
-          for(var i=0; i<objects.length; i++){
-            var obj = objects[i];
-            // console.log("setting object at index: ",i);
-            obj.set(fabricObjSettings);
-            // reactivate settings
-            switch(obj.customObjectType){
-              case customObjectTypes.backgroundImage:
-                loadedImage = obj.toDataURL();
-                // // fabric default settings
-                // position
-                // scale
-                // clipping
-                // zoom
-                zoomSlider.slider('setValue', obj.get('zoom'));
-                // console.log('Its a bkg image');
-                if(selectedSectionIndex == -1){
-                  // console.log('DESIGN TOOL: Layout section is not selected, loading single image');
-                  flags.isLayoutApplied = false;
-                  // change bkg color
-                  fabricCanvas.backgroundColor = '#cccccc';
-                  // save fabric image instance
-                  sectionBkgImages = [];
-                  sectionBkgImages.push(obj);
-                  // before loading resize the canvas to previous type
-                  console.log('updating canvas', canvasJSON.customSettings.canvasSizeDetails);
-                  currentSelectedCanvasType = canvasJSON.customSettings.canvasSizeDetails.type;
-                  updateImageEditorForCanvasChange(
-                    canvasJSON.customSettings.canvasSizeDetails.type,
-                    canvasJSON.customSettings.canvasSizeDetails.size
-                  )
-                }
-                break;
-              case customObjectTypes.layout:
-                flags.isLayoutApplied = true;
-                break;
-              case customObjectTypes.sticker:
-                break;
-              case customObjectTypes.text:
-                break;
+          $timeout(function () {
+            for(var i=0; i<objects.length; i++){
+              var obj = objects[i];
+              // console.log("setting object at index: ",i);
+              obj.set(fabricObjSettings);
+              // reactivate settings
+              switch(obj.customObjectType){
+                case customObjectTypes.backgroundImage:
+                  loadedImage = obj.toDataURL();
+                  // // fabric default settings
+                  // position
+                  // scale
+                  // clipping
+                  // zoom
+                  zoomSlider.slider('setValue', obj.get('zoom'));
+                  // console.log('Its a bkg image');
+                  if(selectedSectionIndex == -1){
+                    // console.log('DESIGN TOOL: Layout section is not selected, loading single image');
+                    flags.isLayoutApplied = false;
+                    // change bkg color
+                    fabricCanvas.backgroundColor = '#cccccc';
+                    // save fabric image instance
+                    sectionBkgImages = [];
+                    sectionBkgImages.push(obj);
+                    // before loading resize the canvas to previous type
+                    console.log('updating canvas', canvasJSON.customSettings.canvasSizeDetails);
+                    currentSelectedCanvasType = canvasJSON.customSettings.canvasSizeDetails.type;
+                    updateImageEditorForCanvasChange(
+                      canvasJSON.customSettings.canvasSizeDetails.type,
+                      canvasJSON.customSettings.canvasSizeDetails.size
+                    );
+                  }
+                  break;
+                case customObjectTypes.layout:
+                  flags.isLayoutApplied = true;
+                  break;
+                case customObjectTypes.sticker:
+                  break;
+                case customObjectTypes.text:
+                  break;
+              }
+              // update coords
+             // obj.setCoords();
             }
-            // update coords
-            obj.setCoords();
-          }
-
+          });
           continueRender(loadedImage);
-
         });
       }
 
@@ -2559,7 +2573,20 @@
       }
     }
 
-
+    function checkResolution(selectedImage){
+      if(!selectedImage) return;
+      if(!flags.isLayoutApplied){
+        var selectedCanvasResolutions=_canvasTypes[currentSelectedCanvasType.toLocaleUpperCase()].sizes[currentSelectedCanvasSize][Defaults.canvasSizeOrientation];
+        var low_resolution=lowResolution(selectedImage.originalWidth, selectedImage.originalHeight,
+          selectedCanvasResolutions.width.px, selectedCanvasResolutions.height.px);
+        if(low_resolution) {
+          customEvents.fire(customEventsList.imageCheckResolution, true);
+        }
+      }
+    }
+    function lowResolution(width1, height1, width2, height2) {
+      return !!(width1 < width2 || height1 < height2);
+    }
   }
 }());
 
