@@ -31,11 +31,6 @@
     const toolBar = 'div.toolbar';
     const actionIcon5 = '.action-icons-5';
     const actionIcon4= '.action-icons-4';
-    const canvasSize = {
-      SMALL : 'small',
-      MEDIUM : 'medium',
-      LARGE : 'large'
-    };
     const canvasOrientations = {
       vertical: 'vertical',
       horizontal: 'horizontal'
@@ -529,6 +524,7 @@
       fabricCanvas.renderAll();
       // bind fabric events to tool as well
       bindFabricEvents();
+      bindDOMEvents();
       // bind keyboard events
       bindKeyboardEvents();
     }
@@ -2035,6 +2031,17 @@
 
     function on(name, cb){
       customEvents.on(name, cb);
+    }
+    // ****************************************** Custom DOM Events ******************************************
+
+    function bindDOMEvents() {
+      var imageStudio = angular.element(imageStudioTag);
+      imageStudio.bind('mousedown',function ($event) {
+        var element = $event.toElement;
+        if('#'+element.id === imageStudioTag ){
+          deselectLayoutAllSections();
+        }
+      });
     }
 
     // ****************************************** Zoom methods ******************************************
