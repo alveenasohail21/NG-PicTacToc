@@ -21,11 +21,11 @@
         deffered.resolve(resp.data);
       },function (err) {
         alertFactory.error(null, resp.message);
-        deffered.reject(resp);
+        deffered.reject(err);
       });
       return deffered.promise;
     }
-    
+
     function copyProduct(id, index) {
       var deferred = $q.defer();
       restFactory.products.copyProduct(id, index).then(function(resp){

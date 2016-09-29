@@ -275,7 +275,7 @@
       // if canvas is already in editing, save current work as JSON
       if(!designTool.getProp('isCanvasEmpty')){
 
-        if(canvasBkgImg.photoIndex!=null && 'isEdited' in vm.myPhotos[canvasBkgImg.photoIndex]) {
+        if(canvasBkgImg.photoIndex!=null && vm.myPhotos[canvasBkgImg.photoIndex].isEdited) {
           // save the already active image with settings
           // canvas json will have zoom value and original scale value
           // deselect canvas
@@ -295,22 +295,24 @@
           );
           var dataToSaveForProduct = {
             photoid : [],
+            canvasDataUrl : designTool.getCanvasDataUrl(),
             canvasJSON : designTool.getCanvasJSON()
           };
-          designTool.getCurrentBkgIds();
+
           if(vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
             dataToSaveForProduct.productId = vm.myPhotos[canvasBkgImg.photoIndex].id;
           }
-          dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex].id);
-          // console.log('data to save',dataToSaveForProduct);
-          // productsFactory.addInProgressProducts(dataToSaveForProduct).then(function (resp) {
-          //   console.log('ctrl :: resp ',resp.data);
-          //   vm.myPhotos[canvasBkgImg.photoIndex].id = resp.data.id;
-          //   vm.myPhotos[canvasBkgImg.photoIndex].isEdited = false;
-          //   vm.myPhotos[canvasBkgImg.photoIndex].isProduct = true;
-          // });
+          if(!designTool.getProp('isLayoutApplied')){
+            dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex].id);
+          }
+          console.log('data to save ',dataToSaveForProduct);
+          var oldIndex = canvasBkgImg.photoIndex;
+          productsFactory.addInProgressProducts(dataToSaveForProduct).then(function (resp) {
+            vm.myPhotos[oldIndex].id = resp.id;
+            vm.myPhotos[oldIndex].isEdited = false;
+            vm.myPhotos[oldIndex].isProduct = true;
+          });
         }
-
 
         // working on layout
         if(designTool.getProp('isSectionSelected')){
@@ -334,7 +336,7 @@
           // update index
           canvasBkgImg.photoIndex = index;
           // load
-          designTool.loadFromJSON(vm.myPhotos[index].canvasJSON, function(loadedImage){
+          designTool.loadFromJSON(vm.myPhotos[index].canvasJSON,index ,function(loadedImage){
             // caman image for filter
             var img = new Image();
             img.onload = function(){
@@ -496,7 +498,7 @@
 
     // apply filter
     function applyFilter(filter, cb){
-      designTool.applyFilter(filter, function(flag){
+      designTool.applyFilter(filter,canvasBkgImg.photoIndex, function(flag){
         cb(flag);
       });
     }
@@ -504,13 +506,13 @@
     /************************************* STICKERS *************************************/
 
     function applySticker(sticker){
-      designTool.applySticker(sticker);
+      designTool.applySticker(sticker,canvasBkgImg.photoIndex);
     }
 
     /************************************* TEXTS *************************************/
 
     function applyText(text){
-      designTool.applyText(text);
+      designTool.applyText(text,canvasBkgImg.photoIndex);
     }
 
     /************************************* LAYOUTS *************************************/
@@ -572,19 +574,19 @@
 
     /************************************* LEFT TOOLBAR FUNCTIONS *************************************/
     function flipHorizontal(){
-      designTool.flipHorizontal();
+      designTool.flipHorizontal(canvasBkgImg.photoIndex);
     }
 
     function flipVertical(){
-      designTool.flipVertical();
+      designTool.flipVertical(canvasBkgImg.photoIndex);
     }
 
     function rotateClockwise(){
-      designTool.rotateClockwise();
+      designTool.rotateClockwise(canvasBkgImg.photoIndex);
     }
 
     function rotateAntiClockwise(){
-      designTool.rotateAntiClockwise();
+      designTool.rotateAntiClockwise(canvasBkgImg.photoIndex);
     }
 
     function deleteSelectedObject(){
@@ -610,7 +612,7 @@
 
     function applyBorder(){
       if(designTool.getProp('isLayoutApplied')){
-        designTool.applyBorder(changeBorderSvg, vm.selectedBorder, -1);
+        designTool.applyBorder(changeBorderSvg, vm.selectedBorder, canvasBkgImg.photoIndex);
       }
       else{
         designTool.applyBorder(changeBorderSvg, vm.selectedBorder, canvasBkgImg.photoIndex);
@@ -679,8 +681,11 @@
     });
 
     designTool.on('image:edited',function (e) {
-      // console.log('CTRL: Edited event',e.data);
-      vm.myPhotos[e.data[0].photoIndex].isEdited = true;
+      if(e.data['0'] !== null){
+       vm.myPhotos[e.data[0]].isEdited = true;
+      }else {
+       vm.myPhotos[canvasBkgImg.photoIndex].isEdited = true;
+      }
     });
 
     /************************************* OBJECT CUSTOMIZER *************************************/

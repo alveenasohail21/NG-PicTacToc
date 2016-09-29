@@ -137,21 +137,28 @@
         }
       }
       if(!isPresentInContainer){
-        restFactory.photos.getSelectedPhoto(id).then(function(resp){
-          if(resp.success){
-            if('imageBase64' in resp.data){
-              resp.data.base64 = resp.data.imageBase64;
-              delete resp.data.imageBase64;
-            }
-            originalPhotosContainer.push(resp.data);
-            deferred.resolve(resp.data);
-          }
-          else{
-            alertFactory.error(null, resp.message);
-            deferred.reject(resp);
-          }
+        if(_data.photos[index].isProduct) {
+          originalPhotosContainer.push(_data.photos[index]);
+          deferred.resolve(_data.photos[index]);
           $('.global-loader').css('display', 'none');
-        });
+        }
+        else {
+          restFactory.photos.getSelectedPhoto(id).then(function(resp){
+            if(resp.success){
+              if('imageBase64' in resp.data){
+                resp.data.base64 = resp.data.imageBase64;
+                delete resp.data.imageBase64;
+              }
+              originalPhotosContainer.push(resp.data);
+              deferred.resolve(resp.data);
+            }
+            else{
+              alertFactory.error(null, resp.message);
+              deferred.reject(resp);
+            }
+            $('.global-loader').css('display', 'none');
+          });
+        }
       }
       designTool.checkLayoutSelection();
       return deferred.promise;
