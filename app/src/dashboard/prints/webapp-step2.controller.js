@@ -136,8 +136,12 @@
       });
 
       // select the 0th index photo by default
-
-      getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+      if(vm.myPhotos.length === 0){
+        $state.go('Dashboard.Prints.Upload');
+      }
+      else {
+        getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+      }
     }
     function toggleSidemenu(template){
       // if addMorePhotos
