@@ -121,7 +121,7 @@
               $(img).attr('id', obj.name);
               $($('.sidemenu-filters .filter')[index]).prepend(img);
             };
-            img.src = scope.thumbnail.base64;
+            img.src = scope.thumbnail.base64 ? scope.thumbnail.base64 : scope.thumbnail.canvasDataUrl;
             if(scope.filters[index].name == scope.thumbnail.currentFilter){
               scope.filters[index].selected = true;
               activeFilterIndex = index;
@@ -146,7 +146,7 @@
       // watch any change in photos
       scope.$watch('thumbnail', function(newValue, oldValue){
         // console.log("FILTERS WATCH EXECUTED: ", newValue, oldValue);
-        if(scope.thumbnail && 'base64' in scope.thumbnail){
+        if(scope.thumbnail && ('base64' in scope.thumbnail || 'canvasDataUrl' in scope.thumbnail )){
           // scope.filters = [];
           setupFilters();
         }

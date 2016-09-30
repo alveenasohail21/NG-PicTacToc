@@ -218,13 +218,14 @@
             _data.photos.splice(index, 0, angular.copy(resp.data));
             _data.totalCount++;
             alertFactory.success("Success!", resp.message);
+            $('.collapse-loader').css('display', 'none');
             deferred.resolve(resp);
           }
           else{
             alertFactory.error(null, resp.message);
+            $('.collapse-loader').css('display', 'none');
             deferred.reject(resp);
           }
-          $('.collapse-loader').css('display', 'none');
         });
         return deferred.promise;
     }

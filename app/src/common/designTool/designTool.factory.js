@@ -531,7 +531,7 @@
     }
 
     function updateImageEditorSize(){
-      customEvents.fire(customEventsList.imageCheckResolution, true);
+      //customEvents.fire(customEventsList.imageCheckResolution, true);
       var imageStudio = {
         height: $(imageStudioTag).height(),
         width: $(imageStudioTag).width()
@@ -589,13 +589,6 @@
       currentSelectedCanvasSize = canvasSize || currentSelectedCanvasSize;
       // Formula for aspect ratio equality calculation
       // (original height / original width) = (new height / new width)
-
-      // var selectedCanvasResolutions=_canvasTypes[currentSelectedCanvasType.toLocaleUpperCase()].sizes[currentSelectedCanvasSize][Defaults.canvasSizeOrientation];
-      // var lowResolution=checkResolution(fabricBkgImage.actualWidth, fabricBkgImage.actualHeight,
-      //   selectedCanvasResolutions.width.px, selectedCanvasResolutions.height.px);
-      // if(lowResolution) customEvents.fire(customEventsList.imageCheckResolution, true);
-      // }
-
 
       switch (canvasType){
         case canvasTypes.ENLARGE.name :
@@ -874,7 +867,6 @@
           sectionBkgImages = [];
           sectionBkgImages.push(fabricImage);
           var canvasType = getCanvasTypeBasedOnOrientation(fabricImage);
-          console.log('selected canvas size ',canvasType);
           // change the canvas back to default on new single image load
           updateImageEditorForCanvasChange(canvasType);
         }
@@ -941,7 +933,7 @@
     }
 
     function loadFromJSON(canvasJSON,index, cb){
-      console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
+      // console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
       // by default make layout applied to false
       flags.isLayoutApplied = false;
       for(var i = 0;i<canvasJSON.objects.length;i++){
@@ -1184,7 +1176,6 @@
       if(flags.isLayoutApplied){
         canvasJSON.customSettings.currentLayout = currentLayout;
       }
-      console.log('saving canvas',canvasJSON.customSettings.canvasSizeDetails);
       return canvasJSON;
     }
 
@@ -1584,7 +1575,7 @@
           resetTool();
           currentLayout = null;
           flags.isLayoutApplied = false;
-          cb(true,sectionBkgImages[0].photoIndex);
+          cb(true);
           return;
         }
       }
@@ -1622,15 +1613,12 @@
         if(typeof sectionBkgImages[currentLayoutSections.length-1] !== 'undefined'){
           sectionBkgImages[currentLayoutSections.length-1] = addBkgImageToSection(sectionBkgImages[currentLayoutSections.length-1], currentLayoutSections.length-1);
           fabricCanvas.add(sectionBkgImages[currentLayoutSections.length-1]);
-          if(index == layoutSectionsCloned.length-1){
-            loadStickersAndTexts(stickerAndText);
-          }
-          // render
-          fabricCanvas.renderAll();
-          fabricCanvas.deactivateAll();
           // if last layout
           if(index == layoutSectionsCloned.length-1){
             loadStickersAndTexts(stickerAndText);
+            // render
+            fabricCanvas.renderAll();
+            fabricCanvas.deactivateAll();
             if(cb && !cbCalled){
               cbCalled = true;
               cb(false);
@@ -1657,15 +1645,12 @@
                 sectionIndex: index
               });
               fabricCanvas.add(pug);
-              if(index == layoutSectionsCloned.length-1){
-                loadStickersAndTexts(stickerAndText);
-              }
-              // render
-              fabricCanvas.renderAll();
-              fabricCanvas.deactivateAll();
               // if last layout
               if(index == layoutSectionsCloned.length-1){
                 loadStickersAndTexts(stickerAndText);
+                // render
+                fabricCanvas.renderAll();
+                fabricCanvas.deactivateAll();
                 if(cb && !cbCalled){
                   cbCalled = true;
                   cb(false);
@@ -1716,10 +1701,10 @@
           // backgroundImageBoundaryCheck(sectionBkgImages[currentLayoutSections.length-1]);
           if(index == layoutSectionsCloned.length-1){
             loadStickersAndTexts(stickerAndText);
+            // render
+            fabricCanvas.renderAll();
+            fabricCanvas.deactivateAll();
           }
-          // render
-          fabricCanvas.renderAll();
-          fabricCanvas.deactivateAll();
         }
         // add the plus icon to rectangle
         else{
@@ -1744,11 +1729,10 @@
               // if last layout
               if(index == layoutSectionsCloned.length-1){
                 loadStickersAndTexts(stickerAndText);
+                // render
+                fabricCanvas.renderAll();
+                fabricCanvas.deactivateAll();
               }
-              // render
-              fabricCanvas.renderAll();
-              fabricCanvas.deactivateAll();
-
             }(img, elem, index));
           };
           pugImg.src = 'images/white-cross.png';
@@ -2006,6 +1990,7 @@
               fabricCanvas.deactivateAll();
               break;
           }
+          customEvents.fire(customEventsList.imageEdited,null);
           fabricCanvas.renderAll();
         },
         'object:rotating': function(event){
@@ -2016,12 +2001,13 @@
         },
         'object:moving': function(event){
           var obj = event.target;
-          // // console.log("standing at object moving: ", obj);
+          // console.log("standing at object moving: ", obj);
           if(obj){
             switch(obj.customObjectType){
               case customObjectTypes.sticker:
               case customObjectTypes.text:
                 objectCustomizer(obj);
+                customEvents.fire(customEventsList.imageEdited,null);
                 break;
             }
           }
@@ -2295,12 +2281,15 @@
       for(var i=0; i<objects.length; i++){
         if(objects[i].customObjectType === customObjectTypes.strokeLine){
           toDelete.push(objects[i]);
+//          fabricCanvas.remove(objects[i]);
         }
       }
       $timeout(function(){
         toDelete.forEach(function(elem, index){
           fabricCanvas.remove(elem);
-          fabricCanvas.renderAll();
+          if(index === toDelete.length - 1){
+            fabricCanvas.renderAll();
+          }
         })
       });
 
@@ -2571,7 +2560,7 @@
     function checkResolution(selectedImage){
       if(!selectedImage) return;
       if(!flags.isLayoutApplied){
-        var selectedCanvasResolutions=_canvasTypes[currentSelectedCanvasType.toLocaleUpperCase()].sizes[currentSelectedCanvasSize][Defaults.canvasSizeOrientation];
+        var selectedCanvasResolutions = _canvasTypes[currentSelectedCanvasType.toLocaleUpperCase()].sizes[currentSelectedCanvasSize][Defaults.canvasSizeOrientation];
         var low_resolution=lowResolution(selectedImage.originalWidth, selectedImage.originalHeight,
           selectedCanvasResolutions.width.px, selectedCanvasResolutions.height.px);
         if(low_resolution) {
@@ -2583,8 +2572,6 @@
       return !!(width1 < width2 || height1 < height2);
     }
     function getCanvasTypeBasedOnOrientation(image) {
-      console.log('width ',image.originalWidth);
-      console.log('height ',image.originalHeight);
       if(image.originalWidth === image.originalHeight){
         return Defaults.canvasType;
       }

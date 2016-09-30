@@ -308,7 +308,6 @@
           if(!designTool.getProp('isLayoutApplied')){
             dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex].id);
           }
-          console.log('data to save ',dataToSaveForProduct);
           var oldIndex = canvasBkgImg.photoIndex;
           productsFactory.addInProgressProducts(dataToSaveForProduct).then(function (resp) {
             vm.myPhotos[oldIndex].id = resp.id;
@@ -341,11 +340,12 @@
           // load
           designTool.loadFromJSON(vm.myPhotos[index].canvasJSON,index ,function(loadedImage){
             // caman image for filter
+            console.log('loaded image ',loadedImage);
             var img = new Image();
             img.onload = function(){
               updateCamanCanvas(img);
             };
-            img.src = resp.base64 ? resp.base64 : loadedImage;
+            img.src = resp.canvasDataUrl ? resp.canvasDataUrl : loadedImage;
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
             // update the size dropdown with default values
@@ -404,7 +404,6 @@
                 vm.selectedBorder='noBorder';
                 // update the size dropdown with default values
                 var canvasObj = designTool.getSeletedCanvasTypeAndSize();
-                console.log('canvasobj ',canvasObj);
                 vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(canvasObj.type,canvasObj.size,canvasObj.orientation);
               }
 
@@ -473,30 +472,46 @@
 
     //delete photo
     function deletePhoto(id, index){
-      if(index == canvasBkgImg.photoIndex){
-        deleteCanvas();
-      }
-      else{
+      // if(index == canvasBkgImg.photoIndex){
+      //   deleteCanvas();
+      // }
+      //else{
         if(vm.myPhotos[index].isProduct){
-          productsFactory.deleteProduct(id,index);
+          productsFactory.deleteProduct(id,index).then(function(resp){
+            if(resp.success){
+              canvasBkgImg.active = false;
+              // load default photo
+              // select the 0th index photo by default
+              canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
+              getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+            }
+          });
         }else {
-          photosFactory.deletePhoto(id, index);
+          photosFactory.deletePhoto(id, index).then(function(resp){
+            if(resp.success){
+              canvasBkgImg.active = false;
+              // load default photo
+              // select the 0th index photo by default
+              canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
+              getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+            }
+          });
         }
-      }
+     // }
     }
 
     //copy photo
     function copyPhoto(id, index){
-      if(index == canvasBkgImg.photoIndex){
-        copyCanvas();
-      }
-      else{
+      // if(index == canvasBkgImg.photoIndex){
+      //   copyCanvas();
+      // }
+      // else{
         if(vm.myPhotos[index].isProduct){
           productsFactory.copyProduct(id,index);
         }else {
           photosFactory.copyPhoto(id, index);
         }
-      }
+      // }
     }
 
     /************************************* FILTERS *************************************/
@@ -527,7 +542,7 @@
       $('.global-loader').css('display', 'block');
       //
       var isLayoutApplied = designTool.getProp('isLayoutApplied');
-      designTool.applyLayout(layout, function(islayoutOff,photoIndex){
+      designTool.applyLayout(layout, function(islayoutOff){
         if(!islayoutOff){
           $('#canvas').removeClass("single-image-border");
           vm.selectedBorder='noBorder';
@@ -554,17 +569,18 @@
             $('.global-loader').css('display', 'none');
           })
         }else {
-          designTool.loadBkgImage(vm.myPhotos[photoIndex], {photoIndex: photoIndex, currentFilter: 'normal'}, function(loadedImage){
+          designTool.loadBkgImage(vm.myPhotos[defaultSelectedPhotoIndex], {photoIndex: defaultSelectedPhotoIndex, currentFilter: 'normal'}, function(loadedImage){
             $timeout(function(){
               // caman image for filter
               updateCamanCanvas(loadedImage);
               // save image data & filter widget will update filters
               //saveSelectedPhoto(vm.myPhotos[photoIndex], resp);
               vm.myPhotos.splice(canvasBkgImg.photoIndex, 1);
+              canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
               // udpate photo strip in case working on layout
               if(designTool.getProp('isSectionSelected')){
                 updatePhotoStripWithCanvas(
-                  photoIndex,
+                  defaultSelectedPhotoIndex,
                   designTool.getCanvasJSON(),
                   designTool.getCanvasDataUrl()
                 );
@@ -625,8 +641,10 @@
     }
 
     function copyCanvas(){
-      alertFactory.warning(null, 'Not functional, need updates');
-      return;
+
+      copyPhoto(vm.myPhotos[canvasBkgImg.photoIndex].id,canvasBkgImg.photoIndex);
+      //alertFactory.warning(null, 'Not functional, need updates');
+      //return;
 
       // fabricCanvas.deactivateAll();
 
@@ -635,33 +653,36 @@
       // vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
       // vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
       // create a copy in vm.myPhotos
-      var copiedObj = angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]);
-      copiedObj.selected = false;
-      vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, copiedObj);
+      // var copiedObj = angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]);
+      // copiedObj.selected = false;
+      // vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, copiedObj);
     }
 
     function deleteCanvas(){
-      alertFactory.warning(null, 'Not functional, need updates');
-      return;
+
+      deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id,canvasBkgImg.photoIndex);
+
+      // alertFactory.warning(null, 'Not functional, need updates');
       // return;
-      // remove current selected photo with all canvas settings
-      photosFactory.deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id, canvasBkgImg.photoIndex)
-        .then(function(resp){
-          if(resp.success){
-            canvasBkgImg.active = false;
-            fabricCanvas.clear();
-            // load default photo
-            // select the 0th index photo by default
-            getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-          }
-        })
+      // // return;
+      // // remove current selected photo with all canvas settings
+      // photosFactory.deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id, canvasBkgImg.photoIndex)
+      //   .then(function(resp){
+      //     if(resp.success){
+      //       canvasBkgImg.active = false;
+      //       fabricCanvas.clear();
+      //       // load default photo
+      //       // select the 0th index photo by default
+      //       getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+      //     }
+      //   })
     }
 
     /************************************* DESIGN TOOL EVENTS *************************************/
 
     designTool.on('image:selected', function(e){
       // console.log("CTRL: image:selected: ", e);
-      // console.log(e.data[0]);
+      console.log(e.data[0]);
       photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
         function(resp){
           vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;
@@ -718,6 +739,7 @@
       //
       //console.log("Testing for actual height: ",vm.selectedPhoto.original);
       designTool.updateImageEditorForCanvasChange(type, size, null, null, function(){
+          console.log('sadl;k ',vm.selectedPhoto.original);
           designTool.checkResolution(vm.selectedPhoto.original);
           vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(type, size);
           // hideloader
