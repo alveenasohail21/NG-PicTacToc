@@ -598,6 +598,7 @@
             //
             // }else {
               // if image  width is small go for vertical canvas
+              console.log('canvasOrientation ',canvasOrientation);
               if(canvasOrientation === canvasOrientations.vertical){
                 currentSelectedCanvasOrientation = canvasOrientations.vertical;
                 // new height = (original height / original width) x (new width)

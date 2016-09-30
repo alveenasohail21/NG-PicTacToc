@@ -479,21 +479,25 @@
         if(vm.myPhotos[index].isProduct){
           productsFactory.deleteProduct(id,index).then(function(resp){
             if(resp.success){
-              canvasBkgImg.active = false;
-              // load default photo
-              // select the 0th index photo by default
-              canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
-              getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+              if(index == canvasBkgImg.photoIndex) {
+                canvasBkgImg.active = false;
+                // load default photo
+                // select the 0th index photo by default
+                canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
+                getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+              }
             }
           });
         }else {
           photosFactory.deletePhoto(id, index).then(function(resp){
             if(resp.success){
-              canvasBkgImg.active = false;
-              // load default photo
-              // select the 0th index photo by default
-              canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
-              getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+              if(index == canvasBkgImg.photoIndex) {
+                canvasBkgImg.active = false;
+                // load default photo
+                // select the 0th index photo by default
+                canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
+                getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+              }
             }
           });
         }
@@ -738,8 +742,8 @@
       $('.global-loader').css('display', 'block');
       //
       //console.log("Testing for actual height: ",vm.selectedPhoto.original);
-      designTool.updateImageEditorForCanvasChange(type, size, null, null, function(){
-          console.log('sadl;k ',vm.selectedPhoto.original);
+      var orientation = vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON ? vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.canvasSizeDetails.orientation : null;
+      designTool.updateImageEditorForCanvasChange(type, size, orientation, null, function(){
           designTool.checkResolution(vm.selectedPhoto.original);
           vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(type, size);
           // hideloader
