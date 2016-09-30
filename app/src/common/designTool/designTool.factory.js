@@ -44,8 +44,8 @@
             height : 1200
           },
           vertical : {
-            width : 1800,
-            height : 1200
+            width : 1200,
+            height : 1800
           }
         },
         medium : {
@@ -366,7 +366,7 @@
       borderWidth: 8,
       stroke: 'rgb(101, 224, 228)',
       strokeWidth : 5,
-      canvasType: 'SQUARE',
+      canvasType: 'square',
       canvasSize: 'small',
       canvasSizeOrientation: 'horizontal'
     };
@@ -470,6 +470,7 @@
       // getter and setter
       getProp: getProp,
       setProp: setProp,
+      getSeletedCanvasTypeAndSize : getSeletedCanvasTypeAndSize,
       // Toolbar methods
       applyBorder: applyBorder,
       flipHorizontal: flipHorizontal,
@@ -589,15 +590,10 @@
       // Formula for aspect ratio equality calculation
       // (original height / original width) = (new height / new width)
 
-
-      // if(!flags.isLayoutApplied){
-        var fabricBkgImage = findByProps({
-          customObjectType: customObjectTypes.backgroundImage
-        });
-        // var selectedCanvasResolutions=_canvasTypes[currentSelectedCanvasType.toLocaleUpperCase()].sizes[currentSelectedCanvasSize][Defaults.canvasSizeOrientation];
-        // var lowResolution=checkResolution(fabricBkgImage.actualWidth, fabricBkgImage.actualHeight,
-        //   selectedCanvasResolutions.width.px, selectedCanvasResolutions.height.px);
-        // if(lowResolution) customEvents.fire(customEventsList.imageCheckResolution, true);
+      // var selectedCanvasResolutions=_canvasTypes[currentSelectedCanvasType.toLocaleUpperCase()].sizes[currentSelectedCanvasSize][Defaults.canvasSizeOrientation];
+      // var lowResolution=checkResolution(fabricBkgImage.actualWidth, fabricBkgImage.actualHeight,
+      //   selectedCanvasResolutions.width.px, selectedCanvasResolutions.height.px);
+      // if(lowResolution) customEvents.fire(customEventsList.imageCheckResolution, true);
       // }
 
 
@@ -605,22 +601,43 @@
         case canvasTypes.ENLARGE.name :
         case canvasTypes.REGULAR.name :
           if(flags.isLayoutApplied) {
-            // do size horizontal for layouts
-            currentSelectedCanvasOrientation = Defaults.canvasSizeOrientation;
-            selectedSize = canvasType == canvasTypes.REGULAR.name ? canvasTypes.REGULAR[currentSelectedCanvasSize].horizontal : canvasTypes.ENLARGE[currentSelectedCanvasSize].horizontal;
-            if (imageStudio.width < imageStudio.height) {
-              updateWidth = imageStudio.width;
-              updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
-            }
-            else {
-              updateHeight = imageStudio.height;
-              updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
-            }
+            // if(noRecalculation){
+            //
+            // }else {
+              // if image  width is small go for vertical canvas
+              if(canvasOrientation === canvasOrientations.vertical){
+                currentSelectedCanvasOrientation = canvasOrientations.vertical;
+                // new height = (original height / original width) x (new width)
+                var selectedSize = canvasType == canvasTypes.REGULAR.name ? canvasTypes.REGULAR[currentSelectedCanvasSize].vertical: canvasTypes.ENLARGE[currentSelectedCanvasSize].vertical;
+                if(imageStudio.width < imageStudio.height){
+                  updateWidth =  imageStudio.width;
+                  updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
+                }
+                else {
+                  updateHeight =  imageStudio.height;
+                  updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
+                }
+              }
+              // else image  width is large go for horizontal canvas
+              else {
+                currentSelectedCanvasOrientation = canvasOrientations.horizontal;
+                // new width = (new height)/(original height / original width)
+                selectedSize = canvasType == canvasTypes.REGULAR.name ? canvasTypes.REGULAR[currentSelectedCanvasSize].horizontal: canvasTypes.ENLARGE[currentSelectedCanvasSize].horizontal;
+                if(imageStudio.width < imageStudio.height){
+                  updateWidth =  imageStudio.width;
+                  updateHeight = (updateWidth * selectedSize.height) / selectedSize.width;
+                }
+                else {
+                  updateHeight =  imageStudio.height;
+                  updateWidth = (updateHeight * selectedSize.width) / selectedSize.height;
+                }
+              }
+            // }
           }
-          else {
-            fabricBkgImage = findByProps({
-              customObjectType: customObjectTypes.backgroundImage
-            });
+         else {
+          var fabricBkgImage = findByProps({
+            customObjectType: customObjectTypes.backgroundImage
+          });
             // if image  width is small go for vertical canvas
             if(fabricBkgImage.originalWidth < fabricBkgImage.originalHeight){
               currentSelectedCanvasOrientation = canvasOrientations.vertical;
@@ -682,7 +699,7 @@
           reApplyLayouts(currentLayout);
         }
         else{
-         // updateScalingOfBkgImage();
+          updateScalingOfBkgImage();
           backgroundImageBoundaryCheck(sectionBkgImages[0]);
         }
       }
@@ -700,21 +717,24 @@
       var fabricImage = findByProps({
         customObjectType: customObjectTypes.backgroundImage
       });
-      if(fabricImage.originalWidth > fabricImage.originalHeight){
-        // its a horizontal image
-        isHorizontal = true;
-      }
-      // scale
-      if(fabricImage.originalHeight < fabricImage.originalWidth){
-        fabricImage.scaleToHeight(fabricCanvas.getHeight());
-        if(fabricImage.originalWidth*fabricImage.scaleX < fabricCanvas.getWidth()){
-          fabricImage.scaleToWidth(fabricCanvas.getWidth());
+      // zoom is equal to zero rescale the image if not then do nothing
+      if(fabricImage.zoom === 0){
+        if(fabricImage.originalWidth > fabricImage.originalHeight){
+          // its a horizontal image
+          isHorizontal = true;
         }
-      }
-      else{
-        fabricImage.scaleToWidth(fabricCanvas.getWidth());
-        if(fabricImage.originalHeight*fabricImage.scaleY < fabricCanvas.getHeight()){
+        // scale
+        if(fabricImage.originalHeight < fabricImage.originalWidth){
           fabricImage.scaleToHeight(fabricCanvas.getHeight());
+          if(fabricImage.originalWidth*fabricImage.scaleX < fabricCanvas.getWidth()){
+            fabricImage.scaleToWidth(fabricCanvas.getWidth());
+          }
+        }
+        else{
+          fabricImage.scaleToWidth(fabricCanvas.getWidth());
+          if(fabricImage.originalHeight*fabricImage.scaleY < fabricCanvas.getHeight()){
+            fabricImage.scaleToHeight(fabricCanvas.getHeight());
+          }
         }
       }
     }
@@ -853,8 +873,10 @@
           // save fabric image instance
           sectionBkgImages = [];
           sectionBkgImages.push(fabricImage);
+          var canvasType = getCanvasTypeBasedOnOrientation(fabricImage);
+          console.log('selected canvas size ',canvasType);
           // change the canvas back to default on new single image load
-          updateImageEditorForCanvasChange(Defaults.canvasType);
+          updateImageEditorForCanvasChange(canvasType);
         }
         /* Working With Layouts Sections */
         else{
@@ -919,7 +941,7 @@
     }
 
     function loadFromJSON(canvasJSON,index, cb){
-      // console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
+      console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
       // by default make layout applied to false
       flags.isLayoutApplied = false;
       for(var i = 0;i<canvasJSON.objects.length;i++){
@@ -1113,7 +1135,6 @@
                     sectionBkgImages = [];
                     sectionBkgImages.push(obj);
                     // before loading resize the canvas to previous type
-                    console.log('updating canvas', canvasJSON.customSettings.canvasSizeDetails);
                     currentSelectedCanvasType = canvasJSON.customSettings.canvasSizeDetails.type;
                     updateImageEditorForCanvasChange(
                       canvasJSON.customSettings.canvasSizeDetails.type,
@@ -1150,9 +1171,7 @@
           cb(callbackArgToPass);
         }
       }
-
     }
-
     function getCanvasJSON(){
       var canvasJSON = fabricCanvas.toJSON(propsToIncludeForJSON);
       canvasJSON.customSettings = {
@@ -1387,7 +1406,7 @@
     }
 
     function rotateAntiClockwise(index){
-       // console.log('DESIGN TOOL: rotateAntiClockwise');
+      // console.log('DESIGN TOOL: rotateAntiClockwise');
       if(!flags.isActionPerformable){
         return;
       }
@@ -2562,6 +2581,24 @@
     }
     function lowResolution(width1, height1, width2, height2) {
       return !!(width1 < width2 || height1 < height2);
+    }
+    function getCanvasTypeBasedOnOrientation(image) {
+      console.log('width ',image.originalWidth);
+      console.log('height ',image.originalHeight);
+      if(image.originalWidth === image.originalHeight){
+        return Defaults.canvasType;
+      }
+      else {
+        return canvasTypes.REGULAR.name;
+      }
+    }
+    function getSeletedCanvasTypeAndSize() {
+      var canvasObj = {
+        type : currentSelectedCanvasType || Defaults.canvasType,
+        size : currentSelectedCanvasSize ||  Defaults.canvasSize,
+        orientation : currentSelectedCanvasOrientation || Defaults.canvasSizeOrientation
+      };
+      return canvasObj;
     }
   }
 }());

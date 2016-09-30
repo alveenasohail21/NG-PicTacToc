@@ -361,7 +361,6 @@
           });
 
           vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
-          console.log("I am selected here: ", vm.myPhotos[index].canvasJSON);
           if(!designTool.getProp('isLayoutApplied')){
             if(vm.selectedBorder=='outerBorder'){
               $('#canvas').addClass("single-image-border");
@@ -393,6 +392,7 @@
                 // designTool.deselectLayoutAllSections();
                 // turnOffSelectedImageDrag();
                 // update photostrip slot
+                vm.myPhotos[canvasBkgImg.photoIndex].isEdited = true;
                 updatePhotoStripWithCanvas(
                   canvasBkgImg.photoIndex,
                   designTool.getCanvasJSON(),
@@ -403,7 +403,9 @@
               else{
                 vm.selectedBorder='noBorder';
                 // update the size dropdown with default values
-                vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString();
+                var canvasObj = designTool.getSeletedCanvasTypeAndSize();
+                console.log('canvasobj ',canvasObj);
+                vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(canvasObj.type,canvasObj.size,canvasObj.orientation);
               }
 
               // designTool.updateImageEditorForCanvasChange(null);
@@ -714,7 +716,7 @@
       // show loader
       $('.global-loader').css('display', 'block');
       //
-      // console.log("Testing for actual height: ",vm.selectedPhoto.original);
+      //console.log("Testing for actual height: ",vm.selectedPhoto.original);
       designTool.updateImageEditorForCanvasChange(type, size, null, null, function(){
           designTool.checkResolution(vm.selectedPhoto.original);
           vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(type, size);
