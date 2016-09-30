@@ -288,6 +288,7 @@
           canvasJson.customSettings.selectedBorder = 'noBorder';
           if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
             if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
+
               canvasJson.customSettings.selectedBorder = vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
             }
           }
@@ -299,7 +300,7 @@
           var dataToSaveForProduct = {
             photoid : [],
             canvasDataUrl : designTool.getCanvasDataUrl(),
-            canvasJSON : designTool.getCanvasJSON()
+            canvasJSON : canvasJson
           };
 
           if(vm.myPhotos[canvasBkgImg.photoIndex].isProduct){

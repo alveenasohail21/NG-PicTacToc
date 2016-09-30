@@ -934,7 +934,7 @@
     }
 
     function loadFromJSON(canvasJSON,index, cb){
-      // console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
+      console.log('DESIGN TOOL: loadFromJSON', canvasJSON);
       // by default make layout applied to false
       flags.isLayoutApplied = false;
       for(var i = 0;i<canvasJSON.objects.length;i++){
