@@ -7,10 +7,11 @@
     .factory('productsFactory', productsFactory);
 
 
-  function productsFactory($q, restFactory, alertFactory){
+  function productsFactory($q, restFactory, alertFactory,photosFactory){
     return {
       addInProgressProducts : addInProgressProducts,
-      copyProduct: copyProduct
+      copyProduct: copyProduct,
+      deleteProduct : deleteProduct
     };
 
     function addInProgressProducts(data) {
@@ -20,27 +21,41 @@
         deffered.resolve(resp.data);
       },function (err) {
         alertFactory.error(null, resp.message);
-        deffered.reject(resp);
-      })
-
-    }
-
-    function productToPostDataMapper(canvasObject) {
-      var data = {
-        photoid : canvasObject.id,
-        canvasDataUrl : canvasObject.canvasDataUrl,
-        canvasJSON : canvasObject.canvasJSON
-      };
-      return data;
+        deffered.reject(err);
+      });
+      return deffered.promise;
     }
 
     function copyProduct(id, index) {
       var deferred = $q.defer();
+      $('.collapse-loader').css('display', 'block');
       restFactory.products.copyProduct(id, index).then(function(resp){
         if(resp.success){
+          resp.data.base64 = photosFactory._data.photos[index].base64;
+          photosFactory._data.photos.splice(index, 0, angular.copy(resp.data));
+          photosFactory._data.totalCount++;
           deferred.resolve(resp);
         }
         else{
+          deferred.reject(resp);
+        }
+        $('.collapse-loader').css('display', 'none');
+      });
+      return deferred.promise;
+    }
+    function deleteProduct(id,index) {
+      var deferred = $q.defer();
+      $('.collapse-loader').css('display', 'block');
+      restFactory.products.deleteProduct(id).then(function(resp){
+        if(resp.success){
+          photosFactory._data.photos.splice(index, 1);
+          photosFactory._data.totalCount--;
+          alertFactory.success(null , resp.message);
+          $('.collapse-loader').css('display', 'none');
+          deferred.resolve(resp);
+        }
+        else{
+          $('.collapse-loader').css('display', 'none');
           deferred.reject(resp);
         }
       });

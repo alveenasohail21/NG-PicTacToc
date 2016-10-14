@@ -239,7 +239,7 @@
     // load new photos
     function loadMoreMyPhotos(){
       if(vm.myPhotosTotalCount > vm.myPhotos.length) {
-        vm.myPhotosPagination.from += 12;
+        vm.myPhotosPagination.from += 6;
         photosFactory.getPhotos(vm.myPhotosPagination)
           .then(function (resp) {
             //// console.log("new photos length: ", resp.photos.length);
@@ -278,7 +278,7 @@
       // if canvas is already in editing, save current work as JSON
       if(!designTool.getProp('isCanvasEmpty')){
 
-        if(canvasBkgImg.photoIndex!=null && 'isEdited' in vm.myPhotos[canvasBkgImg.photoIndex]) {
+        if(canvasBkgImg.photoIndex!=null && vm.myPhotos[canvasBkgImg.photoIndex].isEdited) {
           // save the already active image with settings
           // canvas json will have zoom value and original scale value
           // deselect canvas
@@ -288,6 +288,7 @@
           canvasJson.customSettings.selectedBorder = 'noBorder';
           if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
             if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
+
               canvasJson.customSettings.selectedBorder = vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
             }
           }
@@ -296,16 +297,25 @@
             canvasJson,
             designTool.getCanvasDataUrl()
           );
+          var dataToSaveForProduct = {
+            photoid : [],
+            canvasDataUrl : designTool.getCanvasDataUrl(),
+            canvasJSON : canvasJson
+          };
 
+          if(vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            dataToSaveForProduct.productId = vm.myPhotos[canvasBkgImg.photoIndex].id;
+          }
+          if(!designTool.getProp('isLayoutApplied')){
+            dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex].id);
+          }
+          var oldIndex = canvasBkgImg.photoIndex;
+          productsFactory.addInProgressProducts(dataToSaveForProduct).then(function (resp) {
+            vm.myPhotos[oldIndex].id = resp.id;
+            vm.myPhotos[oldIndex].isEdited = false;
+            vm.myPhotos[oldIndex].isProduct = true;
+          });
         }
-
-        // var dataToSaveForProduct = {
-        //   photoid : vm.myPhotos[canvasBkgImg.photoIndex].id,
-        //   canvasDataUrl : designTool.getCanvasDataUrl(),
-        //   canvasJSON : designTool.getCanvasJSON()
-        // };
-        // // console.log('data to save',dataToSaveForProduct);
-        // productsFactory.addInProgressProducts(dataToSaveForProduct);
 
         // working on layout
         if(designTool.getProp('isSectionSelected')){
@@ -329,13 +339,14 @@
           // update index
           canvasBkgImg.photoIndex = index;
           // load
-          designTool.loadFromJSON(vm.myPhotos[index].canvasJSON, function(loadedImage){
+          designTool.loadFromJSON(vm.myPhotos[index].canvasJSON,index ,function(loadedImage){
             // caman image for filter
+            console.log('loaded image ',loadedImage);
             var img = new Image();
             img.onload = function(){
               updateCamanCanvas(img);
             };
-            img.src = resp.base64 ? resp.base64 : loadedImage;
+            img.src = resp.canvasDataUrl ? resp.canvasDataUrl : loadedImage;
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
             // update the size dropdown with default values
@@ -351,7 +362,6 @@
           });
 
           vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
-          console.log("I am selected here: ", vm.myPhotos[index].canvasJSON);
           if(!designTool.getProp('isLayoutApplied')){
             if(vm.selectedBorder=='outerBorder'){
               $('#canvas').addClass("single-image-border");
@@ -383,6 +393,7 @@
                 // designTool.deselectLayoutAllSections();
                 // turnOffSelectedImageDrag();
                 // update photostrip slot
+                vm.myPhotos[canvasBkgImg.photoIndex].isEdited = true;
                 updatePhotoStripWithCanvas(
                   canvasBkgImg.photoIndex,
                   designTool.getCanvasJSON(),
@@ -393,7 +404,8 @@
               else{
                 vm.selectedBorder='noBorder';
                 // update the size dropdown with default values
-                vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString();
+                var canvasObj = designTool.getSeletedCanvasTypeAndSize();
+                vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(canvasObj.type,canvasObj.size,canvasObj.orientation);
               }
 
               // designTool.updateImageEditorForCanvasChange(null);
@@ -461,31 +473,57 @@
 
     //delete photo
     function deletePhoto(id, index){
-      if(index == canvasBkgImg.photoIndex){
-        deleteCanvas();
-      }
-      else{
-        photosFactory.deletePhoto(id, index);
-      }
+      // if(index == canvasBkgImg.photoIndex){
+      //   deleteCanvas();
+      // }
+      //else{
+        if(vm.myPhotos[index].isProduct){
+          productsFactory.deleteProduct(id,index).then(function(resp){
+            if(resp.success){
+              if(index == canvasBkgImg.photoIndex) {
+                canvasBkgImg.active = false;
+                // load default photo
+                // select the 0th index photo by default
+                canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
+                getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+              }
+            }
+          });
+        }else {
+          photosFactory.deletePhoto(id, index).then(function(resp){
+            if(resp.success){
+              if(index == canvasBkgImg.photoIndex) {
+                canvasBkgImg.active = false;
+                // load default photo
+                // select the 0th index photo by default
+                canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
+                getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+              }
+            }
+          });
+        }
+     // }
     }
 
     //copy photo
     function copyPhoto(id, index){
-      if(index == canvasBkgImg.photoIndex){
-        copyCanvas();
-        // in progress product(d)
-        // copy product
-      }
-      else{
-        photosFactory.copyPhoto(id, index);
-      }
+      // if(index == canvasBkgImg.photoIndex){
+      //   copyCanvas();
+      // }
+      // else{
+        if(vm.myPhotos[index].isProduct){
+          productsFactory.copyProduct(id,index);
+        }else {
+          photosFactory.copyPhoto(id, index);
+        }
+      // }
     }
 
     /************************************* FILTERS *************************************/
 
     // apply filter
     function applyFilter(filter, cb){
-      designTool.applyFilter(filter, function(flag){
+      designTool.applyFilter(filter,canvasBkgImg.photoIndex, function(flag){
         cb(flag);
       });
     }
@@ -493,13 +531,13 @@
     /************************************* STICKERS *************************************/
 
     function applySticker(sticker){
-      designTool.applySticker(sticker);
+      designTool.applySticker(sticker,canvasBkgImg.photoIndex);
     }
 
     /************************************* TEXTS *************************************/
 
     function applyText(text){
-      designTool.applyText(text);
+      designTool.applyText(text,canvasBkgImg.photoIndex);
     }
 
     /************************************* LAYOUTS *************************************/
@@ -509,7 +547,7 @@
       $('.global-loader').css('display', 'block');
       //
       var isLayoutApplied = designTool.getProp('isLayoutApplied');
-      designTool.applyLayout(layout, function(islayoutOff,photoIndex){
+      designTool.applyLayout(layout, function(islayoutOff){
         if(!islayoutOff){
           $('#canvas').removeClass("single-image-border");
           vm.selectedBorder='noBorder';
@@ -536,17 +574,18 @@
             $('.global-loader').css('display', 'none');
           })
         }else {
-          designTool.loadBkgImage(vm.myPhotos[photoIndex], {photoIndex: photoIndex, currentFilter: 'normal'}, function(loadedImage){
+          designTool.loadBkgImage(vm.myPhotos[defaultSelectedPhotoIndex], {photoIndex: defaultSelectedPhotoIndex, currentFilter: 'normal'}, function(loadedImage){
             $timeout(function(){
               // caman image for filter
               updateCamanCanvas(loadedImage);
               // save image data & filter widget will update filters
               //saveSelectedPhoto(vm.myPhotos[photoIndex], resp);
               vm.myPhotos.splice(canvasBkgImg.photoIndex, 1);
+              canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
               // udpate photo strip in case working on layout
               if(designTool.getProp('isSectionSelected')){
                 updatePhotoStripWithCanvas(
-                  photoIndex,
+                  defaultSelectedPhotoIndex,
                   designTool.getCanvasJSON(),
                   designTool.getCanvasDataUrl()
                 );
@@ -561,19 +600,19 @@
 
     /************************************* LEFT TOOLBAR FUNCTIONS *************************************/
     function flipHorizontal(){
-      designTool.flipHorizontal();
+      designTool.flipHorizontal(canvasBkgImg.photoIndex);
     }
 
     function flipVertical(){
-      designTool.flipVertical();
+      designTool.flipVertical(canvasBkgImg.photoIndex);
     }
 
     function rotateClockwise(){
-      designTool.rotateClockwise();
+      designTool.rotateClockwise(canvasBkgImg.photoIndex);
     }
 
     function rotateAntiClockwise(){
-      designTool.rotateAntiClockwise();
+      designTool.rotateAntiClockwise(canvasBkgImg.photoIndex);
     }
 
     function deleteSelectedObject(){
@@ -599,7 +638,7 @@
 
     function applyBorder(){
       if(designTool.getProp('isLayoutApplied')){
-        designTool.applyBorder(changeBorderSvg, vm.selectedBorder, -1);
+        designTool.applyBorder(changeBorderSvg, vm.selectedBorder, canvasBkgImg.photoIndex);
       }
       else{
         designTool.applyBorder(changeBorderSvg, vm.selectedBorder, canvasBkgImg.photoIndex);
@@ -607,8 +646,10 @@
     }
 
     function copyCanvas(){
-      alertFactory.warning(null, 'Not functional, need updates');
-      return;
+
+      copyPhoto(vm.myPhotos[canvasBkgImg.photoIndex].id,canvasBkgImg.photoIndex);
+      //alertFactory.warning(null, 'Not functional, need updates');
+      //return;
 
       // fabricCanvas.deactivateAll();
 
@@ -617,33 +658,36 @@
       // vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
       // vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
       // create a copy in vm.myPhotos
-      var copiedObj = angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]);
-      copiedObj.selected = false;
-      vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, copiedObj);
+      // var copiedObj = angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]);
+      // copiedObj.selected = false;
+      // vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, copiedObj);
     }
 
     function deleteCanvas(){
-      alertFactory.warning(null, 'Not functional, need updates');
-      return;
+
+      deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id,canvasBkgImg.photoIndex);
+
+      // alertFactory.warning(null, 'Not functional, need updates');
       // return;
-      // remove current selected photo with all canvas settings
-      photosFactory.deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id, canvasBkgImg.photoIndex)
-        .then(function(resp){
-          if(resp.success){
-            canvasBkgImg.active = false;
-            fabricCanvas.clear();
-            // load default photo
-            // select the 0th index photo by default
-            getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-          }
-        })
+      // // return;
+      // // remove current selected photo with all canvas settings
+      // photosFactory.deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id, canvasBkgImg.photoIndex)
+      //   .then(function(resp){
+      //     if(resp.success){
+      //       canvasBkgImg.active = false;
+      //       fabricCanvas.clear();
+      //       // load default photo
+      //       // select the 0th index photo by default
+      //       getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+      //     }
+      //   })
     }
 
     /************************************* DESIGN TOOL EVENTS *************************************/
 
     designTool.on('image:selected', function(e){
       // console.log("CTRL: image:selected: ", e);
-      // console.log(e.data[0]);
+      console.log(e.data[0]);
       photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
         function(resp){
           vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;
@@ -668,8 +712,11 @@
     });
 
     designTool.on('image:edited',function (e) {
-      // console.log('CTRL: Edited event',e.data);
-      vm.myPhotos[e.data[0].photoIndex].isEdited = true;
+      if(e.data['0'] !== null){
+       vm.myPhotos[e.data[0]].isEdited = true;
+      }else {
+       vm.myPhotos[canvasBkgImg.photoIndex].isEdited = true;
+      }
     });
     designTool.on('image:checkResolution',function (e) {
       var lowResolution=e.data[0];
@@ -695,8 +742,9 @@
       // show loader
       $('.global-loader').css('display', 'block');
       //
-      // console.log("Testing for actual height: ",vm.selectedPhoto.original);
-      designTool.updateImageEditorForCanvasChange(type, size, null, null, function(){
+      //console.log("Testing for actual height: ",vm.selectedPhoto.original);
+      var orientation = vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON ? vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.canvasSizeDetails.orientation : null;
+      designTool.updateImageEditorForCanvasChange(type, size, orientation, null, function(){
           designTool.checkResolution(vm.selectedPhoto.original);
           vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(type, size);
           // hideloader

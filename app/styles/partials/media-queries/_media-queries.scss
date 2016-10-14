@@ -1,6 +1,42 @@
 ///* Media Queries */
 
 body.app{
+  @media all and (min-width: 4000px) {
+    /*
+   STEP 2B
+   */
+    .step2b{
+      .uploaded-images{
+        div.img {
+          width: 5%;
+        }
+      }
+    }
+  }
+  @media all and (max-width: 2880px) {
+    /*
+   STEP 2B
+   */
+    .step2b{
+      .uploaded-images{
+        div.img {
+          width: 7%;
+        }
+      }
+    }
+  }
+  @media all and (max-width: 1920px) {
+    /*
+   STEP 2B
+   */
+    .step2b{
+      .uploaded-images{
+        div.img {
+          width: 8.5%;
+        }
+      }
+    }
+  }
   @media all and (max-width: 2048px) {
     /*
    STEP 3

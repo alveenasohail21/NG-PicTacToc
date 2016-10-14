@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('photosFactory', photosFactory);
 
-  function photosFactory($rootScope, $q, restFactory, alertFactory, productsFactory, designTool){
+  function photosFactory($rootScope, $q, restFactory, alertFactory, designTool){
 
     var _data = {
       photos: [],
@@ -74,7 +74,7 @@
       restFactory.photos.getPhotos(data)
         .then(function(resp){
           if(resp.success){
-            resp.data['photos'] = mapPhotos(resp.data);
+            resp.data['photos'] = mapPhotos(resp.data.photos);
             resp.data['photos'].forEach(function(elem, index){
               _data.photos.push(angular.copy(elem));
             });
@@ -137,21 +137,28 @@
         }
       }
       if(!isPresentInContainer){
-        restFactory.photos.getSelectedPhoto(id).then(function(resp){
-          if(resp.success){
-            if('imageBase64' in resp.data){
-              resp.data.base64 = resp.data.imageBase64;
-              delete resp.data.imageBase64;
-            }
-            originalPhotosContainer.push(resp.data);
-            deferred.resolve(resp.data);
-          }
-          else{
-            alertFactory.error(null, resp.message);
-            deferred.reject(resp);
-          }
+        if(_data.photos[index].isProduct) {
+          originalPhotosContainer.push(_data.photos[index]);
+          deferred.resolve(_data.photos[index]);
           $('.global-loader').css('display', 'none');
-        });
+        }
+        else {
+          restFactory.photos.getSelectedPhoto(id).then(function(resp){
+            if(resp.success){
+              if('imageBase64' in resp.data){
+                resp.data.base64 = resp.data.imageBase64;
+                delete resp.data.imageBase64;
+              }
+              originalPhotosContainer.push(resp.data);
+              deferred.resolve(resp.data);
+            }
+            else{
+              alertFactory.error(null, resp.message);
+              deferred.reject(resp);
+            }
+            $('.global-loader').css('display', 'none');
+          });
+        }
       }
       designTool.checkLayoutSelection();
       return deferred.promise;
@@ -205,39 +212,22 @@
     function copyPhoto(id, index) {
       var deferred = $q.defer();
       $('.collapse-loader').css('display', 'block');
-      if(_data.photos[index].isProduct){
-        productsFactory.copyProduct(id, index).then(function(resp){
-          if(resp.success){
-            resp.data.base64 = _data.photos[index].base64;
-            _data.photos.splice(index, 0, angular.copy(resp.data));
-            _data.totalCount++;
-            alertFactory.success("Success!", resp.message);
-            deferred.resolve(resp);
-          }
-          else{
-            alertFactory.error(null, resp.message);
-            deferred.reject(resp);
-          }
-          $('.collapse-loader').css('display', 'none');
-        });
-      }
-      else{
         restFactory.photos.copyPhoto(id, index).then(function(resp){
           if(resp.success){
             resp.data.base64 = _data.photos[index].base64;
             _data.photos.splice(index, 0, angular.copy(resp.data));
             _data.totalCount++;
             alertFactory.success("Success!", resp.message);
+            $('.collapse-loader').css('display', 'none');
             deferred.resolve(resp);
           }
           else{
             alertFactory.error(null, resp.message);
+            $('.collapse-loader').css('display', 'none');
             deferred.reject(resp);
           }
-          $('.collapse-loader').css('display', 'none');
         });
         return deferred.promise;
-      }
     }
 
     function mapSocialPhotos(photo, platform){
