@@ -100,7 +100,7 @@
       // console.log(vm.showAlbumOrPhotos);
       // console.log(vm.uploadCategory);
       manipulateDOM();
-      loadMoreMyPhotos();
+      // loadMoreMyPhotos();
       if(location.href.indexOf('?platform=')!=-1){
         var platformInUrl = location.href.indexOf('?platform=');
         var offset = 10;
@@ -540,9 +540,9 @@
       });
     }
 
-    //delete selected photo
-    function deletePhoto(id, index){
-      photosFactory.deletePhoto(id, index);
+    //delete selected photo/product
+    function deletePhoto(id){
+      photosFactory.deleteProjectPhotoOrProduct(id);
     }
 
     /************************************* MANIPULATE DOM *************************************/

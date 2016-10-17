@@ -21,6 +21,7 @@
     var Photos = Restangular.all('photos');
     var Media = Restangular.all('media');
     var Products = Restangular.all('products');
+      var Projects = Restangular.all('projects');
 
     /* Return Functions */
     return {
@@ -39,6 +40,10 @@
         activeSocialProfiles: activeSocialProfiles,
         socialDetails: socialDetails
       },
+        projects: {
+          getSpecificProject: getSpecificProject,
+            deleteProjectPhotoOrProduct: deleteProjectPhotoOrProduct
+        },
       photos: {
         getPhotos: getPhotos,
         getSocialPhotos: getSocialPhotos,
@@ -147,6 +152,14 @@
     function deleteProduct(id){
       return Restangular.one('products', id).remove();
     }
+
+      function getSpecificProject(id, queryParams){
+          return Projects.one(id).get(queryParams);
+      }
+
+      function deleteProjectPhotoOrProduct(projectId, photoId){
+          return Projects.one(projectId).one('photo').one(photoId).remove();
+      }
 
   }
 }());

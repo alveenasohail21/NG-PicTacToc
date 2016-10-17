@@ -14,7 +14,7 @@
     <li ng-repeat="photo in photos track by $index">
       <div class="backdrop"></div>
       <img ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl:photo.base64}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
-      <img ng-click="(photo.deleting)?null:onDelete({id: photo.id, index: $index})"
+      <img ng-click="(photo.deleting)?null:onDelete({id: photo._id})"
            class="white-cross" ng-class="{'delete-loader': photo.deleting}"
            src="{{(photo.deleting)?'svgs/ptt-loader.svg':'images/white-cross.png'}}"
            alt="X">

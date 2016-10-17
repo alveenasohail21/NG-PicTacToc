@@ -82,7 +82,7 @@
               else{
                 $('.global-loader').css('display', 'block');
                 // console.log("Fetching PHOTOS");
-                return photosFactory.getPhotos().then(function(resp){
+                return photosFactory.getSpecificProject().then(function(resp){
                   $('.global-loader').css('display', 'none');
                   return resp;
                 })
@@ -120,7 +120,7 @@
               }
               else{
                 $('.global-loader').css('display', 'block');
-                return photosFactory.getPhotos().then(function(resp){
+                return photosFactory.getSpecificProject().then(function(resp){
                   $('.global-loader').css('display', 'none');
                   return resp;
                 })

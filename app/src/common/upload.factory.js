@@ -83,11 +83,13 @@
       // console.log("uploading file from upload Factory: ", _data.deviceFiles[index]);
       // added here only for progress :/
       if (file) {
+          console.log('sending file with projectId');
         var upload = Upload.upload({
           method: 'POST',
           url: url,
           data: {
-            files: [file]
+            files: [file],
+            'projectId': '580212a353e8ec253c003f9c'
           },
           // timeout: canceler[index].promise,
           headers: {
