@@ -107,10 +107,10 @@
     /* Initializer */
     function init(){
       // Load more my photos
-      loadMoreMyPhotos();
+      // loadMoreMyPhotos();
 
       // Load original images of some photos
-      photosFactory.loadOriginalImages();
+      // photosFactory.loadOriginalImages();
 
       // Tooltip
       $(function () {
@@ -140,7 +140,7 @@
         $state.go('Dashboard.Prints.Upload');
       }
       else {
-        getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+        getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex]._id, defaultSelectedPhotoIndex);
       }
     }
     function toggleSidemenu(template){

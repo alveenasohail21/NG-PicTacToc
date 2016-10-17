@@ -182,32 +182,18 @@
 
     //get a photo selected
     // by user in original size in step 2
-    function getSelectedPhoto(id, index) {
+    function getSelectedPhoto(photoId, index) {
       var deferred = $q.defer();
-      var isPresentInContainer = false;
       $('.global-loader').css('display', 'block');
-      for(var i=0; i<originalPhotosContainer.length; i++){
-        if(originalPhotosContainer[i].id == id){
-          deferred.resolve(originalPhotosContainer[i]);
-          $('.global-loader').css('display', 'none');
-          isPresentInContainer = true;
-          break;
-        }
-      }
-      if(!isPresentInContainer){
-        if(_data.photos[index].isProduct) {
-          originalPhotosContainer.push(_data.photos[index]);
-          deferred.resolve(_data.photos[index]);
-          $('.global-loader').css('display', 'none');
-        }
-        else {
-          restFactory.photos.getSelectedPhoto(id).then(function(resp){
+        // TODO: project id should be dynamic
+        var projectId = '580212a353e8ec253c003f9c';
+          restFactory.projects.getProjectSelectedPhotoOrProduct(projectId, photoId).then(function(resp){
             if(resp.success){
               if('imageBase64' in resp.data){
                 resp.data.base64 = resp.data.imageBase64;
                 delete resp.data.imageBase64;
               }
-              originalPhotosContainer.push(resp.data);
+              // originalPhotosContainer.push(resp.data);
               deferred.resolve(resp.data);
             }
             else{
@@ -216,8 +202,6 @@
             }
             $('.global-loader').css('display', 'none');
           });
-        }
-      }
       designTool.checkLayoutSelection();
       return deferred.promise;
     }

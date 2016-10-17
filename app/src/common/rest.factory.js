@@ -42,7 +42,8 @@
       },
         projects: {
           getSpecificProject: getSpecificProject,
-            deleteProjectPhotoOrProduct: deleteProjectPhotoOrProduct
+            deleteProjectPhotoOrProduct: deleteProjectPhotoOrProduct,
+            getProjectSelectedPhotoOrProduct: getProjectSelectedPhotoOrProduct
         },
       photos: {
         getPhotos: getPhotos,
@@ -159,6 +160,10 @@
 
       function deleteProjectPhotoOrProduct(projectId, photoId){
           return Projects.one(projectId).one('photo').one(photoId).remove();
+      }
+
+      function getProjectSelectedPhotoOrProduct(projectId, photoId){
+          return Projects.one(projectId).one('photo').one(photoId).get();
       }
 
   }
