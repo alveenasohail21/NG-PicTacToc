@@ -9,6 +9,7 @@
 
   function productsFactory($q, restFactory, alertFactory,photosFactory){
     return {
+        savePhotoOrProduct: savePhotoOrProduct,
       addInProgressProducts : addInProgressProducts,
       copyProduct: copyProduct,
       deleteProduct : deleteProduct
@@ -25,6 +26,20 @@
       });
       return deffered.promise;
     }
+
+      function savePhotoOrProduct(data) {
+          var deffered = $q.defer();
+          // TODO: project id should be dynamic
+          var projectId = '580212a353e8ec253c003f9c';
+          restFactory.projects.savePhotoOrProduct(projectId, data._id, data).then(function (resp) {
+              alertFactory.success(null, resp.message);
+              deffered.resolve(resp.data);
+          },function (err) {
+              alertFactory.error(null, err.message);
+              deffered.reject(err);
+          });
+          return deffered.promise;
+      }
 
     function copyProduct(id, index) {
       var deferred = $q.defer();

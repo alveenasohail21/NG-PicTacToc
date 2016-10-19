@@ -43,7 +43,8 @@
         projects: {
           getSpecificProject: getSpecificProject,
             deleteProjectPhotoOrProduct: deleteProjectPhotoOrProduct,
-            getProjectSelectedPhotoOrProduct: getProjectSelectedPhotoOrProduct
+            getProjectSelectedPhotoOrProduct: getProjectSelectedPhotoOrProduct,
+            savePhotoOrProduct: savePhotoOrProduct
         },
       photos: {
         getPhotos: getPhotos,
@@ -166,5 +167,8 @@
           return Projects.one(projectId).one('photo').one(photoId).get();
       }
 
+      function savePhotoOrProduct(projectId, photoId, data){
+          return Projects.one(projectId).one('photo').one(photoId).customPUT(data);
+      }
   }
 }());

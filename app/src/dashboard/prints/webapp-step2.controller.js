@@ -258,12 +258,14 @@
     }
     // get the high res image for editing
     function getSelectPhoto(id, index, imageDragged){
+        console.log("get selected photo");
       if(imageDragged && !designTool.getProp('droppedOnCanvas')){
         // image is dragged but not dropped on canvas
         return;
       }
       // show loader
-      $('.global-loader').css('display', 'block');
+        $('.global-loader').css('display', 'block');
+        console.log("continue");
       //
       vm.closeSidemenu();
       vm.deSelectLayout();
@@ -298,20 +300,21 @@
             designTool.getCanvasDataUrl()
           );
           var dataToSaveForProduct = {
+              _id: vm.myPhotos[canvasBkgImg.photoIndex]._id,
             photoid : [],
             canvasDataUrl : designTool.getCanvasDataUrl(),
             canvasJSON : canvasJson
           };
 
-          if(vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
-            dataToSaveForProduct.productId = vm.myPhotos[canvasBkgImg.photoIndex].id;
-          }
+          // if(vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+          //   dataToSaveForProduct._id = vm.myPhotos[canvasBkgImg.photoIndex]._id;
+          // }
           if(!designTool.getProp('isLayoutApplied')){
-            dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex].id);
+            dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex]._id);
           }
           var oldIndex = canvasBkgImg.photoIndex;
-          productsFactory.addInProgressProducts(dataToSaveForProduct).then(function (resp) {
-            vm.myPhotos[oldIndex].id = resp.id;
+          productsFactory.savePhotoOrProduct(dataToSaveForProduct).then(function (resp) {
+            vm.myPhotos[oldIndex]._id = resp._id;
             vm.myPhotos[oldIndex].isEdited = false;
             vm.myPhotos[oldIndex].isProduct = true;
           });
@@ -330,9 +333,11 @@
       }
       // get photo now
       photosFactory.getSelectedPhoto(id, index).then(function(resp){
+          console.log("RESPONESE recv in ctrl");
         // the new selected image has JSON data
         // JSON will be loaded now, saved current work and rest tool
         if(vm.myPhotos[index].canvasJSON ){
+            console.log('loading from JSON');
           // console.log('CTRL: Loading from JSON', vm.myPhotos[index].canvasJSON);
           // if JSON is present the current layout will be cleared
           designTool.resetTool();
@@ -341,12 +346,14 @@
           // load
           designTool.loadFromJSON(vm.myPhotos[index].canvasJSON,index ,function(loadedImage){
             // caman image for filter
-            console.log('loaded image ',loadedImage);
+              if(loadedImage){
+                  console.log('loaded image exists');
+              }
             var img = new Image();
             img.onload = function(){
               updateCamanCanvas(img);
             };
-            img.src = resp.canvasDataUrl ? resp.canvasDataUrl : loadedImage;
+            img.src = ((loadedImage)? loadedImage : resp.canvasDataUrl);
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
             // update the size dropdown with default values
@@ -376,7 +383,7 @@
         }
         // new image -> single photo / adding to current layout
         else{
-          // console.log('CTRL: Loading new Image');
+          console.log('CTRL: Loading new Image');
           // update index
           if(!designTool.getProp('isSectionSelected')){
             canvasBkgImg.photoIndex = index;
@@ -688,6 +695,10 @@
     designTool.on('image:selected', function(e){
       // console.log("CTRL: image:selected: ", e);
       console.log(e.data[0]);
+        if(!vm.myPhotos[e.data[0].photoIndex].isProduct){
+            return;
+        }
+        if(designTool.getProp('isLayoutApplied')){
       photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
         function(resp){
           vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;
@@ -700,6 +711,7 @@
           img.src = resp.base64;
         }
       )
+        }
     });
 
     designTool.on('layout:sectionToggle', function(e) {
@@ -712,6 +724,7 @@
     });
 
     designTool.on('image:edited',function (e) {
+        console.log("designTool Event: image:edited");
       if(e.data['0'] !== null){
        vm.myPhotos[e.data[0]].isEdited = true;
       }else {

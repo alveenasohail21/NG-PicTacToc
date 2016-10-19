@@ -1144,8 +1144,8 @@
                   break;
               }
             }
+              continueRender(loadedImage);
           });
-          continueRender(loadedImage);
         });
       }
 
@@ -1460,7 +1460,7 @@
     // ****************************************** Left sidemenu methods ******************************************
 
     function applyFilter(filter,index, cb){
-      // console.log('DESIGN TOOL: applyFilter');
+      console.log('DESIGN TOOL: applyFilter', filter);
       // apply filter
       Caman('#caman-canvas', function () {
         //var that = this;
@@ -1501,6 +1501,8 @@
             imgObj.setElement(img);
             // update current filter
             imgObj.set('currentFilter', filter);
+              // update zoom
+              // resetZoomSettings();
             cb(true);
             fabricCanvas.renderAll();
             // firing edited image event
