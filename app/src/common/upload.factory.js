@@ -89,7 +89,7 @@
           url: url,
           data: {
             files: [file],
-            'projectId': '580212a353e8ec253c003f9c'
+            'projectId': '580b847643e19d13387f8a11'
           },
           // timeout: canceler[index].promise,
           headers: {

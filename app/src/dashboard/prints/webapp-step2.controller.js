@@ -288,12 +288,14 @@
           designTool.deActivateAll();
           var canvasJson = designTool.getCanvasJSON();
           canvasJson.customSettings.selectedBorder = 'noBorder';
+
           if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
             if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
 
               canvasJson.customSettings.selectedBorder = vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
             }
           }
+
           updatePhotoStripWithCanvas(
             canvasBkgImg.photoIndex,
             canvasJson,
@@ -309,8 +311,17 @@
           // if(vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
           //   dataToSaveForProduct._id = vm.myPhotos[canvasBkgImg.photoIndex]._id;
           // }
-          if(!designTool.getProp('isLayoutApplied')){
+          if(!designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
             dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex]._id);
+          }
+            else if(!designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+              dataToSaveForProduct['photoid'] = vm.myPhotos[canvasBkgImg.photoIndex].photos;
+          }
+            else if(designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+              // TODO:
+          }
+            else if(designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+              // TODO:
           }
           var oldIndex = canvasBkgImg.photoIndex;
           productsFactory.savePhotoOrProduct(dataToSaveForProduct).then(function (resp) {
@@ -333,10 +344,10 @@
       }
       // get photo now
       photosFactory.getSelectedPhoto(id, index).then(function(resp){
-          console.log("RESPONESE recv in ctrl");
+          console.log("RESPONESE recv in ctrl", resp);
         // the new selected image has JSON data
         // JSON will be loaded now, saved current work and rest tool
-        if(vm.myPhotos[index].canvasJSON ){
+        if(resp.canvasJSON ){
             console.log('loading from JSON');
           // console.log('CTRL: Loading from JSON', vm.myPhotos[index].canvasJSON);
           // if JSON is present the current layout will be cleared
@@ -344,7 +355,7 @@
           // update index
           canvasBkgImg.photoIndex = index;
           // load
-          designTool.loadFromJSON(vm.myPhotos[index].canvasJSON,index ,function(loadedImage){
+          designTool.loadFromJSON(resp.canvasJSON,index ,function(loadedImage){
             // caman image for filter
               if(loadedImage){
                   console.log('loaded image exists');
@@ -353,13 +364,22 @@
             img.onload = function(){
               updateCamanCanvas(img);
             };
-            img.src = ((loadedImage)? loadedImage : resp.canvasDataUrl);
+              // the loadedImage is high res image, if its not present then use low res for caman (which is wrong however)
+            if(resp.highResBase64){
+                img.src = resp.highResBase64;
+            }
+              else if(loadedImage){
+                img.src = loadedImage;
+            }
+              else{
+                img.src = resp.canvasDataUrl;
+            }
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
             // update the size dropdown with default values
             vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(
-              vm.myPhotos[index].canvasJSON.customSettings.canvasSizeDetails.type,
-              vm.myPhotos[index].canvasJSON.customSettings.canvasSizeDetails.size
+                resp.canvasJSON.customSettings.canvasSizeDetails.type,
+                resp.canvasJSON.customSettings.canvasSizeDetails.size
             );
 
             turnOffSelectedImageDrag();
@@ -368,7 +388,7 @@
 
           });
 
-          vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
+          vm.selectedBorder = resp.canvasJSON.customSettings.selectedBorder;
           if(!designTool.getProp('isLayoutApplied')){
             if(vm.selectedBorder=='outerBorder'){
               $('#canvas').addClass("single-image-border");

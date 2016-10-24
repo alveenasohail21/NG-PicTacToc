@@ -930,7 +930,9 @@
           cb(img);
         }
       };
-      img.src = image.base64;
+      // img.src = image.base64;
+        // get high res
+        img.src = image.highResBase64;
     }
 
     function loadFromJSON(canvasJSON,index, cb){

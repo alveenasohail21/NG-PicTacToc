@@ -72,15 +72,17 @@
       function getSpecificProject() {
           var deffered = $q.defer();
           var queryParams = {
-              base64: true
+              // base64: true
           };
           // TODO: project id should be dynamic
-          var projectId = '580212a353e8ec253c003f9c';
+          var projectId = '580b847643e19d13387f8a11';
           restFactory.projects.getSpecificProject(projectId, queryParams)
               .then(function(resp){
                   if(resp.success){
                       // merging photos and products
-                      resp.data['photos'] = resp.data['photos'].concat(resp.data['products']);
+                      if('photos' in resp.data && 'products' in resp.data){
+                          resp.data['photos'] = resp.data['photos'].concat(resp.data['products']);
+                      }
                       // mapping
                       console.log('AFTER MERGED: ',resp.data);
                       resp.data['photos'] = mapPhotos(resp.data.photos);
@@ -135,7 +137,7 @@
           // Prints step 1
           _data.photos[getPhotoIndexThroughId(photoId)].deleting = true;
           // TODO: project id should be dynamic
-          var projectId = '580212a353e8ec253c003f9c';
+          var projectId = '580b847643e19d13387f8a11';
           restFactory.projects.deleteProjectPhotoOrProduct(projectId, photoId)
               .then(function(resp){
                   if(resp.success){
@@ -159,19 +161,21 @@
       var deferred = $q.defer();
       $('.global-loader').css('display', 'block');
         // TODO: project id should be dynamic
-        var projectId = '580212a353e8ec253c003f9c';
+        var projectId = '580b847643e19d13387f8a11';
           restFactory.projects.getProjectSelectedPhotoOrProduct(projectId, photoId).then(function(resp){
             if(resp.success){
-                removeCanvasJSONFromAllPhotos();
-              if('imageBase64' in resp.data){
-                resp.data.base64 = resp.data.imageBase64;
-                delete resp.data.imageBase64;
-              }
+                removeHighResBase64AndCanvasJSONFromAllPhotos();
                 if(resp.data.isProduct){
+                    // add data url in resp
                     resp.data.canvasDataUrl = _data.photos[index].canvasDataUrl;
+                    // add canvasJSON in data
+                    _data.photos[index].canvasJSON = resp.data.canvasJSON;
+                    // add photos
+                    _data.photos[index].photos = resp.data.photos;
                 }
+                console.log(_data.photos);
                 // replace the photo in local data
-                _data.photos[index] = resp.data;
+                // _data.photos[index] = resp.data;
               // originalPhotosContainer.push(resp.data);
               deferred.resolve(resp.data);
             }
@@ -304,10 +308,15 @@
           }
       }
 
-      function removeCanvasJSONFromAllPhotos(){
+      function removeHighResBase64AndCanvasJSONFromAllPhotos(){
           for(var i=0; i<_data.photos.length; i++){
               if(_data.photos[i].hasOwnProperty('canvasJSON')){
+                  console.log('removed canvasJSON');
                   delete _data.photos[i].canvasJSON;
+              }
+              else if(_data.photos[i].hasOwnProperty('highResBase64')){
+                  console.log('removed highResBase64');
+                  delete _data.photos[i].highResBase64;
               }
           }
       }

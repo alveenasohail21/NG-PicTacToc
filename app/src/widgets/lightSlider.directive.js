@@ -23,6 +23,8 @@
     var sliderHtml;
     var availableSliders = ['step1-lightSlider', 'step2-lightSlider'];
 
+      const DefaultFilterImageSize = '260x260';
+
     return {
       restrict: 'E',
       link: link,
@@ -42,6 +44,8 @@
     /////////////////////
 
     function link(scope, elem, attrs){
+
+        scope.convertUrl = convertUrl;
 
       var sliderId = '#'+availableSliders[scope.step-1];
       var sliderClass = '.'+availableSliders[scope.step-1];
@@ -146,8 +150,16 @@
             imageDragged: true
           });
         });
-        
+
       }
+
+        function convertUrl(photo){
+            if(photo.isProduct){
+                return photo.url;
+            }
+            return photo.url+ '-' + DefaultFilterImageSize + '.' + photo.extension;
+        }
+
       // call initializer
       init();
 
