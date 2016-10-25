@@ -19,30 +19,11 @@
   }
 
   /* @ngInject */
-  function routingEvents(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL, $rootScope, $auth, Restangular, userFactory, alertFactory, $state, $localStorage){
+  function routingEvents(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL, $rootScope, $auth, Restangular, userFactory, alertFactory, $state, $localStorage, photosFactory){
 
     // var publicStates = ['Signup', 'Login', 'Landing'];
     var publicStates = [];
 
-    var appStates = [
-      {
-        parent: 'Dashboard.Prints',
-        childStates: ['Dashboard.Prints.Upload','Dashboard.Prints.Design','Dashboard.Prints.Checkout']
-      },
-      {
-        parent: 'Dashboard.Albums',
-        childStates: ['Dashboard.Albums.Upload','Dashboard.Albums.Design','Dashboard.Albums.Checkout']
-      },
-      {
-        parent: 'Dashboard.PhotoGifts',
-        childStates: ['Dashboard.PhotoGifts.Upload','Dashboard.PhotoGifts.Design','Dashboard.PhotoGifts.Checkout']
-      },
-      {
-        parent: 'Dashboard.PhotoBooks',
-        childStates: ['Dashboard.PhotoBooks.Upload','Dashboard.PhotoBooks.Design','Dashboard.PhotoBooks.Checkout']
-      }
-    ];
-    var appStateIndex = -1;
     $rootScope.reload = false;
 
     //on routing error
@@ -54,6 +35,7 @@
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
       //do some title setting
       $rootScope.stateUrl = toState.url;
+      $rootScope.stateName = toState.name;
       $rootScope.appTitle = "Pictaktoe";
       $rootScope.pageTitle = toState.title || 'Pictaktoe';
       $rootScope.hasHeader = toState.header || false;
@@ -132,17 +114,20 @@
           if(publicStates.indexOf(toState.name)>=0){
             console.log("Router: going to "+toState.name+" , going to public state after auth and user data found : Invalid");
             event.preventDefault();
-            $state.go('Dashboard.Prints.Upload', toParams);
+            $state.go('Upload', toParams);
           }
           else{
             console.log("Router: going to "+toState.name+" , going to private state after auth and user data found : Valid");
-            // do the configuration
-            appConfiguration();
             // let him go
           }
         }
         else{
           event.preventDefault();
+          photosFactory.removePhotosFromLocal();
+          // fire event first
+          if(eventChannel.has('skuChanged')){
+            eventChannel.fire('skuChanged');
+          }
           // verify sku
           verifySku(toParams.sku, function(isVerified){
             if(!isVerified){
@@ -162,34 +147,11 @@
               }
               else{
                 console.log("Router: going to "+toState.name+" , going to private state after auth and user data found : Valid");
-                // do the configuration
-                appConfiguration();
                 // route
                 $state.go(toState.name, toParams);
               }
             }
           })
-        }
-      }
-
-      function appConfiguration(){
-        // app configuration
-        // search state in appState
-        appStateIndex = -1;
-        for(var i=0;i<appStates.length;i++){
-          if(appStates[i].childStates.indexOf(toState.name)>=0){
-            appStateIndex = i;
-            break;
-          }
-        }
-        // if found appState
-        if(appStateIndex>=0){
-          $rootScope.app.productState = appStates[appStateIndex].parent;
-          $rootScope.app.productTitle = toState.title;
-          $rootScope.app.isActive = true;
-        }
-        else{
-          $rootScope.app.isActive = false;
         }
       }
 

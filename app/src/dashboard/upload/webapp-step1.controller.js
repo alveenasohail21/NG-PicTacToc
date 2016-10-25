@@ -590,7 +590,7 @@
         alertFactory.warning(null, "Please wait for the upload to finish");
       }
       else{
-        $state.go(stateName);
+        $state.go(stateName, {sku: $rootScope.sku});
       }
     }
 

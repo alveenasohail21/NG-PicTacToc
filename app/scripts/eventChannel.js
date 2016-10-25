@@ -38,6 +38,15 @@ EventChannel.prototype = {
         }
       }
     }
+  },
+
+  has: function(name){
+
+    return (name in this.list);
+
   }
 
 };
+
+// bind eventChannel instance to window (for global usage)
+window.eventChannel = new EventChannel();

@@ -17,12 +17,12 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="height: 100% !important; min-height: 100% !important;">
 
             <div class="steps">
-                <div class="step step-1" ng-class="{'active': $root.stateUrl=='/upload'}" ng-click="vm.goToState($root.app.productState + '.Upload')">
-                    <div class="custom-svg-icon gray-camera" ng-if="$root.stateUrl!='/upload'">
+                <div class="step step-1" ng-class="{'active': $root.stateName=='Upload'}" ng-click="vm.goToState('Upload')">
+                    <div class="custom-svg-icon gray-camera" ng-if="$root.stateName!='Upload'">
                         <!--<object class="" type="image/svg+xml" data="svgs/gray-camera.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/gray-camera.svg">
                     </div>
-                    <div class="custom-svg-icon blue-camera" ng-if="$root.stateUrl=='/upload'">
+                    <div class="custom-svg-icon blue-camera" ng-if="$root.stateName=='Upload'">
                         <!--<object class="" type="image/svg+xml" data="svgs/blue-camera.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/blue-camera.svg">
                     </div>
@@ -30,15 +30,15 @@
                         <div class="ptt-uppercase">Step 1</div>
                         <span>Add Photos</span>
                     </div>
-                    <hr ng-if="$root.stateUrl=='/upload'">
+                    <hr ng-if="$root.stateName=='Upload'">
                     <hr class="hover-hr">
                 </div>
-                <div class="step step-2" ng-class="{'active': $root.stateUrl=='/design'}" ng-click="vm.nextStep($root.app.productState + '.Design')">
-                    <div class="custom-svg-icon gray-pencil" ng-if="$root.stateUrl!='/design'">
+                <div class="step step-2" ng-class="{'active': $root.stateName=='Design'}" ng-click="vm.nextStep('Design')">
+                    <div class="custom-svg-icon gray-pencil" ng-if="$root.stateName!='Design'">
                         <!--<object class="" type="image/svg+xml" data="svgs/gray-pencil.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/gray-pencil.svg">
                     </div>
-                    <div class="custom-svg-icon blue-pencil" ng-if="$root.stateUrl=='/design'">
+                    <div class="custom-svg-icon blue-pencil" ng-if="$root.stateName=='Design'">
                         <!--<object class="" type="image/svg+xml" data="svgs/blue-pencil.svg" ></object>-->
                         <img class="" type="image/svg+xml" src="svgs/blue-pencil.svg">
                     </div>
@@ -46,16 +46,16 @@
                         <div class="ptt-uppercase">Step 2</div>
                         <span>Design Product</span>
                     </div>
-                    <hr ng-if="$root.stateUrl=='/design'">
+                    <hr ng-if="$root.stateName=='Design'">
                     <hr class="hover-hr">
                 </div>
                 <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-                <div class="step step-3" ng-class="{'active': $root.stateUrl=='/checkout'}" ng-click="(vm.selectedPhoto.original)?vm.sendEditedImage():''">
-                    <div class="custom-svg-icon gray-tick" ng-if="$root.stateUrl!='/checkout'">
+                <div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}" ng-click="(vm.selectedPhoto.original)?vm.sendEditedImage():''">
+                    <div class="custom-svg-icon gray-tick" ng-if="$root.stateName!='Checkout'">
                         <!--<object class=""  type="image/svg+xml" data="svgs/gray-tick.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/gray-tick.svg">
                     </div>
-                    <div class="custom-svg-icon blue-tick" ng-if="$root.stateUrl=='/checkout'">
+                    <div class="custom-svg-icon blue-tick" ng-if="$root.stateName=='Checkout'">
                         <!--<object class=""  type="image/svg+xml" data="svgs/blue-tick.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/blue-tick.svg">
                     </div>
@@ -63,7 +63,7 @@
                         <div class="ptt-uppercase">Step 3</div>
                         <span>Confirm Order</span>
                     </div>
-                    <hr ng-if="$root.stateUrl=='/checkout'">
+                    <hr ng-if="$root.stateName=='Checkout'">
                     <hr class="hover-hr">
                 </div>
             </div>
@@ -71,16 +71,16 @@
 
             <div class="nav navbar-nav navbar-right">
                 <div>
-                    <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateUrl=='/upload'" ng-class="{'btn-disabled': ((vm.myPhotos.length < $root.imageConstraints.minPhotoForProduct) || (vm.noOfFilesUploading>0))}" ng-click="vm.nextStep($root.app.productState + '.Design')">
+                    <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateName=='Upload'" ng-class="{'btn-disabled': ((vm.myPhotos.length < $root.imageConstraints.minPhotoForProduct) || (vm.noOfFilesUploading>0))}" ng-click="vm.nextStep('Design')">
                         <span class="btn-text">Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
                     <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-                    <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateUrl=='/design'" ng-click="vm.sendEditedImage()" ng-disabled="!vm.selectedPhoto.original">
+                    <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateName=='Design'" ng-click="vm.sendEditedImage()" ng-disabled="!vm.selectedPhoto.original">
                         <span class="btn-text" >Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
-                    <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateUrl=='/checkout'">
+                    <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateName=='Checkout'">
                         <span class="btn-text">Checkout</span>
                         <!--<i class="glyphicon glyphicon-chevron-right"></i>-->
                     </span>

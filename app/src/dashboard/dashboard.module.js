@@ -29,68 +29,28 @@
     //add your state mappings here
     $stateProvider
 
-        .state('Website', {
-            url: '/web',
-            resolve: function(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL){
-                // route to website
-                window.location = (window.location.origin.indexOf('localhost')>=0)?FRONT_END_WEBSITE_DEV_URL:FRONT_END_WEBSITE_PROD_URL;
-                return false;
-            }
-        })
-
-      .state('Dashboard',{
-          url:'/dashboard',
-          title: "Dashboard - Pictaktoe",
-          contentClass: "dashboard",
-          header: true,
-          footer: true,
-          views: {
-            "@": {
-              templateUrl:'src/layouts/main.html'
-            },
-            "header@Dashboard": {
-              templateUrl:'src/layouts/appHeader.html',
-              controller: 'appHeaderCtrl as vm'
-            },
-            "content@Dashboard": {
-              templateUrl:'src/dashboard/dashboard.html',
-              controller: 'dashboardCtrl as vm'
-            },
-            "footer@Dashboard": {
-              templateUrl:'src/layouts/footer.html'
-            }
-          }
+      .state('Website', {
+        url: '/web',
+        resolve: function(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL){
+          // route to website
+          window.location = (window.location.origin.indexOf('localhost')>=0)?FRONT_END_WEBSITE_DEV_URL:FRONT_END_WEBSITE_PROD_URL;
+          return false;
         }
-      )
-      .state('Dashboard.Prints',{
-          url:'/prints',
-          title: "Prints - Pictaktoe",
-          contentClass: "prints",
-          header: true,
-          footer: true,
-          cache: false,
-          views: {
-            "content@Dashboard": {
-              templateUrl:'src/dashboard/prints/prints.html',
-              controller: 'dashboardCtrl as vm'
-            }
-          }
-        }
-      )
-      .state('Dashboard.Prints.Upload',{
+      })
+      .state('Upload',{
           url:'/upload/:sku/:tty',
           params: {
-              sku: null,
-              tty: null
+            sku: null,
+            tty: null
           },
-          title: "Uploads - Pictaktoe",
+          title: "Upload",
           contentClass: "prints",
           header: true,
           footer: true,
           cache: false,
           resolve: {
             r_photos: function(photosFactory, $rootScope){
-              if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0 && $rootScope.prevSku == $rootScope.sku){
+              if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
                 console.log("Local PHOTOS");
                 return photosFactory.getLocalPhotosIfPresent();
               }
@@ -122,23 +82,25 @@
           }
         }
       )
-      .state('Dashboard.Prints.Design',{
+      .state('Design',{
           url:'/design/:sku/:tty',
           params: {
-              sku: null,
-              tty: null
+            sku: null,
+            tty: null
           },
-          title: "Design Product - Prints",
+          title: "Design Product",
           contentClass: "prints",
           header: true,
           footer: true,
           resolve: {
-            r_photos: function(photosFactory){
+            r_photos: function(photosFactory, $rootScope){
               if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
+                console.log("Local PHOTOS");
                 return photosFactory.getLocalPhotosIfPresent();
               }
               else{
                 $('.global-loader').css('display', 'block');
+                console.log("Fetching PHOTOS", $rootScope.sku);
                 return photosFactory.getSpecificProject().then(function(resp){
                   $('.global-loader').css('display', 'none');
                   return resp;
@@ -154,9 +116,9 @@
           }
         }
       )
-      .state('Dashboard.Prints.Checkout',{
+      .state('Checkout',{
           url:'/checkout/:sku/:tty',
-          title: "Checkout - Pictaktoe",
+          title: "Checkout",
           contentClass: "prints",
           header: true,
           footer: true,
@@ -186,48 +148,6 @@
             "@": {
               templateUrl:'src/dashboard/cart/webapp-step3.html',
               controller: 'webappStep3Ctrl as vm'
-            }
-          }
-        }
-      )
-      .state('Dashboard.Albums',{
-          url:'/albums',
-          title: "Albums - Pictaktoe",
-          contentClass: "albums",
-          header: true,
-          footer: true,
-          views: {
-            "content@Dashboard": {
-              templateUrl:'src/dashboard/albums/albums.html',
-              controller: 'dashboardCtrl as vm'
-            }
-          }
-        }
-      )
-      .state('Dashboard.PhotoGifts',{
-          url:'/photogifts',
-          title: "Photo Gifts - Pictaktoe",
-          contentClass: "photogifts",
-          header: true,
-          footer: true,
-          views: {
-            "content@Dashboard": {
-              templateUrl:'src/dashboard/photogifts/photogifts.html',
-              controller: 'dashboardCtrl as vm'
-            }
-          }
-        }
-      )
-      .state('Dashboard.PhotoBooks',{
-          url:'/photobooks',
-          title: "Photo Books - Pictaktoe",
-          contentClass: "photobooks",
-          header: true,
-          footer: true,
-          views: {
-            "content@Dashboard": {
-              templateUrl:'src/dashboard/photobooks/photobooks.html',
-              controller: 'dashboardCtrl as vm'
             }
           }
         }

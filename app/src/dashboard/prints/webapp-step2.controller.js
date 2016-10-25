@@ -137,7 +137,7 @@
 
       // select the 0th index photo by default
       if(vm.myPhotos.length === 0){
-        $state.go('Dashboard.Prints.Upload');
+        $state.go('Upload', {sku: $rootScope.sku});
       }
       else {
         getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex]._id, defaultSelectedPhotoIndex);
@@ -147,7 +147,7 @@
       // if addMorePhotos
       if(template == 'addMorePhotos'){
         saveCanvasState();
-        $state.go('^.Upload');
+        $state.go('Upload', {sku: $rootScope.sku});
         return;
       }
       if(template== 'filters'){
@@ -492,7 +492,7 @@
         //}
         fabricCanvas.deactivateAll();
         $rootScope.dummyImage = fabricCanvas.toDataURL();
-        $state.go($rootScope.app.productState + '.Checkout', {id: vm.selectedPhoto.original.id});
+        $state.go('Checkout', {id: vm.selectedPhoto.original.id});
       }
     }
 
@@ -866,10 +866,10 @@
       //// console.log(stateName);
       if(stateName.indexOf('Upload')>=0){
         //// console.log("going");
-        $state.go('^.Upload');
+        $state.go('^.Upload', {sku: $rootScope.sku});
       }
       else{
-        $state.go(stateName);
+        $state.go(stateName, {sku: $rootScope.sku});
       }
     }
 

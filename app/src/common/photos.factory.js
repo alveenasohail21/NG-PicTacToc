@@ -61,11 +61,9 @@
     }
 
     function removePhotosFromLocal(){
-      // console.log("removing local factory data ****************");
-      _data = {
-        photos: [],
-        totalCount: 0
-      };
+      console.log("removing local factory data ****************");
+      _data.photos = [];
+      _data.totalCount = 0;
       // console.log("REMOVED FROM FACTORY", _data);
     }
 
