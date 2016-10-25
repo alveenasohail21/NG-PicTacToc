@@ -30,7 +30,8 @@
         signup: signup,
         getAuthenticatedUser: getAuthenticatedUser,
         forgotEmailSend: forgotEmailSend,
-        socialDisconnect: socialDisconnect
+        socialDisconnect: socialDisconnect,
+          getUserDetails: getUserDetails
       },
       users: {
         create: createUser,
@@ -38,7 +39,8 @@
         update: updateUser,
         remove: removeUser,
         activeSocialProfiles: activeSocialProfiles,
-        socialDetails: socialDetails
+        socialDetails: socialDetails,
+          verifySku: verifySku
       },
         projects: {
           getSpecificProject: getSpecificProject,
@@ -90,6 +92,10 @@
       return Auth.one('password').one('forget').post(null, {email: email});
     }
 
+      function getUserDetails(){
+          return Auth.one('me').get();
+      }
+
     function createUser(){
       //
     }
@@ -121,6 +127,10 @@
     function socialDetails(data){
       return Users.one('social').one('details').get(data);
     }
+
+      function verifySku(sku){
+          return Users.one('verifySku').post(null, {sku: sku});
+      }
 
     function deletePhoto(id){ //delete selected photo in step 1
       return Restangular.one('photos', id).remove();

@@ -30,7 +30,7 @@
       function savePhotoOrProduct(data) {
           var deffered = $q.defer();
           // TODO: project id should be dynamic
-          var projectId = '580b847643e19d13387f8a11';
+          var projectId = $rootScope.sku;
           restFactory.projects.savePhotoOrProduct(projectId, data._id, data).then(function (resp) {
               alertFactory.success(null, resp.message);
               deffered.resolve(resp.data);

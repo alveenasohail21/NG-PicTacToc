@@ -28,6 +28,16 @@
 
     //add your state mappings here
     $stateProvider
+
+        .state('Website', {
+            url: '/web',
+            resolve: function(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL){
+                // route to website
+                window.location = (window.location.origin.indexOf('localhost')>=0)?FRONT_END_WEBSITE_DEV_URL:FRONT_END_WEBSITE_PROD_URL;
+                return false;
+            }
+        })
+
       .state('Dashboard',{
           url:'/dashboard',
           title: "Dashboard - Pictaktoe",
@@ -58,6 +68,7 @@
           contentClass: "prints",
           header: true,
           footer: true,
+          cache: false,
           views: {
             "content@Dashboard": {
               templateUrl:'src/dashboard/prints/prints.html',
@@ -67,21 +78,25 @@
         }
       )
       .state('Dashboard.Prints.Upload',{
-          url:'/upload',
+          url:'/upload/:sku/:tty',
+          params: {
+              sku: null,
+              tty: null
+          },
           title: "Uploads - Pictaktoe",
           contentClass: "prints",
           header: true,
           footer: true,
           cache: false,
           resolve: {
-            r_photos: function(photosFactory){
-              if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
-                // console.log("Local PHOTOS");
+            r_photos: function(photosFactory, $rootScope){
+              if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0 && $rootScope.prevSku == $rootScope.sku){
+                console.log("Local PHOTOS");
                 return photosFactory.getLocalPhotosIfPresent();
               }
               else{
                 $('.global-loader').css('display', 'block');
-                // console.log("Fetching PHOTOS");
+                console.log("Fetching PHOTOS", $rootScope.sku);
                 return photosFactory.getSpecificProject().then(function(resp){
                   $('.global-loader').css('display', 'none');
                   return resp;
@@ -108,7 +123,11 @@
         }
       )
       .state('Dashboard.Prints.Design',{
-          url:'/design',
+          url:'/design/:sku/:tty',
+          params: {
+              sku: null,
+              tty: null
+          },
           title: "Design Product - Prints",
           contentClass: "prints",
           header: true,
@@ -136,7 +155,7 @@
         }
       )
       .state('Dashboard.Prints.Checkout',{
-          url:'/checkout',
+          url:'/checkout/:sku/:tty',
           title: "Checkout - Pictaktoe",
           contentClass: "prints",
           header: true,

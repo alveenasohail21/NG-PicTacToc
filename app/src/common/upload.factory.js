@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('uploadFactory', uploadFactory);
 
-  function uploadFactory(API_URL, Upload, $localStorage, photosFactory, restFactory){
+  function uploadFactory(API_URL, Upload, $localStorage, photosFactory, restFactory, $rootScope){
 
     var _data = {
       // device list
@@ -89,7 +89,7 @@
           url: url,
           data: {
             files: [file],
-            'projectId': '580b847643e19d13387f8a11'
+            'projectId': $rootScope.sku
           },
           // timeout: canceler[index].promise,
           headers: {

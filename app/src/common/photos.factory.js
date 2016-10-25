@@ -75,7 +75,7 @@
               // base64: true
           };
           // TODO: project id should be dynamic
-          var projectId = '580b847643e19d13387f8a11';
+          var projectId = $rootScope.sku;
           restFactory.projects.getSpecificProject(projectId, queryParams)
               .then(function(resp){
                   if(resp.success){
@@ -137,7 +137,7 @@
           // Prints step 1
           _data.photos[getPhotoIndexThroughId(photoId)].deleting = true;
           // TODO: project id should be dynamic
-          var projectId = '580b847643e19d13387f8a11';
+          var projectId = $rootScope.sku;
           restFactory.projects.deleteProjectPhotoOrProduct(projectId, photoId)
               .then(function(resp){
                   if(resp.success){
@@ -161,7 +161,7 @@
       var deferred = $q.defer();
       $('.global-loader').css('display', 'block');
         // TODO: project id should be dynamic
-        var projectId = '580b847643e19d13387f8a11';
+        var projectId = $rootScope.sku;
           restFactory.projects.getProjectSelectedPhotoOrProduct(projectId, photoId).then(function(resp){
             if(resp.success){
                 removeHighResBase64AndCanvasJSONFromAllPhotos();

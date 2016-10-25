@@ -25,7 +25,9 @@
       activeSocialProfilesFromServer: activeSocialProfilesFromServer,
       activeSocialProfiles: activeSocialProfiles,
       removeSocialProfile: removeSocialProfile,
-      socialDetails: socialDetails
+      socialDetails: socialDetails,
+        verifySku: verifySku,
+        getUserDetails: getUserDetails
     };
 
 
@@ -144,6 +146,45 @@
         });
       return deffered.promise;
     }
+
+      function verifySku(sku){
+          var deffered = $q.defer();
+          restFactory.users.verifySku(sku)
+              .then(function(resp){
+                  if(resp.success){
+                      // TODO
+                      deffered.resolve(true);
+                  }
+                  else{
+                      // TODO
+                      alertFactory.error(null, resp.message);
+                      deffered.resolve(false);
+                  }
+              }, function(err){
+                  alertFactory.error(null, err.data.message);
+                  deffered.resolve(false);
+              });
+          return deffered.promise;
+      }
+
+      //get user details
+      function getUserDetails(){
+          var deffered = $q.defer();
+          restFactory.auth.getUserDetails()
+              .then(function(resp){
+                  if(resp.success){
+                      deffered.resolve(resp.data);
+                  }
+                  else{
+                      // TODO
+                      alertFactory.error(null, resp.message);
+                      deffered.reject(resp);
+                  }
+              }, function(err){
+                  deffered.reject(err);
+              });
+          return deffered.promise;
+      }
 
 
   }
