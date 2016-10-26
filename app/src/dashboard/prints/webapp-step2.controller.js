@@ -96,7 +96,7 @@
     vm.updateTextSize = updateTextSize;
     vm.updateTextColor = updateTextColor;
     // nextstep
-    vm.goToState = goToState;
+    vm.nextStep = nextStep;
     // Deselect layouts
     vm.deSelectLayout = deSelectLayout;
     // Resize Canvas When different Canvas is Changed
@@ -258,14 +258,14 @@
     }
     // get the high res image for editing
     function getSelectPhoto(id, index, imageDragged){
-        console.log("get selected photo");
+      console.log("get selected photo");
       if(imageDragged && !designTool.getProp('droppedOnCanvas')){
         // image is dragged but not dropped on canvas
         return;
       }
       // show loader
-        $('.global-loader').css('display', 'block');
-        console.log("continue");
+      $('.global-loader').css('display', 'block');
+      console.log("continue");
       //
       vm.closeSidemenu();
       vm.deSelectLayout();
@@ -302,7 +302,7 @@
             designTool.getCanvasDataUrl()
           );
           var dataToSaveForProduct = {
-              _id: vm.myPhotos[canvasBkgImg.photoIndex]._id,
+            _id: vm.myPhotos[canvasBkgImg.photoIndex]._id,
             photoid : [],
             canvasDataUrl : designTool.getCanvasDataUrl(),
             canvasJSON : canvasJson
@@ -314,14 +314,14 @@
           if(!designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
             dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex]._id);
           }
-            else if(!designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
-              dataToSaveForProduct['photoid'] = vm.myPhotos[canvasBkgImg.photoIndex].photos;
+          else if(!designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            dataToSaveForProduct['photoid'] = vm.myPhotos[canvasBkgImg.photoIndex].photos;
           }
-            else if(designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
-              // TODO:
+          else if(designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            // TODO:
           }
-            else if(designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
-              // TODO:
+          else if(designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            // TODO:
           }
           var oldIndex = canvasBkgImg.photoIndex;
           productsFactory.savePhotoOrProduct(dataToSaveForProduct).then(function (resp) {
@@ -344,11 +344,11 @@
       }
       // get photo now
       photosFactory.getSelectedPhoto(id, index).then(function(resp){
-          console.log("RESPONESE recv in ctrl", resp);
+        console.log("RESPONESE recv in ctrl", resp);
         // the new selected image has JSON data
         // JSON will be loaded now, saved current work and rest tool
         if(resp.canvasJSON ){
-            console.log('loading from JSON');
+          console.log('loading from JSON');
           // console.log('CTRL: Loading from JSON', vm.myPhotos[index].canvasJSON);
           // if JSON is present the current layout will be cleared
           designTool.resetTool();
@@ -357,29 +357,29 @@
           // load
           designTool.loadFromJSON(resp.canvasJSON,index ,function(loadedImage){
             // caman image for filter
-              if(loadedImage){
-                  console.log('loaded image exists');
-              }
+            if(loadedImage){
+              console.log('loaded image exists');
+            }
             var img = new Image();
             img.onload = function(){
               updateCamanCanvas(img);
             };
-              // the loadedImage is high res image, if its not present then use low res for caman (which is wrong however)
+            // the loadedImage is high res image, if its not present then use low res for caman (which is wrong however)
             if(resp.highResBase64){
-                img.src = resp.highResBase64;
+              img.src = resp.highResBase64;
             }
-              else if(loadedImage){
-                img.src = loadedImage;
+            else if(loadedImage){
+              img.src = loadedImage;
             }
-              else{
-                img.src = resp.canvasDataUrl;
+            else{
+              img.src = resp.canvasDataUrl;
             }
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
             // update the size dropdown with default values
             vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(
-                resp.canvasJSON.customSettings.canvasSizeDetails.type,
-                resp.canvasJSON.customSettings.canvasSizeDetails.size
+              resp.canvasJSON.customSettings.canvasSizeDetails.type,
+              resp.canvasJSON.customSettings.canvasSizeDetails.size
             );
 
             turnOffSelectedImageDrag();
@@ -504,32 +504,32 @@
       //   deleteCanvas();
       // }
       //else{
-        if(vm.myPhotos[index].isProduct){
-          productsFactory.deleteProduct(id,index).then(function(resp){
-            if(resp.success){
-              if(index == canvasBkgImg.photoIndex) {
-                canvasBkgImg.active = false;
-                // load default photo
-                // select the 0th index photo by default
-                canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
-                getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-              }
+      if(vm.myPhotos[index].isProduct){
+        productsFactory.deleteProduct(id,index).then(function(resp){
+          if(resp.success){
+            if(index == canvasBkgImg.photoIndex) {
+              canvasBkgImg.active = false;
+              // load default photo
+              // select the 0th index photo by default
+              canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
+              getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
             }
-          });
-        }else {
-          photosFactory.deletePhoto(id, index).then(function(resp){
-            if(resp.success){
-              if(index == canvasBkgImg.photoIndex) {
-                canvasBkgImg.active = false;
-                // load default photo
-                // select the 0th index photo by default
-                canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
-                getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-              }
+          }
+        });
+      }else {
+        photosFactory.deletePhoto(id, index).then(function(resp){
+          if(resp.success){
+            if(index == canvasBkgImg.photoIndex) {
+              canvasBkgImg.active = false;
+              // load default photo
+              // select the 0th index photo by default
+              canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
+              getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
             }
-          });
-        }
-     // }
+          }
+        });
+      }
+      // }
     }
 
     //copy photo
@@ -538,11 +538,11 @@
       //   copyCanvas();
       // }
       // else{
-        if(vm.myPhotos[index].isProduct){
-          productsFactory.copyProduct(id,index);
-        }else {
-          photosFactory.copyPhoto(id, index);
-        }
+      if(vm.myPhotos[index].isProduct){
+        productsFactory.copyProduct(id,index);
+      }else {
+        photosFactory.copyPhoto(id, index);
+      }
       // }
     }
 
@@ -715,23 +715,23 @@
     designTool.on('image:selected', function(e){
       // console.log("CTRL: image:selected: ", e);
       console.log(e.data[0]);
-        if(!vm.myPhotos[e.data[0].photoIndex].isProduct){
-            return;
-        }
-        if(designTool.getProp('isLayoutApplied')){
-      photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
-        function(resp){
-          vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;
-          saveSelectedPhoto(vm.myPhotos[e.data[0].photoIndex], resp);
-          // caman image for filter
-          var img = new Image();
-          img.onload = function(){
-            updateCamanCanvas(img);
-          };
-          img.src = resp.base64;
-        }
-      )
-        }
+      if(!vm.myPhotos[e.data[0].photoIndex].isProduct){
+        return;
+      }
+      if(designTool.getProp('isLayoutApplied')){
+        photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
+          function(resp){
+            vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;
+            saveSelectedPhoto(vm.myPhotos[e.data[0].photoIndex], resp);
+            // caman image for filter
+            var img = new Image();
+            img.onload = function(){
+              updateCamanCanvas(img);
+            };
+            img.src = resp.base64;
+          }
+        )
+      }
     });
 
     designTool.on('layout:sectionToggle', function(e) {
@@ -744,11 +744,11 @@
     });
 
     designTool.on('image:edited',function (e) {
-        console.log("designTool Event: image:edited");
+      console.log("designTool Event: image:edited");
       if(e.data['0'] !== null){
-       vm.myPhotos[e.data[0]].isEdited = true;
+        vm.myPhotos[e.data[0]].isEdited = true;
       }else {
-       vm.myPhotos[canvasBkgImg.photoIndex].isEdited = true;
+        vm.myPhotos[canvasBkgImg.photoIndex].isEdited = true;
       }
     });
     designTool.on('image:checkResolution',function (e) {
@@ -859,17 +859,22 @@
     }
 
     /************************************* Other methods *************************************/
-    function goToState(stateName){
-      saveCanvasState();
-      designTool.emptyTool();
+    function nextStep(stateName){
       // go to state
-      //// console.log(stateName);
       if(stateName.indexOf('Upload')>=0){
-        //// console.log("going");
-        $state.go('^.Upload', {sku: $rootScope.sku});
+        // show loader
+        globalLoader.show();
+
+        saveCanvasState();
+        designTool.emptyTool();
+        
+        $state.go('Upload', {sku: $rootScope.sku});
       }
-      else{
+      else if(stateName.indexOf('Design')>=0){
         $state.go(stateName, {sku: $rootScope.sku});
+      }
+      else if(stateName.indexOf('Checkout')>=0){
+
       }
     }
 

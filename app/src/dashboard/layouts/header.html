@@ -8,7 +8,7 @@
             <!--<span class="icon-bar"></span>-->
             <!--<span class="icon-bar"></span>-->
             <!--</button>-->
-            <a class="navbar-brand" ui-sref="Website">
+            <a class="navbar-brand" ui-sref="Projects">
                 <img class="app-title" src="images/logo_icon.png" alt="">
             </a>
         </div>
@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="height: 100% !important; min-height: 100% !important;">
 
             <div class="steps">
-                <div class="step step-1" ng-class="{'active': $root.stateName=='Upload'}" ng-click="vm.goToState('Upload')">
+                <div class="step step-1" ng-class="{'active': $root.stateName=='Upload'}" ng-click="vm.nextStep('Upload')">
                     <div class="custom-svg-icon gray-camera" ng-if="$root.stateName!='Upload'">
                         <!--<object class="" type="image/svg+xml" data="svgs/gray-camera.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/gray-camera.svg">
@@ -50,7 +50,7 @@
                     <hr class="hover-hr">
                 </div>
                 <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-                <div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}" ng-click="(vm.selectedPhoto.original)?vm.sendEditedImage():''">
+                <div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}" ng-click="vm.nextStep('Checkout')">
                     <div class="custom-svg-icon gray-tick" ng-if="$root.stateName!='Checkout'">
                         <!--<object class=""  type="image/svg+xml" data="svgs/gray-tick.svg"></object>-->
                         <img class="" type="image/svg+xml" src="svgs/gray-tick.svg">

@@ -12,16 +12,19 @@
     .controller('webappStep3Ctrl', webappStep3Ctrl);
 
   /* @ngInject */
-  function webappStep3Ctrl(r_product){
+  function webappStep3Ctrl(){
 
     console.log("CONTROLLER STEP 3");
 
     var vm = this;
 
-    /* Variables */
-    vm.products = r_product;
+    vm.nextStep = nextStep;
 
-    console.log(vm.products);
+    /* Variables */
+
+    function nextStep(){
+
+    }
 
   }
 

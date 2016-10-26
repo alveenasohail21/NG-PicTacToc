@@ -17,23 +17,23 @@ Content : Start
                     Confirm Order
                 </div>
                 <div class="col-sm-7 text-right" style="padding-top: 8px;">
-                    <span class="edit-order"><a href="" class="hover-underline" ng-class="{'active': vm.editOrder, 'underline': !vm.editOrder}" ng-click="vm.editOrder=true;">Edit Order</a></span>
-                    <span class="view-history"><a href="" class="hover-underline" ng-class="{'active': !vm.editOrder, 'underline': !vm.editOrder}" ng-click="vm.editOrder=false;">View Summary</a></span>
+                    <span class="edit-order"><a href="" class="hover-underline" ng-class="{'active': !vm.editOrder, 'underline': !vm.editOrder}" ng-click="vm.editOrder=true;">Edit Order</a></span>
+                    <span class="view-history"><a href="" class="hover-underline" ng-class="{'active': vm.editOrder, 'underline': !vm.editOrder}" ng-click="vm.editOrder=false;">View Summary</a></span>
                 </div>
             </div>
 
             <!-- View Summary -->
             <div class="row content view-summary" ng-show="!vm.editOrder">
 
-                <div class="col-sm-4">
-                    <div class="square"></div>
-                    <div class="square"></div>
-                    <div class="square"></div>
-                    <div class="square">
-                        <img ng-src="{{$root.dummyImage}}" alt="" ptt-loader="loader-fb-album" ng-click="vm.editOrder=true;">
-                    </div>
-                    <p> 8 x 8 inches</p>
-                </div>
+                <!--<div class="col-sm-4">-->
+                    <!--<div class="square"></div>-->
+                    <!--<div class="square"></div>-->
+                    <!--<div class="square"></div>-->
+                    <!--<div class="square">-->
+                        <!--<img ng-src="{{$root.dummyImage}}" alt="" ptt-loader="loader-fb-album" ng-click="vm.editOrder=true;">-->
+                    <!--</div>-->
+                    <!--<p> 8 x 8 inches</p>-->
+                <!--</div>-->
                 <div class="col-sm-4">
                     <div class="square"></div>
                     <div class="square"></div>

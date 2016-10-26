@@ -41,10 +41,18 @@
       $rootScope.hasHeader = toState.header || false;
       $rootScope.hasFooter = toState.footer || false;
       $rootScope.contentClass = toState.contentClass || '';
+
+      // hide loader
+      globalLoader.hide();
+
     });
 
     //on routing start
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
+      // show loader
+      globalLoader.show();
+
       // first check if sku is present in query param
       var isSku = (toParams.sku)?true:false;
       var isToken = (toParams.tty)?true:false;

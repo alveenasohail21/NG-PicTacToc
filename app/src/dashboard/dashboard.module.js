@@ -30,10 +30,22 @@
     $stateProvider
 
       .state('Website', {
-        url: '/web',
+        url: '/',
         resolve: function(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL){
           // route to website
           window.location = (window.location.origin.indexOf('localhost')>=0)?FRONT_END_WEBSITE_DEV_URL:FRONT_END_WEBSITE_PROD_URL;
+          return false;
+        }
+      })
+      .state('Projects', {
+        url: '/account/projects',
+        resolve: function(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL){
+          // route to website
+          var projectUrl = (window.location.origin.indexOf('localhost')>=0)?
+            (FRONT_END_WEBSITE_DEV_URL+'/#/account/projects')
+            :(FRONT_END_WEBSITE_PROD_URL+'/#/account/projects');
+          console.log(projectUrl);
+          window.location = projectUrl;
           return false;
         }
       })
@@ -118,32 +130,14 @@
       )
       .state('Checkout',{
           url:'/checkout/:sku/:tty',
+          params: {
+            sku: null,
+            tty: null
+          },
           title: "Checkout",
           contentClass: "prints",
           header: true,
           footer: true,
-          params: {
-            id: null,
-            configs: null
-          },
-          resolve: {
-            r_product: function(photosFactory, $stateParams){
-
-              return null;
-              // TODO: Update the configs for Edit API
-              if($stateParams.id!=null && $stateParams.configs!=null){
-                // console.log("INSIDE IF");
-                return photosFactory.sendEditedImage($stateParams.id, $stateParams.configs)
-                  .then(function(resp){
-                    // console.log("r_editedPhoto: ", resp);
-                    return resp.data;
-                  });
-              }
-              else{
-                return null;
-              }
-            }
-          },
           views: {
             "@": {
               templateUrl:'src/dashboard/cart/webapp-step3.html',
