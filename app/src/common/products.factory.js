@@ -7,7 +7,7 @@
     .factory('productsFactory', productsFactory);
 
 
-  function productsFactory($q, restFactory, alertFactory,photosFactory){
+  function productsFactory($q, restFactory, alertFactory,photosFactory, $rootScope){
     return {
         savePhotoOrProduct: savePhotoOrProduct,
       addInProgressProducts : addInProgressProducts,

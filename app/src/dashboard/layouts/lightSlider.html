@@ -13,7 +13,7 @@
   <ul id="step1-lightSlider">
     <li ng-repeat="photo in photos track by $index">
       <div class="backdrop"></div>
-      <img ng-src="{{(photo.canvasDataUrl) ? photo.canvasDataUrl : convertUrl(photo)}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
+      <img ng-src="{{(photo.canvasDataUrl) ? photo.canvasDataUrl : $root.safeUrlConvert(convertUrl(photo))}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
       <img ng-click="(photo.deleting)?null:onDelete({id: photo._id})"
            class="white-cross" ng-class="{'delete-loader': photo.deleting}"
            src="{{(photo.deleting)?'svgs/ptt-loader.svg':'images/white-cross.png'}}"
@@ -43,7 +43,7 @@
 
   <ul id="step2-lightSlider">
     <li ng-repeat="photo in photos track by $index" ng-class="{'selected': photo.selected}">
-      <img ng-src="{{(photo.canvasDataUrl) ? photo.canvasDataUrl : convertUrl(photo)}}" draggable="true"
+      <img ng-src="{{(photo.canvasDataUrl) ? photo.canvasDataUrl : $root.safeUrlConvert(convertUrl(photo))}}" draggable="true"
            id="photo{{$index}}"
            ng-click="onGetSelectPhoto({id: photo._id, index: $index})" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true"
            data-photoId="{{photo.id}}" data-index="{{$index}}">

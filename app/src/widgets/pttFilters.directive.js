@@ -18,7 +18,7 @@
     .directive('pttFilters', pttFilters);
 
   /* @ngInject */
-  function pttFilters($timeout,restFactory){
+  function pttFilters($timeout, restFactory, $rootScope){
 
     // would be get from server, only active filters will be shown
     // normal is always on last
@@ -162,6 +162,7 @@
         // console.log("FILTERS WATCH EXECUTED: ", newValue, oldValue);
         if(scope.thumbnail && ('url' in scope.thumbnail || 'canvasDataUrl' in scope.thumbnail )){
           // scope.filters = [];
+          console.log(scope.thumbnail);
           setupFilters();
         }
       }, true);
@@ -224,11 +225,13 @@
 
           var src;
           if(photo.isProduct){
-              src = photo.url;
+              src = $rootScope.safeUrlConvert(photo.url);
           }
           else{
-              src = photo.url+ '-' + DefaultFilterImageSize + '.' + photo.extension;
+              src = $rootScope.safeUrlConvert(photo.url+ '-' + DefaultFilterImageSize + '.' + photo.extension);
           }
+
+        console.log(src);
 
           var img = new Image();
           img.crossOrigin = 'Anonymous';

@@ -169,6 +169,8 @@
             _data.photos[index].canvasJSON = resp.data.canvasJSON;
             // add photos
             _data.photos[index].photos = resp.data.photos;
+            // update url
+            _data.photos[index].url = resp.data.url;
           }
           console.log(_data.photos);
           // replace the photo in local data
