@@ -397,7 +397,7 @@
     var propsToIncludeForJSON = [
       'customObjectType', 'hasControls', 'hasBorders', 'selectable', 'borders',
       'clipName', 'clipFor', 'originalScale', 'zoom', 'sectionIndex', 'percentValues', 'selectedBorder','originalWidth',
-      'originalHeight'
+      'originalHeight', 'photoData'
     ];
     var fabricCanvas;
     // fabric objects default setting
@@ -824,7 +824,7 @@
     }
 
     function loadBkgImage(image, propsToAdd, cb){
-      // console.log('DESIGN TOOL: loadBkgImage');;
+      // console.log('DESIGN TOOL: loadBkgImage', image);
       var img = new Image();
       img.onload = function(){
         // image settings
@@ -836,7 +836,11 @@
           zoom: Defaults.zoom,
           originalWidth : this.naturalWidth,
           originalHeight : this.naturalHeight,
-          photoId  : image.id
+          photoData  : {
+            _id: image._id,
+            url: image.url,
+            extension: image.extension
+          }
         });
         // fabric default settings
         fabricImage.set(fabricObjSettings);
@@ -932,7 +936,7 @@
       };
       // img.src = image.base64;
         // get high res
-        img.src = image.highResBase64;
+        img.src = image.highResBase64
     }
 
     function loadFromJSON(canvasJSON,index, cb){
@@ -1101,7 +1105,7 @@
 
       }
       else {
-        canvasJSON.objects[0].photoIndex = index;
+        // canvasJSON.objects[0].photoIndex = index;
         fabricCanvas.loadFromJSON(canvasJSON, function(){
           var objects = fabricCanvas.getObjects();
           var loadedImage;

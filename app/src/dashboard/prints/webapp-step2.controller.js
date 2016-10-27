@@ -64,6 +64,8 @@
     // default canvas type & size string
     vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString();
 
+    const DefaultHighResImageSize = '800x800';
+
 
     /* Function Assignment */
     vm.toggleSidemenu = toggleSidemenu;
@@ -103,6 +105,7 @@
     vm.updateCanvasSize = updateCanvasSize;
     vm.sizeMouseOver = sizeMouseOver;
     vm.sizeMouseLeave = sizeMouseLeave;
+    vm.convertUrl = convertUrl;
 
     /* Initializer */
     function init(){
@@ -328,6 +331,7 @@
             vm.myPhotos[oldIndex]._id = resp._id;
             vm.myPhotos[oldIndex].isEdited = false;
             vm.myPhotos[oldIndex].isProduct = true;
+            vm.myPhotos[oldIndex].url = resp.url + '?t=' + (new Date()).getTime();
           });
         }
 
@@ -408,7 +412,7 @@
           if(!designTool.getProp('isSectionSelected')){
             canvasBkgImg.photoIndex = index;
           }
-          designTool.loadBkgImage(resp, {photoIndex: index, currentFilter: 'normal'}, function(loadedImage){
+          designTool.loadBkgImage(resp, {currentFilter: 'normal'}, function(loadedImage){
             $('#canvas').removeClass("single-image-border");
             $timeout(function(){
               // caman image for filter
@@ -601,7 +605,7 @@
             $('.global-loader').css('display', 'none');
           })
         }else {
-          designTool.loadBkgImage(vm.myPhotos[defaultSelectedPhotoIndex], {photoIndex: defaultSelectedPhotoIndex, currentFilter: 'normal'}, function(loadedImage){
+          designTool.loadBkgImage(vm.myPhotos[defaultSelectedPhotoIndex], {currentFilter: 'normal'}, function(loadedImage){
             $timeout(function(){
               // caman image for filter
               updateCamanCanvas(loadedImage);
@@ -713,24 +717,23 @@
     /************************************* DESIGN TOOL EVENTS *************************************/
 
     designTool.on('image:selected', function(e){
-      // console.log("CTRL: image:selected: ", e);
-      console.log(e.data[0]);
-      if(!vm.myPhotos[e.data[0].photoIndex].isProduct){
-        return;
-      }
+      console.log("CTRL: image:selected: ");
+      // console.log(e.data);
       if(designTool.getProp('isLayoutApplied')){
-        photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
-          function(resp){
-            vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;
-            saveSelectedPhoto(vm.myPhotos[e.data[0].photoIndex], resp);
-            // caman image for filter
-            var img = new Image();
-            img.onload = function(){
-              updateCamanCanvas(img);
-            };
-            img.src = resp.base64;
-          }
-        )
+        console.log('inside if');
+
+        var thumbnailForFilters = e.data[0].photoData;
+        thumbnailForFilters.currentFilter = e.data[0].currentFilter;
+
+        saveSelectedPhoto(thumbnailForFilters, thumbnailForFilters);
+
+        toDataUrl(thumbnailForFilters, function(highResBase64){
+          var img = new Image();
+          img.onload = function(){
+            updateCamanCanvas(img);
+          };
+          img.src = highResBase64;
+        });
       }
     });
 
@@ -867,7 +870,7 @@
 
         saveCanvasState();
         designTool.emptyTool();
-        
+
         $state.go('Upload', {sku: $rootScope.sku});
       }
       else if(stateName.indexOf('Design')>=0){
@@ -938,6 +941,40 @@
           });
           break;
       }
+    }
+
+    function toDataUrl(photo, callback, outputFormat) {
+
+      var src;
+      if(photo.isProduct){
+        src = $rootScope.safeUrlConvert(photo.url);
+      }
+      else{
+        src = $rootScope.safeUrlConvert(photo.url+ '-' + DefaultHighResImageSize + '.' + photo.extension);
+      }
+
+      console.log(src);
+
+      var img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.onload = function() {
+        var canvas = document.createElement('CANVAS');
+        var ctx = canvas.getContext('2d');
+        var dataURL;
+        canvas.height = this.height;
+        canvas.width = this.width;
+        ctx.drawImage(this, 0, 0);
+        dataURL = canvas.toDataURL(outputFormat);
+        callback(dataURL);
+      };
+      img.src = src;
+    }
+
+    function convertUrl(photo){
+      if(photo.isProduct){
+        return $rootScope.safeUrlConvert(photo.url);
+      }
+      return $rootScope.safeUrlConvert(photo.url+ '-' + '260x260' + '.' + photo.extension);
     }
 
     // controller

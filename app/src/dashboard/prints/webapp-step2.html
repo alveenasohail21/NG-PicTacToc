@@ -284,7 +284,7 @@ Content : Start : Step 2 B
       <div class="uploaded-images">
         <div class="img" ng-repeat="photo in vm.myPhotos">
           <div class="img-container">
-            <img class="upl-img" ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl:photo.base64}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
+            <img class="upl-img" ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl : vm.convertUrl(photo)}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
             <div class="expand-icons">
               <span class="copy" ng-click="vm.copyPhoto(photo.id, $index)"><img src="images/white-copy.png" alt=""></span>
               <span class="dustbin" ng-click="vm.deletePhoto(photo.id, $index)" ><img src="svgs/white-delete.svg" alt=""></span>

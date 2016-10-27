@@ -155,9 +155,9 @@
 
         function convertUrl(photo){
             if(photo.isProduct){
-                return photo.url;
+                return $rootScope.safeUrlConvert(photo.url);
             }
-            return photo.url+ '-' + DefaultFilterImageSize + '.' + photo.extension;
+            return $rootScope.safeUrlConvert(photo.url+ '-' + DefaultFilterImageSize + '.' + photo.extension);
         }
 
       // call initializer

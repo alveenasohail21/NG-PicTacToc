@@ -39,6 +39,7 @@
       mapSocialPhotos: mapSocialPhotos,
       getLocalPhotosIfPresent: getLocalPhotosIfPresent,
       getSelectedPhoto: getSelectedPhoto,
+      getSelectedPhotoForLayout: getSelectedPhotoForLayout,
       addPhotoToLocal: addPhotoToLocal,
       removePhotosFromLocal: removePhotosFromLocal,
       loadOriginalImages: loadOriginalImages,
@@ -185,6 +186,24 @@
         $('.global-loader').css('display', 'none');
       });
       designTool.checkLayoutSelection();
+      return deferred.promise;
+    }
+
+    function getSelectedPhotoForLayout(photoId){
+      var deferred = $q.defer();
+      globalLoader.show();
+      // TODO: project id should be dynamic
+      var projectId = $rootScope.sku;
+      restFactory.projects.getProjectSelectedPhotoOrProduct(projectId, photoId, {layout: true}).then(function(resp){
+        if(resp.success){
+          deferred.resolve(resp);
+        }
+        else{
+          alertFactory.error(null, resp.message);
+          deferred.reject(resp);
+        }
+        globalLoader.hide();
+      });
       return deferred.promise;
     }
 

@@ -173,8 +173,8 @@
           return Projects.one(projectId).one('photo').one(photoId).remove();
       }
 
-      function getProjectSelectedPhotoOrProduct(projectId, photoId){
-          return Projects.one(projectId).one('photo').one(photoId).get();
+      function getProjectSelectedPhotoOrProduct(projectId, photoId, queryParams){
+          return Projects.one(projectId).one('photo').one(photoId).get((queryParams)?queryParams:{});
       }
 
       function savePhotoOrProduct(projectId, photoId, data){
