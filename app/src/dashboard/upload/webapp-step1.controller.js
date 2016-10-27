@@ -12,7 +12,9 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, pttGoogleFactory, authFactory, userFactory, photosFactory, $rootScope, uploadFactory, alertFactory, $state){
+  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, pttGoogleFactory,
+                           authFactory, userFactory, photosFactory,
+                           $rootScope, uploadFactory, alertFactory, $state, websiteFactory){
 
     var vm = this;
 
@@ -20,7 +22,6 @@
      * Debug mode
      * */
     vm.debug = false;
-
     /*
      * Variables
      * */
@@ -90,6 +91,8 @@
     vm.socialDisconnect = socialDisconnect;
     vm.nextStep = nextStep;
     vm.abortUploading=abortUploading;
+    vm.gotoProjects=gotoProjects;
+    vm.logout=logout;
 
 
     /*
@@ -624,6 +627,14 @@
      * Call Constructor
      * */
     vm.init();
+
+    function gotoProjects() {
+      websiteFactory.gotoProjects();
+    }
+
+    function logout() {
+      websiteFactory.logout();
+    }
 
   }
 

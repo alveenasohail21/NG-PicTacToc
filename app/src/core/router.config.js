@@ -52,6 +52,7 @@
 
       // show loader
       globalLoader.show();
+      // debugger;
 
       // first check if sku is present in query param
       var isSku = (toParams.sku)?true:false;

@@ -12,7 +12,8 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl($scope, photosFactory, designTool, $rootScope, $state, $timeout,productsFactory, alertFactory){
+  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state,
+                           $timeout,productsFactory, alertFactory, websiteFactory){
 
     var vm = this;
 
@@ -106,6 +107,10 @@
     vm.sizeMouseOver = sizeMouseOver;
     vm.sizeMouseLeave = sizeMouseLeave;
     vm.convertUrl = convertUrl;
+    //website redirects
+    vm.help=help;
+    vm.gotoProjects=gotoProjects;
+    vm.logout=logout;
 
     /* Initializer */
     function init(){
@@ -977,6 +982,17 @@
       return $rootScope.safeUrlConvert(photo.url+ '-' + '260x260' + '.' + photo.extension);
     }
 
+    function gotoProjects() {
+      websiteFactory.gotoProjects();
+    }
+
+    function logout() {
+      websiteFactory.logout();
+    }
+
+    function help() {
+      websiteFactory.help();
+    }
     // controller
     /* Initializer Call */
     init();

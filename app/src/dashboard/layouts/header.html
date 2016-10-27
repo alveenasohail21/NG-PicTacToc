@@ -1,99 +1,124 @@
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">-->
-            <!--<span class="sr-only">Toggle navigation</span>-->
-            <!--<span class="icon-bar"></span>-->
-            <!--<span class="icon-bar"></span>-->
-            <!--<span class="icon-bar"></span>-->
-            <!--</button>-->
-            <a class="navbar-brand" ui-sref="Projects">
-                <img class="app-title" src="images/logo_icon.png" alt="">
-            </a>
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">-->
+      <!--<span class="sr-only">Toggle navigation</span>-->
+      <!--<span class="icon-bar"></span>-->
+      <!--<span class="icon-bar"></span>-->
+      <!--<span class="icon-bar"></span>-->
+      <!--</button>-->
+      <a class="navbar-brand" ng-click="vm.gotoProjects()">
+        <img class="app-title" src="images/logo_icon.png" alt="">
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="height: 100% !important; min-height: 100% !important;">
+
+      <div class="steps">
+        <div class="step step-1" ng-class="{'active': $root.stateName=='Upload'}" ng-click="vm.nextStep('Upload')">
+          <div class="custom-svg-icon gray-camera" ng-if="$root.stateName!='Upload'">
+            <!--<object class="" type="image/svg+xml" data="svgs/gray-camera.svg"></object>-->
+            <img class="" type="image/svg+xml" src="svgs/gray-camera.svg">
+          </div>
+          <div class="custom-svg-icon blue-camera" ng-if="$root.stateName=='Upload'">
+            <!--<object class="" type="image/svg+xml" data="svgs/blue-camera.svg"></object>-->
+            <img class="" type="image/svg+xml" src="svgs/blue-camera.svg">
+          </div>
+          <div class="description">
+            <div class="ptt-uppercase">Step 1</div>
+            <span>Add Photos</span>
+          </div>
+          <hr ng-if="$root.stateName=='Upload'">
+          <hr class="hover-hr">
         </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="height: 100% !important; min-height: 100% !important;">
-
-            <div class="steps">
-                <div class="step step-1" ng-class="{'active': $root.stateName=='Upload'}" ng-click="vm.nextStep('Upload')">
-                    <div class="custom-svg-icon gray-camera" ng-if="$root.stateName!='Upload'">
-                        <!--<object class="" type="image/svg+xml" data="svgs/gray-camera.svg"></object>-->
-                        <img class="" type="image/svg+xml" src="svgs/gray-camera.svg">
-                    </div>
-                    <div class="custom-svg-icon blue-camera" ng-if="$root.stateName=='Upload'">
-                        <!--<object class="" type="image/svg+xml" data="svgs/blue-camera.svg"></object>-->
-                        <img class="" type="image/svg+xml" src="svgs/blue-camera.svg">
-                    </div>
-                    <div class="description">
-                        <div class="ptt-uppercase">Step 1</div>
-                        <span>Add Photos</span>
-                    </div>
-                    <hr ng-if="$root.stateName=='Upload'">
-                    <hr class="hover-hr">
-                </div>
-                <div class="step step-2" ng-class="{'active': $root.stateName=='Design'}" ng-click="vm.nextStep('Design')">
-                    <div class="custom-svg-icon gray-pencil" ng-if="$root.stateName!='Design'">
-                        <!--<object class="" type="image/svg+xml" data="svgs/gray-pencil.svg"></object>-->
-                        <img class="" type="image/svg+xml" src="svgs/gray-pencil.svg">
-                    </div>
-                    <div class="custom-svg-icon blue-pencil" ng-if="$root.stateName=='Design'">
-                        <!--<object class="" type="image/svg+xml" data="svgs/blue-pencil.svg" ></object>-->
-                        <img class="" type="image/svg+xml" src="svgs/blue-pencil.svg">
-                    </div>
-                    <div class="description">
-                        <div class="ptt-uppercase">Step 2</div>
-                        <span>Design Product</span>
-                    </div>
-                    <hr ng-if="$root.stateName=='Design'">
-                    <hr class="hover-hr">
-                </div>
-                <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-                <div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}" ng-click="vm.nextStep('Checkout')">
-                    <div class="custom-svg-icon gray-tick" ng-if="$root.stateName!='Checkout'">
-                        <!--<object class=""  type="image/svg+xml" data="svgs/gray-tick.svg"></object>-->
-                        <img class="" type="image/svg+xml" src="svgs/gray-tick.svg">
-                    </div>
-                    <div class="custom-svg-icon blue-tick" ng-if="$root.stateName=='Checkout'">
-                        <!--<object class=""  type="image/svg+xml" data="svgs/blue-tick.svg"></object>-->
-                        <img class="" type="image/svg+xml" src="svgs/blue-tick.svg">
-                    </div>
-                    <div class="description">
-                        <div class="ptt-uppercase">Step 3</div>
-                        <span>Confirm Order</span>
-                    </div>
-                    <hr ng-if="$root.stateName=='Checkout'">
-                    <hr class="hover-hr">
-                </div>
-            </div>
+        <div class="step step-2" ng-class="{'active': $root.stateName=='Design'}" ng-click="vm.nextStep('Design')">
+          <div class="custom-svg-icon gray-pencil" ng-if="$root.stateName!='Design'">
+            <!--<object class="" type="image/svg+xml" data="svgs/gray-pencil.svg"></object>-->
+            <img class="" type="image/svg+xml" src="svgs/gray-pencil.svg">
+          </div>
+          <div class="custom-svg-icon blue-pencil" ng-if="$root.stateName=='Design'">
+            <!--<object class="" type="image/svg+xml" data="svgs/blue-pencil.svg" ></object>-->
+            <img class="" type="image/svg+xml" src="svgs/blue-pencil.svg">
+          </div>
+          <div class="description">
+            <div class="ptt-uppercase">Step 2</div>
+            <span>Design Product</span>
+          </div>
+          <hr ng-if="$root.stateName=='Design'">
+          <hr class="hover-hr">
+        </div>
+        <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
+        <div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}" ng-click="vm.nextStep('Checkout')">
+          <div class="custom-svg-icon gray-tick" ng-if="$root.stateName!='Checkout'">
+            <!--<object class=""  type="image/svg+xml" data="svgs/gray-tick.svg"></object>-->
+            <img class="" type="image/svg+xml" src="svgs/gray-tick.svg">
+          </div>
+          <div class="custom-svg-icon blue-tick" ng-if="$root.stateName=='Checkout'">
+            <!--<object class=""  type="image/svg+xml" data="svgs/blue-tick.svg"></object>-->
+            <img class="" type="image/svg+xml" src="svgs/blue-tick.svg">
+          </div>
+          <div class="description">
+            <div class="ptt-uppercase">Step 3</div>
+            <span>Confirm Order</span>
+          </div>
+          <hr ng-if="$root.stateName=='Checkout'">
+          <hr class="hover-hr">
+        </div>
+      </div>
 
 
-            <div class="nav navbar-nav navbar-right">
-                <div>
+      <div class="nav navbar-nav navbar-right">
+        <div>
                     <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateName=='Upload'" ng-class="{'btn-disabled': ((vm.myPhotos.length < $root.imageConstraints.minPhotoForProduct) || (vm.noOfFilesUploading>0))}" ng-click="vm.nextStep('Design')">
                         <span class="btn-text">Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
-                    <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-                    <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateName=='Design'" ng-click="vm.sendEditedImage()" ng-disabled="!vm.selectedPhoto.original">
+          <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
+          <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateName=='Design'" ng-click="vm.sendEditedImage()" ng-disabled="!vm.selectedPhoto.original">
                         <span class="btn-text" >Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
-                    <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateName=='Checkout'">
+          <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateName=='Checkout'">
                         <span class="btn-text">Checkout</span>
-                        <!--<i class="glyphicon glyphicon-chevron-right"></i>-->
+            <!--<i class="glyphicon glyphicon-chevron-right"></i>-->
                     </span>
-                </div>
-                <div>
-                    <img ng-src="{{$root.user.picture || 'images/user_profile_placeholder.png'}}" alt="">
-                </div>
-                <div class="gray-cart">
-                    <!--<object  type="image/svg+xml" data="svgs/gray-cart.svg"></object>-->
-                    <img class="" type="image/svg+xml" src="svgs/gray-cart.svg">
-                </div>
-            </div>
+        </div>
+        <div>
+          <!--<div class="dropdown">-->
+          <!--<img ng-src="{{$root.user.picture || 'images/user_profile_placeholder.png'}}"  alt="" class="dropdown-toggle" data-toggle="dropdown">-->
+          <!--<ul class="dropdown-menu">-->
+          <!--<li ui-sref="Account.Projects">-->
+          <!--My Account-->
+          <!--</li>-->
+          <!--<li ng-click="vm.logout()">-->
+          <!--Log out-->
+          <!--</li>-->
+          <!--</ul>-->
+          <!--</div>-->
 
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+          <!--<div class="dropdown">-->
+          <!---->
+          <!--</div>-->
+          <img ng-src="{{$root.user.picture || 'images/user_profile_placeholder.png'}}" alt="" class="dropdown-toggle" data-toggle="dropdown">
+          <ul class="dropdown-menu">
+            <li ng-click="vm.gotoProjects()">
+              My Account
+            </li>
+            <li ng-click="vm.logout()">
+              Log out
+            </li>
+          </ul>
+
+
+        </div>
+        <div class="gray-cart">
+          <!--<object  type="image/svg+xml" data="svgs/gray-cart.svg"></object>-->
+          <img class="" type="image/svg+xml" src="svgs/gray-cart.svg">
+        </div>
+      </div>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
 </nav>

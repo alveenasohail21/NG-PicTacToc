@@ -41,11 +41,22 @@
         url: '/account/projects',
         resolve: function(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL){
           // route to website
+
           var projectUrl = (window.location.origin.indexOf('localhost')>=0)?
             (FRONT_END_WEBSITE_DEV_URL+'/#/account/projects')
             :(FRONT_END_WEBSITE_PROD_URL+'/#/account/projects');
-          console.log(projectUrl);
           window.location = projectUrl;
+          return false;
+        }
+      })
+      .state('Logout', {
+        url: '/account/logout',
+        resolve: function(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL, authFactory){
+          // route to website
+          authFactory.logout();
+          window.location = (window.location.origin.indexOf('localhost')>=0)?
+            (FRONT_END_WEBSITE_DEV_URL+'/#/account/logout')
+            :(FRONT_END_WEBSITE_PROD_URL+'/#/account/logout');
           return false;
         }
       })
@@ -105,7 +116,7 @@
           header: true,
           footer: true,
           resolve: {
-            r_photos: function(photosFactory, $rootScope){
+            r_photos: function(photosFactory, $rootScope, FRONT_END_WEBSITE_DEV_URL){
               if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
                 console.log("Local PHOTOS");
                 return photosFactory.getLocalPhotosIfPresent();
