@@ -9,7 +9,7 @@
       <!--<span class="icon-bar"></span>-->
       <!--</button>-->
       <a class="navbar-brand" ng-click="vm.gotoProjects()">
-        <img class="app-title" src="images/logo_icon.png" alt="">
+        <img class="app-title" ng-src="{{$root.safeTemplateUrlConvert('images/logo_icon.png')}}" alt="">
       </a>
     </div>
 
@@ -20,11 +20,11 @@
         <div class="step step-1" ng-class="{'active': $root.stateName=='Upload'}" ng-click="vm.nextStep('Upload')">
           <div class="custom-svg-icon gray-camera" ng-if="$root.stateName!='Upload'">
             <!--<object class="" type="image/svg+xml" data="svgs/gray-camera.svg"></object>-->
-            <img class="" type="image/svg+xml" src="svgs/gray-camera.svg">
+            <img class="" type="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-camera.svg')}}">
           </div>
           <div class="custom-svg-icon blue-camera" ng-if="$root.stateName=='Upload'">
             <!--<object class="" type="image/svg+xml" data="svgs/blue-camera.svg"></object>-->
-            <img class="" type="image/svg+xml" src="svgs/blue-camera.svg">
+            <img class="" type="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/blue-camera.svg')}}">
           </div>
           <div class="description">
             <div class="ptt-uppercase">Step 1</div>
@@ -36,11 +36,11 @@
         <div class="step step-2" ng-class="{'active': $root.stateName=='Design'}" ng-click="vm.nextStep('Design')">
           <div class="custom-svg-icon gray-pencil" ng-if="$root.stateName!='Design'">
             <!--<object class="" type="image/svg+xml" data="svgs/gray-pencil.svg"></object>-->
-            <img class="" type="image/svg+xml" src="svgs/gray-pencil.svg">
+            <img class="" type="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-pencil.svg')}}">
           </div>
           <div class="custom-svg-icon blue-pencil" ng-if="$root.stateName=='Design'">
             <!--<object class="" type="image/svg+xml" data="svgs/blue-pencil.svg" ></object>-->
-            <img class="" type="image/svg+xml" src="svgs/blue-pencil.svg">
+            <img class="" type="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/blue-pencil.svg')}}">
           </div>
           <div class="description">
             <div class="ptt-uppercase">Step 2</div>
@@ -49,15 +49,15 @@
           <hr ng-if="$root.stateName=='Design'">
           <hr class="hover-hr">
         </div>
-        <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-        <div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}" ng-click="vm.nextStep('Checkout')">
+        <!--<div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}" ng-click="vm.nextStep('Checkout')">-->
+        <div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}">
           <div class="custom-svg-icon gray-tick" ng-if="$root.stateName!='Checkout'">
             <!--<object class=""  type="image/svg+xml" data="svgs/gray-tick.svg"></object>-->
-            <img class="" type="image/svg+xml" src="svgs/gray-tick.svg">
+            <img class="" type="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-tick.svg')}}">
           </div>
           <div class="custom-svg-icon blue-tick" ng-if="$root.stateName=='Checkout'">
             <!--<object class=""  type="image/svg+xml" data="svgs/blue-tick.svg"></object>-->
-            <img class="" type="image/svg+xml" src="svgs/blue-tick.svg">
+            <img class="" type="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/blue-tick.svg')}}">
           </div>
           <div class="description">
             <div class="ptt-uppercase">Step 3</div>
@@ -76,7 +76,7 @@
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
           <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-          <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateName=='Design'" ng-click="vm.sendEditedImage()" ng-disabled="!vm.selectedPhoto.original">
+          <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateName=='Design'" ng-disabled="true">
                         <span class="btn-text" >Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
@@ -86,22 +86,8 @@
                     </span>
         </div>
         <div>
-          <!--<div class="dropdown">-->
-          <!--<img ng-src="{{$root.user.picture || 'images/user_profile_placeholder.png'}}"  alt="" class="dropdown-toggle" data-toggle="dropdown">-->
-          <!--<ul class="dropdown-menu">-->
-          <!--<li ui-sref="Account.Projects">-->
-          <!--My Account-->
-          <!--</li>-->
-          <!--<li ng-click="vm.logout()">-->
-          <!--Log out-->
-          <!--</li>-->
-          <!--</ul>-->
-          <!--</div>-->
 
-          <!--<div class="dropdown">-->
-          <!---->
-          <!--</div>-->
-          <img ng-src="{{$root.user.picture || 'images/user_profile_placeholder.png'}}" alt="" class="dropdown-toggle" data-toggle="dropdown">
+          <img ng-src="{{$root.user.picture || $root.safeTemplateUrlConvert('images/user_profile_placeholder.png')}}" alt="" class="dropdown-toggle" data-toggle="dropdown">
           <ul class="dropdown-menu header-dropdown-menu">
             <li ng-click="vm.gotoProjects()">
               My Account
@@ -115,7 +101,7 @@
         </div>
         <div class="gray-cart">
           <!--<object  type="image/svg+xml" data="svgs/gray-cart.svg"></object>-->
-          <img class="" type="image/svg+xml" src="svgs/gray-cart.svg">
+          <img class="" type="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-cart.svg')}}">
         </div>
       </div>
 

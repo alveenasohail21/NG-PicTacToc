@@ -14,7 +14,7 @@
  * Unregister All Callback of a Particular Event
  * eventChannel.off('eventName');
  * */
-
+(function(){
 
 // class details
 function GlobalLoader(){
@@ -34,3 +34,5 @@ GlobalLoader.prototype = {
 
 // bind eventChannel instance to window (for global usage)
 window.globalLoader = new GlobalLoader();
+
+})();

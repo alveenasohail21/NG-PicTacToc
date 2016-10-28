@@ -585,9 +585,11 @@
 
     /***************/
     function nextStep(stateName){
+      var isLocalhost = (window.location.origin.indexOf('localhost') >= 0);
+      var params = (isLocalhost)?({sku: $rootScope.sku}):null;
       // console.log(stateName);
       if(stateName.indexOf('Upload')>=0){
-        $state.go(stateName, {sku: $rootScope.sku});
+        $state.go(stateName, params);
       }
       else if(stateName.indexOf('Design')>=0){
         if(vm.myPhotos.length<$rootScope.imageConstraints.minPhotoForProduct){
@@ -597,7 +599,7 @@
           alertFactory.warning(null, "Please wait for the upload to finish");
         }
         else{
-          $state.go(stateName, {sku: $rootScope.sku});
+          $state.go(stateName, params);
         }
       }
       else if(stateName.indexOf('Checkout')>=0){
@@ -605,7 +607,7 @@
           alertFactory.warning(null, "You need to have at least "+$rootScope.imageConstraints.minPhotoForProduct+" photos in order to proceed");
         }
         else{
-          $state.go(stateName, {sku: $rootScope.sku});
+          $state.go(stateName, params);
         }
       }
     }

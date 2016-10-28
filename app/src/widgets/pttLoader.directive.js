@@ -43,7 +43,7 @@
       // add loader html
       elem.before(
         "<div class='ptt-loader'>"
-        + "<img class='" + attrs.pttLoader + "' src='svgs/ptt-loader.svg' alt='Loading..'>"
+        + "<img class='" + attrs.pttLoader + "' src='" + safeTemplateUrlConvert('svgs/ptt-loader.svg') + "' alt='Loading..'>"
         + "</div>"
       );
 

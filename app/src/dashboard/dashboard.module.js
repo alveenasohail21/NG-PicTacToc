@@ -25,7 +25,6 @@
 
   /* @ngInject */
   function configuration($stateProvider){
-
     //add your state mappings here
     $stateProvider
 
@@ -62,10 +61,10 @@
       })
       .state('Upload',{
           url:'/upload/:sku/:tty',
-          params: {
-            sku: null,
-            tty: null
-          },
+        params: {
+          sku: null,
+          tty: null
+        },
           title: "Upload",
           contentClass: "prints",
           header: true,
@@ -99,7 +98,7 @@
           },
           views: {
             "@": {
-              templateUrl:'src/dashboard/upload/webapp-step1.html',
+              templateUrl: 'src/dashboard/upload/webapp-step1.html',
               controller: 'webappStep1Ctrl as vm'
             }
           }
@@ -116,7 +115,7 @@
           header: true,
           footer: true,
           resolve: {
-            r_photos: function(photosFactory, $rootScope, FRONT_END_WEBSITE_DEV_URL){
+            r_photos: function(photosFactory, $rootScope){
               if(photosFactory.getLocalPhotosIfPresent()['photos'].length>0){
                 console.log("Local PHOTOS");
                 return photosFactory.getLocalPhotosIfPresent();
@@ -133,7 +132,7 @@
           },
           views: {
             "@": {
-              templateUrl:'src/dashboard/prints/webapp-step2.html',
+              templateUrl: 'src/dashboard/prints/webapp-step2.html',
               controller: 'webappStep2Ctrl as vm'
             }
           }
@@ -151,12 +150,14 @@
           footer: true,
           views: {
             "@": {
-              templateUrl:'src/dashboard/cart/webapp-step3.html',
+              templateUrl: 'src/dashboard/cart/webapp-step3.html',
               controller: 'webappStep3Ctrl as vm'
             }
           }
         }
       );
   }
+
+
 
 }());

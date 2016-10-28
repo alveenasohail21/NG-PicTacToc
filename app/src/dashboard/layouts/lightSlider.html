@@ -7,7 +7,7 @@
   </button>
 
   <div class="custom-svg-icon left-arrow cursor-pointer">
-    <img class="gray-left-arrow" src="images/gray-left-arrow-slider.png" alt="">
+    <img class="gray-left-arrow" ng-src="{{$root.safeTemplateUrlConvert('images/gray-left-arrow-slider.png')}}" alt="">
   </div>
 
   <ul id="step1-lightSlider">
@@ -16,16 +16,16 @@
       <img ng-src="{{(photo.canvasDataUrl) ? photo.canvasDataUrl : convertUrl(photo)}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
       <img ng-click="(photo.deleting)?null:onDelete({id: photo._id})"
            class="white-cross" ng-class="{'delete-loader': photo.deleting}"
-           src="{{(photo.deleting)?'svgs/ptt-loader.svg':'images/white-cross.png'}}"
+           ng-src="{{(photo.deleting)?$root.safeTemplateUrlConvert('svgs/ptt-loader.svg'):$root.safeTemplateUrlConvert('images/white-cross.png')}}"
            alt="X">
     </li>
     <!--ng-if="showUploadImage"-->
     <li class="cursor-pointer add-new-image" ngf-select="onSelectFiles({files: $files, invalidFiles: $invalidFiles})" ngf-max-size="{{$root.imageConstraints.maxSize}}" multiple accept="image/*" >
-      <img src="images/add_image.png" alt="">
+      <img ng-src="{{$root.safeTemplateUrlConvert('images/add_image.png')}}" alt="">
     </li>
   </ul>
   <div class="custom-svg-icon right-arrow cursor-pointer">
-    <img class="gray-right-arrow" src="images/gray-right-arrow-slider.png" alt="">
+    <img class="gray-right-arrow" ng-src="{{$root.safeTemplateUrlConvert('images/gray-right-arrow-slider.png')}}" alt="">
   </div>
 
 </div>
@@ -33,12 +33,12 @@
 <!-- STEP 2 -->
 <div class="ptt-lightSlider step2-lightSlider" ng-if="step==2">
   <button class="thumbs-collapse-btn" ng-click="onToggleExpandView()">
-    <img src="images/gray-expand.png" alt="">
+    <img ng-src="{{$root.safeTemplateUrlConvert('images/gray-expand.png')}}" alt="">
     <span>View All Photos</span>
   </button>
 
   <div class="custom-svg-icon left-arrow cursor-pointer">
-    <img class="gray-left-arrow"  src="images/gray-left-arrow-slider.png" alt="">
+    <img class="gray-left-arrow"  ng-src="{{$root.safeTemplateUrlConvert('images/gray-left-arrow-slider.png')}}" alt="">
   </div>
 
   <ul id="step2-lightSlider">
@@ -51,6 +51,6 @@
   </ul>
 
   <div class="custom-svg-icon right-arrow cursor-pointer">
-    <img class="gray-right-arrow" src="images/gray-right-arrow-slider.png" alt="">
+    <img class="gray-right-arrow" ng-src="{{$root.safeTemplateUrlConvert('images/gray-right-arrow-slider.png')}}" alt="">
   </div>
 </div>

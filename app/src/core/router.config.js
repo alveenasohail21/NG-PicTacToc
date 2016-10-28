@@ -19,10 +19,10 @@
   }
 
   /* @ngInject */
-  function routingEvents(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL, $rootScope, $auth, Restangular, userFactory, alertFactory, $state, $localStorage, photosFactory){
+  function routingEvents(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL, $rootScope, $auth, Restangular, userFactory, alertFactory, $state, $localStorage, photosFactory, $location){
 
     // var publicStates = ['Signup', 'Login', 'Landing'];
-    var publicStates = [];
+    var publicStates = ['Landing'];
 
     $rootScope.reload = false;
 
@@ -49,19 +49,33 @@
 
     //on routing start
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      debugger;
+      console.log(toParams);
+      console.log($location);
 
       // show loader
       globalLoader.show();
       // debugger;
 
       // first check if sku is present in query param
-      var isSku = (toParams.sku)?true:false;
-      var isToken = (toParams.tty)?true:false;
       var isLocalhost = (window.location.origin.indexOf('localhost') >= 0);
+      var isSku = false;
+      var sku = null;
+      if(isLocalhost){
+        sku = toParams.sku;
+        isSku = (sku)?true:false;
+      }
+      else{
+        sku = getParameterByName('sku', $location.$$absUrl);
+        isSku = (sku)?true:false;
+      }
+
+      var isToken = (toParams.tty)?true:false;
       var redirectLink = (isLocalhost)?FRONT_END_WEBSITE_DEV_URL:FRONT_END_WEBSITE_PROD_URL;
 
       // if sku is not present
       if(!isSku){
+        console.log('!isSku');
         // redirect to website
         window.location = redirectLink;
       }
@@ -70,6 +84,7 @@
       }
       else if(isLocalhost && !isToken){
         if(!$localStorage.token){
+          console.log('isLocalhost && !isToken');
           window.location = redirectLink;
         }
       }
@@ -82,10 +97,13 @@
           event.preventDefault();
 
           console.log('Getting User Data from API');
+
           // if not present, get details from API
           userFactory.getUserDetails().then(function (response) {
+            console.log('API User Data Received');
             // save in local data
             userFactory.createUserInLocal(response);
+            console.log('User saved in local');
             // verify sku and acl check, and then route
             skuVerificationAndACLCheck();
           });
@@ -103,7 +121,7 @@
         // The user is not authenticated and is going to a public state
         if(publicStates.indexOf('Login')>=0 && $rootScope.reload){
           event.preventDefault();
-          window.location = window.location.origin;
+          // window.location = window.location.origin;
         }
         return;
       }
@@ -118,7 +136,7 @@
       function skuVerificationAndACLCheck(){
         console.log('Verifying SKU and ACL Check');
         // sku already present, means its verified
-        if($rootScope.sku == toParams.sku){
+        if($rootScope.sku == sku){
           console.log('SKU Present in RootScope');
           if(publicStates.indexOf(toState.name)>=0){
             console.log("Router: going to "+toState.name+" , going to public state after auth and user data found : Invalid");
@@ -138,7 +156,7 @@
             eventChannel.fire('skuChanged');
           }
           // verify sku
-          verifySku(toParams.sku, function(isVerified){
+          verifySku(sku, function(isVerified){
             if(!isVerified){
               console.log('SKU Unverified');
               // redirect to website
@@ -147,12 +165,12 @@
             else{
               console.log('SKU Verified');
               // save sku
-              $rootScope.sku = toParams.sku;
+              $rootScope.sku = sku;
               // Check if the user is going to a public state , route it to Dashboard because its Authenticated and have user data on rootScope
               if(publicStates.indexOf(toState.name)>=0){
                 console.log("Router: going to "+toState.name+" , going to public state after auth and user data found : Invalid");
                 event.preventDefault();
-                $state.go('Dashboard.Prints.Upload', queryParams);
+                $state.go('Upload', toParams);
               }
               else{
                 console.log("Router: going to "+toState.name+" , going to private state after auth and user data found : Valid");
@@ -178,6 +196,18 @@
           cb(resp);
         }
       })
+    }
+
+    function getParameterByName(name, url) {
+      if (!url) {
+        url = window.location.href;
+      }
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
   }

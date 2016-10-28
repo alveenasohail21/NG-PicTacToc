@@ -18,43 +18,43 @@ Content : Start : Step 2
         <div class="action-icons-2">
             <div class="action-icon action-layout" ng-class="{'active': vm.activeSidemenuItem=='layouts'}" ng-click="vm.toggleSidemenu('layouts')" >
                 <div class="custom-svg-icon gray-layout" ng-if="vm.activeSidemenuItem!='layouts'">
-                    <img class="" alt="Layout" src="svgs/gray-layout.svg">
+                    <img class="" alt="Layout" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-layout.svg')}}">
                 </div>
                 <div class="custom-svg-icon gray-layout" ng-if="vm.activeSidemenuItem=='layouts'">
-                    <img class="" alt="Layout" src="svgs/blue-layout.svg">
+                    <img class="" alt="Layout" ng-src="{{$root.safeTemplateUrlConvert('svgs/blue-layout.svg')}}">
                 </div>
                 <span class="title">Layout</span>
             </div>
             <div class="action-icon action-filter" ng-class="{'active': vm.activeSidemenuItem=='filters'}" ng-click="vm.toggleSidemenu('filters')">
                 <div class="custom-svg-icon gray-filter" ng-if="vm.activeSidemenuItem!='filters'">
-                    <img class="" alt="Filter" src="svgs/gray-filter.svg">
+                    <img class="" alt="Filter" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-filter.svg')}}">
                 </div>
                 <div class="custom-svg-icon gray-filter" ng-if="vm.activeSidemenuItem=='filters'">
-                    <img class="" alt="Filter" src="svgs/blue-filter.svg">
+                    <img class="" alt="Filter" ng-src="{{$root.safeTemplateUrlConvert('svgs/blue-filter.svg')}}">
                 </div>
                 <span class="title">Filter</span>
             </div>
             <div class="action-icon action-text" ng-class="{'active': vm.activeSidemenuItem=='texts'}" ng-click="vm.toggleSidemenu('texts')">
                 <div class="custom-svg-icon gray-text" ng-if="vm.activeSidemenuItem!='texts'">
-                    <img class="" alt="image/svg+xml" src="svgs/gray-text.svg">
+                    <img class="" alt="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-text.svg')}}">
                 </div>
                 <div class="custom-svg-icon gray-text" ng-if="vm.activeSidemenuItem=='texts'">
-                    <img class="" alt="image/svg+xml" src="svgs/blue-text.svg">
+                    <img class="" alt="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/blue-text.svg')}}">
                 </div>
                 <span class="title">Text</span>
             </div>
             <div class="action-icon action-stickers" ng-class="{'active': vm.activeSidemenuItem=='stickers'}" ng-click="vm.toggleSidemenu('stickers')">
                 <div class="custom-svg-icon gray-sticker" ng-if="vm.activeSidemenuItem!='stickers'">
-                    <img class="" alt="image/svg+xml" src="svgs/gray-sticker.svg">
+                    <img class="" alt="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-sticker.svg')}}">
                 </div>
                 <div class="custom-svg-icon gray-sticker" ng-if="vm.activeSidemenuItem=='stickers'">
-                    <img class="" alt="image/svg+xml" src="svgs/blue-sticker.svg">
+                    <img class="" alt="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/blue-sticker.svg')}}">
                 </div>
                 <span class="title">Stickers</span>
             </div>
             <div class="action-icon action-add-photos" ng-click="vm.toggleSidemenu('addMorePhotos')">
                 <div class="custom-svg-icon gray-photos">
-                    <img class="" alt="image/svg+xml" src="svgs/gray-photos.svg">
+                    <img class="" alt="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-photos.svg')}}">
                 </div>
                 <span class="title">Add</span><br>
                 <span class="title">Photos</span>
@@ -101,14 +101,14 @@ Content : Start : Step 2
               <!-- Action Icons 3 : Start -->
                 <div class="action-icons-3">
                     <div class="custom-svg-icon gray-question" ng-click="vm.help()">
-                        <!--<object class="" type="image/svg+xml" data="svgs/gray-question-3.svg"></object>-->
-                        <img src="svgs/gray-question-{{svgImage}}.svg" alt="">
+                        <!--<object class="" type="image/svg+xml" data="{{$root.safeTemplateUrlConvert('svgs/gray-question-3.svg')"></object>-->
+                        <img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-question-'+svgImage+'.svg')}}" alt="">
                     </div>
                     <div class="custom-svg-icon gray-share-white-bkg">
-                        <!--<object class="" type="image/svg+xml" data="svgs/gray-share-white-bkg.svg"></object>-->
-                      <!--<img src="svgs/gray-share-white-bkg.svg" alt="">-->
-                      <!--<img src="images/gray-share-{{svgImage}}.svg" alt="">-->
-                      <img src="images/gray-share-{{svgImage}}.png" alt="">
+                        <!--<object class="" type="image/svg+xml" data="{{$root.safeTemplateUrlConvert('svgs/gray-share-white-bkg.svg')"></object>-->
+                      <!--<img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-share-white-bkg.svg')" alt="">-->
+                      <!--<img ng-src="{{$root.safeTemplateUrlConvert('images/gray-share-{{svgImage}}.svg')" alt="">-->
+                      <img ng-src="{{$root.safeTemplateUrlConvert('images/gray-share-'+svgImage+'.png')}}" alt="">
 
                     </div>
                   <theme-customizer>
@@ -136,12 +136,12 @@ Content : Start : Step 2
               <!-- Action Icons 4 : Start -->
                 <div class="action-icons-4">
                     <div ng-click="vm.copyCanvas()" class="custom-svg-icon gray-copy">
-                      <!--<img src="images/gray-copy-{{svgImage}}.svg" alt="">-->
-                      <img src="images/gray-copy-{{svgImage}}.png" alt="">
+                      <!--<img ng-src="{{$root.safeTemplateUrlConvert('images/gray-copy-{{svgImage}}.svg')" alt="">-->
+                      <img ng-src="{{$root.safeTemplateUrlConvert('images/gray-copy-'+svgImage+'.png')}}" alt="">
                     </div>
                     <div ng-click="vm.deleteCanvas()" class="custom-svg-icon gray-delete">
-                        <!--<object class="" type="image/svg+xml" data="svgs/gray-delete-1.svg"></object>-->
-                        <img src="svgs/gray-delete-{{svgImage}}.svg" alt="">
+                        <!--<object class="" type="image/svg+xml" data="{{$root.safeTemplateUrlConvert('svgs/gray-delete-1.svg')"></object>-->
+                        <img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-delete-'+svgImage+'.svg')}}" alt="">
                     </div>
                     <div class="ptt-dropmenu dropup">
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="vm.toggleDropdownVisibility('.action-icons-4 .ptt-dropmenu .dropdown-menu')">
@@ -156,9 +156,9 @@ Content : Start : Step 2
                                 >
 
                                     <div class="box" id="{{typeValue.name}}">
-                                        <img class="left-arrow" src="images/left-size-arrow.png" alt="">
+                                        <img class="left-arrow" ng-src="{{$root.safeTemplateUrlConvert('images/left-size-arrow.png')}}" alt="">
                                         {{typeValue.sizeHoveredText || typeValue.name | uppercase }}
-                                        <img class="right-arrow" src="images/right-size-arrow.png" alt="">
+                                        <img class="right-arrow" ng-src="{{$root.safeTemplateUrlConvert('images/right-size-arrow.png')}}" alt="">
                                     </div>
                                 </div>
                                 <div class="box-size">
@@ -182,25 +182,25 @@ Content : Start : Step 2
                     <div class="element">
                         <div class="toolbar">
                             <div class="custom-svg-icon gray-border-none" ng-click="vm.applyBorder()">
-                                <!--<object data="svgs/gray-border-none-1.svg" type=""></object>-->
-                                <img ng-src="svgs/gray-border-{{vm.selectedBorder}}-{{svgImage}}.svg" alt="">
+                                <!--<object data="{{$root.safeTemplateUrlConvert('svgs/gray-border-none-1.svg')" type=""></object>-->
+                                <img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-border-'+vm.selectedBorder+'-'+svgImage+'.svg')}}" alt="">
                             </div>
                             <div ng-click="vm.rotateAntiClockwise()" class="custom-svg-icon gray-rotate-l">
-                                <!--<object data="svgs/gray-rotate-1.svg" type=""></object>-->
-                              <img ng-src="svgs/gray-rotate-{{svgImage}}.svg" alt="">
-                              <!--<img src="svgs/gray-rotate-1.svg" alt="">-->
+                                <!--<object data="{{$root.safeTemplateUrlConvert('svgs/gray-rotate-1.svg')" type=""></object>-->
+                              <img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-rotate-'+svgImage+'.svg')}}" alt="">
+                              <!--<img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-rotate-1.svg')" alt="">-->
                             </div>
                             <div ng-click="vm.rotateClockwise()" class="custom-svg-icon gray-rotate-r">
-                                <!--<object data="svgs/gray-rotate-1.svg" type=""></object>-->
-                                <img ng-src="svgs/gray-rotate-{{svgImage}}.svg" alt="">
+                                <!--<object data="{{$root.safeTemplateUrlConvert('svgs/gray-rotate-1.svg')" type=""></object>-->
+                                <img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-rotate-'+svgImage+'.svg')}}" alt="">
                             </div>
                             <div ng-click="vm.flipHorizontal()" class="custom-svg-icon gray-flip-h">
-                                <!--<object data="svgs/gray-flip-h-1.svg" type=""></object>-->
-                                <img ng-src="svgs/gray-flip-h-{{svgImage}}.svg" alt="">
+                                <!--<object data="{{$root.safeTemplateUrlConvert('svgs/gray-flip-h-1.svg')" type=""></object>-->
+                                <img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-flip-h-'+svgImage+'.svg')}}" alt="">
                             </div>
                             <div ng-click="vm.flipVertical()" class="custom-svg-icon gray-flip-v">
-                                <!--<object data="svgs/gray-flip-v-1.svg" type=""></object>-->
-                                <img ng-src="svgs/gray-flip-v-{{svgImage}}.svg" alt="">
+                                <!--<object data="{{$root.safeTemplateUrlConvert('svgs/gray-flip-v-1.svg')" type=""></object>-->
+                                <img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-flip-v-'+svgImage+'.svg')}}" alt="">
                             </div>
                         </div>
 
@@ -208,11 +208,11 @@ Content : Start : Step 2
 
                         <div class="editor">
                             <!-- Customizer Toolbar -->
-                            <ng-include src="'src/dashboard/layouts/textEditor.html'"></ng-include>
+                            <ng-include ng-src="'src/dashboard/layouts/textEditor.html'"></ng-include>
                           <!-- Canvas -->
                             <canvas id="canvas" ng-show="vm.readyToDisplay"></canvas>
                           <!-- Hidden Image For Filter -->
-                            <img id="caman-canvas" src="{{vm.selectedPhoto.original.base64}}" ng-if="vm.showCamanImg" style="z-index: -10; margin-top: 4000px">
+                            <img id="caman-canvas" ng-src="{{vm.selectedPhoto.original.base64}}" ng-if="vm.showCamanImg" style="z-index: -10; margin-top: 4000px">
                         </div>
                         <div class="zoomBar">
                             <input id="ex4" type="text" data-slider-min="1" data-slider-max="5" data-slider-value="0" data-slider-step="0.05" data-slider-orientation="vertical"/>
@@ -267,14 +267,14 @@ Content : Start : Step 2 B
 
     <!-- Collapse Loader -->
     <div class="collapse-loader" style="z-index: 99999999; display: none;">
-      <img src="svgs/ptt-loader.svg" alt="Loading...">
+      <img ng-src="{{$root.safeTemplateUrlConvert('svgs/ptt-loader.svg')}}" alt="Loading...">
     </div>
 
     <!-- ui-sref="WebAppStep2" -->
     <button class="collapse-btn" ng-click="vm.toggleExpandView()">
-      <!--<object data="svgs/gray-collapse.svg" type=""></object>-->
-      <!--<img src="svgs/gray-collapse.svg" alt="">-->
-      <img src="images/gray-collapse.png" alt="">
+      <!--<object data="{{$root.safeTemplateUrlConvert('svgs/gray-collapse.svg')" type=""></object>-->
+      <!--<img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-collapse.svg')" alt="">-->
+      <img ng-src="{{$root.safeTemplateUrlConvert('images/gray-collapse.png')}}" alt="">
       <span>Collapse</span>
     </button>
 
@@ -286,9 +286,9 @@ Content : Start : Step 2 B
           <div class="img-container">
             <img class="upl-img" ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl : vm.convertUrl(photo)}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
             <div class="expand-icons">
-              <span class="copy" ng-click="vm.copyPhoto(photo.id, $index)"><img src="images/white-copy.png" alt=""></span>
-              <span class="dustbin" ng-click="vm.deletePhoto(photo.id, $index)" ><img src="svgs/white-delete.svg" alt=""></span>
-              <!--<span class="dustbin"><object data="svgs/white-delete.svg" alt="" type="image/svg+xml"></object></span>-->
+              <span class="copy" ng-click="vm.copyPhoto(photo.id, $index)"><img ng-src="{{$root.safeTemplateUrlConvert('images/white-copy.png')}}" alt=""></span>
+              <span class="dustbin" ng-click="vm.deletePhoto(photo.id, $index)" ><img ng-src="{{$root.safeTemplateUrlConvert('svgs/white-delete.svg')}}" alt=""></span>
+              <!--<span class="dustbin"><object data="{{$root.safeTemplateUrlConvert('svgs/white-delete.svg')" alt="" type="image/svg+xml"></object></span>-->
             </div>
           </div>
         </div>

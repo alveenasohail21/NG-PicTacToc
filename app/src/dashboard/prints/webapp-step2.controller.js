@@ -168,7 +168,7 @@
       // if opening
       if(!$("#ptt-wrapper-2").hasClass("toggled")){
         //// console.log("opening");
-        vm.sideMenuTemplate = 'src/dashboard/sidemenu/'+template+'.html';
+        vm.sideMenuTemplate = safeTemplateUrlConvert('src/dashboard/sidemenu/'+template+'.html');
         $rootScope.$emit('sidemenuToggles', {
           previousTemplate: vm.activeSidemenuItem,
           currentTemplate: template
@@ -184,7 +184,7 @@
             currentTemplate: template
           });
           vm.activeSidemenuItem = template;
-          vm.sideMenuTemplate = 'src/dashboard/sidemenu/'+template+'.html';
+          vm.sideMenuTemplate = safeTemplateUrlConvert('src/dashboard/sidemenu/'+template+'.html');
         }
         // closing
         else{
@@ -567,6 +567,7 @@
     /************************************* STICKERS *************************************/
 
     function applySticker(sticker){
+      sticker.url = $rootScope.safeTemplateUrlConvert(sticker.url);
       designTool.applySticker(sticker,canvasBkgImg.photoIndex);
     }
 
@@ -730,12 +731,15 @@
         var thumbnailForFilters = e.data[0].photoData;
         thumbnailForFilters.currentFilter = e.data[0].currentFilter;
 
+        globalLoader.show();
+
         saveSelectedPhoto(thumbnailForFilters, thumbnailForFilters);
 
         toDataUrl(thumbnailForFilters, function(highResBase64){
           var img = new Image();
           img.onload = function(){
             updateCamanCanvas(img);
+            globalLoader.hide();
           };
           img.src = highResBase64;
         });
@@ -868,6 +872,8 @@
 
     /************************************* Other methods *************************************/
     function nextStep(stateName){
+      var isLocalhost = (window.location.origin.indexOf('localhost') >= 0);
+      var params = (isLocalhost)?({sku: $rootScope.sku}):null;
       // go to state
       if(stateName.indexOf('Upload')>=0){
         // show loader
@@ -876,10 +882,10 @@
         saveCanvasState();
         designTool.emptyTool();
 
-        $state.go('Upload', {sku: $rootScope.sku});
+        $state.go('Upload', params);
       }
       else if(stateName.indexOf('Design')>=0){
-        $state.go(stateName, {sku: $rootScope.sku});
+        $state.go(stateName, params);
       }
       else if(stateName.indexOf('Checkout')>=0){
 

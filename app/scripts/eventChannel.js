@@ -1,3 +1,5 @@
+(function(){
+
 function EventChannel(){
   this.list = {};
 }
@@ -50,3 +52,7 @@ EventChannel.prototype = {
 
 // bind eventChannel instance to window (for global usage)
 window.eventChannel = new EventChannel();
+
+  window.EventChannel = EventChannel;
+
+})();
