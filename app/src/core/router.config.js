@@ -49,7 +49,7 @@
 
     //on routing start
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      debugger;
+      // debugger;
       console.log(toParams);
       console.log($location);
 

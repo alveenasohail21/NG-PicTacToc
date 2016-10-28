@@ -46,7 +46,7 @@
       <img ng-src="{{(photo.canvasDataUrl) ? photo.canvasDataUrl : convertUrl(photo)}}" draggable="true"
            id="photo{{$index}}"
            ng-click="onGetSelectPhoto({id: photo._id, index: $index})" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true"
-           data-photoId="{{photo.id}}" data-index="{{$index}}">
+           data-photoId="{{photo._id}}" data-index="{{$index}}">
     </li>
   </ul>
 
