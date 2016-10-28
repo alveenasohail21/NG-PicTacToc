@@ -21,7 +21,7 @@
     var Photos = Restangular.all('photos');
     var Media = Restangular.all('media');
     var Products = Restangular.all('products');
-      var Projects = Restangular.all('projects');
+    var Projects = Restangular.all('projects');
 
     /* Return Functions */
     return {
@@ -31,7 +31,7 @@
         getAuthenticatedUser: getAuthenticatedUser,
         forgotEmailSend: forgotEmailSend,
         socialDisconnect: socialDisconnect,
-          getUserDetails: getUserDetails
+        getUserDetails: getUserDetails
       },
       users: {
         create: createUser,
@@ -40,14 +40,15 @@
         remove: removeUser,
         activeSocialProfiles: activeSocialProfiles,
         socialDetails: socialDetails,
-          verifySku: verifySku
+        verifySku: verifySku
       },
-        projects: {
-          getSpecificProject: getSpecificProject,
-            deleteProjectPhotoOrProduct: deleteProjectPhotoOrProduct,
-            getProjectSelectedPhotoOrProduct: getProjectSelectedPhotoOrProduct,
-            savePhotoOrProduct: savePhotoOrProduct
-        },
+      projects: {
+        getSpecificProject: getSpecificProject,
+        deleteProjectPhotoOrProduct: deleteProjectPhotoOrProduct,
+        copyProjectPhotoOrProduct: copyProjectPhotoOrProduct,
+        getProjectSelectedPhotoOrProduct: getProjectSelectedPhotoOrProduct,
+        savePhotoOrProduct: savePhotoOrProduct
+      },
       photos: {
         getPhotos: getPhotos,
         getSocialPhotos: getSocialPhotos,
@@ -92,9 +93,9 @@
       return Auth.one('password').one('forget').post(null, {email: email});
     }
 
-      function getUserDetails(){
-          return Auth.one('me').get();
-      }
+    function getUserDetails(){
+      return Auth.one('me').get();
+    }
 
     function createUser(){
       //
@@ -128,9 +129,9 @@
       return Users.one('social').one('details').get(data);
     }
 
-      function verifySku(sku){
-          return Users.one('verifySku').post(null, {sku: sku});
-      }
+    function verifySku(sku){
+      return Users.one('verifySku').post(null, {sku: sku});
+    }
 
     function deletePhoto(id){ //delete selected photo in step 1
       return Restangular.one('photos', id).remove();
@@ -165,20 +166,24 @@
       return Restangular.one('products', id).remove();
     }
 
-      function getSpecificProject(id, queryParams){
-          return Projects.one(id).get(queryParams);
-      }
+    function getSpecificProject(id, queryParams){
+      return Projects.one(id).get(queryParams);
+    }
 
-      function deleteProjectPhotoOrProduct(projectId, photoId){
-          return Projects.one(projectId).one('photo').one(photoId).remove();
-      }
+    function deleteProjectPhotoOrProduct(projectId, photoId){
+      return Projects.one(projectId).one('photo').one(photoId).remove();
+    }
 
-      function getProjectSelectedPhotoOrProduct(projectId, photoId, queryParams){
-          return Projects.one(projectId).one('photo').one(photoId).get((queryParams)?queryParams:{});
-      }
+    function copyProjectPhotoOrProduct(projectId, photoId){
+      return Projects.one(projectId).one('photo').one(photoId).post();
+    }
 
-      function savePhotoOrProduct(projectId, photoId, data, queryParams){
-          return Projects.one(projectId).one('photo').one(photoId).customPUT(data, '', queryParams);
-      }
+    function getProjectSelectedPhotoOrProduct(projectId, photoId, queryParams){
+      return Projects.one(projectId).one('photo').one(photoId).get((queryParams)?queryParams:{});
+    }
+
+    function savePhotoOrProduct(projectId, photoId, data, queryParams){
+      return Projects.one(projectId).one('photo').one(photoId).customPUT(data, '', queryParams);
+    }
   }
 }());

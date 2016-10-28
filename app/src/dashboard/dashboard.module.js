@@ -27,38 +27,6 @@
   function configuration($stateProvider){
     //add your state mappings here
     $stateProvider
-
-      .state('Website', {
-        url: '/',
-        resolve: function(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL){
-          // route to website
-          window.location = (window.location.origin.indexOf('localhost')>=0)?FRONT_END_WEBSITE_DEV_URL:FRONT_END_WEBSITE_PROD_URL;
-          return false;
-        }
-      })
-      .state('Projects', {
-        url: '/account/projects',
-        resolve: function(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL){
-          // route to website
-
-          var projectUrl = (window.location.origin.indexOf('localhost')>=0)?
-            (FRONT_END_WEBSITE_DEV_URL+'/#/account/projects')
-            :(FRONT_END_WEBSITE_PROD_URL+'/#/account/projects');
-          window.location = projectUrl;
-          return false;
-        }
-      })
-      .state('Logout', {
-        url: '/account/logout',
-        resolve: function(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL, authFactory){
-          // route to website
-          authFactory.logout();
-          window.location = (window.location.origin.indexOf('localhost')>=0)?
-            (FRONT_END_WEBSITE_DEV_URL+'/#/account/logout')
-            :(FRONT_END_WEBSITE_PROD_URL+'/#/account/logout');
-          return false;
-        }
-      })
       .state('Upload',{
           url:'/upload/:sku/:tty',
         params: {

@@ -70,6 +70,14 @@
 
     const DefaultHighResImageSize = '800x800';
 
+    vm.modal = {
+      heading: '',
+      rightBtnText: '',
+      leftBtnText: '',
+      rightClick: null,
+      leftClick: null
+    };
+
 
     /* Function Assignment */
     vm.toggleSidemenu = toggleSidemenu;
@@ -85,11 +93,11 @@
     vm.deleteSelectedObject = deleteSelectedObject;
     vm.copySelectedObject = copySelectedObject;
     vm.applyBorder = applyBorder;
+    //Expand view methods
     vm.copyCanvas = copyCanvas;
     vm.deleteCanvas = deleteCanvas;
-    //Expand view methods
-    vm.deletePhoto = deletePhoto;
-    vm.copyPhoto = copyPhoto;
+    vm.deletePhotoOrProduct = deletePhotoOrProduct;
+    vm.copyPhotoOrProduct = copyPhotoOrProduct;
     // filter
     vm.applyFilter = applyFilter;
     // sticker
@@ -516,52 +524,173 @@
 
     /************************************* EXPAND VIEW *************************************/
 
-    //delete photo
-    function deletePhoto(id, index){
-      // if(index == canvasBkgImg.photoIndex){
-      //   deleteCanvas();
-      // }
-      //else{
-      if(vm.myPhotos[index].isProduct){
-        productsFactory.deleteProduct(id,index).then(function(resp){
-          if(resp.success){
-            if(index == canvasBkgImg.photoIndex) {
-              canvasBkgImg.active = false;
-              // load default photo
-              // select the 0th index photo by default
-              canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
-              getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-            }
-          }
-        });
-      }else {
-        photosFactory.deletePhoto(id, index).then(function(resp){
-          if(resp.success){
-            if(index == canvasBkgImg.photoIndex) {
-              canvasBkgImg.active = false;
-              // load default photo
-              // select the 0th index photo by default
-              canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
-              getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-            }
-          }
-        });
-      }
-      // }
+    // delete canvas
+    function deleteCanvas(){
+      deletePhotoOrProduct(vm.myPhotos[canvasBkgImg.photoIndex]._id);
     }
 
-    //copy photo
-    function copyPhoto(id, index){
-      // if(index == canvasBkgImg.photoIndex){
-      //   copyCanvas();
-      // }
-      // else{
-      if(vm.myPhotos[index].isProduct){
-        productsFactory.copyProduct(id,index);
-      }else {
-        photosFactory.copyPhoto(id, index);
+    // delete selected photo/product
+    function deletePhotoOrProduct(id){
+      // check if the photo/product is loaded in canvas
+      var isLoadedInCanvas = (id == vm.myPhotos[canvasBkgImg.photoIndex]._id);
+      // if loaded in canvas
+      if(isLoadedInCanvas){
+        console.log('Loaded in canvas');
+        // TODO: show confirmation modal
+        vm.modal.heading = "You are designing this product, are you sure you want to delete it?";
+        vm.modal.rightBtnText = "Confirm";
+        vm.modal.leftBtnText = "Cancel";
+        vm.modal.rightClick = function(){
+          globalLoader.show();
+          // on confirm delete the photo/product
+          deleteFunc(id, isLoadedInCanvas);
+        };
+        $('#confirmCanvasAction').modal({
+          keyboard: true
+        });
       }
-      // }
+      // else delete the photo/product
+      else{
+        deleteFunc(id, isLoadedInCanvas);
+      }
+
+    }
+
+    function deleteFunc(id, isLoadedInCanvas){
+      photosFactory.deleteProjectPhotoOrProduct(id)
+        .then(function(resp){
+          if(resp.success){
+            if(isLoadedInCanvas){
+              $timeout(function(){
+                // update design tool
+                designTool.emptyTool();
+                // load the default index item
+                getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex]._id, defaultSelectedPhotoIndex);
+                globalLoader.hide();
+              })
+            }
+          }
+        }, function(err){
+
+        })
+    }
+
+    // copy canvas
+    function copyCanvas(){
+      copyPhotoOrProduct(vm.myPhotos[canvasBkgImg.photoIndex]._id);
+    }
+
+    // copy photo/product
+    function copyPhotoOrProduct(id){
+      // check if the photo/product is loaded in canvas
+      var isLoadedInCanvas = (id == vm.myPhotos[canvasBkgImg.photoIndex]._id);
+      // if loaded in canvas
+      if(isLoadedInCanvas){
+        console.log('Loaded in canvas');
+        // TODO: show confirmation modal
+        vm.modal.heading = "You are designing this product, your current work will be saved.";
+        vm.modal.rightBtnText = "Save & Copy";
+        vm.modal.leftBtnText = "Cancel";
+        vm.modal.rightClick = function(){
+          // on confirm save the current canvas and then copy the photo/product
+          // save canvas
+          globalLoader.show();
+          saveCurrentWork(function(succes, newId){
+            if(succes){
+              // now copy
+              copyFunc(newId, isLoadedInCanvas);
+            }
+            else{
+              alertFactory.error(null, "Sorry we were unable to save your design, please reload");
+            }
+          })
+        };
+        $('#confirmCanvasAction').modal({
+          keyboard: true
+        });
+        // TODO: show confirmation modal
+      }
+      // else delete the photo/product
+      else{
+        copyFunc(id, isLoadedInCanvas);
+      }
+    }
+
+    function copyFunc(id, isLoadedInCanvas){
+      photosFactory.copyProjectPhotoOrProduct(id)
+        .then(function(resp){
+          if(resp.success){
+
+          }
+          globalLoader.hide();
+        }, function(err){
+          globalLoader.hide();
+        })
+    }
+
+
+    function saveCurrentWork(cb){
+      // if canvas is already in editing, save current work as JSON
+      if(!designTool.getProp('isCanvasEmpty')){
+
+        if(canvasBkgImg.photoIndex!=null && vm.myPhotos[canvasBkgImg.photoIndex].isEdited) {
+          // save the already active image with settings
+          // canvas json will have zoom value and original scale value
+          // deselect canvas
+          console.log("CTRL: SAVING PRODUCT");
+          designTool.deActivateAll();
+          var canvasJson = designTool.getCanvasJSON();
+          canvasJson.customSettings.selectedBorder = 'noBorder';
+
+          if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
+            if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
+
+              canvasJson.customSettings.selectedBorder = vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
+            }
+          }
+
+          updatePhotoStripWithCanvas(
+            canvasBkgImg.photoIndex,
+            canvasJson,
+            designTool.getCanvasDataUrl()
+          );
+          var dataToSaveForProduct = {
+            _id: vm.myPhotos[canvasBkgImg.photoIndex]._id,
+            photoid : [],
+            canvasDataUrl : designTool.getCanvasDataUrl(),
+            canvasJSON : canvasJson
+          };
+
+          if(!designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex]._id);
+          }
+          else if(!designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            dataToSaveForProduct['photoid'] = vm.myPhotos[canvasBkgImg.photoIndex].photos;
+          }
+          else if(designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            // TODO:
+          }
+          else if(designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            // TODO:
+          }
+          var oldIndex = canvasBkgImg.photoIndex;
+          productsFactory.savePhotoOrProduct(dataToSaveForProduct, designTool.getProp('isLayoutApplied')).then(function (resp) {
+            vm.myPhotos[oldIndex]._id = resp._id;
+            vm.myPhotos[oldIndex].isEdited = false;
+            vm.myPhotos[oldIndex].isProduct = true;
+            vm.myPhotos[oldIndex].url = resp.url + '?t=' + (new Date()).getTime();
+            // call callback
+            if(cb){
+              cb(true, resp._id);
+            }
+          }, function(err){
+            if(cb){
+              cb(false);
+            }
+          });
+        }
+
+      }
     }
 
     /************************************* FILTERS *************************************/
@@ -690,44 +819,6 @@
       else{
         designTool.applyBorder(changeBorderSvg, vm.selectedBorder, canvasBkgImg.photoIndex);
       }
-    }
-
-    function copyCanvas(){
-
-      copyPhoto(vm.myPhotos[canvasBkgImg.photoIndex].id,canvasBkgImg.photoIndex);
-      //alertFactory.warning(null, 'Not functional, need updates');
-      //return;
-
-      // fabricCanvas.deactivateAll();
-
-      // save the already active image with settings
-      // vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
-      // vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
-      // vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
-      // create a copy in vm.myPhotos
-      // var copiedObj = angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]);
-      // copiedObj.selected = false;
-      // vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, copiedObj);
-    }
-
-    function deleteCanvas(){
-
-      deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id,canvasBkgImg.photoIndex);
-
-      // alertFactory.warning(null, 'Not functional, need updates');
-      // return;
-      // // return;
-      // // remove current selected photo with all canvas settings
-      // photosFactory.deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id, canvasBkgImg.photoIndex)
-      //   .then(function(resp){
-      //     if(resp.success){
-      //       canvasBkgImg.active = false;
-      //       fabricCanvas.clear();
-      //       // load default photo
-      //       // select the 0th index photo by default
-      //       getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-      //     }
-      //   })
     }
 
     /************************************* DESIGN TOOL EVENTS *************************************/

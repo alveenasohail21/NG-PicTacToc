@@ -286,8 +286,8 @@ Content : Start : Step 2 B
           <div class="img-container">
             <img class="upl-img" ng-src="{{(photo.canvasDataUrl)?photo.canvasDataUrl : vm.convertUrl(photo)}}" alt="" ptt-loader="loader-fb-photo" keep-aspect-ratio="true">
             <div class="expand-icons">
-              <span class="copy" ng-click="vm.copyPhoto(photo.id, $index)"><img ng-src="{{$root.safeTemplateUrlConvert('images/white-copy.png')}}" alt=""></span>
-              <span class="dustbin" ng-click="vm.deletePhoto(photo.id, $index)" ><img ng-src="{{$root.safeTemplateUrlConvert('svgs/white-delete.svg')}}" alt=""></span>
+              <span class="copy" ng-click="vm.copyPhotoOrProduct(photo._id)"><img ng-src="{{$root.safeTemplateUrlConvert('images/white-copy.png')}}" alt=""></span>
+              <span class="dustbin" ng-click="vm.deletePhotoOrProduct(photo._id)" ><img ng-src="{{$root.safeTemplateUrlConvert('svgs/white-delete.svg')}}" alt=""></span>
               <!--<span class="dustbin"><object data="{{$root.safeTemplateUrlConvert('svgs/white-delete.svg')" alt="" type="image/svg+xml"></object></span>-->
             </div>
           </div>
@@ -304,9 +304,9 @@ Content : End : Step 2 B
 
 
 <!--
-Footer : Start
+Confirm Canvas Action : Start
 -->
-
+<div ng-include="'src/dashboard/modals/confirm-canvas-action.html'"></div>
 <!--
-Footer : End
+Confirm Canvas Action : End
 -->

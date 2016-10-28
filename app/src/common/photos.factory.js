@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('photosFactory', photosFactory);
 
-  function photosFactory($rootScope, $q, restFactory, alertFactory, designTool){
+  function photosFactory($rootScope, $q, restFactory, alertFactory, designTool, $timeout){
 
     var _data = {
       photos: [],
@@ -33,16 +33,14 @@
     return {
       getSpecificProject: getSpecificProject,
       mapPhotos: mapPhotos,
-      deletePhoto: deletePhoto,
       deleteProjectPhotoOrProduct: deleteProjectPhotoOrProduct,
-      copyPhoto: copyPhoto,
+      copyProjectPhotoOrProduct: copyProjectPhotoOrProduct,
       mapSocialPhotos: mapSocialPhotos,
       getLocalPhotosIfPresent: getLocalPhotosIfPresent,
       getSelectedPhoto: getSelectedPhoto,
       getSelectedPhotoForLayout: getSelectedPhotoForLayout,
       addPhotoToLocal: addPhotoToLocal,
       removePhotosFromLocal: removePhotosFromLocal,
-      loadOriginalImages: loadOriginalImages,
       _data: _data
     };
 
@@ -103,30 +101,6 @@
       return deffered.promise;
     }
 
-    //delete selected photo in step 1
-    function deletePhoto(id, index) {
-      var deferred = $q.defer();
-      // Prints step 2
-      $('.collapse-loader').css('display', 'block');
-      // Prints step 1
-      _data.photos[index].deleting = true;
-      restFactory.photos.deletePhoto(id)
-        .then(function(resp){
-          if(resp.success){
-            $('.ptt-lightSlider').css('opacity', 0);
-            _data.photos.splice(index, 1);
-            _data.totalCount--;
-            alertFactory.success(null , resp.message);
-            deferred.resolve(resp);
-          }
-          else{
-            alertFactory.error(null, resp.message);
-          }
-          $('.collapse-loader').css('display', 'none');
-        });
-      return deferred.promise;
-    }
-
     //delete selected photo/product in step 1
     function deleteProjectPhotoOrProduct(photoId) {
       var deferred = $q.defer();
@@ -139,16 +113,62 @@
       restFactory.projects.deleteProjectPhotoOrProduct(projectId, photoId)
         .then(function(resp){
           if(resp.success){
-            $('.ptt-lightSlider').css('opacity', 0);
-            _data.photos.splice(getPhotoIndexThroughId(photoId), 1);
-            _data.totalCount--;
+            $timeout(function() {
+              $('.ptt-lightSlider').css('opacity', 0);
+              _data.photos.splice(getPhotoIndexThroughId(photoId), 1);
+              _data.totalCount--;
+              $('.collapse-loader').css('display', 'none');
+            });
             alertFactory.success(null , resp.message);
             deferred.resolve(resp);
           }
           else{
             alertFactory.error(null, resp.message);
+            _data.photos[getPhotoIndexThroughId(photoId)].deleting = false;
+            $('.collapse-loader').css('display', 'none');
+            deferred.reject(resp);
           }
-          $('.collapse-loader').css('display', 'none');
+        }, function(err){
+          alertFactory.error(null, err.data.message);
+          _data.photos[getPhotoIndexThroughId(photoId)].deleting = false;
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+    function copyProjectPhotoOrProduct(photoId) {
+      console.log(getPhotoIndexThroughId(photoId));
+      var deferred = $q.defer();
+      // Prints step 2
+      $('.collapse-loader').css('display', 'block');
+      // Prints step 1
+      _data.photos[getPhotoIndexThroughId(photoId)].copying = true;
+      // TODO: project id should be dynamic
+      var projectId = $rootScope.sku;
+      restFactory.projects.copyProjectPhotoOrProduct(projectId, photoId)
+        .then(function(resp){
+          if(resp.success){
+            _data.photos[getPhotoIndexThroughId(photoId)].copying = false;
+            var newPhoto = resp.data;
+            $timeout(function(){
+              // add the new photo
+              _data.photos.splice(getPhotoIndexThroughId(photoId), 0, newPhoto);
+              _data.totalCount++;
+              $('.collapse-loader').css('display', 'none');
+            });
+            alertFactory.success(null , resp.message);
+            deferred.resolve(resp);
+          }
+          else{
+            alertFactory.error(null, resp.message);
+            _data.photos[getPhotoIndexThroughId(photoId)].copying = false;
+            $('.collapse-loader').css('display', 'none');
+            deferred.reject(resp);
+          }
+        }, function(err){
+          alertFactory.error(null, err.data.message);
+          _data.photos[getPhotoIndexThroughId(photoId)].deleting = false;
+          deferred.reject(err);
         });
       return deferred.promise;
     }
@@ -203,53 +223,6 @@
           deferred.reject(resp);
         }
         globalLoader.hide();
-      });
-      return deferred.promise;
-    }
-
-    function loadOriginalImages(){
-      originalPhotosContainer = [];
-      for(var i=0; i<_data.photos.length && i< noOFOriginalImageToDownload; i++){
-        (function(){
-          var index = i;
-          if(!_data.photos[index].isProduct){
-            restFactory.photos.getSelectedPhoto(_data.photos[index].id).then(function(resp){
-              if(resp.success){
-                if('imageBase64' in resp.data){
-                  resp.data.base64 = resp.data.imageBase64;
-                  delete resp.data.imageBase64;
-                }
-                originalPhotosContainer.push(resp.data);
-              }
-              else{
-                //alertFactory.error(null, resp.message);
-              }
-            });
-          }
-          else {
-            originalPhotosContainer.push(_data.photos[index]);
-          }
-        }());
-      }
-    }
-
-    function copyPhoto(id, index) {
-      var deferred = $q.defer();
-      $('.collapse-loader').css('display', 'block');
-      restFactory.photos.copyPhoto(id, index).then(function(resp){
-        if(resp.success){
-          resp.data.base64 = _data.photos[index].base64;
-          _data.photos.splice(index, 0, angular.copy(resp.data));
-          _data.totalCount++;
-          alertFactory.success("Success!", resp.message);
-          $('.collapse-loader').css('display', 'none');
-          deferred.resolve(resp);
-        }
-        else{
-          alertFactory.error(null, resp.message);
-          $('.collapse-loader').css('display', 'none');
-          deferred.reject(resp);
-        }
       });
       return deferred.promise;
     }

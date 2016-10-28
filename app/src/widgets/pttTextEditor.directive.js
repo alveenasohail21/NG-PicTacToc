@@ -40,8 +40,6 @@
         size: 12
       };
 
-      var customizer;
-
       // Initializer
       function init(){
         // TODO: Fetch something from Server

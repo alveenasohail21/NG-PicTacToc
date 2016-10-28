@@ -1,0 +1,21 @@
+<!-- Add Project MODAL -->
+<div class="modal web modal-custom fade general-modal" id="confirmCanvasAction" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header logo-center">
+                <h3 class="modal-heading">{{vm.modal.heading}}</h3>
+                <button type="button" class="close button-cross" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <button type="button" class="btn btn-cancel font-myriad-bold" data-dismiss="modal" ng-click="vm.modal.leftClick()">{{vm.modal.leftBtnText}}</button>
+                <button type="button" class="btn btn-confirm font-myriad-bold" data-dismiss="modal" ng-click="vm.modal.rightClick()">{{vm.modal.rightBtnText}}</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
