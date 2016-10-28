@@ -1767,6 +1767,9 @@
       //// console.log("Customize Object: ",obj);
       // capture control
       var customizerControl = $('.text-editor-parent');
+
+      console.log(customizerControl);
+
       // weather to open or not
       switch(obj.customObjectType){
         case customObjectTypes.text:

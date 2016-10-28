@@ -65,6 +65,9 @@
     // default canvas type & size string
     vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString();
 
+    var waitForCaman = false;
+    var openFilterSidemenu = false;
+
     const DefaultHighResImageSize = '800x800';
 
 
@@ -163,6 +166,12 @@
           alertFactory.warning(null, "Please select an image to apply filter");
           return;
         }
+      }
+
+      if(waitForCaman){
+        alertFactory.warning(" ", "Just a moment");
+        openFilterSidemenu = true;
+        return;
       }
 
       // if opening
@@ -332,7 +341,7 @@
             // TODO:
           }
           var oldIndex = canvasBkgImg.photoIndex;
-          productsFactory.savePhotoOrProduct(dataToSaveForProduct).then(function (resp) {
+          productsFactory.savePhotoOrProduct(dataToSaveForProduct, designTool.getProp('isLayoutApplied')).then(function (resp) {
             vm.myPhotos[oldIndex]._id = resp._id;
             vm.myPhotos[oldIndex].isEdited = false;
             vm.myPhotos[oldIndex].isProduct = true;
@@ -567,8 +576,9 @@
     /************************************* STICKERS *************************************/
 
     function applySticker(sticker){
-      sticker.url = $rootScope.safeTemplateUrlConvert(sticker.url);
-      designTool.applySticker(sticker,canvasBkgImg.photoIndex);
+      var stickerCopy = angular.copy(sticker);
+      stickerCopy.url = $rootScope.safeTemplateUrlConvert(stickerCopy.url);
+      designTool.applySticker(stickerCopy, canvasBkgImg.photoIndex);
     }
 
     /************************************* TEXTS *************************************/
@@ -724,14 +734,14 @@
 
     designTool.on('image:selected', function(e){
       console.log("CTRL: image:selected: ");
-      // console.log(e.data);
+      console.log(e.data);
       if(designTool.getProp('isLayoutApplied')){
         console.log('inside if');
 
         var thumbnailForFilters = e.data[0].photoData;
-        thumbnailForFilters.currentFilter = e.data[0].currentFilter;
+        thumbnailForFilters['currentFilter'] = e.data[0].currentFilter;
 
-        globalLoader.show();
+        waitForCaman = true;
 
         saveSelectedPhoto(thumbnailForFilters, thumbnailForFilters);
 
@@ -739,7 +749,13 @@
           var img = new Image();
           img.onload = function(){
             updateCamanCanvas(img);
-            globalLoader.hide();
+            $timeout(function(){
+              waitForCaman = false;
+              if(openFilterSidemenu){
+                toggleSidemenu('filters');
+                openFilterSidemenu = false;
+              }
+            }, 1000);
           };
           img.src = highResBase64;
         });

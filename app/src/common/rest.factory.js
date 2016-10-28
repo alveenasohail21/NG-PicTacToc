@@ -177,8 +177,8 @@
           return Projects.one(projectId).one('photo').one(photoId).get((queryParams)?queryParams:{});
       }
 
-      function savePhotoOrProduct(projectId, photoId, data){
-          return Projects.one(projectId).one('photo').one(photoId).customPUT(data);
+      function savePhotoOrProduct(projectId, photoId, data, queryParams){
+          return Projects.one(projectId).one('photo').one(photoId).customPUT(data, '', queryParams);
       }
   }
 }());

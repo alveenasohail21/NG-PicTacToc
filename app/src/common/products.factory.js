@@ -27,11 +27,15 @@
       return deffered.promise;
     }
 
-      function savePhotoOrProduct(data) {
+      function savePhotoOrProduct(data, isLayout) {
           var deffered = $q.defer();
           // TODO: project id should be dynamic
           var projectId = $rootScope.sku;
-          restFactory.projects.savePhotoOrProduct(projectId, data._id, data).then(function (resp) {
+        // tell the server that it is a layout
+        var queryParams = (isLayout)?({
+          layout: true
+        }):({});
+          restFactory.projects.savePhotoOrProduct(projectId, data._id, data, queryParams).then(function (resp) {
               alertFactory.success(null, resp.message);
               deffered.resolve(resp.data);
           },function (err) {

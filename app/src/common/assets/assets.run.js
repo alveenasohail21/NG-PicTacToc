@@ -119,7 +119,7 @@
           console.log("Assets: Loading");
           loadFonts();
           loadImagesAndSvgs();
-          stopDebug();
+          // stopDebug();
         });
       }
 
