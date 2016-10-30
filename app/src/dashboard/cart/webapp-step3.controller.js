@@ -12,7 +12,7 @@
     .controller('webappStep3Ctrl', webappStep3Ctrl);
 
   /* @ngInject */
-  function webappStep3Ctrl(cartFactory, $timeout){
+  function webappStep3Ctrl(cartFactory, $timeout, $rootScope, $state, websiteFactory, orderFactory){
 
     console.log("CONTROLLER STEP 3");
 
@@ -21,8 +21,8 @@
     /* Variables */
     vm.editOrder = false;
     vm.items = cartFactory._data.projectItems;
-    vm.list = [];
-    vm.listItem = {};
+    vm.list = []; // Today , October 2016
+    vm.listItem = {}; 
     vm.selectedSize = null;
 
     vm.nextStep = nextStep;
@@ -30,6 +30,10 @@
     vm.toggleEditMode = toggleEditMode;
     vm.showSummaryMode = showSummaryMode;
     vm.showEditMode = showEditMode;
+    vm.gotoProjects = gotoProjects;
+    vm.logout = logout;
+    vm.continueDesign = continueDesign;
+    vm.placeOrder = placeOrder;
 
     /* Define Functions */
 
@@ -76,8 +80,30 @@
       vm.editOrder = false;
     }
 
-    function nextStep(){
+    function nextStep(stateName){
+      var isLocalhost = (window.location.origin.indexOf('localhost') >= 0);
+      var params = (isLocalhost)?({sku: $rootScope.sku}):null;
+      // go to state
+        $state.go(stateName, params);
+    }
 
+    function placeOrder(){
+      orderFactory.placeOrder($rootScope.sku, vm.items)
+        .then(function(resp){
+          // TODO: show success in modal
+        })
+    }
+
+    function continueDesign(){
+      nextStep('Upload');
+    }
+
+    function gotoProjects() {
+      websiteFactory.gotoProjects();
+    }
+
+    function logout() {
+      websiteFactory.logout();
     }
 
     init();

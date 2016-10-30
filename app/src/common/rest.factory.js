@@ -51,6 +51,9 @@
         getItems: getItems,
         updateProjectItem: updateProjectItem
       },
+      orders: {
+        placeOrder: placeOrder
+      },
       photos: {
         getPhotos: getPhotos,
         getSocialPhotos: getSocialPhotos,
@@ -194,6 +197,10 @@
 
     function updateProjectItem(projectId, itemId, data){
       return Projects.one(projectId).one('items').one(itemId).customPUT(data);
+    }
+
+    function placeOrder(data){
+      return Users.one('orders').post(null, data);
     }
 
   }
