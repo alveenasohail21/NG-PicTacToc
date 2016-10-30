@@ -221,8 +221,26 @@ body.app{
       }
       div.gray-cart{
         //width: 44px;
+        position: relative;
         object, img{
           height: 100%;
+        }
+        .badge-custom-header{
+          position: absolute;
+          top: -3px;
+          right: -6px;
+          z-index: 1000;
+          border-radius: 100%;
+          /* padding: 13px 18px; */
+          font-size: 9px;
+          text-align: center;
+          width: 17px;
+          height: 17px;
+          padding: 0;
+          padding-top: 4px;
+          background-color: rgb(221, 148, 177);
+          font-family: Font_Open_Sans_Bold;
+          border-width: 1px;
         }
       }
     }

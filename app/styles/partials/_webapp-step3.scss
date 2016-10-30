@@ -127,6 +127,22 @@ body.app{
         }
         div.square:nth-child(4){
         }
+
+        .badge-custom{
+          position: absolute;
+          top: 57px;
+          right: 8px;
+          z-index: 1000;
+          border-radius: 100%;
+          /* padding: 13px 18px; */
+          font-size: 26px;
+          text-align: center;
+          width: 50px;
+          height: 50px;
+          padding-top: 12px;
+          background-color: #65e0e4;
+          font-family: Font_Open_Sans_Bold;
+        }
       }
       // Animation
       div.col-sm-4:hover div.square:nth-child(1){
