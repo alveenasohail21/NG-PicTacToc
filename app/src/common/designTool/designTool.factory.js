@@ -139,6 +139,9 @@
               height : {
                 px: 1200,
                 inches: 4
+              },
+              title: {
+                inches: '6 x 4 inches'
               }
             },
             vertical : {
@@ -149,6 +152,9 @@
               height : {
                 px: 1800,
                 inches: 6
+              },
+              title: {
+                inches: '4 x 6 inches'
               }
             }
           },
@@ -163,6 +169,9 @@
               height : {
                 px: 1500,
                 inches: 5
+              },
+              title: {
+                inches: '7 x 5 inches'
               }
             },
             vertical : {
@@ -173,6 +182,9 @@
               height : {
                 px: 2100,
                 inches: 7
+              },
+              title: {
+                inches: '5 x 7 inches'
               }
             }
           },
@@ -187,6 +199,9 @@
               height : {
                 px: 1800,
                 inches: 6
+              },
+              title: {
+                inches: '8 x 6 inches'
               }
             },
             vertical : {
@@ -197,6 +212,9 @@
               height : {
                 px: 2400,
                 inches: 8
+              },
+              title: {
+                inches: '6 x 8 inches'
               }
             }
           }
@@ -216,6 +234,9 @@
               height : {
                 px: 2400,
                 inches: 8
+              },
+              title: {
+                inches: '12 x 8 inches'
               }
             },
             vertical : {
@@ -226,6 +247,9 @@
               height : {
                 px: 3600,
                 inches: 12
+              },
+              title: {
+                inches: '8 x 12 inches'
               }
             }
           },
@@ -240,6 +264,9 @@
               height : {
                 px: 3000,
                 inches: 10
+              },
+              title: {
+                inches: '12 x 10 inches'
               }
             },
             vertical : {
@@ -250,6 +277,9 @@
               height : {
                 px: 3600,
                 inches: 12
+              },
+              title: {
+                inches: '10 x 12 inches'
               }
             }
           },
@@ -264,6 +294,9 @@
               height : {
                 px: 3600,
                 inches: 12
+              },
+              title: {
+                inches: '16 x 12 inches'
               }
             },
             vertical : {
@@ -274,6 +307,9 @@
               height : {
                 px: 4800,
                 inches: 16
+              },
+              title: {
+                inches: '12 x 16 inches'
               }
             }
           }
@@ -293,6 +329,9 @@
               height : {
                 px: 1200,
                 inches: 4
+              },
+              title: {
+                inches: '4 x 4 inches'
               }
             },
             vertical : {
@@ -303,6 +342,9 @@
               height : {
                 px: 1200,
                 inches: 4
+              },
+              title: {
+                inches: '4 x 4 inches'
               }
             }
           },
@@ -317,6 +359,9 @@
               height : {
                 px: 1800,
                 inches: 6
+              },
+              title: {
+                inches: '6 x 6 inches'
               }
             },
             vertical : {
@@ -327,6 +372,9 @@
               height : {
                 px: 1800,
                 inches: 6
+              },
+              title: {
+                inches: '6 x 6 inches'
               }
             }
           },
@@ -341,6 +389,9 @@
               height : {
                 px: 2400,
                 inches: 8
+              },
+              title: {
+                inches: '8 x 8 inches'
               }
             },
             vertical : {
@@ -351,6 +402,9 @@
               height : {
                 px: 2400,
                 inches: 8
+              },
+              title: {
+                inches: '8 x 8 inches'
               }
             }
           }
@@ -498,8 +552,10 @@
       getDefaultCanvasSizeDetails: getDefaultCanvasSizeDetails,
       updateImageEditorSize : updateImageEditorSize,
       updateImageEditorForCanvasChange : updateImageEditorForCanvasChange,
-      checkResolution: checkResolution
+      checkResolution: checkResolution,
       //drag and drop events
+      // others
+      findItemSizeDetails: findItemSizeDetails
     };
 
     /* Define Functions */
@@ -2569,6 +2625,7 @@
         }
       }
     }
+
     function checkResolution(selectedImage){
       if(!selectedImage) return;
       if(!flags.isLayoutApplied){
@@ -2580,9 +2637,11 @@
         }
       }
     }
+
     function lowResolution(width1, height1, width2, height2) {
       return !!(width1 < width2 || height1 < height2);
     }
+
     function getCanvasTypeBasedOnOrientation(image) {
       if(image.originalWidth === image.originalHeight){
         return Defaults.canvasType;
@@ -2591,6 +2650,7 @@
         return canvasTypes.REGULAR.name;
       }
     }
+
     function getSeletedCanvasTypeAndSize() {
       var canvasObj = {
         type : currentSelectedCanvasType || Defaults.canvasType,
@@ -2599,6 +2659,37 @@
       };
       return canvasObj;
     }
+
+    function findItemSizeDetails(item){
+
+      if(!item.isProduct){
+        var canvasSizeDetails = {};
+        // TYPE
+        canvasSizeDetails.type = getCanvasTypeBasedOnOrientation(item);
+        // SIZE
+        canvasSizeDetails.size = Defaults.canvasSize;
+        // ORIENTATION
+        if(item.originalWidth < item.originalHeight) {
+          canvasSizeDetails.orientation = canvasOrientations.vertical;
+        }
+        else{
+          canvasSizeDetails.orientation = canvasOrientations.horizontal;
+        }
+        // Dimensions
+        canvasSizeDetails.dimensions = _canvasTypes[canvasSizeDetails.type.toUpperCase()].sizes[canvasSizeDetails.size][canvasSizeDetails.orientation];
+
+        item.canvasSizeDetails = canvasSizeDetails;
+      }
+      else{
+        console.log(item.canvasSizeDetails);
+        // Dimension
+          item.canvasSizeDetails.dimensions = _canvasTypes[item.canvasSizeDetails.type.toUpperCase()].sizes[item.canvasSizeDetails.size][item.canvasSizeDetails.orientation];
+      }
+
+      return item.canvasSizeDetails;
+
+    }
+
   }
 }());
 

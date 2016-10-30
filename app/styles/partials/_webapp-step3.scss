@@ -46,20 +46,23 @@ body.app{
         margin: 0 10px;
         padding-top: 8px;
       }
-      .edit-order{
-        color: $view-history-color;
-        font-family: Font_Open_Sans_Bold;
-      }
-      .view-history{
-        color: $view-history-color;
-        font-family: Font_Open_Sans_Bold;
-      }
-      span.active{
+      .edit-order, .view-history{
+
+        a{
+          color: $view-history-color !important;
+          font-family: Font_Open_Sans_Bold;
+          text-decoration: none;
+
+          &.active{
+            color: #65e0e4 !important;
+            &.underline{
+              text-decoration: underline;
+            }
+          }
+        }
 
       }
-      a{
-        text-decoration: underline;
-      }
+
       a.active, a:hover, a:focus, a:active {
         text-decoration: none;
         color: $anchor-dark-hover;

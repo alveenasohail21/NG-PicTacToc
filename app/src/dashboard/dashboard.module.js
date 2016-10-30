@@ -116,6 +116,14 @@
           contentClass: "prints",
           header: true,
           footer: true,
+          resolve: {
+            r_items: function(cartFactory, $rootScope){
+              // remove old items
+              cartFactory.removeProjectItems();
+              // get items again
+              return cartFactory.getSpecificProjectItems($rootScope.sku);
+            }
+          },
           views: {
             "@": {
               templateUrl: 'src/dashboard/cart/webapp-step3.html',

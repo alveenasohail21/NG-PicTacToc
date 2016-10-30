@@ -17,317 +17,33 @@ Content : Start
                     Confirm Order
                 </div>
                 <div class="col-sm-7 text-right" style="padding-top: 8px;">
-                    <span class="edit-order"><a href="" class="hover-underline" ng-class="{'active': !vm.editOrder, 'underline': !vm.editOrder}" ng-click="vm.editOrder=true;">Edit Order</a></span>
-                    <span class="view-history"><a href="" class="hover-underline" ng-class="{'active': vm.editOrder, 'underline': !vm.editOrder}" ng-click="vm.editOrder=false;">View Summary</a></span>
+                    <span class="edit-order"><a href="" class="hover-underline" ng-class="{'active': vm.editOrder, 'underline': vm.editOrder}" ng-click="vm.showEditMode()">Edit Order</a></span>
+                    <span class="view-history"><a href="" class="hover-underline" ng-class="{'active': !vm.editOrder, 'underline': !vm.editOrder}" ng-click="vm.showSummaryMode()">View Summary</a></span>
                 </div>
             </div>
 
             <!-- View Summary -->
             <div class="row content view-summary" ng-show="!vm.editOrder">
 
-                <!--<div class="col-sm-4">-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square"></div>-->
-                    <!--<div class="square">-->
-                        <!--<img ng-src="{{$root.dummyImage}}" alt="" ptt-loader="loader-fb-album" ng-click="vm.editOrder=true;">-->
-                    <!--</div>-->
-                    <!--<p> 8 x 8 inches</p>-->
-                <!--</div>-->
-                <div class="col-sm-4">
+                <div class="col-sm-4" ng-repeat="list in vm.list track by $index">
                     <div class="square"></div>
                     <div class="square"></div>
                     <div class="square"></div>
                     <div class="square">
-                        <img src="images/source4.png" alt="" ptt-loader="loader-fb-album" ng-click="vm.editOrder=true;">
+                        <img ng-src="{{vm.listItem[list][0].url}}" alt="" ptt-loader="loader-fb-album" ng-click="vm.selectSize(list)">
                     </div>
-                    <p> 8 x 8 inches</p>
+                    <p>{{list}}</p>
                 </div>
-                <div class="col-sm-4">
-                    <div class="square"></div>
-                    <div class="square"></div>
-                    <div class="square"></div>
-                    <div class="square">
-                        <img src="images/source5.png" alt="" ptt-loader="loader-fb-album" ng-click="vm.editOrder=true;">
-                    </div>
-                    <p> 8 x 8 inches</p>
-                </div>
-                <div class="col-sm-4">
-                    <div class="square"></div>
-                    <div class="square"></div>
-                    <div class="square"></div>
-                    <div class="square">
-                        <img src="images/source5.png" alt="" ptt-loader="loader-fb-album" ng-click="vm.editOrder=true;">
-                    </div>
-                    <p> 8 x 8 inches</p>
-                </div>
-                <div class="col-sm-4">
-                    <div class="square"></div>
-                    <div class="square"></div>
-                    <div class="square"></div>
-                    <div class="square">
-                        <img src="images/source5.png" alt="" ptt-loader="loader-fb-album" ng-click="vm.editOrder=true;">
-                    </div>
-                    <p> 8 x 8 inches</p>
-                </div>
-                <div class="col-sm-4">
-                    <div class="square"></div>
-                    <div class="square"></div>
-                    <div class="square"></div>
-                    <div class="square">
-                        <img src="images/source5.png" alt="" ptt-loader="loader-fb-album" ng-click="vm.editOrder=true;">
-                    </div>
-                    <p> 8 x 8 inches</p>
-                </div>
-
             </div>
 
 
             <!-- Edit Order -->
             <div class="row content edit-order" ng-show="vm.editOrder">
-                <div class="img">
-                    <img class="upl-img" src="images/source1.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source2.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source3.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source6.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source4.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source1.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source2.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source3.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source4.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source5.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source6.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source7.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source8.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source1.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source2.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source3.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source6.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source4.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source1.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source2.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source3.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-                <div class="img">
-                    <img class="upl-img" src="images/source4.png" alt="" ptt-loader="loader-fb-album">
-                    <div class="expand-text">
-                        5 x 5 inches
-                    </div>
-                    <div class="expand-tool">
-                        <div class="sign"> - </div>
-                        <input type="text" value="1">
-                        <div class="sign"> + </div>
-                    </div>
-                </div>
-
+              <cart-item
+                ng-repeat="item in vm.items"
+                ng-if="(item.canvasSizeDetails.dimensions.title.inches == vm.selectedSize || vm.selectedSize === null)"
+                item="item">
+              </cart-item>
             </div>
 
 
@@ -336,7 +52,7 @@ Content : Start
             <button class="btn ptt-btn-blue pull-right" data-toggle="modal" data-target="#step3-confirm-modal">
                 Proceed to Checkout
             </button>
-            <button class="btn  ptt-btn-white pull-right dark" ui-sref="Dashboard.Prints.Design">
+            <button class="btn  ptt-btn-white pull-right dark" ui-sref="Design">
                 Continue Designing
             </button>
         </div>

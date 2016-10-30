@@ -47,7 +47,9 @@
         deleteProjectPhotoOrProduct: deleteProjectPhotoOrProduct,
         copyProjectPhotoOrProduct: copyProjectPhotoOrProduct,
         getProjectSelectedPhotoOrProduct: getProjectSelectedPhotoOrProduct,
-        savePhotoOrProduct: savePhotoOrProduct
+        savePhotoOrProduct: savePhotoOrProduct,
+        getItems: getItems,
+        updateProjectItem: updateProjectItem
       },
       photos: {
         getPhotos: getPhotos,
@@ -185,5 +187,14 @@
     function savePhotoOrProduct(projectId, photoId, data, queryParams){
       return Projects.one(projectId).one('photo').one(photoId).customPUT(data, '', queryParams);
     }
+
+    function getItems(projectId){
+      return Projects.one(projectId).one('items').get();
+    }
+
+    function updateProjectItem(projectId, itemId, data){
+      return Projects.one(projectId).one('items').one(itemId).customPUT(data);
+    }
+
   }
 }());

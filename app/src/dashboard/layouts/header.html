@@ -49,8 +49,8 @@
           <hr ng-if="$root.stateName=='Design'">
           <hr class="hover-hr">
         </div>
-        <!--<div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}" ng-click="vm.nextStep('Checkout')">-->
-        <div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}">
+        <div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}" ng-click="vm.nextStep('Checkout')">
+        <!--<div class="step step-3" ng-class="{'active': $root.stateName=='Checkout'}">-->
           <div class="custom-svg-icon gray-tick" ng-if="$root.stateName!='Checkout'">
             <!--<object class=""  type="image/svg+xml" data="svgs/gray-tick.svg"></object>-->
             <img class="" type="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-tick.svg')}}">
