@@ -995,7 +995,7 @@
         $state.go(stateName, params);
       }
       else if(stateName.indexOf('Checkout')>=0){
-
+        $state.go(stateName, params);
       }
     }
 
