@@ -52,7 +52,7 @@
       // debugger;
       console.log(toParams);
       console.log($location);
-
+      $('.modal').modal('hide');
       // show loader
       globalLoader.show();
       // debugger;
