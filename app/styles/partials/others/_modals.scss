@@ -173,3 +173,150 @@
   }
 
 }
+
+
+/*
+Confirm Modal
+*/
+#confirmOrderModal{
+  top: 80px;
+  .modal-dialog{
+    //margin: 50px 212px 50px 181px;
+    margin: 50px 14.7% 50px 12.5%;
+    width: auto;
+    .btn-close{
+      position: absolute;
+      right: -26px;
+      background: white;
+      padding: 6px 8px;
+      border: none;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      i{
+        color: $body-bkg-color-2;
+      }
+    }
+  }
+  .modal-content{
+    background-color: rgb(255,255,255);
+    border: none;
+    box-shadow: none;
+    border-radius: 0px;
+    .modal-body{
+      padding: 0 78px;
+      .details{
+        border-right: 1.114px solid rgb(203, 206, 208);
+        padding-top: 7px;
+        padding-bottom: 7px;
+        label{
+          color: $form-input-text-color;
+          font-weight: normal;
+          font-family: Font_Open_Sans_Regular;
+          font-size: 17px;
+        }
+        form{
+          padding: 12px 0;
+          div{
+            padding: 0;
+            padding-right: 21px;
+          }
+          .form-group{
+            margin-bottom: 8px;
+          }
+          input{
+            border-color: rgb(203, 206, 208);
+            border-style: solid;
+            border-radius: 5px;
+            height: 52px;
+          }
+        }
+
+        .btn-cancel{
+          width: auto;
+          background-color: white;
+          color: $btn-bkg-color;
+          border: none;
+          border-radius: 3px;
+          padding: 10px 41px;
+          margin-top: 10px;
+          margin-left: -3px;
+          font-size: 18px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+        }
+        .btn-cancel:hover{
+          color: $btn-bkg-color;
+        }
+        .btn-confirm{
+          width: auto;
+          background-color: $btn-bkg-color;
+          color: white;
+          border: none;
+          border-radius: 3px;
+          padding: 10px 41px;
+          margin-top: 10px;
+          margin-left: -3px;
+          font-size: 18px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+        }
+        .btn-submit{
+          padding: 12px 21px;
+          font-size: 16px;
+          margin-top: 10px;
+          margin-bottom: 8px;
+        }
+      }
+      .summary{
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-left: 34px;
+        .summary-table{
+          margin-top: 53px;
+          .row{
+            padding: 5px 0;
+          }
+          div{
+            padding: 0;
+            color: $form-input-text-color;
+            font-weight: normal;
+            font-family: Font_Open_Sans_Regular;
+            font-size: 17px;
+          }
+          .total-row{
+            margin-top: 16px;
+            border-top: 1.114px solid rgb(203, 206, 208);
+            .total{
+              font-family: Font_Open_Sans_Bold;
+            }
+          }
+        }
+      }
+      h3{
+        color: #59626a;
+        font-family: Font_Open_Sans_Bold;
+        font-size: 20px;
+        letter-spacing: -0.5px;
+      }
+      h4.sub-heading{
+        color: #65e0e4;
+        font-family: Font_Open_Sans_Regular;
+        font-size: 20px;
+        margin: 35px 0;
+        span{
+          margin-left: 37px;
+          font-size: 12px;
+          cursor: pointer;
+        }
+      }
+      .shipping-details{
+        color: #bac0c4;
+        font-family: Font_Open_Sans_Regular;
+        font-size: 16px;
+        margin: 0;
+        text-align: left;
+        padding: 0 0 30px;
+      }
+    }
+  }
+}

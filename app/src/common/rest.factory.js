@@ -40,7 +40,9 @@
         remove: removeUser,
         activeSocialProfiles: activeSocialProfiles,
         socialDetails: socialDetails,
-        verifySku: verifySku
+        verifySku: verifySku,
+        getUserShippingDetails: getUserShippingDetails,
+        putUserShippingDetails: putUserShippingDetails
       },
       projects: {
         getSpecificProject: getSpecificProject,
@@ -136,6 +138,22 @@
 
     function verifySku(sku){
       return Users.one('verifySku').post(null, {sku: sku});
+    }
+
+    function getUserShippingDetails(){
+      return Users.one('shipping').get();
+    }
+
+    function getUserBillingDetails(){
+      return Users.one('billing').get();
+    }
+
+    function putUserShippingDetails(data){
+      return Users.one('shipping').customPUT(data);
+    }
+
+    function putUserBillingDetails(data){
+      return Users.one('billing').customPUT(data);
     }
 
     function deletePhoto(id){ //delete selected photo in step 1

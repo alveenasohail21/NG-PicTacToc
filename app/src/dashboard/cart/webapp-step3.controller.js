@@ -21,7 +21,7 @@
     /* Variables */
     vm.editOrder = false;
     vm.items = cartFactory._data.projectItems;
-    vm.list = []; // Today , October 2016
+    vm.list = [];
     vm.listItem = {};
     vm.selectedSize = null;
 
@@ -33,7 +33,7 @@
     vm.gotoProjects = gotoProjects;
     vm.logout = logout;
     vm.continueDesign = continueDesign;
-    vm.placeOrder = placeOrder;
+    vm.proceedToCheckout = proceedToCheckout;
 
     /* Define Functions */
 
@@ -87,14 +87,16 @@
         $state.go(stateName, params);
     }
 
-    function placeOrder(){
-      orderFactory.placeOrder($rootScope.sku, vm.items)
-        .then(function(resp){
-          // TODO: show success in modal
-          if(resp.success){
-            websiteFactory.goToOrderHistory(resp.data.order_id);
-          }
-        })
+    function proceedToCheckout(){
+
+      // attach project to $rootScope for the modal to use it
+      $rootScope.order = {
+        'projectId': $rootScope.sku,
+        'items': vm.items
+      };
+
+      eventChannel.fire('placeOrder');
+
     }
 
     function continueDesign(){

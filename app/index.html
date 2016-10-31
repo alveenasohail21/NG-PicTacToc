@@ -30,6 +30,9 @@
 
 <div ui-view class="view-animate" style="height: 100%;"></div>
 
+<!-- Confirm Order Modal -->
+<ng-include src="'src/dashboard/layouts/modal/confirmOrder.html'"></ng-include>
+
 <!-- Alert Message -->
 <div class="alert alert-dismissible" ng-class="$root.alert.class" role="alert" ng-if="$root.alert.show">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -109,6 +112,7 @@
 <script src="src/common/designTool/designTool.factory.js"></script>
 <script src="src/common/cart.factory.js"></script>
 <script src="src/common/orders.factory.js"></script>
+<script src="src/common/products.factory.js"></script>
 <!-- directives -->
 <script src="src/widgets/compareTo.directive.js"></script>
 <script src="src/widgets/pttLoader.directive.js"></script>
@@ -127,7 +131,7 @@
 <script src="src/dashboard/upload/webapp-step1.controller.js"></script>
 <script src="src/dashboard/prints/webapp-step2.controller.js"></script>
 <script src="src/dashboard/cart/webapp-step3.controller.js"></script>
-<script src="src/common/products.factory.js"></script>
+<script src="src/dashboard/cart/checkout.controller.js"></script>
 <!-- endbuild -->
 
 <script>
