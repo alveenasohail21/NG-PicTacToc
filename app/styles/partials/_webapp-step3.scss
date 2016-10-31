@@ -131,7 +131,7 @@ body.app{
         .badge-custom{
           position: absolute;
           top: 57px;
-          right: 8px;
+          left: 50%;
           z-index: 1000;
           border-radius: 100%;
           /* padding: 13px 18px; */
@@ -142,6 +142,7 @@ body.app{
           padding-top: 12px;
           background-color: #65e0e4;
           font-family: Font_Open_Sans_Bold;
+          margin-left: 105px;
         }
       }
       // Animation

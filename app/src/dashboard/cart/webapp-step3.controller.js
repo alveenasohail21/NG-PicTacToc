@@ -22,7 +22,7 @@
     vm.editOrder = false;
     vm.items = cartFactory._data.projectItems;
     vm.list = []; // Today , October 2016
-    vm.listItem = {}; 
+    vm.listItem = {};
     vm.selectedSize = null;
 
     vm.nextStep = nextStep;
@@ -91,6 +91,9 @@
       orderFactory.placeOrder($rootScope.sku, vm.items)
         .then(function(resp){
           // TODO: show success in modal
+          if(resp.success){
+            websiteFactory.goToOrderHistory(resp.data.order_id);
+          }
         })
     }
 

@@ -26,12 +26,12 @@ Content : Start
             <div class="row content view-summary" ng-show="!vm.editOrder">
 
                 <div class="col-sm-4" ng-repeat="list in vm.list track by $index">
-                  <span class="badge badge-custom">1</span>
+                    <span class="badge badge-custom">{{vm.listItem[list].length}}</span>
                     <div class="square"></div>
                     <div class="square"></div>
                     <div class="square"></div>
                     <div class="square">
-                        <img ng-src="{{vm.listItem[list][0].url}}" alt="" ptt-loader="loader-fb-album" ng-click="vm.selectSize(list)">
+                      <img ng-src="{{vm.listItem[list][0].url}}" alt="" ptt-loader="loader-fb-album" ng-click="vm.selectSize(list)">
                     </div>
                     <p>{{list}}</p>
                 </div>

@@ -18,7 +18,8 @@
     return {
       gotoProjects: gotoProjects,
       logout: logout,
-      help: help
+      help: help,
+      goToOrderHistory: goToOrderHistory
     };
 
     function gotoProjects () {
@@ -27,6 +28,7 @@
         :(FRONT_END_WEBSITE_PROD_URL+'/#/account/projects');
       window.location = projectUrl;
     }
+
     function logout () {
       var logoutUrl = (window.location.origin.indexOf('localhost')>=0)?
         (FRONT_END_WEBSITE_DEV_URL+'/#/account/logout')
@@ -34,6 +36,7 @@
       authFactory.logout();
       window.location = logoutUrl;
     }
+
     function help() {
       var helpUrl = (window.location.origin.indexOf('localhost')>=0)?
         (FRONT_END_WEBSITE_DEV_URL+'/#/help')
@@ -41,6 +44,12 @@
       window.location = helpUrl;
     }
 
+    function goToOrderHistory(orderId) {
+      var orderHistoryUrl = (window.location.origin.indexOf('localhost')>=0)?
+        (FRONT_END_WEBSITE_DEV_URL+'/#/account/orders?oid='+orderId)
+        :(FRONT_END_WEBSITE_PROD_URL+'/#/account/orders?oid='+orderId);
+      window.location = orderHistoryUrl;
+    }
 
 
     /* Define Functions */
