@@ -46,7 +46,8 @@
                 var url=scope.project.items[0].url;
                 var extension=scope.project.items[0].extension;
                 var dimension="260x260";
-                scope.url=$rootScope.safeUrlConvert(url+"-"+dimension+"."+extension);
+                // scope.url=$rootScope.safeUrlConvert(url+"-"+dimension+"."+extension);
+                scope.url=$rootScope.safeUrlConvert(url);
             }
             function init(){
                 convertUrl();
