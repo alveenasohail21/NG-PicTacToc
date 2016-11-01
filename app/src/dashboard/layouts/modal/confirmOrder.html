@@ -9,7 +9,7 @@ Modal : Start
       </button>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-8 details">
+          <div class="col-md-7 details">
 
             <h3>Confirm Your Order</h3>
 
@@ -86,37 +86,20 @@ Modal : Start
             </div>
 
           </div>
-          <div class="col-md-4 summary">
+          <div class="col-md-5 summary">
             <h3>Summary</h3>
             <div class="summary-table">
-              <div class="row">
-                <div class="col-xs-3 text-center">4 x 6</div>
-                <div class="col-xs-5 text-center">0.09$ ea.</div>
-                <div class="col-xs-1 text-center">3</div>
-                <div class="col-xs-3 text-center">0.27$</div>
-              </div>
-              <div class="row">
-                <div class="col-xs-3 text-center">4 x 6</div>
-                <div class="col-xs-5 text-center">0.09$ ea.</div>
-                <div class="col-xs-1 text-center">3</div>
-                <div class="col-xs-3 text-center">0.27$</div>
-              </div>
-              <div class="row">
-                <div class="col-xs-3 text-center">4 x 6</div>
-                <div class="col-xs-5 text-center">0.09$ ea.</div>
-                <div class="col-xs-1 text-center">3</div>
-                <div class="col-xs-3 text-center">0.27$</div>
-              </div>
-              <div class="row">
-                <div class="col-xs-3 text-center">4 x 6</div>
-                <div class="col-xs-5 text-center">0.09$ ea.</div>
-                <div class="col-xs-1 text-center">3</div>
-                <div class="col-xs-3 text-center">0.27$</div>
+
+              <div class="row" ng-repeat="list in vm.list track by $index">
+                <div class="col-xs-3 text-center">{{list}}</div>
+                <div class="col-xs-5 text-center">PKR. {{vm.listItems[list].unit_price}}</div>
+                <div class="col-xs-1 text-center">{{vm.listItems[list].quantity}}</div>
+                <div class="col-xs-3 text-center">PKR. {{vm.listItems[list].total_price}}</div>
               </div>
               <div class="row total-row">
-                <div class="col-xs-8 text-right total">Total</div>
-                <div class="col-xs-1 text-center">14</div>
-                <div class="col-xs-3 text-center">1.26$</div>
+                <div class="col-xs-8 text-right total">Total &nbsp;</div>
+                <div class="col-xs-1 text-center">{{vm.total.quantity}}</div>
+                <div class="col-xs-3 text-center">PKR. {{vm.total.price}}</div>
               </div>
             </div>
           </div>

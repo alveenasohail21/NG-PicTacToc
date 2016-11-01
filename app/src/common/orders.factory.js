@@ -25,7 +25,7 @@
       var deferred = $q.defer();
       globalLoader.show();
       var data = {
-        project_id: projectId,
+        projectId: projectId,
         items: items
       };
       restFactory.orders.placeOrder(data)

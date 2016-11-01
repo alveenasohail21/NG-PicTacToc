@@ -15,8 +15,10 @@
     const DefaultItemImageSize = '260x260';
 
     var _data = {
+      pricing: null,
       projectItems: [],
-      projectId: null
+      projectId: null,
+      projectType: null
     };
 
     /* Return Functions */
@@ -26,7 +28,6 @@
       updateProjectItemQuantity: updateProjectItemQuantity,
       getCartProjects: getCartProjects,
       getPricing: getPricing,
-
       _data: _data
     };
 
@@ -44,11 +45,22 @@
       restFactory.projects.getItems(projectId)
         .then(function(resp){
           if(resp.success){
-            _data.projectItems = resp.data;
+            _data.projectItems = resp.data.items;
             _data.projectId = projectId;
-            updateItemSizeDetails();
-            alertFactory.success(null , resp.message);
-            deferred.resolve(resp);
+            _data.projectType = resp.data.type;
+            _data.projectItems = updateItemSizeDetails(_data.projectItems);
+
+            if(!_data.pricing){
+              getPricing().then(function(response){
+                _data.projectItems = updatePricing(_data.projectType, _data.projectItems);
+                deferred.resolve(resp);
+              })
+            }
+            else{
+              _data.projectItems = updatePricing(_data.projectType, _data.projectItems);
+              deferred.resolve(resp);
+            }
+
           }
           else{
             alertFactory.error(null, resp.message);
@@ -105,12 +117,13 @@
       }
     }
 
-    function updateItemSizeDetails(){
-      for(var i=0; i<_data.projectItems.length; i++){
-        _data.projectItems[i].canvasSizeDetails = designTool.findItemSizeDetails(_data.projectItems[i]);
+    function updateItemSizeDetails(items){
+      for(var i=0; i<items.length; i++){
+        items[i].canvasSizeDetails = designTool.findItemSizeDetails(items[i]);
         // convert url as well
-        _data.projectItems[i].url = convertUrl(_data.projectItems[i]);
+        items[i].url = convertUrl(items[i]);
       }
+      return items;
     }
 
     function convertUrl(item){
@@ -125,15 +138,24 @@
       var deffered = $q.defer();
       restFactory.cart.getCartProjects().then(function(resp){
         if(resp.success){
+          // add sizing
+          for(var i=0; i<resp.data.length; i++){
+
+            resp.data[i].items = updateItemSizeDetails(resp.data[i].items);
+
+            if(!_data.pricing){
+              getPricing().then(function(resp){
+                resp.data[i].type = updatePricing(resp.data[i]);
+              })
+            }
+            else{
+              resp.data[i] = updatePricing(resp.data[i]);
+            }
+
+          }
+
           globalLoader.hide();
           // TODO: get pricing and add in each project
-          // if(!_data.pricing){
-          //   resp.data = updateCartProjectPricing(resp.data);
-          // }
-          // else{
-          // call api
-          // on resp update price
-          // }
           deffered.resolve(resp);
         }
         else{
@@ -149,22 +171,43 @@
       return deffered.promise;
     }
 
+    function updatePricing(type, items){
+      var priceStructure = null;
+      for(var i=0;i<_data.pricing.length; i++){
+        if(type.toUpperCase() == _data.pricing[i].type.toUpperCase()){
+          priceStructure = _data.pricing[i];
+          break;
+        }
+      }
+
+      if(priceStructure != null){
+        for(var j=0; j<items.length; j++){
+          for(var k=0; k<priceStructure.dimensions.length; k++){
+            if(items[j].canvasSizeDetails.dimensions.title.inches == priceStructure.dimensions[k].title){
+              items[j].unit_price = priceStructure.dimensions[k].price;
+              items[j].total_price = parseInt(items[j].quantity) * parseInt(items[j].unit_price);
+            }
+          }
+        }
+        return items;
+      }
+      else{
+        return items;
+      }
+    }
+
     function getPricing(){
-      globalLoader.show();
       var deffered = $q.defer();
       restFactory.cart.getPricing().then(function(resp){
         if(resp.success){
-          globalLoader.hide();
+          _data.pricing = resp.data;
           deffered.resolve(resp);
         }
         else{
-          // TODO
           alertFactory.error(null, resp.message);
-          globalLoader.hide();
           deffered.reject(resp);
         }
       }, function(err){
-        globalLoader.hide();
         deffered.reject(err);
       });
       return deffered.promise;
