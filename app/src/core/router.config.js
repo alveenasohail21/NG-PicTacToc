@@ -19,7 +19,8 @@
   }
 
   /* @ngInject */
-  function routingEvents(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL, $rootScope, $auth, Restangular, userFactory, alertFactory, $state, $localStorage, photosFactory, $location){
+  function routingEvents(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL, $rootScope, $auth, Restangular, userFactory,
+                         cartFactory, alertFactory, $state, $localStorage, photosFactory, $location){
 
     // var publicStates = ['Signup', 'Login', 'Landing'];
     var publicStates = ['Landing'];
@@ -103,7 +104,22 @@
             console.log('API User Data Received');
             // save in local data
             userFactory.createUserInLocal(response);
-            console.log('User saved in local');
+            console.log('User saved in local', $rootScope.cartProjects);
+
+            if(!$rootScope.cartProjects){
+              // if not get cartProjects
+              cartFactory.getCartProjects().then(function (resp){
+                  if(resp.success){
+                    $rootScope.cartProjects = (resp.data)?resp.data:[];
+                    console.log("PROJECTS: ", $rootScope.cartProjects);
+                    // $state.go(toState.name);
+                  }
+                });
+              // debugger;
+            }
+            else{
+              // $state.go(toState.name);
+            }
             // verify sku and acl check, and then route
             skuVerificationAndACLCheck();
           });

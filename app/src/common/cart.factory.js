@@ -126,6 +126,7 @@
       restFactory.cart.getCartProjects().then(function(resp){
         if(resp.success){
           globalLoader.hide();
+
           // TODO: get pricing and add in each project
           // if(!_data.pricing){
           //   resp.data = updateCartProjectPricing(resp.data);
@@ -138,6 +139,7 @@
         }
         else{
           // TODO
+          console.log(resp);
           alertFactory.error(null, resp.message);
           globalLoader.hide();
           deffered.reject(resp);

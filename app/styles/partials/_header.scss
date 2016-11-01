@@ -176,14 +176,14 @@ body.app{
       height: 100%;
       padding: 18px 16px;
       margin: 0 !important;
-      div{
+      div:not(.cart-div){
         height: 100%;
         float: right;
         margin-left: 8.12%;
         cursor: pointer;
       }
       // continue button div
-      div:nth-child(1){
+      div:nth-child(1):not(.cart-div){
         width: 36.957%;
         span.btn{
           width: 100%;
@@ -201,7 +201,7 @@ body.app{
         }
       }
       // user image div
-      div:nth-child(2){
+      div:nth-child(2):not(.cart-div){
         img{
           border-style: solid;
           border-width: 1px;
@@ -220,6 +220,116 @@ body.app{
         background-color: rgb(244, 247, 249);
         padding: 9px;
       }
+      div.cart{
+        border-style: solid;
+        border-width: 1px;
+        border-color: #e7ecf0;
+        border-radius: 50%;
+        background-color: #f4f7f9;
+        .dropdown-menu{
+          overflow-y: scroll;
+          overflow-x: hidden;
+          width: 372px;
+          height: 304.5px;
+          border-radius: 10px;
+          padding:0;
+          margin:0;
+          top: 45px;
+          right:-30px;
+          box-shadow: 0 0 10px 2px lightgrey;
+          .triangle{
+            width: 85px;
+            height: 85px;
+            position: absolute;
+            overflow: hidden;
+            right: -35px;
+            float: right;
+            top: -84px;
+            box-shadow: 0 16px 10px -23px rgba(0, 0, 0, 0);
+          }
+          .triangle:after {
+            content: "";
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: #f4f7f9;
+            transform: rotate(45deg); /* Prefixes... */
+            top: 75px;
+            left: 15px;
+            box-shadow: -1px -1px 10px -2px rgba(0, 0, 0, 0.5);
+          }
+          .triangle:hover{
+            background: none;
+            cursor: default;
+          }
+
+
+          .project-info{
+            padding: 10px 20px;
+            background-color: rgb(244, 247, 250);
+            box-shadow: 0px 2px 0px 0px rgba(231, 236, 241, 0.7);
+            width: 100%;
+            margin: 0;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            font-family: 'Font_Open_Sans_Bold';
+          }
+
+          .project-items{
+            .project-image{
+              float: left;
+              height:72px;
+              width:72px;
+              cursor: pointer;
+              background-repeat: no-repeat;
+              background-size: cover ;
+              background-position: center;
+              margin: 0 20px;
+            }
+            .project-details{
+              margin-top: -8px;
+            }
+            button{
+              background-color: $theme-light-blue;
+              color: white;
+              padding:5px 20px;
+            }
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            margin: 0;
+            font-size: 14px;
+          }
+
+
+          li{
+            border-top:1px solid rgba(231, 236, 241, 0.7);
+            padding:22px 50px;
+            display: block;
+            width:100%;
+            font-family: Font_Open_Sans_Regular;
+            line-height: 1.8;
+            text-align: center;
+            margin: 0 8px;
+            cursor: pointer;
+            transition: all ease 0.8s;
+            float: left;
+            &:hover{
+              background-color: #f3f6f8;
+            }
+            p{
+              margin: 0;
+            }
+          }
+          li:hover{
+            background: none;
+          }
+        }
+
+        //img,svg{
+        //  height:15px;
+        //}
+      }
+
       div.gray-cart{
         //width: 44px;
         position: relative;

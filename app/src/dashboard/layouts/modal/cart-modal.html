@@ -1,0 +1,21 @@
+<img  alt="" class="dropdown-toggle" data-toggle="dropdown" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-cart.svg')}}">
+<span class="badge badge-custom-header">33</span>
+
+<ul class="dropdown-menu">
+
+    <li class="triangle"></li>
+    <li class="project-info text-left bold"><span class="theme-pink">{{$root.cartProjects.length}} Projects</span> available in your cart</li>
+    <li class="project-items" ng-repeat="project in $root.cartProjects">
+        <cart-project-directive project="project"></cart-project-directive>
+        <!--<div class="row">-->
+            <!--<img class="col col-sm-4" src="http://placehold.it/500x500">-->
+            <!--<div class="col col-sm-8 text-left project-details">-->
+                <!--<div><span class="bold">Project - Nov 10, 10:45 am</span> <br/>-->
+                    <!--Total: <span class="theme-pink">PKR. 1,450</span></div>-->
+                <!--<button class="btn btn-blue bold">PLACE ORDER</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    </li>
+</ul>
+
+
