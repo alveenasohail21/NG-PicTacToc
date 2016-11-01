@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('photosFactory', photosFactory);
 
-  function photosFactory($rootScope, $q, restFactory, alertFactory, designTool, $timeout){
+  function photosFactory($rootScope, $q, restFactory, alertFactory, designTool, $timeout, websiteFactory){
 
     var _data = {
       photos: [],
@@ -70,24 +70,35 @@
       var queryParams = {
         // base64: true
       };
+      globalLoader.show();
       // TODO: project id should be dynamic
       var projectId = $rootScope.sku;
       restFactory.projects.getSpecificProject(projectId, queryParams)
         .then(function(resp){
           if(resp.success){
-            // merging photos and products
-            if('photos' in resp.data && 'products' in resp.data){
-              resp.data['photos'] = resp.data['photos'].concat(resp.data['products']);
+            // if project is already ordered redirect to website
+            if(resp.data.status == 'Ordered'){
+              alertFactory.warning(null, 'You have already finished this project, please create a new one');
+              $timeout(function(){
+                websiteFactory.gotoProjects();
+              }, 3000);
             }
-            // mapping
-            console.log('AFTER MERGED: ',resp.data);
-            resp.data['photos'] = mapPhotos(resp.data.photos);
-            resp.data['photos'].forEach(function(elem, index){
-              _data.photos.push(angular.copy(elem));
-            });
-            // console.log("DATA IN FACTORY AFTER FETCHING", _data);
-            _data.totalCount = resp.data['totalCount'];
-            deffered.resolve(resp.data);
+            else{
+              // merging photos and products
+              if('photos' in resp.data && 'products' in resp.data){
+                resp.data['photos'] = resp.data['photos'].concat(resp.data['products']);
+              }
+              // mapping
+              console.log('AFTER MERGED: ',resp.data);
+              resp.data['photos'] = mapPhotos(resp.data.photos);
+              resp.data['photos'].forEach(function(elem, index){
+                _data.photos.push(angular.copy(elem));
+              });
+              // console.log("DATA IN FACTORY AFTER FETCHING", _data);
+              _data.totalCount = resp.data['totalCount'];
+              globalLoader.hide();
+              deffered.resolve(resp.data);
+            }
           }
           else{
             // TODO

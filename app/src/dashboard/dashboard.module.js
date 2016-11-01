@@ -45,10 +45,8 @@
                 return photosFactory.getLocalPhotosIfPresent();
               }
               else{
-                $('.global-loader').css('display', 'block');
                 console.log("Fetching PHOTOS", $rootScope.sku);
                 return photosFactory.getSpecificProject().then(function(resp){
-                  $('.global-loader').css('display', 'none');
                   return resp;
                 })
               }
