@@ -151,6 +151,7 @@
       function getCartProjectFunc(){
         restFactory.cart.getCartProjects().then(function(resp){
           if(resp.success){
+            if(resp.data){
             // add sizing
             for(var i=0; i<resp.data.length; i++){
 
@@ -160,6 +161,10 @@
 
               resp.data[i].total_price = calculateTotalPrice(resp.data[i].items);
 
+            }
+            }
+            else{
+              resp.data = [];
             }
 
             globalLoader.hide();
