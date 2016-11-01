@@ -14,13 +14,27 @@
     .run(run);
 
   /* @ngInject */
-  function run($rootScope){
+  function run($rootScope, cartFactory, $timeout){
     // setup the app
     $rootScope.app = {
       isActive: false,     // will be active through router.config.js
       productState: '',
       productTitle: ''
     };
+    $rootScope.triggerGetProjects = triggerGetProjects;
+
+    function triggerGetProjects() {
+      $rootScope.cartProjects = [];
+      $rootScope.hideCartLoader=false;
+      $timeout(function () {
+        cartFactory.getCartProjects().then(function (resp){
+          if(resp.success){
+            $rootScope.cartProjects = (resp.data)?resp.data:[];
+            $rootScope.hideCartLoader=true;
+          }
+        })
+      }, 1500);
+    }
   }
 
   /* @ngInject */
@@ -131,6 +145,7 @@
         }
       );
   }
+
 
 
 

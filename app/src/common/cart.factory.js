@@ -135,7 +135,7 @@
     }
 
     function getCartProjects(){
-      globalLoader.show();
+      // globalLoader.show();
       var deffered = $q.defer();
 
       // firt get pricing
@@ -167,7 +167,7 @@
               resp.data = [];
             }
 
-            globalLoader.hide();
+            // globalLoader.hide();
 
             // TODO: get pricing and add in each project
             deffered.resolve(resp);
@@ -180,7 +180,7 @@
             deffered.reject(resp);
           }
         }, function(err){
-          globalLoader.hide();
+          // globalLoader.hide();
           deffered.reject(err);
         });
       }

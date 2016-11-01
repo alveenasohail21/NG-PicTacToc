@@ -227,7 +227,7 @@ body.app{
         border-radius: 50%;
         background-color: #f4f7f9;
         .dropdown-menu{
-          overflow-y: scroll;
+          overflow-y: auto;
           overflow-x: hidden;
           width: 372px;
           height: 304.5px;

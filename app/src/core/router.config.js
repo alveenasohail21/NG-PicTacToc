@@ -106,23 +106,9 @@
             userFactory.createUserInLocal(response);
             console.log('User saved in local', $rootScope.cartProjects);
 
-            if(!$rootScope.cartProjects){
-              // if not get cartProjects
-              cartFactory.getCartProjects().then(function (resp){
-                  if(resp.success){
-                    $rootScope.cartProjects = (resp.data)?resp.data:[];
-                    console.log("CART PROJECTS: ", $rootScope.cartProjects);
-                    // verify sku and acl check, and then route
-                    skuVerificationAndACLCheck();
-                  }
-                });
-              // debugger;
-            }
-            else{
-              console.log("CART PROJECTS PRESENT");
-              // verify sku and acl check, and then route
-              skuVerificationAndACLCheck();
-            }
+
+            skuVerificationAndACLCheck();
+
 
           });
         }
