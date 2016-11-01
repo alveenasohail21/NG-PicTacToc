@@ -73,6 +73,10 @@
         copyProduct: copyProduct,
         deleteProduct : deleteProduct
       },
+      cart: {
+        getCartProjects: getCartProjects,
+        getPricing: getPricing
+      },
       oneUrl: oneUrl
     };
 
@@ -220,6 +224,13 @@
     function placeOrder(data){
       return Users.one('orders').post(null, data);
     }
+    function getCartProjects() {
+      return Users.one('cart').one('projects').get();
+    }
+    function getPricing() {
+      return Users.one('cart').one('pricing').get();
+    }
+
 
   }
 }());

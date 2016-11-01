@@ -24,6 +24,9 @@
       removeProjectItems: removeProjectItems,
       getSpecificProjectItems: getSpecificProjectItems,
       updateProjectItemQuantity: updateProjectItemQuantity,
+      getCartProjects: getCartProjects,
+      getPricing: getPricing,
+
       _data: _data
     };
 
@@ -116,6 +119,57 @@
       }
       return $rootScope.safeUrlConvert(item.url+ '-' + DefaultItemImageSize + '.' + item.extension);
     }
+
+    function getCartProjects(){
+      globalLoader.show();
+      var deffered = $q.defer();
+      restFactory.cart.getCartProjects().then(function(resp){
+        if(resp.success){
+          globalLoader.hide();
+          // TODO: get pricing and add in each project
+          // if(!_data.pricing){
+          //   resp.data = updateCartProjectPricing(resp.data);
+          // }
+          // else{
+          // call api
+          // on resp update price
+          // }
+          deffered.resolve(resp);
+        }
+        else{
+          // TODO
+          alertFactory.error(null, resp.message);
+          globalLoader.hide();
+          deffered.reject(resp);
+        }
+      }, function(err){
+        globalLoader.hide();
+        deffered.reject(err);
+      });
+      return deffered.promise;
+    }
+
+    function getPricing(){
+      globalLoader.show();
+      var deffered = $q.defer();
+      restFactory.cart.getPricing().then(function(resp){
+        if(resp.success){
+          globalLoader.hide();
+          deffered.resolve(resp);
+        }
+        else{
+          // TODO
+          alertFactory.error(null, resp.message);
+          globalLoader.hide();
+          deffered.reject(resp);
+        }
+      }, function(err){
+        globalLoader.hide();
+        deffered.reject(err);
+      });
+      return deffered.promise;
+    }
+
 
   }
 }());
