@@ -92,6 +92,7 @@
           .then(function(resp){
             if(resp.success){
               _data.projectItems[getItemIndexThroughId(itemId)].quantity = quantity;
+              _data.projectItems = updatePricing(_data.projectType, _data.projectItems);
               alertFactory.success(null , resp.message);
               deferred.resolve(resp);
             }
@@ -136,40 +137,49 @@
     function getCartProjects(){
       globalLoader.show();
       var deffered = $q.defer();
-      restFactory.cart.getCartProjects().then(function(resp){
-        if(resp.success){
-          // add sizing
-          for(var i=0; i<resp.data.length; i++){
 
-            resp.data[i].items = updateItemSizeDetails(resp.data[i].items);
+      // firt get pricing
+      if(!_data.pricing){
+        getPricing().then(function(resp){
+          getCartProjectFunc();
+        })
+      }
+      else{
+        getCartProjectFunc();
+      }
 
-            if(!_data.pricing){
-              getPricing().then(function(resp){
-                resp.data[i].type = updatePricing(resp.data[i]);
-              })
+      function getCartProjectFunc(){
+        restFactory.cart.getCartProjects().then(function(resp){
+          if(resp.success){
+            // add sizing
+            for(var i=0; i<resp.data.length; i++){
+
+              resp.data[i].items = updateItemSizeDetails(resp.data[i].items);
+
+              resp.data[i].items = updatePricing(resp.data[i].type, resp.data[i].items);
+
+              resp.data[i].total_price = calculateTotalPrice(resp.data[i].items);
+
             }
-            else{
-              resp.data[i] = updatePricing(resp.data[i]);
-            }
 
+            globalLoader.hide();
+
+            // TODO: get pricing and add in each project
+            deffered.resolve(resp);
           }
-
+          else{
+            // TODO
+            console.log(resp);
+            alertFactory.error(null, resp.message);
+            globalLoader.hide();
+            deffered.reject(resp);
+          }
+        }, function(err){
           globalLoader.hide();
+          deffered.reject(err);
+        });
+      }
 
-          // TODO: get pricing and add in each project
-          deffered.resolve(resp);
-        }
-        else{
-          // TODO
-          console.log(resp);
-          alertFactory.error(null, resp.message);
-          globalLoader.hide();
-          deffered.reject(resp);
-        }
-      }, function(err){
-        globalLoader.hide();
-        deffered.reject(err);
-      });
       return deffered.promise;
     }
 
@@ -196,6 +206,14 @@
       else{
         return items;
       }
+    }
+
+    function calculateTotalPrice(items){
+      var totalPrice = 0;
+      for(var i=0; i<items.length; i++) {
+        totalPrice += items[i].total_price;
+      }
+      return totalPrice;
     }
 
     function getPricing(){

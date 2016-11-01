@@ -111,17 +111,19 @@
               cartFactory.getCartProjects().then(function (resp){
                   if(resp.success){
                     $rootScope.cartProjects = (resp.data)?resp.data:[];
-                    console.log("PROJECTS: ", $rootScope.cartProjects);
-                    // $state.go(toState.name);
+                    console.log("CART PROJECTS: ", $rootScope.cartProjects);
+                    // verify sku and acl check, and then route
+                    skuVerificationAndACLCheck();
                   }
                 });
               // debugger;
             }
             else{
-              // $state.go(toState.name);
+              console.log("CART PROJECTS PRESENT");
+              // verify sku and acl check, and then route
+              skuVerificationAndACLCheck();
             }
-            // verify sku and acl check, and then route
-            skuVerificationAndACLCheck();
+
           });
         }
         // if exists
