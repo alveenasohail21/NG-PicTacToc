@@ -1,0 +1,21 @@
+<!-- Add Project MODAL -->
+<div class="modal web modal-custom fade general-modal" id="messageModal" role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+
+      <div class="modal-header logo-center">
+        <h3 class="modal-heading">{{$root.messageModal.heading}}</h3>
+        <button type="button" class="close button-cross" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <button type="button" class="btn btn-cancel font-myriad-bold" data-dismiss="modal" ng-if="$root.messageModal.showLeftBtn" ng-click="$root.messageModal.leftBtnClick()">{{$root.messageModal.leftBtnText}}</button>
+        <button type="button" class="btn btn-confirm font-myriad-bold" data-dismiss="modal" ng-click="$root.messageModal.rightBtnClick()">{{$root.messageModal.rightBtnText}}</button>
+      </div>
+
+
+    </div>
+  </div>
+</div>
