@@ -155,11 +155,13 @@
           }
 
           globalLoader.hide();
+
           // TODO: get pricing and add in each project
           deffered.resolve(resp);
         }
         else{
           // TODO
+          console.log(resp);
           alertFactory.error(null, resp.message);
           globalLoader.hide();
           deffered.reject(resp);
