@@ -591,20 +591,12 @@
       if(stateName.indexOf('Upload')>=0){
         $state.go(stateName, params);
       }
-      else if(stateName.indexOf('Design')>=0){
+      else if(stateName.indexOf('Design')>=0 || stateName.indexOf('Checkout')>=0){
         if(vm.myPhotos.length<$rootScope.imageConstraints.minPhotoForProduct){
           alertFactory.warning(null, "You need to have at least "+$rootScope.imageConstraints.minPhotoForProduct+" photos in order to proceed");
         }
         else if(vm.noOfFilesUploading>0){
           alertFactory.warning(null, "Please wait for the upload to finish");
-        }
-        else{
-          $state.go(stateName, params);
-        }
-      }
-      else if(stateName.indexOf('Checkout')>=0){
-        if(vm.myPhotos.length<$rootScope.imageConstraints.minPhotoForProduct){
-          alertFactory.warning(null, "You need to have at least "+$rootScope.imageConstraints.minPhotoForProduct+" photos in order to proceed");
         }
         else{
           $state.go(stateName, params);

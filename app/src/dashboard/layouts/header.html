@@ -76,11 +76,11 @@
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
           <!-- ui-sref="{{$root.app.productState + '.Checkout'}}" -->
-          <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateName=='Design'" ng-disabled="true">
+          <span class="btn ptt-btn-blue ptt-uppercase"  ng-if="$root.stateName=='Design'" ng-click="vm.nextStep('Checkout')">
                         <span class="btn-text" >Continue</span>
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </span>
-          <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateName=='Checkout'">
+          <span class="btn ptt-btn-blue ptt-uppercase" ng-if="$root.stateName=='Checkout'" ng-click="vm.nextStep('PlaceOrder')">
                         <span class="btn-text">Checkout</span>
             <!--<i class="glyphicon glyphicon-chevron-right"></i>-->
                     </span>
@@ -108,10 +108,15 @@
           <!--<object  type="image/svg+xml" data="svgs/gray-cart.svg"></object>-->
           <!--<img class="" type="image/svg+xml" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-cart.svg')}}">-->
           <!--<span class="badge badge-custom-header">33</span>-->
-          <span class="cart-include" ng-include="'src/dashboard/layouts/modal/cart-modal.html'"></span>
+          <span class="cart-include" ng-include="'src/dashboard/modals/cart-modal.html'"></span>
         </div>
       </div>
 
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+
+<div ng-include="'src/dashboard/modals/confirmOrder.html'"></div>
+
+<div ng-include="'src/dashboard/modals/message-modal.html'"></div>

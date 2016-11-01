@@ -92,13 +92,19 @@
       globalLoader.show();
       userFactory.getUserShippingDetails().then(function (response) {
         if(response){
+          console.log('inside if');
           vm.isShippingDetailPresent = true;
           vm.shippingDetails = response;
           globalLoader.hide();
           openConfirmOrderModal();
         }
         else{
+          console.log('inside else');
           vm.isShippingDetailPresent = false;
+          vm.shippingDetails = {};
+          globalLoader.hide();
+          editDetails();
+          openConfirmOrderModal();
         }
       });
     }
@@ -132,8 +138,9 @@
               }
             };
             $('#confirmOrderModal').modal('hide');
-            $('#messageModal').modal({
-              keyboard: true
+            $('#messageModal').modal();
+            $('#messageModal').on('hidden.bs.modal', function () {
+              websiteFactory.goToOrderHistory(resp.data.order_id);
             })
           }
         })

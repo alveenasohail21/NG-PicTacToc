@@ -18,6 +18,9 @@ Modal : Start
               <span ng-click="vm.editDetails()" ng-if="vm.isShippingDetailPresent">
                 <i class="fa fa-pencil" aria-hidden="true"></i> Edit
               </span>
+              <span ng-if="!vm.isShippingDetailPresent">
+                (Please add shipping info)
+              </span>
             </h4>
 
             <div class="shipping-details" ng-if="!vm.editShippingDetails">

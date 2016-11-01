@@ -81,6 +81,12 @@
     }
 
     function nextStep(stateName){
+
+      if(stateName == 'PlaceOrder'){
+        proceedToCheckout();
+        return;
+      }
+
       var isLocalhost = (window.location.origin.indexOf('localhost') >= 0);
       var params = (isLocalhost)?({sku: $rootScope.sku}):null;
       // go to state
@@ -100,7 +106,7 @@
     }
 
     function continueDesign(){
-      nextStep('Upload');
+      nextStep('Design');
     }
 
     function gotoProjects() {
