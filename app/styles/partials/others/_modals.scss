@@ -127,6 +127,19 @@
         text-align: center;
         margin: 21px 0;
         padding: 26px;
+
+        &.social-buttons {
+          font-size: 24px;
+          i{
+            padding-right: 15px;
+            font-size: 24px;
+          }
+          .btn {
+            padding: 6px 48px;
+            color: white;
+            font-size: 18px;
+          }
+        }
       }
 
     }

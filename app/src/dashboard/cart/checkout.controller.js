@@ -123,6 +123,18 @@
           // TODO: show success in modal
           if(resp.success){
             // websiteFactory.goToOrderHistory(resp.data.order_id);
+            $rootScope.messageModal = {
+              heading: 'Thank you for using Pictaktoe, your order will be delivered to you soon.',
+              rightBtnText: 'Done',
+              showLeftBtn: false,
+              rightBtnClick: function(){
+                websiteFactory.goToOrderHistory(resp.data.order_id);
+              }
+            };
+            $('#confirmOrderModal').modal('hide');
+            $('#messageModal').modal({
+              keyboard: true
+            })
           }
         })
     }
