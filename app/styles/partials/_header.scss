@@ -218,7 +218,7 @@ body.app{
         border-color: rgb(231, 236, 240);
         border-radius: 50%;
         background-color: rgb(244, 247, 249);
-        padding: 9px;
+        //padding: 9px;
       }
       div.cart{
         border-style: solid;
@@ -335,6 +335,7 @@ body.app{
         position: relative;
         object, img{
           height: 100%;
+          padding:8px;
         }
         .badge-custom-header{
           position: absolute;
