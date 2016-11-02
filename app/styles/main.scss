@@ -2,19 +2,14 @@
 App Style
 */
 @import 'partials/base/global';
+@import 'partials/base/typography';
 @import 'partials/header';
 @import 'partials/others/ptt-lightSlider';
 @import 'partials/others/app-others';
+@import 'partials/others/modals';
 @import 'partials/webapp-step1';
 @import 'partials/webapp-step2';
 @import 'partials/webapp-step2-b';
 @import 'partials/webapp-step3';
 @import 'partials/others/filmstrip';
 @import 'partials/media-queries/media-queries';
-/*
-Not App Style
-*/
-@import 'partials/others/others';
-@import 'partials/login';
-@import 'partials/signup';
-@import 'partials/dashboard';

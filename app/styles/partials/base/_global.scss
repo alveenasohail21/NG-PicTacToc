@@ -13,6 +13,10 @@ $btn-bkg-color: #65e0e4;
 $progress-bar-color: #65e0e4;
 $progress-bar-bkg-color: #ffffff;
 $thumbnail-border-color: #65e0e4;
+$theme-light-blue: #65e0e4;
+$black-font-color: #333;
+$pink-font-color: #df92b1;
+
 $body-bkg-color: #f4f7f9;
 
 $body-bkg-color-1: #f4f7f9;
@@ -266,6 +270,29 @@ body.app {
     max-height: 300px;
     opacity: 1;
   }
+
+
+  .header-dropdown-menu{
+    border-radius: 4px;
+    right: auto;
+    top: 64px;
+    li{
+      display: block;
+      height: 40px;
+      font-family: Font_Open_Sans_Regular;
+      line-height: 2.8;
+      text-align: center;
+      margin: 0 8px;
+      cursor: pointer;
+      transition: all ease 0.8s;
+      &:hover{
+        background-color: #f3f6f8;
+      }
+    }
+  }
+
+
+
   // ng-view
   //.view-animate {
   //  //padding:10px;
@@ -427,6 +454,20 @@ body.app {
     position: absolute;
 
   }
+  img.directive-loader{
+    position: absolute;
+    width: 80px;
+    top: 50%;
+    left: 50%;
+    animation: loader 0.82s cubic-bezier(.36,.07,.19,.97) infinite;
+    height: auto !important;
+    margin-left: -40px;
+    margin-top: -40px;
+    z-index: 1;
+    &.hide-loader{
+      display: none;
+    }
+  }
 
   img.filter-loader{
     position: absolute;
@@ -437,6 +478,18 @@ body.app {
     margin-left: -10px;
     animation: loader 0.82s cubic-bezier(.36,.07,.19,.97) infinite;
   }
+  .cart-loader-div{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    top: 0;
+    left: 0;
+    &.hide-loader{
+      display: none;
+    }
+  }
+
 
 
   /*

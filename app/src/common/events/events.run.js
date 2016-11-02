@@ -10,7 +10,7 @@
     .module('app.common')
     .run(events);
 
-  function events($rootScope, photosFactory, userFactory, cropperFactory, pttInstagram, pttFBFactory, alertFactory){
+  function events($rootScope, photosFactory, userFactory, pttInstagram, pttFBFactory, alertFactory){
 
     /* ALL $ROOTSCOPE EVENTS WILL BE CAPTURED HERE */
 

@@ -46,20 +46,23 @@ body.app{
         margin: 0 10px;
         padding-top: 8px;
       }
-      .edit-order{
-        color: $view-history-color;
-        font-family: Font_Open_Sans_Bold;
-      }
-      .view-history{
-        color: $view-history-color;
-        font-family: Font_Open_Sans_Bold;
-      }
-      span.active{
+      .edit-order, .view-history{
+
+        a{
+          color: $view-history-color !important;
+          font-family: Font_Open_Sans_Bold;
+          text-decoration: none;
+
+          &.active{
+            color: #65e0e4 !important;
+            &.underline{
+              text-decoration: underline;
+            }
+          }
+        }
 
       }
-      a{
-        text-decoration: underline;
-      }
+
       a.active, a:hover, a:focus, a:active {
         text-decoration: none;
         color: $anchor-dark-hover;
@@ -123,6 +126,23 @@ body.app{
           transform: rotate(-10deg);
         }
         div.square:nth-child(4){
+        }
+
+        .badge-custom{
+          position: absolute;
+          top: 57px;
+          left: 50%;
+          z-index: 1000;
+          border-radius: 100%;
+          /* padding: 13px 18px; */
+          font-size: 26px;
+          text-align: center;
+          width: 50px;
+          height: 50px;
+          padding-top: 12px;
+          background-color: #65e0e4;
+          font-family: Font_Open_Sans_Bold;
+          margin-left: 105px;
         }
       }
       // Animation
@@ -249,100 +269,4 @@ body.app{
     }
   }
 
-  /*
-  Confirm Modal
-  */
-  #step3-confirm-modal{
-    top: 80px;
-    .modal-dialog{
-      //margin: 50px 212px 50px 181px;
-      margin: 50px 14.7% 50px 12.5%;
-      width: auto;
-      .btn-close{
-        position: absolute;
-        right: -26px;
-        background: white;
-        padding: 6px 8px;
-        border: none;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
-        i{
-          color: $body-bkg-color-2;
-        }
-      }
-    }
-    .modal-content{
-      background-color: rgb(255,255,255);
-      border: none;
-      box-shadow: none;
-      border-radius: 0px;
-      .modal-body{
-        padding: 0 78px;
-        .details{
-          border-right: 1.114px solid rgb(203, 206, 208);
-          padding-top: 7px;
-          padding-bottom: 7px;
-          label{
-            color: $form-input-text-color;
-            font-weight: normal;
-            font-family: Font_Open_Sans_Regular;
-            font-size: 17px;
-          }
-          form{
-            padding: 12px 0;
-            div{
-              padding: 0;
-              padding-right: 21px;
-            }
-            .form-group{
-              margin-bottom: 8px;
-            }
-            input{
-              border-color: rgb(203, 206, 208);
-              border-style: solid;
-              border-radius: 5px;
-              height: 52px;
-            }
-            .btn-submit{
-              padding: 12px 21px;
-              font-size: 16px;
-              margin-top: 10px;
-              margin-bottom: 8px;
-            }
-          }
-        }
-        .summary{
-          padding-top: 7px;
-          padding-bottom: 7px;
-          padding-left: 34px;
-          .summary-table{
-            margin-top: 53px;
-            .row{
-              padding: 5px 0;
-            }
-            div{
-              padding: 0;
-              color: $form-input-text-color;
-              font-weight: normal;
-              font-family: Font_Open_Sans_Regular;
-              font-size: 17px;
-            }
-            .total-row{
-              margin-top: 16px;
-              border-top: 1.114px solid rgb(203, 206, 208);
-              .total{
-                font-family: Font_Open_Sans_Bold;
-              }
-            }
-          }
-        }
-        h3{
-          color: #59626a;
-          font-family: Font_Open_Sans_Bold;
-          font-size: 20px;
-          letter-spacing: -0.5px;
-        }
-      }
-    }
-  }
 }

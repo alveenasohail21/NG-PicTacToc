@@ -12,7 +12,9 @@
     .controller('webappStep1Ctrl', webappStep1Ctrl);
 
   /* @ngInject */
-  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, pttGoogleFactory, authFactory, userFactory, photosFactory, $rootScope, uploadFactory, alertFactory, $state){
+  function webappStep1Ctrl($timeout, pttFBFactory, pttInstagram, pttGoogleFactory,
+                           authFactory, userFactory, photosFactory,
+                           $rootScope, uploadFactory, alertFactory, $state, websiteFactory){
 
     var vm = this;
 
@@ -20,7 +22,6 @@
      * Debug mode
      * */
     vm.debug = false;
-
     /*
      * Variables
      * */
@@ -90,6 +91,8 @@
     vm.socialDisconnect = socialDisconnect;
     vm.nextStep = nextStep;
     vm.abortUploading=abortUploading;
+    vm.gotoProjects=gotoProjects;
+    vm.logout=logout;
 
 
     /*
@@ -100,12 +103,15 @@
       // console.log(vm.showAlbumOrPhotos);
       // console.log(vm.uploadCategory);
       manipulateDOM();
-      loadMoreMyPhotos();
-      if(location.href.indexOf('?platform=')!=-1){
-        var platformInUrl = location.href.indexOf('?platform=');
-        var offset = 10;
-        changeUploadCategory(location.href.substr(platformInUrl+offset));
-      }
+      // loadMoreMyPhotos();
+      // if(location.href.indexOf('?platform=')!=-1){
+      //   var platformInUrl = location.href.indexOf('?platform=');
+      //   var offset = 10;
+      //   changeUploadCategory(location.href.substr(platformInUrl+offset));
+      // }
+
+      changeUploadCategory(vm.uploadCategory);
+
     }
 
     // changing upload category
@@ -118,7 +124,7 @@
       // empty all data - update-> don't discard upload files
       //vm.filesToUpload = [];
       // update url
-      updateHref();
+      // updateHref();
       // all login to false
       vm.fbLogin = false;
       vm.instagramLogin = false;
@@ -191,9 +197,9 @@
 
     // update href
     function updateHref(){
-      var currentHref = location.href.substr(0, (location.href.indexOf('?')!=-1)?location.href.indexOf('?'):location.href.length);
-      currentHref+="?platform="+vm.uploadCategory;
-      location.href=currentHref;
+      // var currentHref = location.href.substr(0, (location.href.indexOf('?')!=-1)?location.href.indexOf('?'):location.href.length);
+      // currentHref+="?platform="+vm.uploadCategory;
+      // location.href=currentHref;
     }
 
     /************************************* SOCIAL AUTH *************************************/
@@ -342,7 +348,7 @@
             turnOffLoader();
           });
         },function (err) {
-         socialDisconnect('google');
+          socialDisconnect('google');
           alertFactory.error(null, "Your Session is Expired. Please login again");
         })
     }
@@ -540,9 +546,9 @@
       });
     }
 
-    //delete selected photo
-    function deletePhoto(id, index){
-      photosFactory.deletePhoto(id, index);
+    //delete selected photo/product
+    function deletePhoto(id){
+      photosFactory.deleteProjectPhotoOrProduct(id);
     }
 
     /************************************* MANIPULATE DOM *************************************/
@@ -582,15 +588,22 @@
 
     /***************/
     function nextStep(stateName){
+      var isLocalhost = (window.location.origin.indexOf('localhost') >= 0);
+      var params = (isLocalhost)?({sku: $rootScope.sku}):null;
       // console.log(stateName);
-      if(vm.myPhotos.length<$rootScope.imageConstraints.minPhotoForProduct){
-        alertFactory.warning(null, "You need to have at least "+$rootScope.imageConstraints.minPhotoForProduct+" photos in order to proceed");
+      if(stateName.indexOf('Upload')>=0){
+        $state.go(stateName, params);
       }
-      else if(vm.noOfFilesUploading>0){
-        alertFactory.warning(null, "Please wait for the upload to finish");
-      }
-      else{
-        $state.go(stateName);
+      else if(stateName.indexOf('Design')>=0 || stateName.indexOf('Checkout')>=0){
+        if(vm.myPhotos.length<$rootScope.imageConstraints.minPhotoForProduct){
+          alertFactory.warning(null, "You need to have at least "+$rootScope.imageConstraints.minPhotoForProduct+" photos in order to proceed");
+        }
+        else if(vm.noOfFilesUploading>0){
+          alertFactory.warning(null, "Please wait for the upload to finish");
+        }
+        else{
+          $state.go(stateName, params);
+        }
       }
     }
 
@@ -611,6 +624,14 @@
      * Call Constructor
      * */
     vm.init();
+
+    function gotoProjects() {
+      websiteFactory.gotoProjects();
+    }
+
+    function logout() {
+      websiteFactory.logout();
+    }
 
   }
 

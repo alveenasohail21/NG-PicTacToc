@@ -1,0 +1,17 @@
+<img  alt="" class="dropdown-toggle" data-toggle="dropdown" ng-click="$root.triggerGetProjects()" ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-cart.svg')}}">
+<!--<span class="badge badge-custom-header">33</span>-->
+
+<ul class="dropdown-menu">
+  <div class="cart-loader-div cart-div" ng-class="{'hide-loader': $root.hideCartLoader}">
+    <img src="svgs/ptt-loader.svg" class="directive-loader" >
+  </div>
+  <li class="triangle"></li>
+    <li class="project-info text-left bold"><span class="theme-pink">{{$root.cartProjects.length}} Projects</span> available in your cart</li>
+    <li class="project-items" ng-repeat="project in $root.cartProjects">
+        <cart-project-directive project="project"></cart-project-directive>
+
+
+    </li>
+</ul>
+
+

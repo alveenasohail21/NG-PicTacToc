@@ -28,6 +28,7 @@
     /////////////////////
 
     function link(scope, element, attrs, ngModel){
+      scope.svgImage = 1;
       var dropdownElement=$('#ptt-dropdown-color');
       var themeBase="ptt-dropdown-color-";
       var initialTheme=$localStorage.theme || 1;

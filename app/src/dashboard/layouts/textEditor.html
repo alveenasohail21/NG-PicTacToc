@@ -45,6 +45,6 @@
             </div>
         </div>
         <div class="vertical-partition"></div>
-        <button type="button" class="btn btn-delete" ng-click="vm.deleteSelectedObject();"><img src="svgs/gray-delete-{{svgImage}}.svg" alt=""></button>
+        <button type="button" class="btn btn-delete" ng-click="vm.deleteSelectedObject();"><img ng-src="{{$root.safeTemplateUrlConvert('svgs/gray-delete-'+svgImage+'.svg')}}" alt=""></button>
     </div>
 </div>

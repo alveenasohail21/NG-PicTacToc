@@ -1,0 +1,116 @@
+<!--
+Modal : Start
+-->
+<div class="modal fade" id="confirmOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="checkoutCtrl as vm">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <button class="btn-close" data-dismiss="modal" aria-label="Close">
+        <i class="glyphicon glyphicon-remove"></i>
+      </button>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-7 details">
+
+            <h3>Confirm Your Order</h3>
+
+            <h4 class="sub-heading">
+              Shipping Details
+              <span ng-click="vm.editDetails()" ng-if="vm.isShippingDetailPresent">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+              </span>
+              <span ng-if="!vm.isShippingDetailPresent">
+                (Please add shipping info)
+              </span>
+            </h4>
+
+            <div class="shipping-details" ng-if="!vm.editShippingDetails">
+              <p>{{vm.shippingDetails.first_name}}</p>
+              <p>{{vm.shippingDetails.last_name}}</p>
+              <p>{{vm.shippingDetails.full_address}}</p>
+              <p>{{vm.shippingDetails.city}}</p>
+              <p>{{vm.shippingDetails.postal_code}}</p>
+            </div>
+
+            <form name="shippingForm" ng-if="vm.editShippingDetails">
+
+              <div class="form-group col-md-6" ng-class="{ 'has-error': shippingForm.shipping_firstname.$touched && shippingForm.shipping_firstname.$invalid }">
+                <label for="shipping_firstname">First Name</label>
+                <input type="text" name="shipping_firstname" placeholder="First Name" ng-model="vm.shippingDetails.first_name" class="username form-control" id="shipping_firstname" required>
+                <div ng-messages="shippingForm.shipping_firstname.$error" ng-if="shippingForm.shipping_firstname.$touched" class="text-danger">
+                  <p ng-message="required" ng-if="shippingForm.shipping_firstname.$error.required">First name is required</p>
+                </div>
+              </div>
+              <div class="form-group col-md-6" ng-class="{ 'has-error': shippingForm.shipping_lastname.$touched && shippingForm.shipping_lastname.$invalid }">
+                <label for="shipping_lastname">Last Name</label>
+                <input type="text" name="shipping_lastname" placeholder="Last Name" ng-model="vm.shippingDetails.last_name" class="email form-control" id="shipping_lastname" required>
+                <div ng-messages="shippingForm.shipping_lastname.$error" ng-if="shippingForm.shipping_lastname.$touched" class="text-danger">
+                  <p ng-message="required" ng-if="shippingForm.shipping_lastname.$error.required">Last Name is required</p>
+                </div>
+              </div>
+              <div class="form-group col-md-12" ng-class="{ 'has-error': shippingForm.shipping_address.$touched && shippingForm.billing_address.$invalid }">
+                <label for="shipping_address">Address Line 1</label>
+                <input type="text" name="shipping_address" placeholder="Address Line 1" ng-model="vm.shippingDetails.full_address" class="address form-control" id="shipping_address" required>
+                <div ng-messages="shippingForm.shipping_address.$error" ng-if="shippingForm.shipping_address.$touched" class="text-danger">
+                  <p ng-message="required" ng-if="shippingForm.shipping_address.$error.required">Address is required</p>
+                </div>
+              </div>
+              <div class="form-group col-md-6" ng-class="{ 'has-error': shippingForm.shipping_city.$touched && shippingForm.shipping_city.$invalid }">
+                <label for="shipping_city">Town/City</label>
+                <input type="text" name="shipping_city" placeholder="Town/City" ng-model="vm.shippingDetails.city" class="city form-control" id="shipping_city" required>
+                <div ng-messages="shippingForm.shipping_city.$error" ng-if="shippingForm.shipping_city.$touched" class="text-danger">
+                  <p ng-message="required" ng-if="shippingForm.shipping_city.$error.required">Town/City is required</p>
+                </div>
+              </div>
+              <div class="form-group col-md-6" ng-class="{ 'has-error': shippingForm.shipping_postal.$touched && shippingForm.shipping_postal.$invalid }">
+                <label for="shipping_postal">Postal Code</label>
+                <input type="text" ng-pattern="/^[0-9]{1,10}$/" name="shipping_postal" placeholder="Postal Code" ng-model="vm.shippingDetails.postal_code" class="postal form-control" id="shipping_postal" required>
+                <div ng-messages="shippingForm.shipping_postal.$error" ng-if="shippingForm.shipping_postal.$touched" class="text-danger">
+                  <p ng-message="required" ng-if="shippingForm.shipping_postal.$error.required">Postal Code is required</p>
+                  <p ng-message="number" ng-if="shippingForm.shipping_postal.$error.number">Invalid Postal Code</p>
+                  <p ng-message="pattern" ng-if="shippingForm.shipping_postal.$error.pattern">Invalid Pattern</p>
+                </div>
+              </div>
+
+              <div class="col-md-12 form-group" style="margin-bottom: 30px;">
+                <button class="btn btn-cancel ptt-uppercase" ng-click="vm.editDetails()">
+                  <span class="btn-text">Cancel</span>
+                </button>
+                <button class="btn btn-confirm ptt-uppercase" ng-disabled="shippingForm.$invalid" ng-click="vm.confirmShipping(shippingForm)">
+                  <span class="btn-text">Save</span>
+                </button>
+              </div>
+
+            </form>
+
+            <div class="col-md-12 form-group" ng-if="vm.isShippingDetailPresent && !vm.editShippingDetails" style="padding-left: 0;">
+              <button class="btn ptt-btn-blue ptt-uppercase btn-submit" ng-click="vm.placeOrder()">
+                <span class="btn-text">Confirm Order</span>
+              </button>
+            </div>
+
+          </div>
+          <div class="col-md-5 summary">
+            <h3>Summary</h3>
+            <div class="summary-table">
+
+              <div class="row" ng-repeat="list in vm.list track by $index">
+                <div class="col-xs-3 text-center">{{list}}</div>
+                <div class="col-xs-5 text-center">PKR. {{vm.listItems[list].unit_price}}</div>
+                <div class="col-xs-1 text-center">{{vm.listItems[list].quantity}}</div>
+                <div class="col-xs-3 text-center">PKR. {{vm.listItems[list].total_price}}</div>
+              </div>
+              <div class="row total-row">
+                <div class="col-xs-8 text-right total">Total &nbsp;</div>
+                <div class="col-xs-1 text-center">{{vm.total.quantity}}</div>
+                <div class="col-xs-3 text-center">PKR. {{vm.total.price}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+Modal : End
+-->

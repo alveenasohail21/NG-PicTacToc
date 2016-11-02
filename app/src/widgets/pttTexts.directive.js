@@ -130,7 +130,7 @@
             $("head").prepend("<style type=\"text/css\">" +
               "@font-face {\n" +
               "\tfont-family: \""+ textToLoad.name +"\";\n" +
-              "\tsrc: url('"+ textToLoad.url +"');\n" +
+              "\tsrc: url('"+ safeTemplateUrlConvert(textToLoad.url) +"');\n" +
               "}\n" +
               "\t.font-"+ textToLoad.name +" {\n" +
               "\tfont-family: "+ textToLoad.name +" !important;\n" +

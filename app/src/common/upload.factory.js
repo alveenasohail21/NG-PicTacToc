@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('uploadFactory', uploadFactory);
 
-  function uploadFactory(API_URL, Upload, $localStorage, photosFactory, restFactory){
+  function uploadFactory(API_URL, Upload, $localStorage, photosFactory, restFactory, $rootScope){
 
     var _data = {
       // device list
@@ -83,11 +83,13 @@
       // console.log("uploading file from upload Factory: ", _data.deviceFiles[index]);
       // added here only for progress :/
       if (file) {
+          console.log('sending file with projectId');
         var upload = Upload.upload({
           method: 'POST',
           url: url,
           data: {
-            files: [file]
+            files: [file],
+            'projectId': $rootScope.sku
           },
           // timeout: canceler[index].promise,
           headers: {

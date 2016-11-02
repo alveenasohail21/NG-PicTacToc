@@ -10,7 +10,7 @@
     .module('app.common')
     .factory('photosFactory', photosFactory);
 
-  function photosFactory($rootScope, $q, restFactory, alertFactory, designTool){
+  function photosFactory($rootScope, $q, restFactory, alertFactory, designTool, $timeout, websiteFactory){
 
     var _data = {
       photos: [],
@@ -31,18 +31,16 @@
 
     /* Return Functions */
     return {
-      getPhotos: getPhotos,
-      uploadPhotos: uploadPhotos,
+      getSpecificProject: getSpecificProject,
       mapPhotos: mapPhotos,
-      deletePhoto: deletePhoto,
-      copyPhoto: copyPhoto,
+      deleteProjectPhotoOrProduct: deleteProjectPhotoOrProduct,
+      copyProjectPhotoOrProduct: copyProjectPhotoOrProduct,
       mapSocialPhotos: mapSocialPhotos,
       getLocalPhotosIfPresent: getLocalPhotosIfPresent,
       getSelectedPhoto: getSelectedPhoto,
-      sendEditedImage:sendEditedImage,
+      getSelectedPhotoForLayout: getSelectedPhotoForLayout,
       addPhotoToLocal: addPhotoToLocal,
       removePhotosFromLocal: removePhotosFromLocal,
-      loadOriginalImages: loadOriginalImages,
       _data: _data
     };
 
@@ -56,31 +54,51 @@
       if(photo){
         $('.ptt-lightSlider').css('opacity', 0);
         _data.photos.push(photo);
+        console.log('After Pushing: ',_data.photos);
       }
     }
 
     function removePhotosFromLocal(){
-      // console.log("removing local factory data ****************");
-      _data = {
-        photos: [],
-        totalCount: 0
-      };
+      console.log("removing local factory data ****************");
+      _data.photos = [];
+      _data.totalCount = 0;
       // console.log("REMOVED FROM FACTORY", _data);
     }
 
-    function getPhotos(queryParams) {
+    function getSpecificProject() {
       var deffered = $q.defer();
-      var data = queryParams || defaultQueryParams;
-      restFactory.photos.getPhotos(data)
+      var queryParams = {
+        // base64: true
+      };
+      globalLoader.show();
+      // TODO: project id should be dynamic
+      var projectId = $rootScope.sku;
+      restFactory.projects.getSpecificProject(projectId, queryParams)
         .then(function(resp){
           if(resp.success){
-            resp.data['photos'] = mapPhotos(resp.data.photos);
-            resp.data['photos'].forEach(function(elem, index){
-              _data.photos.push(angular.copy(elem));
-            });
-            // console.log("DATA IN FACTORY AFTER FETCHING", _data);
-            _data.totalCount = resp.data['totalCount'];
-            deffered.resolve(resp.data);
+            // if project is already ordered redirect to website
+            if(resp.data.status == 'Ordered'){
+              alertFactory.warning(null, 'You have already finished this project, please create a new one');
+              $timeout(function(){
+                websiteFactory.gotoProjects();
+              }, 3000);
+            }
+            else{
+              // merging photos and products
+              if('photos' in resp.data && 'products' in resp.data){
+                resp.data['photos'] = resp.data['photos'].concat(resp.data['products']);
+              }
+              // mapping
+              console.log('AFTER MERGED: ',resp.data);
+              resp.data['photos'] = mapPhotos(resp.data.photos);
+              resp.data['photos'].forEach(function(elem, index){
+                _data.photos.push(angular.copy(elem));
+              });
+              // console.log("DATA IN FACTORY AFTER FETCHING", _data);
+              _data.totalCount = resp.data['totalCount'];
+              globalLoader.hide();
+              deffered.resolve(resp.data);
+            }
           }
           else{
             // TODO
@@ -94,140 +112,130 @@
       return deffered.promise;
     }
 
-    function uploadPhotos() {
-
-    }
-
-    //delete selected photo in step 1
-    function deletePhoto(id, index) {
+    //delete selected photo/product in step 1
+    function deleteProjectPhotoOrProduct(photoId) {
       var deferred = $q.defer();
       // Prints step 2
       $('.collapse-loader').css('display', 'block');
       // Prints step 1
-      _data.photos[index].deleting = true;
-      restFactory.photos.deletePhoto(id)
+      _data.photos[getPhotoIndexThroughId(photoId)].deleting = true;
+      // TODO: project id should be dynamic
+      var projectId = $rootScope.sku;
+      restFactory.projects.deleteProjectPhotoOrProduct(projectId, photoId)
         .then(function(resp){
           if(resp.success){
-            $('.ptt-lightSlider').css('opacity', 0);
-            _data.photos.splice(index, 1);
-            _data.totalCount--;
+            $timeout(function() {
+              $('.ptt-lightSlider').css('opacity', 0);
+              _data.photos.splice(getPhotoIndexThroughId(photoId), 1);
+              _data.totalCount--;
+              $('.collapse-loader').css('display', 'none');
+            });
             alertFactory.success(null , resp.message);
             deferred.resolve(resp);
           }
           else{
             alertFactory.error(null, resp.message);
+            _data.photos[getPhotoIndexThroughId(photoId)].deleting = false;
+            $('.collapse-loader').css('display', 'none');
+            deferred.reject(resp);
           }
-          $('.collapse-loader').css('display', 'none');
+        }, function(err){
+          alertFactory.error(null, err.data.message);
+          _data.photos[getPhotoIndexThroughId(photoId)].deleting = false;
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+    function copyProjectPhotoOrProduct(photoId) {
+      console.log(getPhotoIndexThroughId(photoId));
+      var deferred = $q.defer();
+      // Prints step 2
+      $('.collapse-loader').css('display', 'block');
+      // Prints step 1
+      _data.photos[getPhotoIndexThroughId(photoId)].copying = true;
+      // TODO: project id should be dynamic
+      var projectId = $rootScope.sku;
+      restFactory.projects.copyProjectPhotoOrProduct(projectId, photoId)
+        .then(function(resp){
+          if(resp.success){
+            _data.photos[getPhotoIndexThroughId(photoId)].copying = false;
+            var newPhoto = resp.data;
+            $timeout(function(){
+              // add the new photo
+              _data.photos.splice(getPhotoIndexThroughId(photoId), 0, newPhoto);
+              _data.totalCount++;
+              $('.collapse-loader').css('display', 'none');
+            });
+            alertFactory.success(null , resp.message);
+            deferred.resolve(resp);
+          }
+          else{
+            alertFactory.error(null, resp.message);
+            _data.photos[getPhotoIndexThroughId(photoId)].copying = false;
+            $('.collapse-loader').css('display', 'none');
+            deferred.reject(resp);
+          }
+        }, function(err){
+          alertFactory.error(null, err.data.message);
+          _data.photos[getPhotoIndexThroughId(photoId)].deleting = false;
+          deferred.reject(err);
         });
       return deferred.promise;
     }
 
     //get a photo selected
     // by user in original size in step 2
-    function getSelectedPhoto(id, index) {
+    function getSelectedPhoto(photoId, index) {
       var deferred = $q.defer();
-      var isPresentInContainer = false;
       $('.global-loader').css('display', 'block');
-      for(var i=0; i<originalPhotosContainer.length; i++){
-        if(originalPhotosContainer[i].id == id){
-          deferred.resolve(originalPhotosContainer[i]);
-          $('.global-loader').css('display', 'none');
-          isPresentInContainer = true;
-          break;
+      // TODO: project id should be dynamic
+      var projectId = $rootScope.sku;
+      restFactory.projects.getProjectSelectedPhotoOrProduct(projectId, photoId).then(function(resp){
+        if(resp.success){
+          removeHighResBase64AndCanvasJSONFromAllPhotos();
+          if(resp.data.isProduct){
+            // add data url in resp
+            resp.data.canvasDataUrl = _data.photos[index].canvasDataUrl;
+            // add canvasJSON in data
+            _data.photos[index].canvasJSON = resp.data.canvasJSON;
+            // add photos
+            _data.photos[index].photos = resp.data.photos;
+            // update url
+            _data.photos[index].url = resp.data.url;
+          }
+          console.log(_data.photos);
+          // replace the photo in local data
+          // _data.photos[index] = resp.data;
+          // originalPhotosContainer.push(resp.data);
+          deferred.resolve(resp.data);
         }
-      }
-      if(!isPresentInContainer){
-        if(_data.photos[index].isProduct) {
-          originalPhotosContainer.push(_data.photos[index]);
-          deferred.resolve(_data.photos[index]);
-          $('.global-loader').css('display', 'none');
+        else{
+          alertFactory.error(null, resp.message);
+          deferred.reject(resp);
         }
-        else {
-          restFactory.photos.getSelectedPhoto(id).then(function(resp){
-            if(resp.success){
-              if('imageBase64' in resp.data){
-                resp.data.base64 = resp.data.imageBase64;
-                delete resp.data.imageBase64;
-              }
-              originalPhotosContainer.push(resp.data);
-              deferred.resolve(resp.data);
-            }
-            else{
-              alertFactory.error(null, resp.message);
-              deferred.reject(resp);
-            }
-            $('.global-loader').css('display', 'none');
-          });
-        }
-      }
+        $('.global-loader').css('display', 'none');
+      });
       designTool.checkLayoutSelection();
       return deferred.promise;
     }
 
-    function loadOriginalImages(){
-      originalPhotosContainer = [];
-      for(var i=0; i<_data.photos.length && i< noOFOriginalImageToDownload; i++){
-        (function(){
-          var index = i;
-          if(!_data.photos[index].isProduct){
-            restFactory.photos.getSelectedPhoto(_data.photos[index].id).then(function(resp){
-              if(resp.success){
-                if('imageBase64' in resp.data){
-                  resp.data.base64 = resp.data.imageBase64;
-                  delete resp.data.imageBase64;
-                }
-                originalPhotosContainer.push(resp.data);
-              }
-              else{
-                //alertFactory.error(null, resp.message);
-              }
-            });
-          }
-          else {
-            originalPhotosContainer.push(_data.photos[index]);
-          }
-        }());
-      }
-    }
-
-    function sendEditedImage(id, configs) {
+    function getSelectedPhotoForLayout(photoId){
       var deferred = $q.defer();
-      restFactory.photos.sendEditedImage(id, configs)
-        .then(function(resp){
-          if(resp.success){
-            if('imageBase64' in resp.data){
-              resp.data.base64 = resp.data.imageBase64;
-              delete resp.data.imageBase64;
-            }
-            deferred.resolve(resp);
-          }
-          else{
-            alertFactory.error(null, resp.message);
-            deferred.reject(resp);
-          }
-        });
+      globalLoader.show();
+      // TODO: project id should be dynamic
+      var projectId = $rootScope.sku;
+      restFactory.projects.getProjectSelectedPhotoOrProduct(projectId, photoId, {layout: true}).then(function(resp){
+        if(resp.success){
+          deferred.resolve(resp);
+        }
+        else{
+          alertFactory.error(null, resp.message);
+          deferred.reject(resp);
+        }
+        globalLoader.hide();
+      });
       return deferred.promise;
-    }
-
-    function copyPhoto(id, index) {
-      var deferred = $q.defer();
-      $('.collapse-loader').css('display', 'block');
-        restFactory.photos.copyPhoto(id, index).then(function(resp){
-          if(resp.success){
-            resp.data.base64 = _data.photos[index].base64;
-            _data.photos.splice(index, 0, angular.copy(resp.data));
-            _data.totalCount++;
-            alertFactory.success("Success!", resp.message);
-            $('.collapse-loader').css('display', 'none');
-            deferred.resolve(resp);
-          }
-          else{
-            alertFactory.error(null, resp.message);
-            $('.collapse-loader').css('display', 'none');
-            deferred.reject(resp);
-          }
-        });
-        return deferred.promise;
     }
 
     function mapSocialPhotos(photo, platform){
@@ -274,5 +282,27 @@
       }
       return arr;
     }
+
+    function getPhotoIndexThroughId(id){
+      for(var i=0; i<_data.photos.length; i++){
+        if(id == _data.photos[i]._id){
+          return i;
+        }
+      }
+    }
+
+    function removeHighResBase64AndCanvasJSONFromAllPhotos(){
+      for(var i=0; i<_data.photos.length; i++){
+        if(_data.photos[i].hasOwnProperty('canvasJSON')){
+          console.log('removed canvasJSON');
+          delete _data.photos[i].canvasJSON;
+        }
+        else if(_data.photos[i].hasOwnProperty('highResBase64')){
+          console.log('removed highResBase64');
+          delete _data.photos[i].highResBase64;
+        }
+      }
+    }
+
   }
 }());

@@ -12,7 +12,8 @@
     .controller('webappStep2Ctrl', webappStep2Ctrl);
 
   /* @ngInject */
-  function webappStep2Ctrl($scope, photosFactory, designTool, $rootScope, $state, $timeout,productsFactory, alertFactory){
+  function webappStep2Ctrl(photosFactory, designTool, $rootScope, $state,
+                           $timeout,productsFactory, alertFactory, websiteFactory){
 
     var vm = this;
 
@@ -64,6 +65,19 @@
     // default canvas type & size string
     vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString();
 
+    var waitForCaman = false;
+    var openFilterSidemenu = false;
+
+    const DefaultHighResImageSize = '800x800';
+
+    vm.modal = {
+      heading: '',
+      rightBtnText: '',
+      leftBtnText: '',
+      rightClick: null,
+      leftClick: null
+    };
+
 
     /* Function Assignment */
     vm.toggleSidemenu = toggleSidemenu;
@@ -79,11 +93,11 @@
     vm.deleteSelectedObject = deleteSelectedObject;
     vm.copySelectedObject = copySelectedObject;
     vm.applyBorder = applyBorder;
+    //Expand view methods
     vm.copyCanvas = copyCanvas;
     vm.deleteCanvas = deleteCanvas;
-    //Expand view methods
-    vm.deletePhoto = deletePhoto;
-    vm.copyPhoto = copyPhoto;
+    vm.deletePhotoOrProduct = deletePhotoOrProduct;
+    vm.copyPhotoOrProduct = copyPhotoOrProduct;
     // filter
     vm.applyFilter = applyFilter;
     // sticker
@@ -96,21 +110,26 @@
     vm.updateTextSize = updateTextSize;
     vm.updateTextColor = updateTextColor;
     // nextstep
-    vm.goToState = goToState;
+    vm.nextStep = nextStep;
     // Deselect layouts
     vm.deSelectLayout = deSelectLayout;
     // Resize Canvas When different Canvas is Changed
     vm.updateCanvasSize = updateCanvasSize;
     vm.sizeMouseOver = sizeMouseOver;
     vm.sizeMouseLeave = sizeMouseLeave;
+    vm.convertUrl = convertUrl;
+    //website redirects
+    vm.help=help;
+    vm.gotoProjects=gotoProjects;
+    vm.logout=logout;
 
     /* Initializer */
     function init(){
       // Load more my photos
-      loadMoreMyPhotos();
+      // loadMoreMyPhotos();
 
       // Load original images of some photos
-      photosFactory.loadOriginalImages();
+      // photosFactory.loadOriginalImages();
 
       // Tooltip
       $(function () {
@@ -137,17 +156,17 @@
 
       // select the 0th index photo by default
       if(vm.myPhotos.length === 0){
-        $state.go('Dashboard.Prints.Upload');
+        $state.go('Upload', {sku: $rootScope.sku});
       }
       else {
-        getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
+        getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex]._id, defaultSelectedPhotoIndex);
       }
     }
     function toggleSidemenu(template){
       // if addMorePhotos
       if(template == 'addMorePhotos'){
         saveCanvasState();
-        $state.go('^.Upload');
+        $state.go('Upload', {sku: $rootScope.sku});
         return;
       }
       if(template== 'filters'){
@@ -157,10 +176,16 @@
         }
       }
 
+      if(waitForCaman){
+        alertFactory.warning(" ", "Just a moment");
+        openFilterSidemenu = true;
+        return;
+      }
+
       // if opening
       if(!$("#ptt-wrapper-2").hasClass("toggled")){
         //// console.log("opening");
-        vm.sideMenuTemplate = 'src/dashboard/sidemenu/'+template+'.html';
+        vm.sideMenuTemplate = safeTemplateUrlConvert('src/dashboard/sidemenu/'+template+'.html');
         $rootScope.$emit('sidemenuToggles', {
           previousTemplate: vm.activeSidemenuItem,
           currentTemplate: template
@@ -176,7 +201,7 @@
             currentTemplate: template
           });
           vm.activeSidemenuItem = template;
-          vm.sideMenuTemplate = 'src/dashboard/sidemenu/'+template+'.html';
+          vm.sideMenuTemplate = safeTemplateUrlConvert('src/dashboard/sidemenu/'+template+'.html');
         }
         // closing
         else{
@@ -258,12 +283,14 @@
     }
     // get the high res image for editing
     function getSelectPhoto(id, index, imageDragged){
+      console.log("get selected photo");
       if(imageDragged && !designTool.getProp('droppedOnCanvas')){
         // image is dragged but not dropped on canvas
         return;
       }
       // show loader
       $('.global-loader').css('display', 'block');
+      console.log("continue");
       //
       vm.closeSidemenu();
       vm.deSelectLayout();
@@ -286,34 +313,47 @@
           designTool.deActivateAll();
           var canvasJson = designTool.getCanvasJSON();
           canvasJson.customSettings.selectedBorder = 'noBorder';
+
           if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
             if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
 
               canvasJson.customSettings.selectedBorder = vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
             }
           }
+
           updatePhotoStripWithCanvas(
             canvasBkgImg.photoIndex,
             canvasJson,
             designTool.getCanvasDataUrl()
           );
           var dataToSaveForProduct = {
+            _id: vm.myPhotos[canvasBkgImg.photoIndex]._id,
             photoid : [],
             canvasDataUrl : designTool.getCanvasDataUrl(),
             canvasJSON : canvasJson
           };
 
-          if(vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
-            dataToSaveForProduct.productId = vm.myPhotos[canvasBkgImg.photoIndex].id;
+          // if(vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+          //   dataToSaveForProduct._id = vm.myPhotos[canvasBkgImg.photoIndex]._id;
+          // }
+          if(!designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex]._id);
           }
-          if(!designTool.getProp('isLayoutApplied')){
-            dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex].id);
+          else if(!designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            dataToSaveForProduct['photoid'] = vm.myPhotos[canvasBkgImg.photoIndex].photos;
+          }
+          else if(designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            // TODO:
+          }
+          else if(designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            // TODO:
           }
           var oldIndex = canvasBkgImg.photoIndex;
-          productsFactory.addInProgressProducts(dataToSaveForProduct).then(function (resp) {
-            vm.myPhotos[oldIndex].id = resp.id;
+          productsFactory.savePhotoOrProduct(dataToSaveForProduct, designTool.getProp('isLayoutApplied')).then(function (resp) {
+            vm.myPhotos[oldIndex]._id = resp._id;
             vm.myPhotos[oldIndex].isEdited = false;
             vm.myPhotos[oldIndex].isProduct = true;
+            vm.myPhotos[oldIndex].url = resp.url + '?t=' + (new Date()).getTime();
           });
         }
 
@@ -330,29 +370,42 @@
       }
       // get photo now
       photosFactory.getSelectedPhoto(id, index).then(function(resp){
+        console.log("RESPONESE recv in ctrl", resp);
         // the new selected image has JSON data
         // JSON will be loaded now, saved current work and rest tool
-        if(vm.myPhotos[index].canvasJSON ){
+        if(resp.canvasJSON ){
+          console.log('loading from JSON');
           // console.log('CTRL: Loading from JSON', vm.myPhotos[index].canvasJSON);
           // if JSON is present the current layout will be cleared
           designTool.resetTool();
           // update index
           canvasBkgImg.photoIndex = index;
           // load
-          designTool.loadFromJSON(vm.myPhotos[index].canvasJSON,index ,function(loadedImage){
+          designTool.loadFromJSON(resp.canvasJSON,index ,function(loadedImage){
             // caman image for filter
-            console.log('loaded image ',loadedImage);
+            if(loadedImage){
+              console.log('loaded image exists');
+            }
             var img = new Image();
             img.onload = function(){
               updateCamanCanvas(img);
             };
-            img.src = resp.canvasDataUrl ? resp.canvasDataUrl : loadedImage;
+            // the loadedImage is high res image, if its not present then use low res for caman (which is wrong however)
+            if(resp.highResBase64){
+              img.src = resp.highResBase64;
+            }
+            else if(loadedImage){
+              img.src = loadedImage;
+            }
+            else{
+              img.src = resp.canvasDataUrl;
+            }
             // save image data & filter widget will update filters
             saveSelectedPhoto(vm.myPhotos[index], resp);
             // update the size dropdown with default values
             vm.selectedSizeOfCanvas = getCanvasSizeDetailsInString(
-              vm.myPhotos[index].canvasJSON.customSettings.canvasSizeDetails.type,
-              vm.myPhotos[index].canvasJSON.customSettings.canvasSizeDetails.size
+              resp.canvasJSON.customSettings.canvasSizeDetails.type,
+              resp.canvasJSON.customSettings.canvasSizeDetails.size
             );
 
             turnOffSelectedImageDrag();
@@ -361,7 +414,7 @@
 
           });
 
-          vm.selectedBorder=vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
+          vm.selectedBorder = resp.canvasJSON.customSettings.selectedBorder;
           if(!designTool.getProp('isLayoutApplied')){
             if(vm.selectedBorder=='outerBorder'){
               $('#canvas').addClass("single-image-border");
@@ -376,12 +429,12 @@
         }
         // new image -> single photo / adding to current layout
         else{
-          // console.log('CTRL: Loading new Image');
+          console.log('CTRL: Loading new Image');
           // update index
           if(!designTool.getProp('isSectionSelected')){
             canvasBkgImg.photoIndex = index;
           }
-          designTool.loadBkgImage(resp, {photoIndex: index, currentFilter: 'normal'}, function(loadedImage){
+          designTool.loadBkgImage(resp, {currentFilter: 'normal'}, function(loadedImage){
             $('#canvas').removeClass("single-image-border");
             $timeout(function(){
               // caman image for filter
@@ -465,58 +518,179 @@
         //}
         fabricCanvas.deactivateAll();
         $rootScope.dummyImage = fabricCanvas.toDataURL();
-        $state.go($rootScope.app.productState + '.Checkout', {id: vm.selectedPhoto.original.id});
+        $state.go('Checkout', {id: vm.selectedPhoto.original.id});
       }
     }
 
     /************************************* EXPAND VIEW *************************************/
 
-    //delete photo
-    function deletePhoto(id, index){
-      // if(index == canvasBkgImg.photoIndex){
-      //   deleteCanvas();
-      // }
-      //else{
-        if(vm.myPhotos[index].isProduct){
-          productsFactory.deleteProduct(id,index).then(function(resp){
-            if(resp.success){
-              if(index == canvasBkgImg.photoIndex) {
-                canvasBkgImg.active = false;
-                // load default photo
-                // select the 0th index photo by default
-                canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
-                getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-              }
-            }
-          });
-        }else {
-          photosFactory.deletePhoto(id, index).then(function(resp){
-            if(resp.success){
-              if(index == canvasBkgImg.photoIndex) {
-                canvasBkgImg.active = false;
-                // load default photo
-                // select the 0th index photo by default
-                canvasBkgImg.photoIndex = defaultSelectedPhotoIndex;
-                getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-              }
-            }
-          });
-        }
-     // }
+    // delete canvas
+    function deleteCanvas(){
+      deletePhotoOrProduct(vm.myPhotos[canvasBkgImg.photoIndex]._id);
     }
 
-    //copy photo
-    function copyPhoto(id, index){
-      // if(index == canvasBkgImg.photoIndex){
-      //   copyCanvas();
-      // }
-      // else{
-        if(vm.myPhotos[index].isProduct){
-          productsFactory.copyProduct(id,index);
-        }else {
-          photosFactory.copyPhoto(id, index);
+    // delete selected photo/product
+    function deletePhotoOrProduct(id){
+      // check if the photo/product is loaded in canvas
+      var isLoadedInCanvas = (id == vm.myPhotos[canvasBkgImg.photoIndex]._id);
+      // if loaded in canvas
+      if(isLoadedInCanvas){
+        console.log('Loaded in canvas');
+        // TODO: show confirmation modal
+        vm.modal.heading = "You are designing this product, are you sure you want to delete it?";
+        vm.modal.rightBtnText = "Confirm";
+        vm.modal.leftBtnText = "Cancel";
+        vm.modal.rightClick = function(){
+          globalLoader.show();
+          // on confirm delete the photo/product
+          deleteFunc(id, isLoadedInCanvas);
+        };
+        $('#confirmCanvasAction').modal({
+          keyboard: true
+        });
+      }
+      // else delete the photo/product
+      else{
+        deleteFunc(id, isLoadedInCanvas);
+      }
+
+    }
+
+    function deleteFunc(id, isLoadedInCanvas){
+      photosFactory.deleteProjectPhotoOrProduct(id)
+        .then(function(resp){
+          if(resp.success){
+            if(isLoadedInCanvas){
+              $timeout(function(){
+                // update design tool
+                designTool.emptyTool();
+                // load the default index item
+                getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex]._id, defaultSelectedPhotoIndex);
+                globalLoader.hide();
+              })
+            }
+          }
+        }, function(err){
+
+        })
+    }
+
+    // copy canvas
+    function copyCanvas(){
+      copyPhotoOrProduct(vm.myPhotos[canvasBkgImg.photoIndex]._id);
+    }
+
+    // copy photo/product
+    function copyPhotoOrProduct(id){
+      // check if the photo/product is loaded in canvas
+      var isLoadedInCanvas = (id == vm.myPhotos[canvasBkgImg.photoIndex]._id);
+      // if loaded in canvas
+      if(isLoadedInCanvas){
+        console.log('Loaded in canvas');
+        // TODO: show confirmation modal
+        vm.modal.heading = "You are designing this product, your current work will be saved.";
+        vm.modal.rightBtnText = "Save & Copy";
+        vm.modal.leftBtnText = "Cancel";
+        vm.modal.rightClick = function(){
+          // on confirm save the current canvas and then copy the photo/product
+          // save canvas
+          globalLoader.show();
+          saveCurrentWork(function(succes, newId){
+            if(succes){
+              // now copy
+              copyFunc(newId, isLoadedInCanvas);
+            }
+            else{
+              alertFactory.error(null, "Sorry we were unable to save your design, please reload");
+            }
+          })
+        };
+        $('#confirmCanvasAction').modal({
+          keyboard: true
+        });
+        // TODO: show confirmation modal
+      }
+      // else delete the photo/product
+      else{
+        copyFunc(id, isLoadedInCanvas);
+      }
+    }
+
+    function copyFunc(id, isLoadedInCanvas){
+      photosFactory.copyProjectPhotoOrProduct(id)
+        .then(function(resp){
+          if(resp.success){
+
+          }
+          globalLoader.hide();
+        }, function(err){
+          globalLoader.hide();
+        })
+    }
+
+
+    function saveCurrentWork(cb){
+      // if canvas is already in editing, save current work as JSON
+      if(!designTool.getProp('isCanvasEmpty')){
+
+        if(canvasBkgImg.photoIndex!=null && vm.myPhotos[canvasBkgImg.photoIndex].isEdited) {
+          // save the already active image with settings
+          // canvas json will have zoom value and original scale value
+          // deselect canvas
+          console.log("CTRL: SAVING PRODUCT");
+          designTool.deActivateAll();
+          var canvasJson = designTool.getCanvasJSON();
+          canvasJson.customSettings.selectedBorder = 'noBorder';
+
+          if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON){
+            if(vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings){
+
+              canvasJson.customSettings.selectedBorder = vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON.customSettings.selectedBorder;
+            }
+          }
+
+          updatePhotoStripWithCanvas(
+            canvasBkgImg.photoIndex,
+            canvasJson,
+            designTool.getCanvasDataUrl()
+          );
+          var dataToSaveForProduct = {
+            _id: vm.myPhotos[canvasBkgImg.photoIndex]._id,
+            photoid : [],
+            canvasDataUrl : designTool.getCanvasDataUrl(),
+            canvasJSON : canvasJson
+          };
+
+          if(!designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            dataToSaveForProduct['photoid'].push(vm.myPhotos[canvasBkgImg.photoIndex]._id);
+          }
+          else if(!designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            dataToSaveForProduct['photoid'] = vm.myPhotos[canvasBkgImg.photoIndex].photos;
+          }
+          else if(designTool.getProp('isLayoutApplied') && !vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            // TODO:
+          }
+          else if(designTool.getProp('isLayoutApplied') && vm.myPhotos[canvasBkgImg.photoIndex].isProduct){
+            // TODO:
+          }
+          var oldIndex = canvasBkgImg.photoIndex;
+          productsFactory.savePhotoOrProduct(dataToSaveForProduct, designTool.getProp('isLayoutApplied')).then(function (resp) {
+            vm.myPhotos[oldIndex]._id = resp._id;
+            vm.myPhotos[oldIndex].isEdited = false;
+            vm.myPhotos[oldIndex].isProduct = true;
+            vm.myPhotos[oldIndex].url = resp.url + '?t=' + (new Date()).getTime();
+            // call callback
+            if(cb){
+              cb(true, resp._id);
+            }
+          }, function(err){
+            if(cb){
+              cb(false);
+            }
+          });
         }
-      // }
+
+      }
     }
 
     /************************************* FILTERS *************************************/
@@ -531,7 +705,9 @@
     /************************************* STICKERS *************************************/
 
     function applySticker(sticker){
-      designTool.applySticker(sticker,canvasBkgImg.photoIndex);
+      var stickerCopy = angular.copy(sticker);
+      stickerCopy.url = $rootScope.safeTemplateUrlConvert(stickerCopy.url);
+      designTool.applySticker(stickerCopy, canvasBkgImg.photoIndex);
     }
 
     /************************************* TEXTS *************************************/
@@ -574,7 +750,7 @@
             $('.global-loader').css('display', 'none');
           })
         }else {
-          designTool.loadBkgImage(vm.myPhotos[defaultSelectedPhotoIndex], {photoIndex: defaultSelectedPhotoIndex, currentFilter: 'normal'}, function(loadedImage){
+          designTool.loadBkgImage(vm.myPhotos[defaultSelectedPhotoIndex], {currentFilter: 'normal'}, function(loadedImage){
             $timeout(function(){
               // caman image for filter
               updateCamanCanvas(loadedImage);
@@ -645,61 +821,36 @@
       }
     }
 
-    function copyCanvas(){
-
-      copyPhoto(vm.myPhotos[canvasBkgImg.photoIndex].id,canvasBkgImg.photoIndex);
-      //alertFactory.warning(null, 'Not functional, need updates');
-      //return;
-
-      // fabricCanvas.deactivateAll();
-
-      // save the already active image with settings
-      // vm.myPhotos[canvasBkgImg.photoIndex].canvasJSON = fabricCanvas.toJSON();
-      // vm.myPhotos[canvasBkgImg.photoIndex].canvasImgId = canvasBkgImg.id;
-      // vm.myPhotos[canvasBkgImg.photoIndex].canvasDataUrl = fabricCanvas.toDataURL();
-      // create a copy in vm.myPhotos
-      // var copiedObj = angular.copy(vm.myPhotos[canvasBkgImg.photoIndex]);
-      // copiedObj.selected = false;
-      // vm.myPhotos.splice(canvasBkgImg.photoIndex+1, 0, copiedObj);
-    }
-
-    function deleteCanvas(){
-
-      deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id,canvasBkgImg.photoIndex);
-
-      // alertFactory.warning(null, 'Not functional, need updates');
-      // return;
-      // // return;
-      // // remove current selected photo with all canvas settings
-      // photosFactory.deletePhoto(vm.myPhotos[canvasBkgImg.photoIndex].id, canvasBkgImg.photoIndex)
-      //   .then(function(resp){
-      //     if(resp.success){
-      //       canvasBkgImg.active = false;
-      //       fabricCanvas.clear();
-      //       // load default photo
-      //       // select the 0th index photo by default
-      //       getSelectPhoto(vm.myPhotos[defaultSelectedPhotoIndex].id, defaultSelectedPhotoIndex);
-      //     }
-      //   })
-    }
-
     /************************************* DESIGN TOOL EVENTS *************************************/
 
     designTool.on('image:selected', function(e){
-      // console.log("CTRL: image:selected: ", e);
-      console.log(e.data[0]);
-      photosFactory.getSelectedPhoto(vm.myPhotos[e.data[0].photoIndex].id).then(
-        function(resp){
-          vm.myPhotos[e.data[0].photoIndex].currentFilter = e.data[0].currentFilter;
-          saveSelectedPhoto(vm.myPhotos[e.data[0].photoIndex], resp);
-          // caman image for filter
+      console.log("CTRL: image:selected: ");
+      console.log(e.data);
+      if(designTool.getProp('isLayoutApplied')){
+        console.log('inside if');
+
+        var thumbnailForFilters = e.data[0].photoData;
+        thumbnailForFilters['currentFilter'] = e.data[0].currentFilter;
+
+        waitForCaman = true;
+
+        saveSelectedPhoto(thumbnailForFilters, thumbnailForFilters);
+
+        toDataUrl(thumbnailForFilters, function(highResBase64){
           var img = new Image();
           img.onload = function(){
             updateCamanCanvas(img);
+            $timeout(function(){
+              waitForCaman = false;
+              if(openFilterSidemenu){
+                toggleSidemenu('filters');
+                openFilterSidemenu = false;
+              }
+            }, 1000);
           };
-          img.src = resp.base64;
-        }
-      )
+          img.src = highResBase64;
+        });
+      }
     });
 
     designTool.on('layout:sectionToggle', function(e) {
@@ -712,10 +863,11 @@
     });
 
     designTool.on('image:edited',function (e) {
+      console.log("designTool Event: image:edited");
       if(e.data['0'] !== null){
-       vm.myPhotos[e.data[0]].isEdited = true;
+        vm.myPhotos[e.data[0]].isEdited = true;
       }else {
-       vm.myPhotos[canvasBkgImg.photoIndex].isEdited = true;
+        vm.myPhotos[canvasBkgImg.photoIndex].isEdited = true;
       }
     });
     designTool.on('image:checkResolution',function (e) {
@@ -826,17 +978,24 @@
     }
 
     /************************************* Other methods *************************************/
-    function goToState(stateName){
-      saveCanvasState();
-      designTool.emptyTool();
+    function nextStep(stateName){
+      var isLocalhost = (window.location.origin.indexOf('localhost') >= 0);
+      var params = (isLocalhost)?({sku: $rootScope.sku}):null;
       // go to state
-      //// console.log(stateName);
       if(stateName.indexOf('Upload')>=0){
-        //// console.log("going");
-        $state.go('^.Upload');
+        // show loader
+        globalLoader.show();
+
+        saveCanvasState();
+        designTool.emptyTool();
+
+        $state.go('Upload', params);
       }
-      else{
-        $state.go(stateName);
+      else if(stateName.indexOf('Design')>=0){
+        $state.go(stateName, params);
+      }
+      else if(stateName.indexOf('Checkout')>=0){
+        $state.go(stateName, params);
       }
     }
 
@@ -902,6 +1061,51 @@
       }
     }
 
+    function toDataUrl(photo, callback, outputFormat) {
+
+      var src;
+      if(photo.isProduct){
+        src = $rootScope.safeUrlConvert(photo.url);
+      }
+      else{
+        src = $rootScope.safeUrlConvert(photo.url+ '-' + DefaultHighResImageSize + '.' + photo.extension);
+      }
+
+      console.log(src);
+
+      var img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.onload = function() {
+        var canvas = document.createElement('CANVAS');
+        var ctx = canvas.getContext('2d');
+        var dataURL;
+        canvas.height = this.height;
+        canvas.width = this.width;
+        ctx.drawImage(this, 0, 0);
+        dataURL = canvas.toDataURL(outputFormat);
+        callback(dataURL);
+      };
+      img.src = src;
+    }
+
+    function convertUrl(photo){
+      if(photo.isProduct){
+        return $rootScope.safeUrlConvert(photo.url);
+      }
+      return $rootScope.safeUrlConvert(photo.url+ '-' + '260x260' + '.' + photo.extension);
+    }
+
+    function gotoProjects() {
+      websiteFactory.gotoProjects();
+    }
+
+    function logout() {
+      websiteFactory.logout();
+    }
+
+    function help() {
+      websiteFactory.help();
+    }
     // controller
     /* Initializer Call */
     init();

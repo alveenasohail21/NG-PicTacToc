@@ -18,7 +18,7 @@
     .directive('pttFilters', pttFilters);
 
   /* @ngInject */
-  function pttFilters($timeout,restFactory){
+  function pttFilters($timeout, restFactory, $rootScope){
 
     // would be get from server, only active filters will be shown
     // normal is always on last
@@ -51,6 +51,8 @@
     };
     // {name: 'vintage', selected: false}
     var activeFilterIndex = null;
+
+      const DefaultFilterImageSize = '260x260';
 
     return {
       restrict: 'E',
@@ -107,6 +109,9 @@
       // setup filters
       function setupFilters(){
         if(filters){
+
+            console.log('Running filter setup');
+
           var filterFound = false;
           // console.log("RUNNING FILTERS SETUP: ");
           scope.filters = filters;
@@ -114,14 +119,24 @@
           scope.filters.forEach(function(obj, index){
             obj.selected = false;
             // remove old filter canvas (all)
-            $('canvas#'+obj.name).remove();
+            var prevCanvas = $('canvas#'+obj.name);
+              // console.log(prevCanvas);
+              prevCanvas.remove();
             // add img tag
             var img = new Image();
             img.onload = function() {
               $(img).attr('id', obj.name);
               $($('.sidemenu-filters .filter')[index]).prepend(img);
+                $timeout(function(){
+                    applyFilter(obj.name);
+                }, 1000);
             };
-            img.src = scope.thumbnail.base64 ? scope.thumbnail.base64 : scope.thumbnail.canvasDataUrl;
+
+              toDataUrl(scope.thumbnail, function(base64Img) {
+                  img.src = base64Img;
+              });
+              // img.src = scope.thumbnail.url ? (scope.thumbnail.url + '-' + DefaultFilterImageSize + '.' + scope.thumbnail.extension) : scope.thumbnail.canvasDataUrl;
+            // img.src = scope.thumbnail.url ? ('images/1477230642-1338530902-260x260.jpg') : scope.thumbnail.canvasDataUrl;
             if(scope.filters[index].name == scope.thumbnail.currentFilter){
               scope.filters[index].selected = true;
               activeFilterIndex = index;
@@ -136,7 +151,6 @@
               }
             }
           });
-          applyFilters();
         }
         else{
           // console.log("NO FILTERS, NO SETUP");
@@ -144,38 +158,32 @@
       }
 
       // watch any change in photos
-      scope.$watch('thumbnail', function(newValue, oldValue){
+      scope.$watch('thumbnail.url', function(newValue, oldValue){
         // console.log("FILTERS WATCH EXECUTED: ", newValue, oldValue);
-        if(scope.thumbnail && ('base64' in scope.thumbnail || 'canvasDataUrl' in scope.thumbnail )){
+        if(scope.thumbnail && ('url' in scope.thumbnail || 'canvasDataUrl' in scope.thumbnail )){
           // scope.filters = [];
+          console.log(scope.thumbnail);
           setupFilters();
         }
       }, true);
 
-      // apply filters
-      function applyFilters(){
-        for(var i=0; i<filters.length; i++){
-          (function(){
-            var filterToApply = filters[i].name;
-            //if($('.sidemenu-filters img#'+filterToApply).length <= 0 ){
-            //  return;
-            //}
-            Caman('.sidemenu-filters img#'+filterToApply, function () {
+      // apply filter
+      function applyFilter(filter){
+          // apply caman
+          Caman('.sidemenu-filters img#'+filter, function () {
               var that = this;
               //that.revert(true);
               // console.log("APPLYING FILTER: ",filterToApply);
-              switch(filterToApply){
-                case'normal':
-                  // do nothing
-                  break;
-                default:
-                  that[filterToApply]();
-                  break;
+              switch(filter){
+                  case'normal':
+                      // do nothing
+                      break;
+                  default:
+                      that[filter]();
+                      break;
               }
               that.render();
-            });
-          }());
-        }
+          });
       }
 
       function loaderHandler(loaderFlag){
@@ -211,6 +219,35 @@
       // call initializer
       init();
     }
+
+
+      function toDataUrl(photo, callback, outputFormat) {
+
+          var src;
+          if(photo.isProduct){
+              src = $rootScope.safeUrlConvert(photo.url);
+          }
+          else{
+              src = $rootScope.safeUrlConvert(photo.url+ '-' + DefaultFilterImageSize + '.' + photo.extension);
+          }
+
+        console.log(src);
+
+          var img = new Image();
+          img.crossOrigin = 'Anonymous';
+          img.onload = function() {
+              var canvas = document.createElement('CANVAS');
+              var ctx = canvas.getContext('2d');
+              var dataURL;
+              canvas.height = this.height;
+              canvas.width = this.width;
+              ctx.drawImage(this, 0, 0);
+              dataURL = canvas.toDataURL(outputFormat);
+              callback(dataURL);
+          };
+          img.src = src;
+      }
+
   }
 
 }());

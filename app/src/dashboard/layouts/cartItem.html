@@ -1,0 +1,11 @@
+<div class="img">
+  <img class="upl-img" ng-src="{{item.url}}" alt="" ptt-loader="loader-fb-album" keep-aspect-ratio="false">
+  <div class="expand-text">
+    {{item.canvasSizeDetails.dimensions.width.inches}} x {{item.canvasSizeDetails.dimensions.height.inches}} inches
+  </div>
+  <div class="expand-tool">
+    <div class="sign" ng-click="decrementQuantity()"> - </div>
+    <input type="text" ng-value="item.quantity" ng-disabled="true">
+    <div class="sign" ng-click="incrementQuantity()"> + </div>
+  </div>
+</div>
