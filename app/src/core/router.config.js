@@ -20,7 +20,7 @@
 
   /* @ngInject */
   function routingEvents(FRONT_END_WEBSITE_DEV_URL, FRONT_END_WEBSITE_PROD_URL, $rootScope, $auth, Restangular, userFactory,
-                         cartFactory, alertFactory, $state, $localStorage, photosFactory, $location){
+                         alertFactory, $state, $localStorage, photosFactory, $location, $timeout){
 
     // var publicStates = ['Signup', 'Login', 'Landing'];
     var publicStates = ['Landing'];
@@ -59,6 +59,7 @@
       // debugger;
 
       // first check if sku is present in query param
+      var isEventStoppedForLocalStorage = false;
       var isLocalhost = (window.location.origin.indexOf('localhost') >= 0);
       var isSku = false;
       var sku = null;
@@ -80,8 +81,13 @@
         // redirect to website
         window.location = redirectLink;
       }
-      if(isLocalhost && isToken){
+      if(isLocalhost && isToken && !$localStorage.token){
+        event.preventDefault();
         $localStorage.token = toParams.tty;
+        isEventStoppedForLocalStorage = true;
+        $timeout(function(){
+          userVerification();
+        },1500);
       }
       else if(isLocalhost && !isToken){
         if(!$localStorage.token){
@@ -89,52 +95,58 @@
           window.location = redirectLink;
         }
       }
-      // Check if User is Auth
-      if($auth.isAuthenticated()){
-        console.log("Router: going to "+toState.name+" , Auth done");
-        Restangular.setDefaultHeaders({'token': 'Bearer {'+$auth.getToken()+'}'});
-        //Check if the data exists of user on rootScope
-        if(!userFactory.getUserFromLocal()){
-          event.preventDefault();
-
-          console.log('Getting User Data from API');
-
-          // if not present, get details from API
-          userFactory.getUserDetails().then(function (response) {
-            console.log('API User Data Received');
-            // save in local data
-            userFactory.createUserInLocal(response);
-            console.log('User saved in local', $rootScope.cartProjects);
-
-
-            skuVerificationAndACLCheck();
-
-
-          });
-        }
-        // if exists
-        else{
-          console.log('User Data Already Present');
-          // verify sku and acl check, and then route
-          skuVerificationAndACLCheck();
-        }
-      }
-      // if the user is not authenticated and is going to a public state , let him go!
-      else if(publicStates.indexOf(toState.name)>=0){
-        console.log("Router: going to "+toState.name+" not authenticated and going to a public state, Valid");
-        // The user is not authenticated and is going to a public state
-        if(publicStates.indexOf('Login')>=0 && $rootScope.reload){
-          event.preventDefault();
-          // window.location = window.location.origin;
-        }
-        return;
-      }
-      // The user is not authenticated and is going to a private state , so take him to landing
       else{
-        console.log("going to "+toState.name+" not authenticated and going to a private state, invalid");
-        event.preventDefault();
-        alertFactory.error('Not authorized: ', 'Please login first');
-        window.location = redirectLink;
+        userVerification();
+      }
+
+      function userVerification(){
+        // Check if User is Auth
+        if($auth.isAuthenticated()){
+          console.log("Router: going to "+toState.name+" , Auth done");
+          Restangular.setDefaultHeaders({'token': 'Bearer {'+$localStorage.token+'}'});
+          //Check if the data exists of user on rootScope
+          if(!userFactory.getUserFromLocal()){
+            event.preventDefault();
+
+            console.log('Getting User Data from API');
+
+            // if not present, get details from API
+            userFactory.getUserDetails().then(function (response) {
+              console.log('API User Data Received');
+              // save in local data
+              userFactory.createUserInLocal(response);
+              console.log('User saved in local', $rootScope.cartProjects);
+
+
+              skuVerificationAndACLCheck();
+
+
+            });
+          }
+          // if exists
+          else{
+            console.log('User Data Already Present');
+            // verify sku and acl check, and then route
+            skuVerificationAndACLCheck();
+          }
+        }
+        // if the user is not authenticated and is going to a public state , let him go!
+        else if(publicStates.indexOf(toState.name)>=0){
+          console.log("Router: going to "+toState.name+" not authenticated and going to a public state, Valid");
+          // The user is not authenticated and is going to a public state
+          if(publicStates.indexOf('Login')>=0 && $rootScope.reload){
+            event.preventDefault();
+            // window.location = window.location.origin;
+          }
+          return;
+        }
+        // The user is not authenticated and is going to a private state , so take him to landing
+        else{
+          console.log("going to "+toState.name+" not authenticated and going to a private state, invalid");
+          event.preventDefault();
+          alertFactory.error('Not authorized: ', 'Please login first');
+          window.location = redirectLink;
+        }
       }
 
       function skuVerificationAndACLCheck(){
@@ -150,6 +162,9 @@
           else{
             console.log("Router: going to "+toState.name+" , going to private state after auth and user data found : Valid");
             // let him go
+            if(isEventStoppedForLocalStorage){
+              $state.go(toState.name, toParams);
+            }
           }
         }
         else{

@@ -104,11 +104,14 @@
       // console.log(vm.uploadCategory);
       manipulateDOM();
       // loadMoreMyPhotos();
-      if(location.href.indexOf('?platform=')!=-1){
-        var platformInUrl = location.href.indexOf('?platform=');
-        var offset = 10;
-        changeUploadCategory(location.href.substr(platformInUrl+offset));
-      }
+      // if(location.href.indexOf('?platform=')!=-1){
+      //   var platformInUrl = location.href.indexOf('?platform=');
+      //   var offset = 10;
+      //   changeUploadCategory(location.href.substr(platformInUrl+offset));
+      // }
+
+      changeUploadCategory(vm.uploadCategory);
+
     }
 
     // changing upload category
@@ -121,7 +124,7 @@
       // empty all data - update-> don't discard upload files
       //vm.filesToUpload = [];
       // update url
-      updateHref();
+      // updateHref();
       // all login to false
       vm.fbLogin = false;
       vm.instagramLogin = false;
@@ -194,9 +197,9 @@
 
     // update href
     function updateHref(){
-      var currentHref = location.href.substr(0, (location.href.indexOf('?')!=-1)?location.href.indexOf('?'):location.href.length);
-      currentHref+="?platform="+vm.uploadCategory;
-      location.href=currentHref;
+      // var currentHref = location.href.substr(0, (location.href.indexOf('?')!=-1)?location.href.indexOf('?'):location.href.length);
+      // currentHref+="?platform="+vm.uploadCategory;
+      // location.href=currentHref;
     }
 
     /************************************* SOCIAL AUTH *************************************/
